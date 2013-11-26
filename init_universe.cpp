@@ -17,8 +17,18 @@ void init_universe() {
   root.starsystems.push_back(solarsystem);
   root.currentsystem = solarsystem;
 
+  // H = Mercury (Hermes)
+  // V = Venus
+  // E = Earth
+  // M = Mars
+  // J = Jupiter
+  // S = Saturn
+  // U = Uranus
+  // N = Neptune
+
   planet *venus = new planet;
   venus->set_name("Venus");
+  venus->set_designation("V");
   venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
   venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
   venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
@@ -27,6 +37,7 @@ void init_universe() {
 
   planet *earth = new planet;
   earth->set_name("Earth");
+  earth->set_designation("E");
   earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
   earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
@@ -61,7 +72,7 @@ void init_universe() {
   //solarsystem->bodies.push_front(player2);
 
   for(auto  const &it : solarsystem->bodies) {
-    std::cout << "  Accel due to gravity at surface of " << it->get_name() << " is " << it->get_gravity_accel_surface() << std::endl;
+    std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
   }
 
   std::cout << "Earth is at " << earth->position << std::endl;

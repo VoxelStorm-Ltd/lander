@@ -2,8 +2,8 @@
 #include "vmath.h"
 
 body::body()
-  : mass(0),
-    radius(0) {
+  : mass(0.0),
+    radius(0.0) {
   /// Default constructor
 }
 
@@ -18,7 +18,7 @@ std::string body::get_name() {
     // random asteroid type name, as in http://en.wikipedia.org/wiki/List_of_minor_planets:_1%E2%80%931000
     random_reset();                                 // reset the generator to its seed
     std::stringstream randomname;
-    randomname << get_random_uint(10, 118161) << get_random_name_ancient();
+    randomname << get_random_uint(10, 118161) << " " << get_random_name_ancient();
     return randomname.str();
   }
 }
@@ -73,7 +73,7 @@ double body::get_radius() {
     // asteroid density = mass / volume ~= 157.83
     // inverse = 0.00633
     double const volume = get_mass() * 0.00633;
-    return pow(volume / ((4 / 3) * M_PI), 1 / 3);     // radius from volume of sphere
+    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);     // radius from volume of sphere
   }
 }
 void body::set_radius(double newradius) {
@@ -96,7 +96,7 @@ Vector3d body::get_collision_rel(Vector3d const &relative_coords) {
   /// Check for collision relative to the centre and return the vector of a surface normal or Vector(0, 0, 0) otherwise
   // this simply checks for a smooth spherical collision
   double distance = relative_coords.length();
-  if(distance <= radius) {
+  if(distance <= get_radius()) {
     return relative_coords.normalise_copy();
   } else {
     return Vector3d(0.0, 0.0, 0.0);
@@ -119,9 +119,9 @@ double body::get_gravity_accel_rel(double relative_distance) {
   //std::cout << "            DEBUG: get_gravity_accel_rel before called with relative_distance=" << relative_distance << std::endl;
   // Newtonian:
   // g = (G * m1) / (r^2)
-  //return (gravitational_constant * mass) / pow(relative_distance, 2);
+  //return (gravitational_constant * get_mass()) / pow(relative_distance, 2);
   // optimised form:
-  return (gravitational_constant * mass) / (relative_distance * relative_distance);
+  return (gravitational_constant * get_mass()) / (relative_distance * relative_distance);
 }
 
 Vector3d body::get_gravity_accel_v3(Vector3d const &coords) {
@@ -138,7 +138,7 @@ Vector3d body::get_gravity_accel_rel_v3(Vector3d const &relative_coords) {
 
 double body::get_gravity_accel_surface() {
   /// Wrapper to return acceleration due to gravity at presumed surface
-  return get_gravity_accel_rel(radius);
+  return get_gravity_accel_rel(get_radius());
 }
 
 double body::get_gravity_accel(Vector3d const &coords, Vector3d const &thisvelocity) {
@@ -156,10 +156,10 @@ double body::get_gravity_accel_rel(double relative_distance, Vector3d const &thi
   // Newtonian:
   // g = (G * m1) / (r^2)
   double dist_sq = relative_distance * relative_distance;
-  double const newtonian = -((gravitational_constant * mass) / dist_sq);
+  double const newtonian = -((gravitational_constant * get_mass()) / dist_sq);
   // Schwarzschild solution:
   // g = (G * m1) / (r^2) + ((3 * G * m1 * (v^2)) / ((r^2) * (c^2)))
-  double const relativistic = -((3 * gravitational_constant * mass * (thisvelocity - velocity).lengthSq()) / (dist_sq * (speed_of_light * speed_of_light)));
+  double const relativistic = -((3 * gravitational_constant * get_mass() * (thisvelocity - velocity).lengthSq()) / (dist_sq * (speed_of_light * speed_of_light)));
   //std::cout << "DEBUG: Newtonian component:    " << newtonian    << std::endl;
   //std::cout << "DEBUG: Relativistic component: " << relativistic << std::endl;
   return newtonian + relativistic;
@@ -188,6 +188,6 @@ double body::get_escape_vel_rel(Vector3d const &relative_coords) {
 double body::get_escape_vel_rel(double relative_distance) {
   /// Return the required escape velocity at this distance from the centre
   // v_e = sqrt((2 * G * m) / r)
-  return sqrt((2 * gravitational_constant * mass) / relative_distance);
+  return sqrt((2 * gravitational_constant * get_mass()) / relative_distance);
 }
 
