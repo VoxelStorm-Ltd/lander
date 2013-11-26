@@ -8,6 +8,9 @@ class planet : public orbitalbody {
 public:
   planet();
   ~planet();
+
+  virtual double get_mass();
+  virtual double get_radius();
 };
 
 #endif // PLANET_H_INCLUDED
