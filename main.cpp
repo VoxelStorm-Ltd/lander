@@ -11,8 +11,8 @@
 // globals
 bool keeprunning = true;
 GLFWwindow *window_main;      // the main game window
-int windowwidth = 600;
-int windowheight = 400;
+int windowwidth = 800;
+int windowheight = 800;
 universe root;
 astronaut *player;
 
@@ -45,14 +45,14 @@ void init() {       /// all the one-time initialisation we need for the engine
 }
 
 void mainloop() {   /// the main rendering loop
-  double dt = 1;
+  double dt = 1000.0;
   //for(;;) {                            // cheap infinite loop
-  for(root.time = 0; root.time != 3600000; root.time += dt) {
+  for(root.time = 0; root.time != -1; root.time += dt) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
       it->update_state(root.time, dt);
     }
-    std::cout << "DEBUG: " << root.time << " : " << Vector3d(player->position - player->walking_on->position).length() - player->walking_on->get_radius() << ", " << (player->velocity - player->walking_on->velocity).length() << "m/s" << std::endl;
+    //std::cout << "DEBUG: " << root.time << " : " << Vector3d(player->position - player->walking_on->position).length() - player->walking_on->get_radius() << ", " << (player->velocity - player->walking_on->velocity).length() << "m/s" << std::endl;
     //std::cout << "DEBUG1: " << player->velocity << std::endl;
     //std::cout << "DEBUG2: " << player->walking_on->velocity << std::endl;
     //std::cout << "DEBUG: " << root.time << " ";
@@ -72,7 +72,59 @@ void mainloop() {   /// the main rendering loop
     //glTranslated(-freecam->coords.x,
     //             -freecam->coords.y,
     //             -freecam->coords.z);
-    root.render();
+
+
+    // TESTING ONLY
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, windowwidth, windowheight, 0.0, 0.0, 1.0);
+    glMatrixMode (GL_MODELVIEW);
+    glDisable(GL_DEPTH_TEST);
+
+    glColor3dv(Vector3d(1.0, 1.0, 1.0));
+    for(auto const &it : root.currentsystem->bodies) {
+      //double scale = 0.00001;           // earth scale
+      double scale = 0.000000002;       // solar system scale
+      Vector2d centreoffset = Vector2d(windowwidth / 2.0, windowheight / 2.0);
+      Vector2d point = Vector2d(it->position.x, it->position.z);
+      Vector2d vel   = Vector2d(it->velocity.x, it->velocity.z);
+      if(vel.length() > 0) {
+        vel.normalise();
+        vel *= 20;
+      } else {
+        vel *= 0;
+      }
+
+      glColor3dv(Vector3d(0.4, 0.6, 0.4));
+      glBegin(GL_LINES);
+      glVertex2dv(centreoffset);
+      glVertex2dv((point * scale) + centreoffset);
+      glEnd();
+
+      // velocity vector
+      glColor3dv(Vector3d(0.2, 1.0, 0.2));
+      glBegin(GL_LINES);
+      glVertex2dv((point * scale) + centreoffset);
+      glVertex2dv(((point * scale) + centreoffset) -vel);
+      glEnd();
+
+      // draw a circle at the radius
+      double thisradius = it->get_radius();
+      if(thisradius * scale < 2) {
+        thisradius = 2 / scale;
+      }
+      glColor3dv(Vector3d(1.0, 1.0, 1.0));
+      glBegin(GL_LINE_LOOP);
+      for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
+        Vector2d circle_edge = Vector2d(point);
+        circle_edge.x += sin(angle) * thisradius;
+        circle_edge.y += cos(angle) * thisradius;
+        glVertex2dv((circle_edge * scale) + centreoffset);
+      }
+      glEnd();
+    }
+
+    //root.render();
 
     glfwSwapBuffers(window_main);
   }

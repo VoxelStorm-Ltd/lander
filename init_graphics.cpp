@@ -114,7 +114,7 @@ void init_graphics() {
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);  // go on, use the zbuffer
   glEnable(GL_DITHER);      // may marginally increase shading quality
-  glEnable(GL_LIGHTING);    // obviously we want lighting... right?
+  //glEnable(GL_LIGHTING);    // obviously we want lighting... right?
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);    // enable local lighting
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);   // to make flat shading ok
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);   // ensure one-sided lighting
@@ -147,18 +147,18 @@ void init_graphics() {
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);*/
 
   // set up some lights
-  //GLfloat ambientlightcol[] = {.25,0,0,1};
-  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0)); // global ambient
-  //glLightfv(GL_LIGHT0, GL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));
-  glLightfv(GL_LIGHT0, GL_DIFFUSE,  Vector4f(0.8, 0.7, 0.5, 1.0));
-  glLightfv(GL_LIGHT0, GL_SPECULAR, Vector4f(1.0, 1.0, 0.5, 1.0));
-  glEnable(GL_LIGHT0);
-  //glLightfv(GL_LIGHT1, GL_POSITION, directionallightdir);
-  //glLightfv(GL_LIGHT1, GL_DIFFUSE,  directionallightdiff);
-  //glLightfv(GL_LIGHT1, GL_SPECULAR, directionallightspec);
-  //glEnable(GL_LIGHT1);
+  ////GLfloat ambientlightcol[] = {.25,0,0,1};
+  //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0)); // global ambient
+  ////glLightfv(GL_LIGHT0, GL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));
+  //glLightfv(GL_LIGHT0, GL_DIFFUSE,  Vector4f(0.8, 0.7, 0.5, 1.0));
+  //glLightfv(GL_LIGHT0, GL_SPECULAR, Vector4f(1.0, 1.0, 0.5, 1.0));
+  //glEnable(GL_LIGHT0);
+  ////glLightfv(GL_LIGHT1, GL_POSITION, directionallightdir);
+  ////glLightfv(GL_LIGHT1, GL_DIFFUSE,  directionallightdiff);
+  ////glLightfv(GL_LIGHT1, GL_SPECULAR, directionallightspec);
+  ////glEnable(GL_LIGHT1);
 
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClearColor(0.2, 0.3, 0.2, 1.0);
 
   //glfwSetCursorPosCallback(window_main, callback_mousepos);
   glfwSetKeyCallback(      window_main, callback_key);

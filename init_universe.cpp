@@ -3,6 +3,7 @@
 #include <boost/units/base_units/imperial/mile.hpp>
 #include "universe.h"
 #include "starsystem.h"
+#include "star.h"
 #include "planet.h"
 #include "astronaut.h"
 
@@ -16,6 +17,14 @@ void init_universe() {
   solarsystem->set_name("Solar System");
   root.starsystems.push_back(solarsystem);
   root.currentsystem = solarsystem;
+
+  star *sun = new star;
+  sun->set_name("Sun");
+  sun->set_designation("Sol");
+  sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
+  sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
+  solarsystem->bodies.push_front(sun);
+  solarsystem->primary = sun;
 
   // H = Mercury (Hermes)
   // V = Venus
@@ -42,6 +51,7 @@ void init_universe() {
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
   earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
   earth->velocity.x = 29800.0;                              // 29800 m/s
+  //earth->velocity.x = 1000.0;
   double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
   solarsystem->bodies.push_front(earth);
@@ -50,7 +60,7 @@ void init_universe() {
   player->set_name("Commander Jameson");
   player->position = earth->position + Vector3d(0.0, earth->get_radius(), 0.0);
   player->velocity = earth->velocity;
-  player->velocity.x += 7909.305;
+  player->velocity.z += 7909.305;
   player->spin = earth->spin;
   player->state = astronaut::statetype::SURFACE;
   player->walking_on = earth;
