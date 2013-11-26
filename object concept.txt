@@ -1,0 +1,138 @@
+universe
+  time
+  list of astronauts
+    astronaut
+      bool attached to spacecraft?
+      spacesuit status
+        air
+        temperature
+        water
+      pointer to spacecraft
+  list of star systems   (approx 6000 visible stars)
+    star system
+      pointer to primary
+      list of bodies
+        body
+          position relative to solar system reference
+          velocity relative to solar system reference
+          rotation (quaternion?)
+          list of regions
+            region
+              list of chunks
+                chunk
+                  functions
+                    render
+                    get collision
+              functions
+                render
+                  calls chunk's render
+                get collision
+                  calls chunk's get collisions
+          functions
+            predict position at time
+            get atmosphere at altitude
+            get collision result at coords
+              calls region's get collisions
+            render visual
+              if close enough render regions etc, otherwise render as point
+            render infrared
+              if close enough render regions etc, otherwise render as point
+            render ultraviolet
+              if close enough render regions etc, otherwise render as point
+            render radio (radar)
+              if close enough render regions etc, otherwise render as point
+            render neutrino
+              if close enough render regions etc, otherwise render as point
+            render magnetic
+              if close enough render regions etc, otherwise render as point
+            render gravitational
+              if close enough render regions etc, otherwise render as point
+      list of spacecraft
+        spacecraft
+          list of systems
+            systems
+              sensors
+                external
+                  ambient pressure
+                  ambient temperature
+                  ambient electrical potential (plasma charge / indicator of hull charge)
+                  indicated airspeed
+                  ground speed
+                  cameras
+                  comparative velocity
+                  absolute velocity
+                  (see doc for complete list)
+                cabin
+                  pressure
+                  temperature
+                  clock
+                  accelerometer (G)
+                  gyroscope
+                  magnetometer (compass)
+                  (see doc for complete list)
+                attached to devices
+                  pointer to device
+                attached to tanks
+                  pointer to tank
+              devices
+                thrusters (non-reversible, use fuel)
+                  main
+                  attitude
+                mechanical (reversible actuation, linear and rotary motors, use electric power)
+                  gyro flywheels
+                  doors
+                  gear
+                  pumps
+                pyrotechnic (single actuation)
+                  parachutes
+                  airbags
+                electromagnetic
+                  radar transmitters
+                  communication radio transmitters
+          list of tanks
+            tank
+              fuel tank
+              oxygen tank
+              water tank
+              battery
+          interface
+            list of displays
+              display
+                linked to sensor outputs
+                linked to controls (feedback displays)
+            list of controls
+              control
+                linked to devices
+          resources
+            external model
+            internal model
+            external sounds
+            internal sounds
+      functions
+        render visual
+          if it's local, calls render on planets
+          otherwise renders as a star
+  list of nebulae
+  list of distant galaxies
+  functions
+    render visual
+      calls render solar systems
+    render infrared
+    render ultraviolet
+    render radio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
