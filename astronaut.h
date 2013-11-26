@@ -23,6 +23,9 @@ public:
 
   astronaut();
   ~astronaut();
+
+  virtual double get_mass();
+  virtual double get_radius();
 };
 
 #endif // ASTRONAUT_H_INCLUDED
