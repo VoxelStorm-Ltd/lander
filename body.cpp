@@ -3,7 +3,8 @@
 
 body::body()
   : mass(0.0),
-    radius(0.0) {
+    radius(0.0),
+    gm(0.0) {
   /// Default constructor
 }
 
@@ -62,6 +63,7 @@ double body::get_mass() {
 }
 void body::set_mass(double newmass) {
   mass = newmass;
+  update_gm();
 }
 double body::get_radius() {
   if(radius != 0.0) {
@@ -83,8 +85,12 @@ void body::set_radius(double newradius) {
 void body::update_state(double time __attribute__((__unused__)), double deltatime) {
   /// Re-calculate current velocity and position based on orbital data
   // by default bodies just maintain momentum
-  std::cout << "INFO: Called default update_state on " << name << std::endl;
+  //std::cout << "INFO: Called default update_state on " << name << std::endl;
   position += velocity * deltatime;
+}
+void body::update_gm() {
+  // re-cache the standard gravitational parameter
+  gm = (gravitational_constant * get_mass());
 }
 
 Vector3d body::get_collision(Vector3d const &absolute_coords) {

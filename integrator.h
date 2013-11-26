@@ -13,7 +13,6 @@ public:
   integrator();
   ~integrator();
 
-  // TODO: turn this to Vector3d
   virtual Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
   virtual void integrate(Vector3d &position, Vector3d &velocity, double time, double deltatime);
 };

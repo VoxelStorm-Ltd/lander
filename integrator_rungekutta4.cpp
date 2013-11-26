@@ -19,12 +19,9 @@ void integrator_rungekutta4::integrate(Vector3d &thisposition,
   integrator_derivative c = evaluate(thisposition, thisvelocity, time, deltatime * 0.5, b);
   integrator_derivative d = evaluate(thisposition, thisvelocity, time, deltatime, c);
 
-  //Vector3d const dxdt((((a.dx + 2.0) * (b.dx + c.dx)) + d.dx) * (1.0 / 6.0));
-  //Vector3d const dvdt((((a.dv + 2.0) * (b.dv + c.dv)) + d.dv) * (1.0 / 6.0));
   Vector3d const dxdt((a.dx + ((b.dx + c.dx) * 2.0) + d.dx) * (1.0 / 6.0));
   Vector3d const dvdt((a.dv + ((b.dv + c.dv) * 2.0) + d.dv) * (1.0 / 6.0));
 
-  //std::cout << "  DEBUG: integrate during:  dxdt " << dxdt << " dvdt " << dvdt << std::endl;
   thisposition += dxdt * deltatime;
   thisvelocity += dvdt * deltatime;
   //std::cout << "  DEBUG: integrate after:   pos " << thisposition << " vel " << thisvelocity << std::endl;

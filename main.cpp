@@ -95,14 +95,15 @@ void mainloop() {   /// the main rendering loop
         vel *= 0;
       }
 
-      glColor3dv(Vector3d(0.4, 0.6, 0.4));
+      // line to centre of system
+      glColor3dv(Vector3d(0.2, 0.4, 0.2));
       glBegin(GL_LINES);
       glVertex2dv(centreoffset);
       glVertex2dv((point * scale) + centreoffset);
       glEnd();
 
       // velocity vector
-      glColor3dv(Vector3d(0.2, 1.0, 0.2));
+      glColor3dv(Vector3d(0.4, 0.6, 0.4));
       glBegin(GL_LINES);
       glVertex2dv((point * scale) + centreoffset);
       glVertex2dv(((point * scale) + centreoffset) -vel);
@@ -110,8 +111,9 @@ void mainloop() {   /// the main rendering loop
 
       // draw a circle at the radius
       double thisradius = it->get_radius();
-      if(thisradius * scale < 2) {
-        thisradius = 2 / scale;
+      //double thisradius = it->get_radius() * 10;    // exaggerate the radius
+      if(thisradius * scale < 1) {
+        thisradius = 1 / scale;
       }
       glColor3dv(Vector3d(1.0, 1.0, 1.0));
       glBegin(GL_LINE_LOOP);

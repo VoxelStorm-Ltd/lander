@@ -53,6 +53,8 @@ public:
   std::string get_random_name_greek();
   std::string get_random_name_roman();
   std::string get_random_name_ancient();
+
+  // TODO: consider implementing http://stackoverflow.com/a/1227137/1678468
 };
 
 #endif // RANDOM_ENGINE_H_INCLUDED

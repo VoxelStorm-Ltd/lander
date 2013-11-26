@@ -18,6 +18,7 @@ protected:
 public:
   double static constexpr gravitational_constant = 0.0000000000667;     // 6.67 * 10^-11 N(m/kg)^2
   double static constexpr speed_of_light = 299792458;                   // 299,792,458 m/s
+  double gm;                        // GM - standard gravitational parameter, cached
 
   Vector3d position;          // in m, relative to its star system
   Vector3d velocity;          // in m, relative to its star system
@@ -41,6 +42,7 @@ public:
 
   // update
   virtual void update_state(double time, double deltatime);
+  void update_gm();
 
   // collisions
   virtual Vector3d get_collision(    Vector3d const &absolute_coords);

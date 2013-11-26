@@ -18,7 +18,7 @@ void init_universe() {
   root.starsystems.push_back(solarsystem);
   root.currentsystem = solarsystem;
 
-  star *sun = new star;
+  auto *sun = new star;
   sun->set_name("Sun");
   sun->set_designation("Sol");
   sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
@@ -35,25 +35,26 @@ void init_universe() {
   // U = Uranus
   // N = Neptune
 
-  planet *venus = new planet;
+  auto *venus = new planet;
   venus->set_name("Venus");
   venus->set_designation("V");
   venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
   venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
   venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
   venus->velocity.x = 35000.0;                              // 35000 m/s
+  venus->parent = sun;
   solarsystem->bodies.push_front(venus);
 
-  planet *earth = new planet;
+  auto *earth = new planet;
   earth->set_name("Earth");
   earth->set_designation("E");
   earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
   earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
   earth->velocity.x = 29800.0;                              // 29800 m/s
-  //earth->velocity.x = 1000.0;
   double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
+  earth->parent = sun;
   solarsystem->bodies.push_front(earth);
 
   player = new astronaut;
@@ -63,9 +64,11 @@ void init_universe() {
   player->velocity.z += 7909.305;
   player->spin = earth->spin;
   player->state = astronaut::statetype::SURFACE;
-  player->walking_on = earth;
+  player->walking_on = (planet*)earth;
   root.astronauts.push_front(player);
   solarsystem->bodies.push_front(player);
+
+  std::cout << "DEBUG walking_on = " << player->walking_on << std::endl;
 
   //astronaut *player2 = new astronaut;
   //player2->name = "Rapid Space Dude";
@@ -95,6 +98,18 @@ void init_universe() {
     std::cout << "    above the surface by " << Vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
     std::cout << "    feeling gravitational acceleration " << it->walking_on->get_gravity_accel(it->position, it->velocity) << "m/s^2" << std::endl;
   }
+
+  earth->orbit.semimajor_axis     = 149597890000;               // a, metres
+  earth->orbit.eccentricity       = 0.016710220;                // e
+  earth->orbit.inclination        = 0.0000009;                  // i, rad
+  earth->orbit.longitude_asc_node = -0.1965352;                 // o or omega, rad
+  earth->orbit.argument_periapsis = 1.9933027;                  // w or omicron, rad
+  earth->orbit.mean_anomaly_epoch = 5.612;                      // m or Mo, rad
+
+  std::cout << "ORBIT: earth's periapsis      " << earth->get_periapsis() << std::endl;
+  std::cout << "ORBIT: earth's apoapsis       " << earth->get_apoapsis() << std::endl;
+  std::cout << "ORBIT: earth's orbital_period " << earth->get_orbital_period() << " (" << earth->get_orbital_period() / (60 * 60 * 24) << " days)" << std::endl;
+  //std::cout << "ORBIT: mean_motion    " << earth->get_mean_motion() << std::endl;
 
   std::cout << "Universe initialised." << std::endl;
 }

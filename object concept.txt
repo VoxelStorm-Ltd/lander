@@ -124,8 +124,20 @@ universe
 
 
 
+Orbital elements:
+  line 1
+    epoch		Epoch (Day of the year and fractional portion of the day)
+    xndt2o	First Time Derivative of the Mean Motion divided by two
+    xndd6o	Second Time Derivative of Mean Motion divided by six (decimal point assumed)
 
-
+  line 2
+    xincl		Inclination [Degrees]
+    xnodeo	Right Ascension of the Ascending Node [Degrees]
+    eo		Eccentricity (decimal point assumed)
+    omegao	Argument of Perigee [Degrees]
+    xmo		Mean Anomaly [Degrees]
+    xno		Mean Motion [Revs per day]
+    Revolution number at epoch [Revs]
 
 
 
