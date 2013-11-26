@@ -20,7 +20,10 @@ private:
   unsigned int static const neuternames_max;
   unsigned int static const surnames_max;
 
-  uint32_t seed;
+  uint32_t seed;              // assigned a value from lastseed on object construction
+
+protected:
+  static uint32_t lastseed;   // incremented every time a new child object is created
 
 public:
   random_engine();

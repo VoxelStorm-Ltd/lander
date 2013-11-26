@@ -2,9 +2,12 @@
 #include <random>
 #include "vmath.h"
 
+uint32_t random_engine::lastseed = 1337;    // first initialisation
+
 random_engine::random_engine()
-  : seed(1337) {
+  : seed(lastseed++) {
   /// Default constructor
+  //std::cout << "DEBUG: random object constructed with seed " << seed << std::endl;
 }
 
 random_engine::~random_engine() {
