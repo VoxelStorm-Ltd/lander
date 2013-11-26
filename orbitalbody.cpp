@@ -34,7 +34,7 @@ std::string orbitalbody::get_description() {
 }
 
 void orbitalbody::set_mass(double newmass) {
-  set_mass(newmass);
+  mass = newmass;
   update_gm();
 }
 

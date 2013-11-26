@@ -1099,6 +1099,8 @@
 		<Unit filename="input/controls.cpp" />
 		<Unit filename="integrator.cpp" />
 		<Unit filename="integrator.h" />
+		<Unit filename="integrator_euler.cpp" />
+		<Unit filename="integrator_euler.h" />
 		<Unit filename="integrator_rungekutta4.cpp" />
 		<Unit filename="integrator_rungekutta4.h" />
 		<Unit filename="main.cpp" />
@@ -1113,6 +1115,8 @@
 		<Unit filename="platform_defines.h" />
 		<Unit filename="pulsar.cpp" />
 		<Unit filename="pulsar.h" />
+		<Unit filename="random_engine.cpp" />
+		<Unit filename="random_engine.h" />
 		<Unit filename="spacecraft.cpp" />
 		<Unit filename="spacecraft.h" />
 		<Unit filename="star.cpp" />

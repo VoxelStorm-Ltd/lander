@@ -1,4 +1,3 @@
-#include <boost/foreach.hpp>
 //#include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/length.hpp>
 #include <boost/units/base_units/imperial/mile.hpp>
@@ -61,13 +60,13 @@ void init_universe() {
   //root.astronauts.push_back(player2);
   //solarsystem->bodies.push_front(player2);
 
-  BOOST_FOREACH(body *it, solarsystem->bodies) {
+  for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " is " << it->get_gravity_accel_surface() << std::endl;
   }
 
   std::cout << "Earth is at " << earth->position << std::endl;
 
-  BOOST_FOREACH(astronaut *it, root.astronauts) {
+  for(auto const &it : root.astronauts) {
     std::cout << "  Astronaut " << it->get_name() << " is standing on " << it->walking_on->get_name() << std::endl;
     std::cout << "    at            " << it->position << std::endl;
     std::cout << "    travelling at " << it->velocity << std::endl;

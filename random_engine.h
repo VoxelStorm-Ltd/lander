@@ -6,10 +6,21 @@
 class random_engine {
 private:
   std::mt19937 generator;
-  static const char *const greeknames[];
-  unsigned int const greeknames_max;
-  static const char *const romannames[];
-  unsigned int const romannames_max;
+  // reorder this ugly mess:
+  static char const *const greeknames[];
+  static char const *const romannames[];
+  static char const *const malenames[];
+  static char const *const femalenames[];
+  static char const *const neuternames[];
+  static char const *const surnames[];
+  unsigned int static const greeknames_max;
+  unsigned int static const romannames_max;
+  unsigned int static const malenames_max;
+  unsigned int static const femalenames_max;
+  unsigned int static const neuternames_max;
+  unsigned int static const surnames_max;
+
+  uint32_t seed;
 
 public:
   random_engine();
@@ -19,10 +30,10 @@ public:
   void random_reset();
 
   // basic numerical random functions
-  bool get_random_bool();
   double get_random_double(double from = 0.0, double to = 1.0);
   int get_random_int(int from = -128, int to = 128);
   unsigned int get_random_uint(unsigned int from = 0, unsigned int to = 255);
+  bool get_random_bool(double trueprobability = 0.5);
 
   // more advanced semantic random functions
   double get_angle_degrees();

@@ -10,7 +10,7 @@
 class body;
 class star;
 
-class starsystem : random_engine {
+class starsystem : public random_engine {
   /// A star system
 private:
   std::string name;

@@ -1,5 +1,4 @@
 #include "physicsbody.h"
-#include <boost/foreach.hpp>
 #include "universe.h"
 #include "starsystem.h"
 
@@ -21,7 +20,7 @@ Vector3d physicsbody::get_acceleration(Vector3d const &position,
   //return get_gravity_accel_v3(position);
   Vector3d acceleration;
   // iterate through every sufficiently significant body
-  BOOST_FOREACH(body *it, root.currentsystem->bodies) {
+  for(auto *it : root.currentsystem->bodies) {
     if(it == this) {
       // don't calculate gravitational effect of ourselves
       continue;

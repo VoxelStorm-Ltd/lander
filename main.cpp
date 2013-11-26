@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <iostream>
-#include <boost/foreach.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "vmath.h"
@@ -50,14 +49,14 @@ void mainloop() {   /// the main rendering loop
   //for(;;) {                            // cheap infinite loop
   for(root.time = 0; root.time != 3600000; root.time += dt) {
     // update the orbits for the orbital bodies in the current system
-    BOOST_FOREACH(body *it, root.currentsystem->bodies) {
+    for(auto const &it : root.currentsystem->bodies) {
       it->update_state(root.time, dt);
     }
     std::cout << "DEBUG: " << root.time << " : " << Vector3d(player->position - player->walking_on->position).length() - player->walking_on->get_radius() << ", " << (player->velocity - player->walking_on->velocity).length() << "m/s" << std::endl;
     //std::cout << "DEBUG1: " << player->velocity << std::endl;
     //std::cout << "DEBUG2: " << player->walking_on->velocity << std::endl;
     //std::cout << "DEBUG: " << root.time << " ";
-    //BOOST_FOREACH(body *it, root.currentsystem->bodies) {
+    //for(auto *it : root.currentsystem->bodies) {
     //  std::cout << it->name << ": " << it->position.x << " ";
     //}
     //std::cout << std::endl;

@@ -2,7 +2,8 @@
 #include <random>
 #include "vmath.h"
 
-random_engine::random_engine() {
+random_engine::random_engine()
+  : seed(1337) {
   /// Default constructor
 }
 
@@ -10,33 +11,35 @@ random_engine::~random_engine() {
   /// Default destructor
 }
 
-void random_reset(){
+void random_engine::random_reset(){
   /// Re-seed the generator with its saved seed
+  generator.seed(seed);
 }
 
 double random_engine::get_random_double(double from, double to) {
   std::uniform_real_distribution<double> distribution(from, to);
   return distribution(generator);
 }
-int random_engine::get_random_int(double from, double to) {
-  std::uniform_real_distribution<int> distribution;
+int random_engine::get_random_int(int from, int to) {
+  std::uniform_int_distribution<int> distribution(from, to);
   return distribution(generator);
 }
-unsigned int random_engine::get_random_uint(double from, double to) {
-  std::uniform_real_distribution<unsigned int> distribution;
+unsigned int random_engine::get_random_uint(unsigned int from, unsigned int to) {
+  std::uniform_int_distribution<unsigned int> distribution(from, to);
+  return distribution(generator);
+}
+bool random_engine::get_random_bool(double trueprobability) {
+  std::bernoulli_distribution distribution(trueprobability);
   return distribution(generator);
 }
 
-double random_engine::get_double_degrees() {
-  return get_random_double(0, 360);
+double random_engine::get_angle_degrees() {
+  return get_random_double(0.0, 360.0);
 }
-double random_engine::get_double_radians() {
-  return get_random_double(0, 2 * PI);
+double random_engine::get_angle_radians() {
+  return get_random_double(0.0, 2.0 * M_PI);
 }
 
-bool get_random_bool() {
-  return get_random_uint(0, 1);
-}
 char random_engine::get_random_char_alpha_upper() {
   /// Return random ascii value for A-Z
   return get_random_uint(65, 90);
@@ -56,36 +59,44 @@ char random_engine::get_random_char_digit() {
   return get_random_uint(48, 57);
 }
 
-std::string random_engine::get_random_noun {
+std::string random_engine::get_random_noun() {
+  // TODO
+  return "teapot";
 }
-std::string random_engine::get_random_verb {
+std::string random_engine::get_random_verb() {
+  // TODO
+  return "sneaky";
 }
-std::string random_engine::get_random_name_male {
+std::string random_engine::get_random_name_male() {
   /// Return a male forename
+  return malenames[get_random_uint(0, malenames_max)];
 }
-std::string random_engine::get_random_name_female {
+std::string random_engine::get_random_name_female() {
   /// Return a female forename
+  return femalenames[get_random_uint(0, femalenames_max)];
 }
-std::string random_engine::get_random_name_neuter {
+std::string random_engine::get_random_name_neuter() {
   /// Return a gender-neutral forename
+  return neuternames[get_random_uint(0, neuternames_max)];
 }
-std::string random_engine::get_random_name_surname {
+std::string random_engine::get_random_name_surname() {
   /// Return a surname (always gender neutral)
+  return surnames[get_random_uint(0, surnames_max)];
 }
-std::string random_engine::get_random_name_greek {
+std::string random_engine::get_random_name_greek() {
   /// Return an ancient greek mythological name
-  return greeknames[get_random_uint(0, greeknames_size())];
+  return greeknames[get_random_uint(0, greeknames_max)];
 }
-std::string random_engine::get_random_name_roman {
+std::string random_engine::get_random_name_roman() {
   /// Return an ancient roman mythological name
-  return romannames[get_random_uint(0, romannames_size())];
+  return romannames[get_random_uint(0, romannames_max)];
 }
-std::string random_engine::get_random_name_ancient {
+std::string random_engine::get_random_name_ancient() {
   /// Return an ancient mythological name of some kind
   if(get_random_bool()) {
-    return get_random_name_greek;
+    return get_random_name_greek();
   } else {
-    return get_random_name_roman;
+    return get_random_name_roman();
   }
 }
 
@@ -413,7 +424,7 @@ const char* const random_engine::greeknames[] = {
   "Uranus",
   "Zagreus",
   "Zelus"
-}
+};
 unsigned int const random_engine::greeknames_max = 319;
 
 const char* const random_engine::romannames[] = {
@@ -649,5 +660,14 @@ const char* const random_engine::romannames[] = {
   "Virtus",
   "Volturnus",
   "Vulcan"
-}
+};
 unsigned int const random_engine::romannames_max = 228;
+
+char const *const random_engine::malenames[] = {};
+unsigned int const random_engine::malenames_max = 0;
+char const *const random_engine::femalenames[] = {};
+unsigned int const random_engine::femalenames_max = 0;
+char const *const random_engine::neuternames[] = {};
+unsigned int const random_engine::neuternames_max = 0;
+char const *const random_engine::surnames[] = {};
+unsigned int const random_engine::surnames_max = 0;
