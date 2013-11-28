@@ -18,13 +18,13 @@ void init_universe() {
   root.starsystems.push_back(solarsystem);
   root.currentsystem = solarsystem;
 
-  auto *sun = new star;
-  sun->set_name("Sun");
-  sun->set_designation("Sol");
-  sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
-  sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
-  solarsystem->bodies.push_front(sun);
-  solarsystem->primary = sun;
+  //auto *sun = new star;
+  //sun->set_name("Sun");
+  //sun->set_designation("Sol");
+  //sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
+  //sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
+  //solarsystem->bodies.push_front(sun);
+  //solarsystem->primary = sun;
 
   // H = Mercury (Hermes)
   // V = Venus
@@ -35,15 +35,15 @@ void init_universe() {
   // U = Uranus
   // N = Neptune
 
-  auto *venus = new planet;
-  venus->set_name("Venus");
-  venus->set_designation("V");
-  venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
-  venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
-  venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
-  venus->velocity.x = 35000.0;                              // 35000 m/s
-  venus->parent = sun;
-  solarsystem->bodies.push_front(venus);
+  //auto *venus = new planet;
+  //venus->set_name("Venus");
+  //venus->set_designation("V");
+  //venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
+  //venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
+  //venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
+  //venus->velocity.x = 35000.0;                              // 35000 m/s
+  ////venus->parent = sun;
+  //solarsystem->bodies.push_front(venus);
 
   auto *earth = new planet;
   earth->set_name("Earth");
@@ -51,38 +51,37 @@ void init_universe() {
   earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
   earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
-  earth->velocity.x = 29800.0;                              // 29800 m/s
+  //earth->velocity.x = 29800.0;                              // 29800 m/s
   double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
-  earth->parent = sun;
+  //earth->parent = sun;
   solarsystem->bodies.push_front(earth);
 
   player = new astronaut;
   player->set_name("Commander Jameson");
   player->position = earth->position + Vector3d(0.0, earth->get_radius(), 0.0);
   player->velocity = earth->velocity;
-  player->velocity.z += 7909.305;
+  player->velocity.x += 7909.305;
   player->spin = earth->spin;
   player->state = astronaut::statetype::SURFACE;
   player->walking_on = (planet*)earth;
   root.astronauts.push_front(player);
   solarsystem->bodies.push_front(player);
 
-  std::cout << "DEBUG walking_on = " << player->walking_on << std::endl;
-
-  //astronaut *player2 = new astronaut;
-  //player2->name = "Rapid Space Dude";
-  //// two ways of doing the conversion:
-  ////double height = boost::units::quantity<boost::units::si::length>(100.0 * boost::units::imperial::mile_base_unit::unit_type()) / boost::units::si::meter;
-  //double height = 100.0 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
-  //player2->position = earth->position + Vector3d(0.0, earth->radius + height, 0.0);
-  //player2->velocity = earth->velocity;
+  astronaut *player2 = new astronaut;
+  player2->set_name("Rapid Space Dude");
+  // two ways of doing the conversion:
+  //double height = boost::units::quantity<boost::units::si::length>(100.0 * boost::units::imperial::mile_base_unit::unit_type()) / boost::units::si::meter;
+  double height = 100.0 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
+  player2->position = earth->position + Vector3d(0.0, earth->get_radius() + height, 0.0);
+  player2->velocity = earth->velocity;
   //player2->velocity.x += 100000000.0 / 3600 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
-  //player2->spin = earth->spin;
-  //player2->state = astronaut::statetype::SURFACE;
-  //player2->walking_on = earth;
-  //root.astronauts.push_back(player2);
-  //solarsystem->bodies.push_front(player2);
+  player2->velocity.x += 10000;
+  player2->spin = earth->spin;
+  player2->state = astronaut::statetype::SURFACE;
+  player2->walking_on = earth;
+  root.astronauts.push_front(player2);
+  solarsystem->bodies.push_front(player2);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "vmath.h"
+#include "version.h"
 
 // globals
 GLFWwindow extern *window_main;
@@ -118,7 +119,8 @@ void init_graphics() {
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);    // enable local lighting
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);   // to make flat shading ok
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);   // ensure one-sided lighting
-  glDisable(GL_BLEND);
+  //glDisable(GL_BLEND);
+  glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   //glEnable(GL_MINMAX);      // allow min and max colour tables for HDR effects
@@ -159,8 +161,13 @@ void init_graphics() {
   ////glEnable(GL_LIGHT1);
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //glfwSetCursorPosCallback(window_main, callback_mousepos);
   glfwSetKeyCallback(      window_main, callback_key);
+
+  std::stringstream title;
+  title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;
+  glfwSetWindowTitle(window_main, title.str().c_str());                            // set the title to the main run's title
   std::cout << "Graphics initialised." << std::endl;
 }
