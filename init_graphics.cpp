@@ -119,7 +119,6 @@ void init_graphics() {
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);    // enable local lighting
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);   // to make flat shading ok
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);   // ensure one-sided lighting
-  //glDisable(GL_BLEND);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -162,7 +161,6 @@ void init_graphics() {
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glDisable(GL_DEPTH_TEST);
 
   //glfwSetCursorPosCallback(window_main, callback_mousepos);
   glfwSetKeyCallback(window_main, callback_key);

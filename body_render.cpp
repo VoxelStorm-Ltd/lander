@@ -31,25 +31,28 @@ void body::render_diagram(double scale, bool labels) {
     thisradius = 1 / scale;
   }
 
-  // draw a circle at the radius
+  // draw a filled circle at the radius
+  glColor4dv(Vector4d(0.25, 0.35, 0.25, 1.0));
+  glBegin(GL_TRIANGLE_FAN);
+  glVertex3d(0.0, 0.0, 0.0);
+  double const circlestep = M_PI / 16.0;
+  for(double angle = 0.0; angle < (M_PI * 2.0) + circlestep; angle += circlestep) {
+    glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
+  }
+  glEnd();
+  // circle outline
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   glBegin(GL_LINE_LOOP);
-  for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-    Vector3d circle_edge;
-    circle_edge.x += sin(angle) * thisradius;
-    circle_edge.y += cos(angle) * thisradius;
-    glVertex3dv(circle_edge);
+  for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
+    glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
   }
   glEnd();
 
   // atmosphere
   glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));
   glBegin(GL_LINES);
-  for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-    Vector3d circle_edge;
-    circle_edge.x += sin(angle) * (thisradius + 400000);
-    circle_edge.y += cos(angle) * (thisradius + 400000);
-    glVertex3dv(circle_edge);
+  for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
+    glVertex3d(sin(angle) * (thisradius + 400000), cos(angle) * (thisradius + 400000), 0.0);
   }
   glEnd();
 

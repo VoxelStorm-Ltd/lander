@@ -80,29 +80,33 @@ void mainloop() {   /// the main rendering loop
     // TESTING ONLY
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, windowwidth, windowheight, 0.0, -14060000000000.0, 14060000000000.0);   // heliopause ~= 1.406 * 10^13
+    //glOrtho(0.0, windowwidth, windowheight, 0.0, -14060000000000.0, 14060000000000.0);   // heliopause ~= 1.406 * 10^13
+    //glOrtho(0.0, windowwidth, windowheight, 0.0, 0.0, 1000000000000.0);   // heliopause ~= 1.406 * 10^13
+    //glOrtho(0.0, windowwidth, windowheight, 0.0, -10000000.0, 10000000.0);   // heliopause ~= 1.406 * 10^13
+    glOrtho(0.0, windowwidth, windowheight, 0.0, -1406000000000.0 * scale, 1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
     glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
     glScaled(scale, scale, scale);                                  // zoom
     //glRotated(-45.0, 1.0, 0.0, 0.0);                                // tilt projection plane
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    // translate us to the camera's viewpoint
-    //glRotated(freecam->pitch, 1.0, 0.0, 0.0);
-    //glRotated(freecam->yaw,   0.0, 1.0, 0.0);
+    // translate and rotate us to the camera's viewpoint
     glRotated(-45.0, 1.0, 0.0, 0.0);
+    //glRotated(45.0, 0.0, 1.0, 0.0);
     glTranslated(-player->position.x,
                  -player->position.y,
                  -player->position.z);
 
     // trails
     glBegin(GL_POINTS);
+    //glBegin(GL_LINES);
     //for(auto it : trails) {
     for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
-      glColor4dv(Vector4d((it->fade * 0.5) + 0.1, it->fade, (it->fade * 0.5) + 0.1, 1.0));
+      glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
       //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
       glVertex3dv(it->linepoint);
+      //glVertex3dv(Vector3d(0.0, 1000000.0, 0.0));
       it->fade *= 0.99995;
-      if(it->fade < 0.2) {
+      if(it->fade < 0.3) {
         it = trails.erase(it);
       } else {
         ++it;
