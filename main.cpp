@@ -11,6 +11,8 @@
 
 // globals
 bool keeprunning = true;
+double scale = 0.00001;           // earth scale
+//double scale = 0.000000002;       // solar system scale
 GLFWwindow *window_main;      // the main game window
 int windowwidth = 800;
 int windowheight = 800;
@@ -26,7 +28,8 @@ void mainloop();
 void pollcontrols(        GLFWwindow *thiswindow);
 void callback_mousepos(   GLFWwindow *thiswindow, double x, double z);
 void callback_key(        GLFWwindow *thiswindow, int key, int scancode __attribute__((unused)), int action, int mods);
-void callback_windowclose(GLFWwindow *thiswindow __attribute__((unused)));
+void callback_windowclose(GLFWwindow *thiswindow);
+void callback_scroll(     GLFWwindow *thiswindow, double xoffset, double yoffset);
 
 int main() {
   init();
@@ -53,12 +56,10 @@ void mainloop() {   /// the main rendering loop
   std::deque<trailtype> trails;
 
   Vector3d centreoffset = Vector3d(windowwidth / 2.0, windowheight / 2.0, 0.0);
-  double scale = 0.00001;           // earth scale
-  //double scale = 0.000000002;       // solar system scale
 
   double dt = 1.0;
   //for(;;) {                            // cheap infinite loop
-  for(root.time = 0; root.time != -1; root.time += dt) {
+  for(root.time = 0; keeprunning; root.time += dt) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
       it->update_state(root.time, dt);
@@ -164,16 +165,16 @@ void mainloop() {   /// the main rendering loop
       it->render_diagram(scale);
     }
 
-    // auto scale
-    if(Vector2d(player->position.x, player->position.y).length() * scale > windowheight / 2) {
-      // zoom out
-      std::cout << player->position.length() << "m out, scale " << scale << std::endl;
-      scale /= 2;
-    } else if(Vector2d(player->position.x, player->position.y).length() * scale < windowheight / 4) {
-      // zoom in
-      std::cout << player->position.length() << "m out, scale " << scale << std::endl;
-      scale *= 2;
-    }
+    //// auto scale
+    //if(Vector2d(player->position.x, player->position.y).length() * scale > windowheight / 2) {
+    //  // zoom out
+    //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
+    //  scale /= 2;
+    //} else if(Vector2d(player->position.x, player->position.y).length() * scale < windowheight / 4) {
+    //  // zoom in
+    //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
+    //  scale *= 2;
+    //}
 
     // trails
     if(trailcounter == 0) {

@@ -12,7 +12,8 @@ int extern windowheight;
 
 void callback_mousepos(   GLFWwindow *thiswindow, double x, double z);
 void callback_key(        GLFWwindow *thiswindow, int key, int scancode __attribute__((unused)), int action, int mods);
-void callback_windowclose(GLFWwindow *thiswindow __attribute__((unused)));
+void callback_windowclose(GLFWwindow *thiswindow);
+void callback_scroll(     GLFWwindow *thiswindow, double xoffset, double yoffset);
 
 
 void init_graphics() {
@@ -163,7 +164,8 @@ void init_graphics() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //glfwSetCursorPosCallback(window_main, callback_mousepos);
-  glfwSetKeyCallback(window_main, callback_key);
+  glfwSetKeyCallback(      window_main, callback_key);
+  glfwSetScrollCallback(   window_main, callback_scroll);
 
   std::stringstream title;
   title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;

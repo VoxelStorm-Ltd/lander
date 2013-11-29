@@ -1,7 +1,11 @@
+#include <iostream>
+#include <cmath>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-void callback_scroll_chat(GLFWwindow *thiswindow __attribute__((unused)), double xoffset, double yoffset) {
+double extern scale;
+
+void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoffset __attribute__((unused)), double yoffset) {
   /// Apply relevant action for using the mouse scroll
   if(xoffset > 0) {
     // left and right cycle tabs, and disables normal scroll for the duration
@@ -17,9 +21,10 @@ void callback_scroll_chat(GLFWwindow *thiswindow __attribute__((unused)), double
     #ifdef DEBUG_INPUTSTORM
       std::cout << "DEBUG: inputstorm: scrolled vertically " << yoffset << std::endl;
     #endif
+    if(yoffset > 0) {
+      scale *= 2.0;
+    } else {
+      scale /= 2.0;
+    }
   }
-}
-
-void callback_scroll_move(GLFWwindow *thiswindow __attribute__((unused)), double xoffset, double yoffset) {
-  /// Apply relevant action for using the mouse scroll
 }

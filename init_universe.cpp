@@ -59,7 +59,8 @@ void init_universe() {
 
   player = new astronaut;
   player->set_name("Commander Jameson");
-  player->position = earth->position + Vector3d(0.0, earth->get_radius(), 0.0);
+  //player->position = earth->position + Vector3d(0.0, earth->get_radius(), 0.0);
+  player->position = earth->position + Vector3d(0.0, 0.0, earth->get_radius());
   player->velocity = earth->velocity;
   player->velocity.x += 7909.305;
   player->spin = earth->spin;
