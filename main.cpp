@@ -80,24 +80,27 @@ void mainloop() {   /// the main rendering loop
     // TESTING ONLY
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, windowwidth, windowheight, 0.0, 0.0, 1.0);
-    glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);
-    glScaled(scale, scale, scale);
+    glOrtho(0.0, windowwidth, windowheight, 0.0, -14060000000000.0, 14060000000000.0);   // heliopause ~= 1.406 * 10^13
+    glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
+    glScaled(scale, scale, scale);                                  // zoom
+    //glRotated(45.0, 1.0, 0.0, 0.0);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     // translate us to the camera's viewpoint
-    //glRotated(freecam->pitch, 1, 0, 0);
-    //glRotated(freecam->yaw,   0, 1, 0);
+    //glRotated(freecam->pitch, 1.0, 0.0, 0.0);
+    //glRotated(freecam->yaw,   0.0, 1.0, 0.0);
     glTranslated(-player->position.x,
                  -player->position.y,
                  0.0);
+    //glRotated(45.0, 1.0, 0.0, 0.0);
+
     // trails
     glBegin(GL_POINTS);
     //for(auto it : trails) {
     for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
       glColor4dv(Vector4d((it->fade * 0.5) + 0.1, it->fade, (it->fade * 0.5) + 0.1, 1.0));
       //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
-      glVertex2dv(it->linepoint);
+      glVertex3dv(it->linepoint);
       it->fade *= 0.99995;
       if(it->fade < 0.2) {
         it = trails.erase(it);
@@ -110,8 +113,8 @@ void mainloop() {   /// the main rendering loop
     // bodies
     glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
     for(auto const &it : root.currentsystem->bodies) {
-      Vector2d point  = Vector2d(it->position.x, it->position.y);
-      Vector2d vel    = Vector2d(it->velocity.x, it->velocity.y);
+      Vector3d point  = it->position;
+      Vector3d vel    = it->velocity;
       if(vel.length() > 0.0) {
         vel.normalise();
         vel *= 20.0;
@@ -123,25 +126,25 @@ void mainloop() {   /// the main rendering loop
       glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
       glBegin(GL_LINES);
       glVertex2d(0.0, 0.0);
-      glVertex2dv(point);
+      glVertex3dv(point);
       glEnd();
 
       // velocity vector
       glColor4dv(Vector4d(0.4, 0.6, 0.4, 1.0));
       glBegin(GL_LINES);
-      glVertex2dv(point);
-      glVertex2dv(point - vel);
+      glVertex3dv(point);
+      glVertex3dv(point - vel);
       glEnd();
 
       // target vector
       astronaut *thisastro = dynamic_cast<astronaut*>(it);
       if(thisastro) {
         // if the cast worked, this runs - otherwise nullptr
-        Vector2d target = Vector2d(thisastro->target.x, thisastro->target.y) * 1000000;
+        Vector3d target = thisastro->target * 1000000;
         glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
         glBegin(GL_LINES);
-        glVertex2dv(point);
-        glVertex2dv(point + target);
+        glVertex3dv(point);
+        glVertex3dv(point + target);
         glEnd();
 
         // trails
@@ -164,19 +167,19 @@ void mainloop() {   /// the main rendering loop
       glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
       glBegin(GL_LINE_LOOP);
       for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-        Vector2d circle_edge = Vector2d(point);
+        Vector3d circle_edge = point;
         circle_edge.x += sin(angle) * thisradius;
         circle_edge.y += cos(angle) * thisradius;
-        glVertex2dv(circle_edge);
+        glVertex3dv(circle_edge);
       }
       glEnd();
       glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));
       glBegin(GL_LINES);
       for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-        Vector2d circle_edge = Vector2d(point);
+        Vector3d circle_edge = point;
         circle_edge.x += sin(angle) * (thisradius + 400000);
         circle_edge.y += cos(angle) * (thisradius + 400000);
-        glVertex2dv(circle_edge);
+        glVertex3dv(circle_edge);
       }
       glEnd();
 
