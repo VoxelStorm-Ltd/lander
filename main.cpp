@@ -88,15 +88,9 @@ void mainloop() {   /// the main rendering loop
     // translate us to the camera's viewpoint
     //glRotated(freecam->pitch, 1, 0, 0);
     //glRotated(freecam->yaw,   0, 1, 0);
-    //glTranslated(-freecam->coords.x,
-    //             -freecam->coords.y,
-    //             -freecam->coords.z);
-    //glTranslated(-player->position.x,
-    //             -player->position.y,
-    //             -player->position.z);
-    glTranslated(0,
-                 400,
-                 0);
+    glTranslated(-player->position.x,
+                 -player->position.y,
+                 0.0);
     // trails
     glBegin(GL_POINTS);
     //for(auto it : trails) {
