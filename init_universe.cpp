@@ -18,13 +18,13 @@ void init_universe() {
   root.starsystems.push_back(solarsystem);
   root.currentsystem = solarsystem;
 
-  //auto *sun = new star;
-  //sun->set_name("Sun");
-  //sun->set_designation("Sol");
-  //sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
-  //sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
-  //solarsystem->bodies.push_front(sun);
-  //solarsystem->primary = sun;
+  auto *sun = new star;
+  sun->set_name("Sun");
+  sun->set_designation("Sol");
+  sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
+  sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
+  solarsystem->bodies.push_front(sun);
+  solarsystem->primary = sun;
 
   // H = Mercury (Hermes)
   // V = Venus
@@ -35,15 +35,15 @@ void init_universe() {
   // U = Uranus
   // N = Neptune
 
-  //auto *venus = new planet;
-  //venus->set_name("Venus");
-  //venus->set_designation("V");
-  //venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
-  //venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
-  //venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
-  //venus->velocity.x = 35000.0;                              // 35000 m/s
-  ////venus->parent = sun;
-  //solarsystem->bodies.push_front(venus);
+  auto *venus = new planet;
+  venus->set_name("Venus");
+  venus->set_designation("V");
+  venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
+  venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
+  venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
+  venus->velocity.x = 35000.0;                              // 35000 m/s
+  //venus->parent = sun;
+  solarsystem->bodies.push_front(venus);
 
   auto *earth = new planet;
   earth->set_name("Earth");

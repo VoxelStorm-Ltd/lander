@@ -162,9 +162,10 @@ void init_graphics() {
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glDisable(GL_DEPTH_TEST);
 
   //glfwSetCursorPosCallback(window_main, callback_mousepos);
-  glfwSetKeyCallback(      window_main, callback_key);
+  glfwSetKeyCallback(window_main, callback_key);
 
   std::stringstream title;
   title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;

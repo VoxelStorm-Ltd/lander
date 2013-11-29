@@ -52,7 +52,7 @@ void mainloop() {   /// the main rendering loop
 
   std::deque<trailtype> trails;
 
-  Vector2d const centreoffset = Vector2d(windowwidth / 2.0, windowheight / 2.0);
+  Vector3d centreoffset = Vector3d(windowwidth / 2.0, windowheight / 2.0, 0.0);
   double scale = 0.00001;           // earth scale
   //double scale = 0.000000002;       // solar system scale
 
@@ -77,28 +77,33 @@ void mainloop() {   /// the main rendering loop
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // TESTING ONLY
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, windowwidth, windowheight, 0.0, 0.0, 1.0);
+    glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);
+    glScaled(scale, scale, scale);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
     // translate us to the camera's viewpoint
     //glRotated(freecam->pitch, 1, 0, 0);
     //glRotated(freecam->yaw,   0, 1, 0);
     //glTranslated(-freecam->coords.x,
     //             -freecam->coords.y,
     //             -freecam->coords.z);
-
-
-    // TESTING ONLY
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0, windowwidth, windowheight, 0.0, 0.0, 1.0);
-    glMatrixMode (GL_MODELVIEW);
-    glDisable(GL_DEPTH_TEST);
-
+    //glTranslated(-player->position.x,
+    //             -player->position.y,
+    //             -player->position.z);
+    glTranslated(0,
+                 400,
+                 0);
     // trails
     glBegin(GL_POINTS);
     //for(auto it : trails) {
     for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
       glColor4dv(Vector4d((it->fade * 0.5) + 0.1, it->fade, (it->fade * 0.5) + 0.1, 1.0));
       //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
-      glVertex2dv((it->linepoint * scale) + centreoffset);
+      glVertex2dv(it->linepoint);
       it->fade *= 0.99995;
       if(it->fade < 0.2) {
         it = trails.erase(it);
@@ -123,15 +128,15 @@ void mainloop() {   /// the main rendering loop
       // line to centre of system
       glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
       glBegin(GL_LINES);
-      glVertex2dv(centreoffset);
-      glVertex2dv((point * scale) + centreoffset);
+      glVertex2d(0.0, 0.0);
+      glVertex2dv(point);
       glEnd();
 
       // velocity vector
       glColor4dv(Vector4d(0.4, 0.6, 0.4, 1.0));
       glBegin(GL_LINES);
-      glVertex2dv( (point * scale) + centreoffset);
-      glVertex2dv(((point * scale) + centreoffset) - vel);
+      glVertex2dv(point);
+      glVertex2dv(point - vel);
       glEnd();
 
       // target vector
@@ -141,8 +146,8 @@ void mainloop() {   /// the main rendering loop
         Vector2d target = Vector2d(thisastro->target.x, thisastro->target.y) * 1000000;
         glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
         glBegin(GL_LINES);
-        glVertex2dv((point            * scale) + centreoffset);
-        glVertex2dv(((point + target) * scale) + centreoffset);
+        glVertex2dv(point);
+        glVertex2dv(point + target);
         glEnd();
 
         // trails
@@ -168,7 +173,7 @@ void mainloop() {   /// the main rendering loop
         Vector2d circle_edge = Vector2d(point);
         circle_edge.x += sin(angle) * thisradius;
         circle_edge.y += cos(angle) * thisradius;
-        glVertex2dv((circle_edge * scale) + centreoffset);
+        glVertex2dv(circle_edge);
       }
       glEnd();
       glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));
@@ -177,7 +182,7 @@ void mainloop() {   /// the main rendering loop
         Vector2d circle_edge = Vector2d(point);
         circle_edge.x += sin(angle) * (thisradius + 400000);
         circle_edge.y += cos(angle) * (thisradius + 400000);
-        glVertex2dv((circle_edge * scale) + centreoffset);
+        glVertex2dv(circle_edge);
       }
       glEnd();
 
