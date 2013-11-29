@@ -20,9 +20,23 @@ void orbitalbody::update_state(double time, double deltatime) {
   /// Re-calculate current velocity and position based on orbital data
   //std::cout << "DEBUG: called update_state on orbitalbody " << name << std::endl;
   // reference direction is +z
-  Vector3d ascending_node(0.0, 1.0, 0.0);
-  ascending_node.rotate(0.0, orbit.longitude_asc_node, 0.0);
+  //Vector3d ascending_node(0.0, 1.0, 0.0);
+  //ascending_node.rotate(0.0, orbit.longitude_asc_node, 0.0);
   // ...
+
+  // placeholder simple circular orbits, zero eccentricity only
+  double finaltime = time + deltatime;
+
+  Vector3d orbitposition;
+  orbitposition.z = orbit.semimajor_axis;
+  double orbitangle = ((M_PI * 2.0) / get_orbital_period() * finaltime) + orbit.mean_anomaly_epoch;
+  orbitangle = fmod(orbitangle, M_PI * 2.0);
+  orbitposition.rotate_rad(0.0, orbitangle, 0.0);
+
+  Vector3d oldposition(position);
+  position = parent->position + orbitposition;
+  velocity = (position - oldposition) / deltatime;
+  //std::cout << "Pos: " << position << " vel " << velocity << std::endl;
 }
 
 std::string orbitalbody::get_description() {
@@ -62,7 +76,7 @@ double orbitalbody::get_eccentric_anomaly(double time) {
 
   // this is the bit they do iteratively...
   // mean_anomaly = eccentric_anomaly - orbit.eccentricity * sin(eccentric_anomaly);
-  double eccentric_anomaly = get_mean_anomaly(time) + (orbit.eccentricity * sin(eccentric_anomaly));
+  ///double eccentric_anomaly = get_mean_anomaly(time) + (orbit.eccentricity * sin(eccentric_anomaly));
 }
 
 double orbitalbody::get_true_anomaly(double time) {
@@ -106,7 +120,7 @@ double orbitalbody::get_apoapsis() {
 double orbitalbody::get_orbital_period() {
   /// Calculate orbital period
   if(parent) {
-    return 2 * M_PI * sqrt(pow(orbit.a, 3) / (parent->gm));
+    return 2.0 * M_PI * sqrt(pow(orbit.semimajor_axis, 3) / (parent->gm));
   } else {
     return 0.0;
   }

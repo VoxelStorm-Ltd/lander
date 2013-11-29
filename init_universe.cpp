@@ -42,7 +42,13 @@ void init_universe() {
   venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
   venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
   venus->velocity.x = 35000.0;                              // 35000 m/s
-  //venus->parent = sun;
+  venus->parent = sun;
+  venus->orbit.semimajor_axis     = 108208000000.0;
+  venus->orbit.eccentricity       = 0.0;                // not actually correct
+  venus->orbit.inclination        = 0.0;                // not actually correct
+  venus->orbit.longitude_asc_node = 0.0;                // not actually correct
+  venus->orbit.argument_periapsis = 0.0;                // not actually correct
+  venus->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
   solarsystem->bodies.push_front(venus);
 
   auto *earth = new planet;
@@ -50,12 +56,45 @@ void init_universe() {
   earth->set_designation("E");
   earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
-  earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
+  //earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
   //earth->velocity.x = 29800.0;                              // 29800 m/s
   double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
-  //earth->parent = sun;
+  earth->parent = sun;
+  //earth->orbit.semimajor_axis     = 149597890000;               // a, metres
+  //earth->orbit.eccentricity       = 0.016710220;                // e
+  //earth->orbit.inclination        = 0.0000009;                  // i, rad
+  //earth->orbit.longitude_asc_node = -0.1965352;                 // o or omega, rad
+  //earth->orbit.argument_periapsis = 1.9933027;                  // w or omicron, rad
+  //earth->orbit.mean_anomaly_epoch = 5.612;                      // m or Mo, rad
+  earth->orbit.semimajor_axis     = 147700000000.0;     // not actually correct
+  earth->orbit.eccentricity       = 0.0;                // not actually correct
+  earth->orbit.inclination        = 0.0;                // not actually correct
+  earth->orbit.longitude_asc_node = 0.0;                // not actually correct
+  earth->orbit.argument_periapsis = 0.0;                // not actually correct
+  earth->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
   solarsystem->bodies.push_front(earth);
+
+  auto *moon = new planet;
+  moon->set_name("Moon");
+  moon->set_designation("Luna");
+  moon->set_mass(73477000000000000000000.0);               // 7.3477 * 10^22 kg
+  moon->set_radius(1738140.0);                             // 1738.14km
+  moon->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
+  moon->parent = earth;
+  moon->orbit.semimajor_axis     = 384399000.0;
+  moon->orbit.eccentricity       = 0.0;                // not actually correct
+  moon->orbit.inclination        = 0.0;                // not actually correct
+  moon->orbit.longitude_asc_node = 0.0;                // not actually correct
+  moon->orbit.argument_periapsis = 0.0;                // not actually correct
+  moon->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
+  solarsystem->bodies.push_front(moon);
+
+
+  for(auto &it : solarsystem->bodies) {
+    it->update_state(-2.0, 1.0);         // fill in back-history for the solar system to get an accurate velocity at t=0
+    it->update_state(-1.0, 1.0);
+  }
 
   player = new astronaut;
   player->set_name("Commander Jameson");
@@ -98,13 +137,6 @@ void init_universe() {
     std::cout << "    above the surface by " << Vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
     std::cout << "    feeling gravitational acceleration " << it->walking_on->get_gravity_accel(it->position, it->velocity) << "m/s^2" << std::endl;
   }
-
-  earth->orbit.semimajor_axis     = 149597890000;               // a, metres
-  earth->orbit.eccentricity       = 0.016710220;                // e
-  earth->orbit.inclination        = 0.0000009;                  // i, rad
-  earth->orbit.longitude_asc_node = -0.1965352;                 // o or omega, rad
-  earth->orbit.argument_periapsis = 1.9933027;                  // w or omicron, rad
-  earth->orbit.mean_anomaly_epoch = 5.612;                      // m or Mo, rad
 
   std::cout << "ORBIT: earth's periapsis      " << earth->get_periapsis() << std::endl;
   std::cout << "ORBIT: earth's apoapsis       " << earth->get_apoapsis() << std::endl;

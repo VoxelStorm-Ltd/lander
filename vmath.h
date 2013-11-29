@@ -518,6 +518,14 @@ class Vector2 {
       x = nx;
       y = ny;
     }
+    void rotate_rad(T aa) {
+      T a = cos(-aa);
+      T b = sin(-aa);
+      T nx = x * a - y * b;
+      T ny = x * b + y * a;
+      x = nx;
+      y = ny;
+    }
 
     /**
      * Linear interpolation of two vectors
@@ -1052,6 +1060,20 @@ class Vector3 {
       T d = sin(DEG2RAD(ay));
       T e = cos(DEG2RAD(az));
       T f = sin(DEG2RAD(az));
+      T nx = c * e * x - c * f * y + d * z;
+      T ny = (a * f + b * d * e) * x + (a * e - b * d * f) * y - b * c * z;
+      T nz = (b * f - a * d * e) * x + (a * d * f + b * e) * y + a * c * z;
+      x = nx;
+      y = ny;
+      z = nz;
+    }
+    void rotate_rad(T ax, T ay, T az) {
+      T a = cos(ax);
+      T b = sin(ax);
+      T c = cos(ay);
+      T d = sin(ay);
+      T e = cos(az);
+      T f = sin(az);
       T nx = c * e * x - c * f * y + d * z;
       T ny = (a * f + b * d * e) * x + (a * e - b * d * f) * y - b * c * z;
       T nz = (b * f - a * d * e) * x + (a * d * f + b * e) * y + a * c * z;

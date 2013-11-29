@@ -59,7 +59,7 @@ void mainloop() {   /// the main rendering loop
 
   double dt = 1.0;
   //for(;;) {                            // cheap infinite loop
-  for(root.time = 0; keeprunning; root.time += dt) {
+  for(root.time = 0.0; keeprunning; root.time += dt) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
       it->update_state(root.time, dt);
@@ -91,7 +91,7 @@ void mainloop() {   /// the main rendering loop
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     // translate and rotate us to the camera's viewpoint
-    glRotated(-0.1, 1.0, 0.0, 0.0);
+    glRotated(-45, 1.0, 0.0, 0.0);
     //glRotated(45.0, 0.0, 1.0, 0.0);
     glTranslated(-player->position.x,
                  -player->position.y,
