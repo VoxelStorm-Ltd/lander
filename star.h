@@ -11,7 +11,19 @@ public:
   star();
   ~star();
 
+  // getters and setters
   double get_magnitude();
+  virtual double get_temperature();
+  virtual Vector3d get_colour();
+  static Vector3d temperature_to_colour(double temperature);
+
+  // render
+  virtual void render_diagram(double scale, bool labels = false);
+  virtual void render_visible();
+  virtual void render_radio();
+  virtual void render_infrared();
+  virtual void render_ultraviolet();
+
 };
 
 #endif // STAR_H_INCLUDED

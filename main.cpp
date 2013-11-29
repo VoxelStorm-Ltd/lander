@@ -91,7 +91,7 @@ void mainloop() {   /// the main rendering loop
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     // translate and rotate us to the camera's viewpoint
-    glRotated(-45.0, 1.0, 0.0, 0.0);
+    glRotated(-0.1, 1.0, 0.0, 0.0);
     //glRotated(45.0, 0.0, 1.0, 0.0);
     glTranslated(-player->position.x,
                  -player->position.y,
@@ -141,25 +141,13 @@ void mainloop() {   /// the main rendering loop
       glVertex3dv(point - vel);
       glEnd();
 
-      // target vector
-      astronaut *thisastro = dynamic_cast<astronaut*>(it);
-      if(thisastro) {
-        // if the cast worked, this runs - otherwise nullptr
-        Vector3d target = thisastro->target * 1000000;
-        glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
-        glBegin(GL_LINES);
-        glVertex3dv(point);
-        glVertex3dv(point + target);
-        glEnd();
-
-        // trails
-        if(trailcounter == 0) {
-          // every period add a trail point
-          trailtype trail;
-          trail.linepoint = point;
-          trail.fade = 1.0;
-          trails.push_back(trail);
-        }
+      // trails
+      if(trailcounter == 0) {
+        // every period add a trail point
+        trailtype trail;
+        trail.linepoint = point;
+        trail.fade = 1.0;
+        trails.push_back(trail);
       }
 
       it->render_diagram(scale);

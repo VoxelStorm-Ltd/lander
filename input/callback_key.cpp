@@ -1,10 +1,12 @@
-#include <iostream>>
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 //#include "screenshotstorm.h"
 
 bool extern keeprunning;
 GLFWwindow extern *window_main;
+
+//extern double temp;
 
 void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
                   int key,
@@ -15,6 +17,12 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
   if(action == GLFW_PRESS) {   // here are all the down-presses we care about
     // these first key catches work in all input modes
     switch(key) {
+    case GLFW_KEY_O:
+      //temp -= 20;
+      break;
+    case GLFW_KEY_P:
+      //temp += 20;
+      break;
     /*
     case GLFW_KEY_PRINT_SCREEN:   // prt scrn to take screenshots
     case GLFW_KEY_F2:             // F2 to take screenshots

@@ -1,13 +1,21 @@
-#include "body.h"
+#include "astronaut.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "vmath.h"
 
-void body::render_diagram(double scale, bool labels) {
+void astronaut::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
   glPushMatrix();
   // move into position
   glTranslated(position.x, position.y, position.z);
+
+  // target vector
+  glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
+  glBegin(GL_LINES);
+  glVertex3d(0.0, 0.0, 0.0);
+  glVertex3dv(target * 1000000);
+  glEnd();
+
   // undo rotation - billboard effect
   Matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
@@ -24,35 +32,36 @@ void body::render_diagram(double scale, bool labels) {
   glLoadMatrixd(modelview);
 
   double thisradius = get_radius();
-  if(thisradius * scale < 1) {
-    thisradius = 1 / scale;
+  if(thisradius * scale < 2.0) {
+    thisradius = 2.0 / scale;
   }
-
-  // circle outline
+  // draw a cross at the radius
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  double const circlestep = M_PI / 4.0;
-  glBegin(GL_LINE_LOOP);
-  for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
-    glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
-  }
+  glBegin(GL_LINES);
+  glVertex3d(-thisradius, -thisradius, 0.0);
+  glVertex3d( thisradius,  thisradius, 0.0);
+  glEnd();
+  glBegin(GL_LINES);
+  glVertex3d(-thisradius,  thisradius, 0.0);
+  glVertex3d( thisradius, -thisradius, 0.0);
   glEnd();
 
   // restore rotation
   glPopMatrix();
 }
-void body::render_visible() {
+void astronaut::render_visible() {
   /// Render in the visible spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
-void body::render_radio() {
+void astronaut::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
-void body::render_infrared() {
+void astronaut::render_infrared() {
   /// Render in the infrared spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
-void body::render_ultraviolet() {
+void astronaut::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }

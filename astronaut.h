@@ -26,8 +26,16 @@ public:
   astronaut();
   ~astronaut();
 
+  // getters and setters
   virtual double get_mass();
   virtual double get_radius();
+
+  // render
+  virtual void render_diagram(double scale, bool labels = false);
+  virtual void render_visible();
+  virtual void render_radio();
+  virtual void render_infrared();
+  virtual void render_ultraviolet();
 };
 
 #endif // ASTRONAUT_H_INCLUDED
