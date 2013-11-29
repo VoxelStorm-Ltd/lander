@@ -44,7 +44,7 @@ void init() {       /// all the one-time initialisation we need for the engine
 
 void mainloop() {   /// the main rendering loop
   struct trailtype {
-    Vector2d linepoint;
+    Vector3d linepoint;
     double fade;
   };
   unsigned int const trailperiod = 60;       // draw a dash in this many frames
@@ -151,8 +151,7 @@ void mainloop() {   /// the main rendering loop
         if(trailcounter == 0) {
           // every period add a trail point
           trailtype trail;
-          trail.linepoint.x = point.x;
-          trail.linepoint.y = point.y;
+          trail.linepoint = point;
           trail.fade = 1.0;
           trails.push_back(trail);
         }
