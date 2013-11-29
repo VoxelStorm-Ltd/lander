@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 //#include "screenshotstorm.h"
@@ -33,6 +34,7 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
     case GLFW_KEY_ESCAPE:         // escape to quit
       //keeprunning = false;
       //std::cout << "Stop requested..." << std::endl;
+      _Exit(EXIT_SUCCESS);
       break;
     default:
       break;

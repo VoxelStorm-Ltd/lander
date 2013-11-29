@@ -44,6 +44,13 @@ public:
   virtual void update_state(double time, double deltatime);
   void update_gm();
 
+  // render
+  virtual void render_diagram(double scale, bool labels = false);
+  virtual void render_visible();
+  virtual void render_radio();
+  virtual void render_infrared();
+  virtual void render_ultraviolet();
+
   // collisions
   virtual Vector3d get_collision(    Vector3d const &absolute_coords);
   virtual Vector3d get_collision_rel(Vector3d const &relative_coords);

@@ -83,16 +83,16 @@ void mainloop() {   /// the main rendering loop
     glOrtho(0.0, windowwidth, windowheight, 0.0, -14060000000000.0, 14060000000000.0);   // heliopause ~= 1.406 * 10^13
     glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
     glScaled(scale, scale, scale);                                  // zoom
-    //glRotated(45.0, 1.0, 0.0, 0.0);
+    //glRotated(-45.0, 1.0, 0.0, 0.0);                                // tilt projection plane
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     // translate us to the camera's viewpoint
     //glRotated(freecam->pitch, 1.0, 0.0, 0.0);
     //glRotated(freecam->yaw,   0.0, 1.0, 0.0);
+    glRotated(-45.0, 1.0, 0.0, 0.0);
     glTranslated(-player->position.x,
                  -player->position.y,
-                 0.0);
-    //glRotated(45.0, 1.0, 0.0, 0.0);
+                 -player->position.z);
 
     // trails
     glBegin(GL_POINTS);
@@ -157,31 +157,7 @@ void mainloop() {   /// the main rendering loop
         }
       }
 
-      // draw a circle at the radius
-      double thisradius = it->get_radius();
-      //double thisradius = it->get_radius() * 10;    // exaggerate the radius
-      if(thisradius * scale < 1) {
-        thisradius = 1 / scale;
-      }
-      glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-      glBegin(GL_LINE_LOOP);
-      for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-        Vector3d circle_edge = point;
-        circle_edge.x += sin(angle) * thisradius;
-        circle_edge.y += cos(angle) * thisradius;
-        glVertex3dv(circle_edge);
-      }
-      glEnd();
-      glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));
-      glBegin(GL_LINES);
-      for(double angle = 0.0; angle <= M_PI * 2; angle += M_PI / 16) {
-        Vector3d circle_edge = point;
-        circle_edge.x += sin(angle) * (thisradius + 400000);
-        circle_edge.y += cos(angle) * (thisradius + 400000);
-        glVertex3dv(circle_edge);
-      }
-      glEnd();
-
+      it->render_diagram(scale);
     }
 
     // auto scale
