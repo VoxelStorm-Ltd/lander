@@ -1085,10 +1085,12 @@
 		</Compiler>
 		<Unit filename="astronaut.cpp" />
 		<Unit filename="astronaut.h" />
+		<Unit filename="astronaut_render.cpp" />
 		<Unit filename="blackhole.cpp" />
 		<Unit filename="blackhole.h" />
 		<Unit filename="body.cpp" />
 		<Unit filename="body.h" />
+		<Unit filename="body_render.cpp" />
 		<Unit filename="init_graphics.cpp" />
 		<Unit filename="init_universe.cpp" />
 		<Unit filename="input/callback_key.cpp" />
@@ -1113,6 +1115,7 @@
 		<Unit filename="physicsbody.h" />
 		<Unit filename="planet.cpp" />
 		<Unit filename="planet.h" />
+		<Unit filename="planet_render.cpp" />
 		<Unit filename="platform_defines.h" />
 		<Unit filename="pulsar.cpp" />
 		<Unit filename="pulsar.h" />
@@ -1122,6 +1125,7 @@
 		<Unit filename="spacecraft.h" />
 		<Unit filename="star.cpp" />
 		<Unit filename="star.h" />
+		<Unit filename="star_render.cpp" />
 		<Unit filename="starsystem.cpp" />
 		<Unit filename="starsystem.h" />
 		<Unit filename="universe.cpp" />
