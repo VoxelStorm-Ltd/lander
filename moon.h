@@ -1,0 +1,17 @@
+#ifndef MOON_H_INCLUDED
+#define MOON_H_INCLUDED
+
+#include "planet.h"
+
+class moon : public planet {
+  /// A natural satellite of another planet
+public:
+  moon();
+  ~moon();
+
+  // getters and setters
+  virtual double get_mass();
+  virtual double get_radius();
+};
+
+#endif // MOON_H_INCLUDED

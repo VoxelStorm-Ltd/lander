@@ -3,6 +3,7 @@
 pulsar::pulsar()
   : period(0.0) {
   /// Default constructor
+  random_reset();
   period = get_random_double(0.5, 8.0);
 }
 

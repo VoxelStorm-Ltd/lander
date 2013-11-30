@@ -5,7 +5,9 @@
 #include "starsystem.h"
 #include "star.h"
 #include "planet.h"
+#include "moon.h"
 #include "astronaut.h"
+#include "spacecraft.h"
 
 universe extern root;
 astronaut extern *player;
@@ -26,29 +28,24 @@ void init_universe() {
   solarsystem->bodies.push_front(sun);
   solarsystem->primary = sun;
 
-  // H = Mercury (Hermes)
-  // V = Venus
-  // E = Earth
-  // M = Mars
-  // J = Jupiter
-  // S = Saturn
-  // U = Uranus
-  // N = Neptune
+  auto *mercury = new planet;
+  mercury->set_name("Mercury");
+  mercury->set_designation("H");                              // aka Hermes
+  mercury->set_mass(330220000000000000000000.0);              // 3.3022 * 10^23 kg
+  mercury->set_radius(2439700.0);                             // 2439.7 km
+  mercury->parent = sun;
+  mercury->orbit.semimajor_axis     = 57909100000.0;
+  solarsystem->bodies.push_front(mercury);
 
   auto *venus = new planet;
   venus->set_name("Venus");
   venus->set_designation("V");
   venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
   venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
-  venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
-  venus->velocity.x = 35000.0;                              // 35000 m/s
+  //venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
+  //venus->velocity.x = 35000.0;                              // 35000 m/s
   venus->parent = sun;
   venus->orbit.semimajor_axis     = 108208000000.0;
-  venus->orbit.eccentricity       = 0.0;                // not actually correct
-  venus->orbit.inclination        = 0.0;                // not actually correct
-  venus->orbit.longitude_asc_node = 0.0;                // not actually correct
-  venus->orbit.argument_periapsis = 0.0;                // not actually correct
-  venus->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
   solarsystem->bodies.push_front(venus);
 
   auto *earth = new planet;
@@ -75,41 +72,80 @@ void init_universe() {
   earth->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
   solarsystem->bodies.push_front(earth);
 
-  auto *moon = new planet;
-  moon->set_name("Moon");
-  moon->set_designation("Luna");
-  moon->set_mass(73477000000000000000000.0);               // 7.3477 * 10^22 kg
-  moon->set_radius(1738140.0);                             // 1738.14km
-  moon->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
-  moon->parent = earth;
-  moon->orbit.semimajor_axis     = 384399000.0;
-  moon->orbit.eccentricity       = 0.0;                // not actually correct
-  moon->orbit.inclination        = 0.0;                // not actually correct
-  moon->orbit.longitude_asc_node = 0.0;                // not actually correct
-  moon->orbit.argument_periapsis = 0.0;                // not actually correct
-  moon->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
-  solarsystem->bodies.push_front(moon);
+  auto *luna = new moon;
+  luna->set_name("Moon");
+  luna->set_designation("Luna");
+  luna->set_mass(73477000000000000000000.0);               // 7.3477 * 10^22 kg
+  luna->set_radius(1738140.0);                             // 1738.14km
+  luna->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
+  luna->parent = earth;
+  luna->orbit.semimajor_axis     = 384399000.0;
+  solarsystem->bodies.push_front(luna);
 
+  auto *mars = new planet;
+  mars->set_name("Mars");
+  mars->set_designation("M");
+  mars->set_mass(641850000000000000000000.0);              // 6.4185 * 10^23 kg
+  mars->set_radius(3396200.0);                             // 3396.2 km
+  mars->parent = sun;
+  mars->orbit.semimajor_axis = 227939100000.0;
+  solarsystem->bodies.push_front(mars);
+
+  auto *jupiter = new planet;
+  jupiter->set_name("Jupiter");
+  jupiter->set_designation("J");
+  jupiter->set_mass(1898600000000000000000000000.0);       // 1.8986 * 10^27 kg
+  jupiter->set_radius(71492000.0);                         // 71492 km
+  jupiter->parent = sun;
+  jupiter->orbit.semimajor_axis = 778547200000.0;
+  solarsystem->bodies.push_front(jupiter);
+
+  auto *saturn = new planet;
+  saturn->set_name("Saturn");
+  saturn->set_designation("S");
+  saturn->set_mass(568460000000000000000000000.0);        // 5.6846 * 10^26 kg
+  saturn->set_radius(60268000.0);                         // 60268 km
+  saturn->parent = sun;
+  saturn->orbit.semimajor_axis = 1433449370000.0;
+  solarsystem->bodies.push_front(saturn);
+
+  auto *uranus = new planet;
+  uranus->set_name("Uranus");
+  uranus->set_designation("U");
+  uranus->set_mass(86810000000000000000000000.0);         // 18.6810 * 10^25 kg
+  uranus->set_radius(25559000.0);                         // 25559 km
+  uranus->parent = sun;
+  uranus->orbit.semimajor_axis = 2876679082000.0;
+  solarsystem->bodies.push_front(uranus);
+
+  auto *neptune = new planet;
+  neptune->set_name("Neptune");
+  neptune->set_designation("N");
+  neptune->set_mass(102430000000000000000000000.0);        // 1.0243 * 10^26 kg
+  neptune->set_radius(24764000.0);                         // 24764 km
+  neptune->parent = sun;
+  neptune->orbit.semimajor_axis = 4503443661000.0;
+  solarsystem->bodies.push_front(neptune);
 
   for(auto &it : solarsystem->bodies) {
     it->update_state(-2.0, 1.0);         // fill in back-history for the solar system to get an accurate velocity at t=0
     it->update_state(-1.0, 1.0);
   }
 
-  player = new astronaut;
-  player->set_name("Commander Jameson");
-  //player->position = earth->position + Vector3d(0.0, earth->get_radius(), 0.0);
-  player->position = earth->position + Vector3d(0.0, 0.0, earth->get_radius());
-  player->velocity = earth->velocity;
-  player->velocity.x += 7909.305;
-  player->spin = earth->spin;
-  player->state = astronaut::statetype::SURFACE;
-  player->walking_on = (planet*)earth;
-  root.astronauts.push_front(player);
-  solarsystem->bodies.push_front(player);
+  astronaut *groundguy = new astronaut;
+  groundguy->set_name("Usain Bolt");        // travelling at escape velocity, innit
+  groundguy->position = earth->position + Vector3d(0.0, 0.0, earth->get_radius());
+  groundguy->velocity = earth->velocity;
+  groundguy->velocity.x += 7909.305;
+  groundguy->spin = earth->spin;
+  groundguy->state = astronaut::statetype::SURFACE;
+  groundguy->walking_on = (planet*)earth;
+  root.astronauts.push_front(groundguy);
+  solarsystem->bodies.push_front(groundguy);
 
   astronaut *player2 = new astronaut;
-  player2->set_name("Rapid Space Dude");
+  player2->set_name("Major Tom");
+  player2->state = astronaut::statetype::EVA;
   // two ways of doing the conversion:
   //double height = boost::units::quantity<boost::units::si::length>(100.0 * boost::units::imperial::mile_base_unit::unit_type()) / boost::units::si::meter;
   double height = 100.0 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
@@ -118,10 +154,19 @@ void init_universe() {
   //player2->velocity.x += 100000000.0 / 3600 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
   player2->velocity.x += 10000;
   player2->spin = earth->spin;
-  player2->state = astronaut::statetype::SURFACE;
+  player2->state = astronaut::statetype::EVA;
   player2->walking_on = earth;
   root.astronauts.push_front(player2);
   solarsystem->bodies.push_front(player2);
+
+  player = new astronaut;
+  player->set_name("Commander Jameson");
+  root.astronauts.push_front(player);
+
+  spacecraft *playership = new spacecraft;
+  playership->set_name("Cobra Mk3");
+  solarsystem->bodies.push_front(playership);
+  player->enter_ship(playership);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
@@ -130,12 +175,29 @@ void init_universe() {
   std::cout << "Earth is at " << earth->position << std::endl;
 
   for(auto const &it : root.astronauts) {
-    std::cout << "  Astronaut " << it->get_name() << " is standing on " << it->walking_on->get_name() << std::endl;
+    std::cout << "  Astronaut " << it->get_name();
+    switch(it->state) {
+    case astronaut::statetype::IN_VESSEL:
+      std::cout << " is aboard " << it->vessel_in->get_name() << " (" << it->vessel_in->get_designation() << ")" << std::endl;
+      break;
+    case astronaut::statetype::SURFACE:
+      std::cout << " is standing on " << it->walking_on->get_name() << std::endl;
+      break;
+    case astronaut::statetype::EVA:
+      std::cout << " is floating in space" << std::endl;
+      break;
+    case astronaut::statetype::ATMOSPHERIC:
+      std::cout << " is falling through an atmosphere over " << it->walking_on->get_name() << std::endl;
+      std::cout << "    above the surface by " << Vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
+      std::cout << "    feeling gravitational acceleration " << it->walking_on->get_gravity_accel(it->position, it->velocity) << "m/s^2" << std::endl;
+      break;
+    default:
+      std::cout << std::endl;
+      break;
+    }
     std::cout << "    at            " << it->position << std::endl;
     std::cout << "    travelling at " << it->velocity << std::endl;
     //std::cout << "    spinning at   " << it->spin << std::endl;
-    std::cout << "    above the surface by " << Vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
-    std::cout << "    feeling gravitational acceleration " << it->walking_on->get_gravity_accel(it->position, it->velocity) << "m/s^2" << std::endl;
   }
 
   std::cout << "ORBIT: earth's periapsis      " << earth->get_periapsis() << std::endl;

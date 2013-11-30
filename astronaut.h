@@ -11,7 +11,7 @@ class astronaut : public physicsbody {
 public:
   enum class statetype : char {
     INACTIVE    = 0,              // "just ignore me"
-    IN_VESSEL   = 1,              // normal state - inside a spacecraft
+    IN_VESSEL   = 1,              // normal state - inside a spacecraft, position and velocity are relative to cockpit
     EVA         = 2,              // outside a spacecraft, not in atmosphere
     ATMOSPHERIC = 3,              // outside a spacecraft, in an atmosphere
     SURFACE     = 4,              // outside a spacecraft, walking around on a planet
@@ -27,15 +27,19 @@ public:
   ~astronaut();
 
   // getters and setters
-  virtual double get_mass();
-  virtual double get_radius();
+  double get_mass();
+  double get_radius();
+  // state changes
+  void enter_ship(spacecraft *ship);
+  void exit_ship();
+  void kill();
 
   // render
-  virtual void render_diagram(double scale, bool labels = false);
-  virtual void render_visible();
-  virtual void render_radio();
-  virtual void render_infrared();
-  virtual void render_ultraviolet();
+  void render_diagram(double scale, bool labels = false);
+  void render_visible();
+  void render_radio();
+  void render_infrared();
+  void render_ultraviolet();
 };
 
 #endif // ASTRONAUT_H_INCLUDED

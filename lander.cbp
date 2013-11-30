@@ -1108,6 +1108,8 @@
 		<Unit filename="integrator_rungekuttafehlberg54.cpp" />
 		<Unit filename="integrator_rungekuttafehlberg54.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="moon.cpp" />
+		<Unit filename="moon.h" />
 		<Unit filename="neutronstar.cpp" />
 		<Unit filename="neutronstar.h" />
 		<Unit filename="object concept.txt" />

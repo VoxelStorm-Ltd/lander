@@ -1,4 +1,5 @@
 #include "astronaut.h"
+#include "spacecraft.h"
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),
@@ -33,4 +34,31 @@ double astronaut::get_radius() {
     double const height = (((nakedmass - 60.0) / (90.0 - 60.0) * (1.84 - 1.65)) + 1.65);
     return height / 2;
   }
+}
+
+void astronaut::enter_ship(spacecraft *ship) {
+  /// Put the astronaut in the specified ship
+  state = statetype::IN_VESSEL;
+  vessel_in = ship;
+  walking_on = nullptr;
+  position.assign();      // clear - assign defaults to 0
+  velocity.assign();
+}
+
+void astronaut::exit_ship() {
+  /// Exit the current ship, if any
+  if(state != statetype::IN_VESSEL) {
+    std::cout << "WARNING: astronaut " << get_name() << " told to exit ship while not in one, state is " << static_cast<int>(state) << std::endl;
+    return;
+  }
+  position = vessel_in->position;
+  velocity = vessel_in->velocity;
+  vessel_in = nullptr;
+  // TODO: decide if we're on the ground or in space or what
+  state = statetype::EVA;
+}
+
+void astronaut::kill() {
+  /// Kill this astronaut, and perform whatever consequences are required
+  state = statetype::DEAD;
 }
