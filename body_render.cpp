@@ -37,21 +37,24 @@ void body::render_diagram(double scale, bool labels) {
   }
   glEnd();
 
-  // restore rotation
-  glPopMatrix();
+  glPopMatrix();                            // restore position & rotation
 }
+
 void body::render_visible() {
   /// Render in the visible spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void body::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void body::render_infrared() {
   /// Render in the infrared spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void body::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;

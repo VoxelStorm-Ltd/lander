@@ -8,6 +8,7 @@
 #include "starsystem.h"
 #include "planet.h"
 #include "astronaut.h"
+#include "spacecraft.h"
 
 // globals
 bool keeprunning = true;
@@ -93,9 +94,9 @@ void mainloop() {   /// the main rendering loop
     // translate and rotate us to the camera's viewpoint
     glRotated(-45, 1.0, 0.0, 0.0);
     //glRotated(45.0, 0.0, 1.0, 0.0);
-    glTranslated(-player->position.x,
-                 -player->position.y,
-                 -player->position.z);
+    glTranslated(-player->vessel_in->position.x,
+                 -player->vessel_in->position.y,
+                 -player->vessel_in->position.z);
 
     // trails
     glBegin(GL_POINTS);

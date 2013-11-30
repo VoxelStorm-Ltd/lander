@@ -6,8 +6,8 @@ astronaut::astronaut()
     vessel_in(nullptr),
     walking_on(nullptr) {
   /// Default constructor
-  set_mass(0.0);         // average weight 70kg + spacesuit 10kg
-  set_radius(0.0);      // average height * average centre of gravity ratio
+  set_mass(0.0);
+  set_radius(0.0);
 }
 
 astronaut::~astronaut() {
@@ -27,12 +27,12 @@ double astronaut::get_radius() {
   if(radius != 0.0) {
     return radius;
   } else {
-    // take a guess at radius (aka half height) based on human mass
+    // take a guess at radius (aka half height) based on human mass ~ 70kg
     // assume spacesuit weighs 10kg
     double const nakedmass = get_mass() - 10.0;
     // adjust range 60kg to 1.65m and 90kg to 1.84m
     double const height = (((nakedmass - 60.0) / (90.0 - 60.0) * (1.84 - 1.65)) + 1.65);
-    return height / 2;
+    return height * 0.550;   // average height * average centre of gravity ratio
   }
 }
 

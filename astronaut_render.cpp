@@ -5,6 +5,11 @@
 
 void astronaut::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
+  // only render in EVA mode
+  if(state != statetype::EVA) {
+    return;
+  }
+
   glPushMatrix();
   // move into position
   glTranslated(position.x, position.y, position.z);
@@ -46,21 +51,24 @@ void astronaut::render_diagram(double scale, bool labels) {
   glVertex3d( thisradius, -thisradius, 0.0);
   glEnd();
 
-  // restore rotation
-  glPopMatrix();
+  glPopMatrix();                            // restore position & rotation
 }
+
 void astronaut::render_visible() {
   /// Render in the visible spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void astronaut::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void astronaut::render_infrared() {
   /// Render in the infrared spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void astronaut::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
