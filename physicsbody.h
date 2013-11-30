@@ -4,9 +4,11 @@
 #include "body.h"
 //#include "integrator_euler.h"
 #include "integrator_rungekutta4.h"
+//#include "integrator_rungekuttafehlberg54.h"
 
 //class physicsbody : public body, public integrator_euler {
 class physicsbody : public body, public integrator_rungekutta4 {
+//class physicsbody : public body, public integrator_rungekuttafehlberg54 {
   /// A body that follows integrated n-body physics
 public:
   physicsbody();

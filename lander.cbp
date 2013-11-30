@@ -1105,6 +1105,8 @@
 		<Unit filename="integrator_euler.h" />
 		<Unit filename="integrator_rungekutta4.cpp" />
 		<Unit filename="integrator_rungekutta4.h" />
+		<Unit filename="integrator_rungekuttafehlberg54.cpp" />
+		<Unit filename="integrator_rungekuttafehlberg54.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="neutronstar.cpp" />
 		<Unit filename="neutronstar.h" />
