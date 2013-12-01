@@ -82,6 +82,11 @@ void body::set_radius(double newradius) {
   radius = newradius;
 }
 
+double body::get_kinetic_energy() {
+  /// Return the kinetic energy of this body in Joules
+  return 0.5 * get_mass() * velocity.length() * velocity.length();
+}
+
 void body::update_state(double time __attribute__((__unused__)), double deltatime) {
   /// Re-calculate current velocity and position based on orbital data
   // by default bodies just maintain momentum

@@ -40,6 +40,7 @@ public:
   virtual void set_mass(double newmass);
   virtual double get_radius();
   virtual void set_radius(double newradius);
+  virtual double get_kinetic_energy();
   virtual bool check_within_physical_influence(Vector3d const &absolute_coords);
   virtual bool check_within_physical_influence_rel(Vector3d const &relative_coords);
   virtual bool check_within_physical_influence_rel(double thisradius);

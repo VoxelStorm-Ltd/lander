@@ -57,8 +57,25 @@ void spacecraft::update_state(double time, double deltatime) {
 
       if(velocity_delta_mag > 22) {   // ~50mph
         std::cout << "INFO: " << get_name() << " collided with " << it->get_name() << " at a fatal " << velocity_delta_mag << "m/s" << std::endl;
-        exit(0);
+        // if the ship was destroyed, give a snide message relating to the kinetic energy and collateral damage
+        double const ke = 0.5 * get_mass() * velocity_delta_mag * velocity_delta_mag;
+        root.make_explosion(position, ke);
       }
     }
+  }
+}
+
+void spacecraft::destroy() {
+  /// Blow up or otherwise annihilate a ship destructively
+  // every system is destroyed
+  for(auto &it : devices) {
+    it->destroy();
+    delete it;
+    it = nullptr;
+  }
+  devices.remove(nullptr);
+  // everybody on board dies
+  for(auto const &it : occupants) {
+    it->kill();
   }
 }

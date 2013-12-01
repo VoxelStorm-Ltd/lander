@@ -1,6 +1,8 @@
 #include "astronaut.h"
 #include "spacecraft.h"
 
+extern astronaut *player;
+
 astronaut::astronaut()
   : state(statetype::INACTIVE),
     vessel_in(nullptr),
@@ -43,6 +45,7 @@ void astronaut::enter_ship(spacecraft *ship) {
   walking_on = nullptr;
   position.assign();      // clear - assign defaults to 0
   velocity.assign();
+  vessel_in->occupants.push_back(this);
 }
 
 void astronaut::exit_ship() {
@@ -53,6 +56,7 @@ void astronaut::exit_ship() {
   }
   position = vessel_in->position;
   velocity = vessel_in->velocity;
+  vessel_in->occupants.remove(this);
   vessel_in = nullptr;
   // TODO: decide if we're on the ground or in space or what
   state = statetype::EVA;
@@ -61,4 +65,9 @@ void astronaut::exit_ship() {
 void astronaut::kill() {
   /// Kill this astronaut, and perform whatever consequences are required
   state = statetype::DEAD;
+  // check if it's the player
+  if(this == player) {
+    std::cout << "Congratulations!  You died." << std::endl;
+    exit(0);
+  }
 }

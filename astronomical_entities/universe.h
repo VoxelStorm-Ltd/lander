@@ -3,6 +3,8 @@
 
 #include <forward_list>
 #include <vector>
+#include "vmath.h"
+
 class astronaut;
 class starsystem;
 class star;
@@ -22,6 +24,9 @@ public:
   ~universe();
 
   void render();
+
+  void make_explosion(Vector3d coords, double energy);
+  void destroy_range( Vector3d coords, double range);
 };
 
 #endif // UNIVERSE_H_INCLUDED

@@ -14,13 +14,6 @@ void astronaut::render_diagram(double scale, bool labels) {
   // move into position
   glTranslated(position.x, position.y, position.z);
 
-  // target vector
-  glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
-  glBegin(GL_LINES);
-  glVertex3d(0.0, 0.0, 0.0);
-  glVertex3dv(target * 1000000);
-  glEnd();
-
   // undo rotation - billboard effect
   Matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);

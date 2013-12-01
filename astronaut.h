@@ -21,8 +21,6 @@ public:
   spacecraft *vessel_in;
   planet *walking_on;
 
-  Vector3d target;
-
   astronaut();
   ~astronaut();
 
