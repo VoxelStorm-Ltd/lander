@@ -23,17 +23,19 @@ public:
   device();
   ~device();
 
-  virtual std::string get_name();
-  virtual std::string get_description();
+  virtual std::string  get_name();
+  virtual std::string  get_description();
   virtual unsigned int get_port_in_count();
-  virtual std::string get_port_in_name(        unsigned int port);
-  virtual std::string get_port_in_description( unsigned int port);
-  virtual bool get_port_in_required(           unsigned int port);
+  virtual std::string  get_port_in_name(        unsigned int port);
+  virtual std::string  get_port_in_description( unsigned int port);
+  virtual bool         get_port_in_required(    unsigned int port);
+  virtual std::string  get_port_in_connstatus(  unsigned int port);
   virtual unsigned int get_port_out_count();
-  virtual std::string get_port_out_name(       unsigned int port);
-  virtual std::string get_port_out_description(unsigned int port);
-  virtual double query_port(                   unsigned int port);
+  virtual std::string  get_port_out_name(       unsigned int port);
+  virtual std::string  get_port_out_description(unsigned int port);
+  virtual double       get_port_out_data(       unsigned int port);
   virtual void update();
+
 };
 
 #endif // DEVICE_H_INCLUDED

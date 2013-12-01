@@ -51,15 +51,7 @@ std::string altimeter::get_port_in_description(unsigned int port) {
     {
       std::stringstream desc;
       desc << "A numerical reading of the static pressure outside the vessel, in Pa (N/m2).";
-      if(ports_in[port].target) {
-        desc << "  Connected to \"" << ports_in[port].target->get_port_out_name(ports_in[port].target_port)
-             << "\" port of " << ports_in[port].target->get_name() << ".";
-      } else {
-        desc << "  Not connected.";
-      }
-      if(get_port_in_required(port)) {
-        desc << "  Connection required for correct operation.";
-      }
+      desc << "  " << get_port_in_connstatus(port);
       return desc.str();
     }
   default:
@@ -80,7 +72,7 @@ void altimeter::update() {
     altitude = 0.0;
     return;
   }
-  double pressure = ports_in[0].target->query_port(ports_in[0].target_port);
+  double pressure = ports_in[0].target->get_port_out_data(ports_in[0].target_port);
 
   if(pressure == 0.0) {
     altitude = 0.0;
