@@ -18,7 +18,7 @@ spacecraft::~spacecraft() {
   /// Default destructor
 }
 
-std::string body::get_name() {
+std::string spacecraft::get_name() {
   if(name.size() != 0) {
     return name;
   } else {
@@ -30,7 +30,7 @@ std::string body::get_name() {
   }
 }
 
-std::string body::get_designation() {
+std::string spacecraft::get_designation() {
   if(designation.size() != 0) {
     return designation;
   } else {
@@ -46,11 +46,11 @@ std::string body::get_designation() {
   }
 }
 
-std::string body::get_description() {
+std::string spacecraft::get_description() {
   return description;
 }
 
-double body::get_mass() {
+double spacecraft::get_mass() {
   if(mass != 0.0) {
     return mass;
   } else {
@@ -60,7 +60,7 @@ double body::get_mass() {
   }
 }
 
-double body::get_radius() {
+double spacecraft::get_radius() {
   if(radius != 0.0) {
     return radius;
   } else {

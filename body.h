@@ -27,7 +27,7 @@ public:
   Quatd spin;                 // per second, absolute
 
   body();
-  ~body();
+  virtual ~body();
 
   // getters and setters
   virtual std::string get_name();

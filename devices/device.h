@@ -28,7 +28,7 @@ public:
   bool functional;                      // whether it's currently working
 
   device();
-  ~device();
+  virtual ~device();
 
   virtual std::string  get_name();
   virtual std::string  get_description();
