@@ -18,6 +18,62 @@ spacecraft::~spacecraft() {
   /// Default destructor
 }
 
+std::string body::get_name() {
+  if(name.size() != 0) {
+    return name;
+  } else {
+    // random ship name
+    random_reset();                                 // reset the generator to its seed
+    std::stringstream randomname;
+    randomname << get_random_name_ancient() << " Mk" << get_random_uint(1, 5);
+    return randomname.str();
+  }
+}
+
+std::string body::get_designation() {
+  if(designation.size() != 0) {
+    return designation;
+  } else {
+    // generate a random elite-style ship registration or star trek NCC-1701
+    random_reset();                                 // reset the generator to its seed
+    std::stringstream designation;
+    designation << get_random_char_alpha_upper()
+                << get_random_char_alpha_upper()
+                << get_random_char_alpha_upper()
+                << "-"
+                << get_random_uint(1000, 9999);
+    return designation.str();
+  }
+}
+
+std::string body::get_description() {
+  return description;
+}
+
+double body::get_mass() {
+  if(mass != 0.0) {
+    return mass;
+  } else {
+    // no mass assigned, make a guess for a lander type vessel, 1 to 3x the mass of the apollo 11
+    random_reset();
+    return get_random_double(15000000.0, 45000000.0);  // averaging 650 tons +- 50%
+  }
+}
+
+double body::get_radius() {
+  if(radius != 0.0) {
+    return radius;
+  } else {
+    // make up a radius for this based on what's likely for the mass
+    // i.e. 253 Mathilde = 10330000000000000kg (1.033 * 10^17), radius ~= 25000m
+    // assuming volume as sphere ~= 4/3 PI * r^3 ~= 65449846949787m^3
+    // asteroid density = mass / volume ~= 157.83
+    // inverse = 0.00633
+    double const volume = get_mass() * 0.00633;
+    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);     // radius from volume of sphere
+  }
+}
+
 double spacecraft::get_temperature_hull() {
   /// Calculate and return the (average) hull temperature
   return temperature_hull;

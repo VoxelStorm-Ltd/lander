@@ -30,6 +30,6 @@ void pollcontrols(GLFWwindow *thiswindow) {
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
     player->vessel_in->velocity += player->vessel_in->target;
-    std::cout << "Applying delta V " << player->vessel_in->target.length() << "m/s^2" << std::endl;
+    //std::cout << "Applying delta V " << player->vessel_in->target.length() << "m/s^2" << std::endl;
   }
 }
