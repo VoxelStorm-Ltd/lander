@@ -124,6 +124,39 @@ universe
 
 
 
+Connection
+  target device pointer
+  target output port number
+    sensor / device output port
+      string name  ("Core Temperature")
+      string description ("The temperature reading at the core of the engine")
+      double value (400.0)
+  target local input port number
+    instrument input port
+      string name  ("Dial gauge")
+      string description ("A clock face reading from 0 to the set scale limit")
+
+Operator devices
+  add
+    in port 1 - lhs
+    in port 2 - rhs
+    out port 1 - result
+  sub
+  mul
+  div
+  rate_of_change (may be implemented with sub and timed updates)
+  equal
+  greater
+  greater_equal
+  less
+  less_equal
+  and
+  or
+  nand
+  nor
+  xor
+
+
 Orbital elements:
   line 1
     epoch		Epoch (Day of the year and fractional portion of the day)

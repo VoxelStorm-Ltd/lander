@@ -6,8 +6,8 @@
 void astronaut::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
   // only render in EVA mode
-  if(state != statetype::EVA) {
-    return;
+  if(state == statetype::IN_VESSEL) {
+     return;
   }
 
   glPushMatrix();

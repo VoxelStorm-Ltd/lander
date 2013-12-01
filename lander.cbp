@@ -53,6 +53,10 @@
 					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
 					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
 					<Add option="-DDEBUG_CACHE" />
+					<Add directory="mathematical" />
+					<Add directory="astronomical_entities" />
+					<Add directory="instruments" />
+					<Add directory="devices" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -1088,7 +1092,7 @@
 		<Unit filename="astronaut_render.cpp" />
 		<Unit filename="astronomical_entities/blackhole.cpp" />
 		<Unit filename="astronomical_entities/blackhole.h" />
-		<Unit filename="astronomical_entities/main.cpp" />
+		<Unit filename="astronomical_entities/moon.cpp" />
 		<Unit filename="astronomical_entities/moon.h" />
 		<Unit filename="astronomical_entities/neutronstar.cpp" />
 		<Unit filename="astronomical_entities/neutronstar.h" />
@@ -1111,6 +1115,8 @@
 		<Unit filename="body.cpp" />
 		<Unit filename="body.h" />
 		<Unit filename="body_render.cpp" />
+		<Unit filename="devices/device.cpp" />
+		<Unit filename="devices/device.h" />
 		<Unit filename="init_graphics.cpp" />
 		<Unit filename="init_universe.cpp" />
 		<Unit filename="input/callback_key.cpp" />
@@ -1119,18 +1125,21 @@
 		<Unit filename="input/callback_windowclose.cpp" />
 		<Unit filename="input/callback_windowresize.cpp" />
 		<Unit filename="input/controls.cpp" />
-		<Unit filename="instrument.cpp" />
-		<Unit filename="instrument.h" />
-		<Unit filename="instrument_render.cpp" />
-		<Unit filename="integrator.cpp" />
-		<Unit filename="integrator.h" />
-		<Unit filename="integrator_euler.cpp" />
-		<Unit filename="integrator_euler.h" />
-		<Unit filename="integrator_rungekutta4.cpp" />
-		<Unit filename="integrator_rungekutta4.h" />
-		<Unit filename="integrator_rungekuttafehlberg54.cpp" />
-		<Unit filename="integrator_rungekuttafehlberg54.h" />
+		<Unit filename="instruments/altimeter.cpp" />
+		<Unit filename="instruments/altimeter.h" />
+		<Unit filename="instruments/altimeter_render.cpp" />
+		<Unit filename="instruments/instrument.cpp" />
+		<Unit filename="instruments/instrument.h" />
+		<Unit filename="instruments/instrument_render.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mathematical/integrator.cpp" />
+		<Unit filename="mathematical/integrator.h" />
+		<Unit filename="mathematical/integrator_euler.cpp" />
+		<Unit filename="mathematical/integrator_euler.h" />
+		<Unit filename="mathematical/integrator_rungekutta4.cpp" />
+		<Unit filename="mathematical/integrator_rungekutta4.h" />
+		<Unit filename="mathematical/integrator_rungekuttafehlberg54.cpp" />
+		<Unit filename="mathematical/integrator_rungekuttafehlberg54.h" />
 		<Unit filename="object concept.txt" />
 		<Unit filename="physicsbody.cpp" />
 		<Unit filename="physicsbody.h" />

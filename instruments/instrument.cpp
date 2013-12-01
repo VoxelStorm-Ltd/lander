@@ -8,6 +8,6 @@ instrument::~instrument() {
   /// Default destructor
 }
 
-void instrument::update() {
-  /// Update the readings on this instrument and re-cache new values
-}
+//void instrument::update() {
+//  /// Update the readings on this instrument and re-cache new values
+//}
