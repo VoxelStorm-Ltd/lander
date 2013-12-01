@@ -3,8 +3,11 @@
 
 #include <string>
 #include <vector>
+#include "random_engine.h"
 
-class device {
+class spacecraft;
+
+class device : public random_engine {
 public:
   struct port_in_type {
     //std::string name;                 // short name for what input is expected
@@ -19,6 +22,10 @@ public:
 
   std::vector<port_in_type> ports_in;
   //std::vector<port_out_type> ports_out;
+
+  spacecraft *vessel;                   // what vessel it belongs to
+
+  bool functional;                      // whether it's currently working
 
   device();
   ~device();
@@ -35,6 +42,13 @@ public:
   virtual std::string  get_port_out_description(unsigned int port);
   virtual double       get_port_out_data(       unsigned int port);
   virtual void update();
+
+  virtual void attach(spacecraft *to_vessel);
+  virtual void remove();
+  void connect(unsigned int port_in, device *target, unsigned int target_port_out);
+  void disconnect(unsigned int port_in);
+
+  void destroy();
 
   void describe_to_console();
 };

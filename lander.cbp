@@ -1117,6 +1117,8 @@
 		<Unit filename="body_render.cpp" />
 		<Unit filename="devices/device.cpp" />
 		<Unit filename="devices/device.h" />
+		<Unit filename="devices/sensor_pressure.cpp" />
+		<Unit filename="devices/sensor_pressure.h" />
 		<Unit filename="init_graphics.cpp" />
 		<Unit filename="init_universe.cpp" />
 		<Unit filename="input/callback_key.cpp" />

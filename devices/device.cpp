@@ -1,8 +1,11 @@
 #include "device.h"
 #include <sstream>
 #include <iostream>
+#include "spacecraft.h"
 
-device::device() {
+device::device()
+  : vessel(nullptr),
+    functional(true) {
   /// Default constructor
 }
 
@@ -50,8 +53,13 @@ std::string device::get_port_in_connstatus(unsigned int port) {
   /// Get a verbal description of the connection status of this input port
   std::stringstream desc;
   if(ports_in[port].target) {
-    desc << "Connected to \"" << ports_in[port].target->get_port_out_name(ports_in[port].target_port)
-         << "\" port of " << ports_in[port].target->get_name() << ".";
+    device *target = ports_in[port].target;
+    desc << "Connected to \"" << target->get_port_out_name(ports_in[port].target_port)
+         << "\" port of " << target->get_name();
+    if(!target->functional) {
+      desc << " (not functional)";
+    }
+    desc << ".";
   } else {
     desc << "Not connected";
     if(get_port_in_required(port)) {
@@ -87,21 +95,84 @@ double device::get_port_out_data(unsigned int port __attribute__((__unused__))) 
   return 0.0;
 }
 
+void device::attach(spacecraft *to_vessel) {
+  /// Attach this device to the specified ship
+  if(!to_vessel) {
+    std::cout << "ERROR: tried to attach " << get_name() << " to null vessel." << std::endl;
+    return;
+  }
+  vessel = to_vessel;
+  vessel->devices.push_back(this);
+}
+
+void device::remove() {
+  /// Remove this device from whatever it's attached to
+  if(!vessel) {
+    std::cout << "ERROR: tried to remove " << get_name() << " which is already not attached to anything." << std::endl;
+    return;
+  }
+  vessel = nullptr;
+  // remove it from the list of the vessel's devices
+  //vessel->devices.erase(std::remove(vessel->devices.begin(), vessel->devices.end(), this), vessel->devices.end());
+  vessel->devices.remove(this);
+  // make sure there are no connections dangling to this device
+  for(auto &it : vessel->devices) {
+    for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
+      if(it->ports_in[i].target == this) {
+        it->disconnect(i);
+      }
+    }
+  }
+}
+
+void device::connect(unsigned int port_in, device *target, unsigned int target_port_out) {
+  /// Connect an input port on this device to an output port elsewhere
+  if(port_in >= get_port_in_count()) {
+    std::cout << "ERROR: tried to connect to input port " << port_in << " on device " << get_name() << " which only has " << get_port_in_count() << " ports." << std::endl;
+    return;
+  }
+  if(!target) {
+    std::cout << "ERROR: tried to connect to port on null target." << std::endl;
+    return;
+  }
+  if(target_port_out >= target->get_port_out_count()) {
+    std::cout << "ERROR: tried to connect " << get_name() << " to output port " << target_port_out << " on device " << target->get_name() << " which only has " << target->get_port_out_count() << " ports." << std::endl;
+    return;
+  }
+  ports_in[port_in].target = target;
+  ports_in[port_in].target_port = target_port_out;
+}
+
+void device::disconnect(unsigned int port_in) {
+  /// Disconnect an input port on this device
+  if(port_in >= get_port_in_count()) {
+    std::cout << "ERROR: tried to disconnect input port " << port_in << " on device " << get_name() << " which only has " << get_port_in_count() << " ports." << std::endl;
+    return;
+  }
+  ports_in[port_in].target = nullptr;
+  ports_in[port_in].target_port = 0;
+}
+
 void device::update() {
   /// Update the output states and respond to changes in input
   // virtual placeholder
+}
+
+void device::destroy() {
+  /// Put this device out of commission
+  functional = false;
 }
 
 void device::describe_to_console() {
   /// Dump a vebrose description of this device and all its connections to the console
   std::cout << "*** " << get_name() << " ***" << std::endl;
   std::cout << get_description() << std::endl;
-  std::cout << "Input ports: " << get_port_in_count();
+  std::cout << "Input ports: " << get_port_in_count() << std::endl;
   for(unsigned int i = 0; i != get_port_in_count(); ++i) {
     std::cout << "  " << i + 1 << ": " << get_port_in_name(i) << std::endl;
     std::cout << "    " << get_port_in_description(i) << std::endl;
   }
-  std::cout << "Output ports: " << get_port_out_count();
+  std::cout << "Output ports: " << get_port_out_count() << std::endl;
   for(unsigned int i = 0; i != get_port_out_count(); ++i) {
     std::cout << "  " << i + 1 << ": " << get_port_out_name(i) << std::endl;
     std::cout << "    " << get_port_out_description(i) << std::endl;

@@ -12,6 +12,9 @@ public:
   instrument();
   ~instrument();
 
+  virtual void attach(spacecraft *to_vessel);
+  virtual void remove();
+
   //virtual void update();
   virtual void render();
 };

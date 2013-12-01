@@ -9,6 +9,7 @@
 #include "astronaut.h"
 #include "spacecraft.h"
 #include "altimeter.h"
+#include "sensor_pressure.h"
 
 universe extern root;
 astronaut extern *player;
@@ -172,8 +173,11 @@ void init_universe() {
   playership->velocity = earth->velocity + Vector3d(7710.0, 0.0, 0.0);                          // ~= ISS speed
 
   altimeter *testdevice = new altimeter;
+  sensor_pressure *testdevice2 = new sensor_pressure;
+  testdevice->attach(playership);
+  testdevice2->attach(playership);
+  testdevice->connect(0, testdevice2, 0);
   testdevice->describe_to_console();
-
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

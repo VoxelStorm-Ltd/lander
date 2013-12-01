@@ -1,12 +1,15 @@
 #ifndef SPACECRAFT_H_INCLUDED
 #define SPACECRAFT_H_INCLUDED
 
+#include <list>
 #include "physicsbody.h"
+#include "device.h"
 #include "instrument.h"
 
 class spacecraft : public physicsbody {
 public:
-  std::vector<instrument*> instruments;
+  std::list<device*> devices;
+  std::list<instrument*> instruments;
 
   spacecraft();
   ~spacecraft();

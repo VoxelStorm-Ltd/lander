@@ -17,16 +17,18 @@ altimeter::~altimeter() {
 
 std::string altimeter::get_name() {
   /// Return the name of this device
-  // virtual placeholder
   return "barometric altimeter";
 }
 
 std::string altimeter::get_description() {
   /// Return a detailed description of this device
-  // virtual placeholder
-  return "A simple altimeter that calculates altitude based on static atmospheric pressure."
-         "  Calibrated for use in Earth's atmosphere only."
-         "  Not capable of giving meaningful results outside of an atmosphere.";
+  random_reset();
+  std::stringstream desc;
+  desc << get_random_name_corporation() << " model ALT-100E."
+          "  A simple and inexpensive altimeter that calculates altitude based on static atmospheric pressure."
+          "  Calibrated for use in Earth's atmosphere only."
+          "  Not capable of giving meaningful results outside of an atmosphere.";
+  return desc.str();
 }
 
 unsigned int altimeter::get_port_in_count() {

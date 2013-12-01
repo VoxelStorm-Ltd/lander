@@ -103,6 +103,14 @@ std::string random_engine::get_random_name_ancient() {
   }
 }
 
+std::string random_engine::get_random_name_corporation() {
+  /// Make up a company name
+  std::stringstream name;
+  name << get_random_name_ancient() << " "
+       << corporations[get_random_uint(0, corporations_max)];
+  return name.str();
+}
+
 const char* const random_engine::greeknames[] = {
   // from http://en.wikipedia.org/wiki/Category:Greek_goddesses
   "Aceso",
@@ -674,3 +682,19 @@ char const *const random_engine::neuternames[] = {};
 unsigned int const random_engine::neuternames_max = 0;
 char const *const random_engine::surnames[] = {};
 unsigned int const random_engine::surnames_max = 0;
+
+char const *const random_engine::corporations[] = {
+  "Corporation",
+  "Corp",
+  "Megacorp",
+  "Ltd",
+  "Unlimited",
+  "PLC",
+  "Enterprises",
+  "Partnership",
+  "Industries",
+  "Designs",
+  "Heavy Industries",
+  "Technologies"
+};
+unsigned int const random_engine::corporations_max = 12;
