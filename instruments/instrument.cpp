@@ -33,7 +33,7 @@ void instrument::remove() {
   vessel->devices.remove(this);
   vessel->instruments.remove(this);
   // make sure there are no dangling connections
-  for(auto &it : vessel->devices) {
+  for(auto const &it : vessel->devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target == this) {
         it->disconnect(i);

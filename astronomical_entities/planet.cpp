@@ -1,6 +1,14 @@
 #include "planet.h"
 
-planet::planet() {
+planet::planet()
+  : atmos_molarmass(       0.0),
+    atmos_pressure_base(   0.0),
+    atmos_temperature_base(0.0),
+    //atmos_tropopause(      0.0),
+    //atmos_stratopause(     0.0),
+    //atmos_mesopause(       0.0),
+    atmos_thermopause(     0.0) {
+    //atmos_exopause(        0.0) {
   /// Default constructor
 }
 
@@ -30,3 +38,144 @@ double planet::get_radius() {
     return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);       // radius from volume of sphere
   }
 }
+
+
+bool planet::check_within_physical_influence_rel(double thisradius) {
+  /// Check if we're within range for physical interaction (atmosphere / collision)
+  if(thisradius <= atmos_thermopause ||
+     thisradius <= get_radius()) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+double planet::get_atmos_pressure(double thisradius) {
+  /// Return the atmospheric pressure at this radius from the body
+  // earth pressure = 101325 * ((1 - (altitude * 2.25577 * 10^-5))^5.25588)
+  // see http://www.atmosculator.com/The%20Standard%20Atmosphere.html
+  // and http://web.aeromech.usyd.edu.au/aero/atmosphere/atmosphere.pdf
+  // JS calculator: http://web.aeromech.usyd.edu.au/aero/atmosphere/stdatm.html
+  //if(thisradius < atmos_troposphere) {
+  //  // we're in the troposphere
+  //  // pressure / pressure_sealevel = (temperature / temperature_sealevel)^(grav_acceleration / lapse_rate * gas_constant)
+  //  return pressure_sealevel * pow(temperature / temperature_sealevel, grav_acceleration / lapse_rate * gas_constant);
+  //} else if(thisradius <= atmos_stratosphere) {
+  //  // we're in the stratosphere
+  //  // pressure / pressure_tropopause = exp((g * (altitude_tropopause - altitude)) / (gas_constant * temperature_tropopause))
+  //  return pressure_tropopause * exp((g * (atmos_troposphere - thisradius)) / (gas_constant * temperature_tropopause));
+  //} else if(thisradius <= atmos_mesosphere) {
+  //  // we're in the mesosphere
+  //  // density(in kg/m^3) = 10^(-7 * ((altitude(in km)) / 150))
+  //} else if(thisradius <= atmos_thermosphere) {
+  //  // we're in the thermsophere
+  //  return 0.0;
+  //} else if(thisradius <= atmos_exosphere) {
+  //  // we're in the exosphere
+  //  return 0.0;
+  //} else {
+  //  // we're not in atmosphere at all
+  //  return 0.0;
+  //}
+
+  // simpler formula from http://en.wikipedia.org/wiki/Atmospheric_pressure
+  // pressure = atmos_pressure_base * exp(-(gravity_accel * atmos_molarmass * altitude) / (gas_constant * temperature_sealevel))
+  double const altitude = thisradius - get_radius();
+  return atmos_pressure_base * exp(-(get_gravity_accel_rel(thisradius) * atmos_molarmass * altitude) / (gas_constant * atmos_temperature_base));
+}
+
+double planet::get_atmos_temperature(double thisradius) {
+  /// Return the atmospheric temperature at this radius from the body
+  return 0.0;
+}
+
+
+/*
+function Compute() {
+  double altitude;
+  double velocity;
+  double reference_length;
+
+  double TEMPSL  = 518.67;
+  double RHOSL   = 0.00237689;
+  double PRESSSL = 2116.22;
+  double saTheta = 1.0;
+  double saSigma = 1.0;
+  double saDelta = 1.0;
+
+  double altitude_ft = altitude * 3.2808;
+
+  if(altitude_ft < 232940) {
+    // mesopause = 80km ~= 71km
+    saTheta = 1.434843 - altitude_ft / 337634;
+    saSigma = pow(0.79899  - altitude_ft / 606330, 11.20114);
+    saDelta = pow(0.838263 - altitude_ft / 577922, 12.20114);
+  } else if(altitude_ft < 167323) {
+    // stratopause ~= 51km
+    saTheta = 0.939268;
+    saSigma = 0.00116533 * exp((altitude_ft - 154200) / -25992);
+    saDelta = 0.00109456 * exp((altitude_ft - 154200) / -25992);
+  } else if(altitude_ft < 154199) {
+    // ? = 47km
+    saTheta = 0.482561 + altitude_ft / 337634;
+    saSigma = pow(0.857003 + altitude_ft / 190115, -13.20114);
+    saDelta = pow(0.898309 + altitude_ft / 181373, -12.20114);
+  } else if(altitude_ft < 104987) {
+    // ? = 32km
+    saTheta = 0.682457 + altitude_ft / 945374;
+    saSigma = pow(0.978261 + altitude_ft / 659515, -35.16319);
+    saDelta = pow(0.988626 + altitude_ft / 652600, -34.16319);
+  } else if(altitude_ft < 65617) {
+    // ? = 20km
+    saTheta = 0.751865;
+    saSigma = 0.297076 * exp((36089 - altitude_ft) / 20806);
+    saDelta = 0.223361 * exp((36089 - altitude_ft) / 20806);
+  } else if(altitude_ft < 36089) {
+    // tropopause ~= 11km
+    saTheta = 1.0 - altitude_ft / 145442;
+    saSigma = pow(1.0 - altitude_ft / 145442, 4.255876);
+    saDelta = pow(1.0 - altitude_ft / 145442, 5.255876);
+  } else {
+    saTheta = 0.0;
+    saSigma = 0.0;
+    saDelta = 0.0;
+  }
+
+  double tempVal  = TEMPSL * saTheta;
+  double rhoVal   = RHOSL * saSigma;
+  double pVal     = PRESSSL * saDelta;
+  double viscVal  = 0.0000000226968 * pow(tempVal, 1.5) / ((tempVal) + 198.72);
+  double soundVal = sqrt(1.4 * 1716.56 * (tempVal));
+
+  double machVal  = velocity / soundVal;
+  double qVal     = 0.7 * pVal * machVal * machVal;
+  double reynolds = velocity * reference_length * rhoVal / viscVal;
+  double cfturb   = 0.455 / pow((log(reynolds) / log(10)), 2.58);
+  double cflam    = 1.328 / sqrt(reynolds);
+
+  // unit conversions back to metric
+  tempVal       = tempVal  / 1.8;
+  rhoVal        = rhoVal   / 0.068521 / 0.028317;
+  pVal          = pVal     / 0.020885;
+  soundVal      = soundVal / 3.2808;
+  viscVal       = viscVal  / 0.22481 / 0.092903;
+  qVal          = qVal     / 0.020885;
+
+
+
+  document.forms[2].temp.value   = tempVal;
+  document.forms[2].rho.value    = rhoVal;
+  document.forms[2].press.value  = pVal;
+
+  document.forms[2].ssound.value = soundVal;
+  document.forms[2].visc.value   = viscVal;
+  document.forms[2].mach.value   = machVal;
+  document.forms[2].q.value      = qVal;
+  document.forms[2].cpstar.value = (Math.pow((1 / 1.2 + machVal * machVal / 6.0), 3.5) - 1) / (0.7 * machVal * machVal);
+  document.forms[2].cpmin.value  = -1.0 / (0.7 * machVal * machVal);
+
+  document.forms[2].reno.value   = reynolds;
+  document.forms[2].cfl.value    = cflam;
+  document.forms[2].cft.value    = cfturb;
+}
+*/

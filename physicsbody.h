@@ -15,7 +15,7 @@ public:
   ~physicsbody();
 
   virtual Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
-  void update_state(double t, double dt);
+  virtual void update_state(double t, double dt);
 };
 
 #endif // PHYSICSBODY_H_INCLUDED

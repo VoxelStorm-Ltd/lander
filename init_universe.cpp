@@ -129,7 +129,7 @@ void init_universe() {
   neptune->orbit.semimajor_axis = 4503443661000.0;
   solarsystem->bodies.push_front(neptune);
 
-  for(auto &it : solarsystem->bodies) {
+  for(auto const &it : solarsystem->bodies) {
     it->update_state(-2.0, 1.0);         // fill in back-history for the solar system to get an accurate velocity at t=0
     it->update_state(-1.0, 1.0);
   }

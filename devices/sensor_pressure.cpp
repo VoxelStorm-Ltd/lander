@@ -1,5 +1,12 @@
 #include "sensor_pressure.h"
 #include <sstream>
+#include "vmath.h"
+#include "universe.h"
+#include "starsystem.h"
+#include "orbitalbody.h"
+#include "spacecraft.h"
+
+extern universe root;
 
 sensor_pressure::sensor_pressure()
   : pressure(0.0) {
@@ -54,14 +61,36 @@ void sensor_pressure::update() {
   // work out if we're within the atmosphere of a planet
   // get the pressure at our depth
 
-  // TODO
-  //pressure = thisplanet->get_pressure(position)
-  double const temperature = 200.0;
+  // iterate through every sufficiently significant body
+  orbitalbody *thisbody = nullptr;
+  double distance;
+  for(auto *it : root.currentsystem->bodies) {
+    // only check planets and stars etc
+    thisbody = dynamic_cast<orbitalbody*>(it);
+    if(!thisbody) {
+      continue;
+    }
+    distance = Vector3d(thisbody->position - vessel->position).length();
+    // are we within its sphere of influence?
+    if(thisbody->check_within_physical_influence(distance)) {
+      // break out of the loop on first hit, since we're unlikely to be in two atmospheres at once
+      break;
+    }
+  }
+  if(!thisbody) {
+    // we're not in any planet's sphere of influence
+    pressure = 0.0;
+    return;
+  }
+  pressure                 = thisbody->get_atmos_pressure(   distance);
+  double const temperature = thisbody->get_atmos_temperature(distance) + vessel->get_temperature_hull();
 
   if(pressure > pressurelimit) {
+    std::cout << "INFO: static pressure sensor destroyed by overpressure (" << pressure << "Pa, limit " << pressurelimit << "Pa)" << std::endl;
     destroy();
   }
   if(temperature > temperaturelimit) {
+    std::cout << "INFO: static pressure sensor destroyed by overheating (" << temperature << "K, limit " << temperaturelimit << "K)" << std::endl;
     destroy();
   }
 }

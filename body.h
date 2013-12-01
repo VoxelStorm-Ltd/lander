@@ -16,8 +16,9 @@ protected:
   double radius;              // visual radius
 
 public:
-  double static constexpr gravitational_constant = 0.0000000000667;     // 6.67 * 10^-11 N(m/kg)^2
-  double static constexpr speed_of_light = 299792458;                   // 299,792,458 m/s
+  double static constexpr gravitational_constant = 0.0000000000667;     // G = 6.67 * 10^-11 N(m/kg)^2
+  double static constexpr speed_of_light = 299792458;                   // c = 299,792,458 m/s
+  double static constexpr gas_constant = 8.3144621;                     // R = 8.3144621(75) J/(mol K)
   double gm;                        // GM - standard gravitational parameter, cached
 
   Vector3d position;          // in m, relative to its star system
@@ -39,6 +40,9 @@ public:
   virtual void set_mass(double newmass);
   virtual double get_radius();
   virtual void set_radius(double newradius);
+  virtual bool check_within_physical_influence(Vector3d const &absolute_coords);
+  virtual bool check_within_physical_influence_rel(Vector3d const &relative_coords);
+  virtual bool check_within_physical_influence_rel(double thisradius);
 
   // update
   virtual void update_state(double time, double deltatime);

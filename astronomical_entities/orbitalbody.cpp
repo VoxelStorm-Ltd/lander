@@ -16,6 +16,35 @@ orbitalbody::~orbitalbody() {
   /// Default destructor
 }
 
+std::string orbitalbody::get_description() {
+  /// Return the description of this body
+  if(description.size() != 0) {
+    return description;
+  } else {
+    return "An orbiting body of some kind, perhaps an asteroid, meteorite or planetoid.";
+  }
+}
+
+bool orbitalbody::check_within_physical_influence(double thisradius) {
+  /// Check if we're within range for physical interaction (atmosphere / collision)
+  if(thisradius <= get_radius()) {
+    // assume a rocky body with no atmosphere by default
+    return true;
+  } else {
+    return false;
+  }
+}
+
+double orbitalbody::get_atmos_pressure(double thisradius __attribute__((__unused__))) {
+  /// Return the atmospheric pressure at this radius from the body
+  return 0.0;   // vacuum
+}
+
+double orbitalbody::get_atmos_temperature(double thisradius __attribute__((__unused__))) {
+  /// Return the atmospheric temperature at this radius from the body
+  return 0.0;   // vacuum
+}
+
 void orbitalbody::update_state(double time, double deltatime) {
   /// Re-calculate current velocity and position based on orbital data
   //std::cout << "DEBUG: called update_state on orbitalbody " << name << std::endl;
@@ -37,14 +66,6 @@ void orbitalbody::update_state(double time, double deltatime) {
   position = parent->position + orbitposition;
   velocity = (position - oldposition) / deltatime;
   //std::cout << "Pos: " << position << " vel " << velocity << std::endl;
-}
-
-std::string orbitalbody::get_description() {
-  if(description.size() != 0) {
-    return description;
-  } else {
-    return "An orbiting body of some kind, perhaps an asteroid, meteorite or planetoid.";
-  }
 }
 
 double orbitalbody::get_mean_anomaly(double time) {

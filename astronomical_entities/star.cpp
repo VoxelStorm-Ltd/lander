@@ -11,6 +11,27 @@ star::~star() {
   /// Default destructor
 }
 
+
+//bool orbitalbody::check_within_physical_influence(double thisradius) {
+//  /// Check if we're within range for physical interaction (atmosphere / collision)
+//  if(thisradius <= get_radius()) {
+//    // assume a rocky body with no atmosphere by default
+//    return true;
+//  } else {
+//    return false;
+//  }
+//}
+//
+//bool orbitalbody::get_atmos_pressure(double thisradius) {
+//  /// Return the atmospheric pressure at this radius from the body
+//  return 0.0;   // vacuum
+//}
+//
+//bool orbitalbody::get_atmos_temperature(double thisradius) {
+//  /// Return the atmospheric temperature at this radius from the body
+//  return 0.0;   // vacuum
+//}
+
 double star::get_temperature() {
   /// Surface temperature in kelvin
   // placeholder

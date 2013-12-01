@@ -58,12 +58,12 @@ void mainloop() {   /// the main rendering loop
 
   Vector3d centreoffset = Vector3d(windowwidth / 2.0, windowheight / 2.0, 0.0);
 
-  double dt = 1.0;
+  double deltatime = 1.0;
   //for(;;) {                            // cheap infinite loop
-  for(root.time = 0.0; keeprunning; root.time += dt) {
+  for(root.time = 0.0; keeprunning; root.time += deltatime) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
-      it->update_state(root.time, dt);
+      it->update_state(root.time, deltatime);
     }
     //std::cout << "DEBUG: " << root.time << " : " << Vector3d(player->position - player->walking_on->position).length() - player->walking_on->get_radius() << ", " << (player->velocity - player->walking_on->velocity).length() << "m/s" << std::endl;
     //std::cout << "DEBUG1: " << player->velocity << std::endl;

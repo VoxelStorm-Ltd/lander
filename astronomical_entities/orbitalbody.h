@@ -41,6 +41,9 @@ public:
 
   // getters and setters
   virtual std::string get_description();
+  virtual bool check_within_physical_influence(double thisradius);
+  virtual double get_atmos_pressure(           double thisradius);
+  virtual double get_atmos_temperature(        double thisradius);
 
   // update internal states
   void update_state(double time, double deltatime);

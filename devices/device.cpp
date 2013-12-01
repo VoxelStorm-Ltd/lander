@@ -16,36 +16,38 @@ device::~device() {
 std::string device::get_name() {
   /// Return the name of this device
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "Device";
 }
 
 std::string device::get_description() {
   /// Return a detailed description of this device
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "A device of some sort.  It doesn't appear to do anything.";
 }
 
 unsigned int device::get_port_in_count() {
   /// How many input ports it has
-  // virtual placeholder
   return 0;
 }
 
 std::string device::get_port_in_name(unsigned int port __attribute__((__unused__))) {
   /// Name of the input port numbered n
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "";
 }
 
 std::string device::get_port_in_description(unsigned int port __attribute__((__unused__))) {
   /// Description of the input port numbered n
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "";
 }
 
 bool device::get_port_in_required(unsigned int port __attribute__((__unused__))) {
   /// Whether an input on this port is necessary for this device to operate
-  // virtual placeholder
   return false;
 }
 
@@ -73,25 +75,27 @@ std::string device::get_port_in_connstatus(unsigned int port) {
 
 unsigned int device::get_port_out_count() {
   /// How many output ports it has
-  // virtual placeholder
   return 0;
 }
 
 std::string device::get_port_out_name(unsigned int port __attribute__((__unused__))) {
   /// Name of the output port numbered n
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "";
 }
 
 std::string device::get_port_out_description(unsigned int port __attribute__((__unused__))) {
   /// Description of the output port numbered n
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "";
 }
 
 double device::get_port_out_data(unsigned int port __attribute__((__unused__))) {
   /// Query the data on the specified out port
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return 0.0;
 }
 
@@ -116,7 +120,7 @@ void device::remove() {
   //vessel->devices.erase(std::remove(vessel->devices.begin(), vessel->devices.end(), this), vessel->devices.end());
   vessel->devices.remove(this);
   // make sure there are no connections dangling to this device
-  for(auto &it : vessel->devices) {
+  for(auto const &it : vessel->devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target == this) {
         it->disconnect(i);
@@ -156,6 +160,7 @@ void device::disconnect(unsigned int port_in) {
 void device::update() {
   /// Update the output states and respond to changes in input
   // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
 }
 
 void device::destroy() {

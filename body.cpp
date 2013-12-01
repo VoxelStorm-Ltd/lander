@@ -93,6 +93,34 @@ void body::update_gm() {
   gm = (gravitational_constant * get_mass());
 }
 
+bool body::check_within_physical_influence(Vector3d const &absolute_coords) {
+  /// Check if we're within range for physical interaction (collision etc)
+  return check_within_physical_influence_rel(absolute_coords - position);
+}
+
+bool body::check_within_physical_influence_rel(Vector3d const &relative_coords) {
+  /// Check if we're within range for physical interaction (collision etc) - local version
+  // bounding box version
+  double const thisradius = get_radius();
+  if(abs(relative_coords.x) < thisradius &&
+     abs(relative_coords.y) < thisradius &&
+     abs(relative_coords.z) < thisradius) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool body::check_within_physical_influence_rel(double thisradius) {
+  /// Check if we're within range for physical interaction (collision etc) - local distance
+  if(thisradius <= get_radius()) {
+    // assume a bounding sphere
+    return true;
+  } else {
+    return false;
+  }
+}
+
 Vector3d body::get_collision(Vector3d const &absolute_coords) {
   /// Check for collision relative to the same reference sphere as the object and return the vector of a surface normal or Vector(0, 0, 0) otherwise
   return get_collision_rel(position - absolute_coords);

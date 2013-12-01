@@ -47,7 +47,7 @@ void spacecraft::render_ultraviolet() {
 
 void spacecraft::render_cockpit() {
   /// Render the interior of the cockpit with instruments etc (visible spectrum)
-  for(auto &it : instruments) {
+  for(auto const &it : instruments) {
     it->render();
   }
 }
