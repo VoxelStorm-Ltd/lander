@@ -36,6 +36,7 @@ public:
   virtual double       get_port_out_data(       unsigned int port);
   virtual void update();
 
+  void describe_to_console();
 };
 
 #endif // DEVICE_H_INCLUDED

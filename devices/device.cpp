@@ -1,5 +1,6 @@
 #include "device.h"
 #include <sstream>
+#include <iostream>
 
 device::device() {
   /// Default constructor
@@ -89,4 +90,20 @@ double device::get_port_out_data(unsigned int port __attribute__((__unused__))) 
 void device::update() {
   /// Update the output states and respond to changes in input
   // virtual placeholder
+}
+
+void device::describe_to_console() {
+  /// Dump a vebrose description of this device and all its connections to the console
+  std::cout << "*** " << get_name() << " ***" << std::endl;
+  std::cout << get_description() << std::endl;
+  std::cout << "Input ports: " << get_port_in_count();
+  for(unsigned int i = 0; i != get_port_in_count(); ++i) {
+    std::cout << "  " << i + 1 << ": " << get_port_in_name(i) << std::endl;
+    std::cout << "    " << get_port_in_description(i) << std::endl;
+  }
+  std::cout << "Output ports: " << get_port_out_count();
+  for(unsigned int i = 0; i != get_port_out_count(); ++i) {
+    std::cout << "  " << i + 1 << ": " << get_port_out_name(i) << std::endl;
+    std::cout << "    " << get_port_out_description(i) << std::endl;
+  }
 }
