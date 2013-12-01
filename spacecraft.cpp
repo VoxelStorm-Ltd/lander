@@ -134,4 +134,6 @@ void spacecraft::destroy() {
   for(auto const &it : occupants) {
     it->kill();
   }
+  // remove this ship from the system's list
+  root.currentsystem->bodies.remove(this);
 }

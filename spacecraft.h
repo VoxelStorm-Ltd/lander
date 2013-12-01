@@ -24,6 +24,11 @@ public:
   ~spacecraft();
 
   // getters and setters
+  std::string get_name();
+  std::string get_designation();
+  std::string get_description();
+  double get_mass();
+  double get_radius();
   double get_temperature_hull();
   double get_temperature_cabin();
 

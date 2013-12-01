@@ -68,6 +68,6 @@ void astronaut::kill() {
   // check if it's the player
   if(this == player) {
     std::cout << "Congratulations!  You died." << std::endl;
-    exit(0);
+    //exit(0);
   }
 }

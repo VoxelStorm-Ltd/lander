@@ -20,6 +20,8 @@ int windowheight = 800;
 universe root;
 astronaut *player;
 
+Vector3d cameracentre;
+
 void init_graphics();
 void init_universe();
 
@@ -63,7 +65,9 @@ void mainloop() {   /// the main rendering loop
   for(root.time = 0.0; keeprunning; root.time += deltatime) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
-      it->update_state(root.time, deltatime);
+      if(it) {
+        it->update_state(root.time, deltatime);
+      }
     }
     //std::cout << "DEBUG: " << root.time << " : " << Vector3d(player->position - player->walking_on->position).length() - player->walking_on->get_radius() << ", " << (player->velocity - player->walking_on->velocity).length() << "m/s" << std::endl;
     //std::cout << "DEBUG1: " << player->velocity << std::endl;
@@ -94,9 +98,17 @@ void mainloop() {   /// the main rendering loop
     // translate and rotate us to the camera's viewpoint
     glRotated(-45, 1.0, 0.0, 0.0);
     //glRotated(45.0, 0.0, 1.0, 0.0);
-    glTranslated(-player->vessel_in->position.x,
-                 -player->vessel_in->position.y,
-                 -player->vessel_in->position.z);
+
+    if(player) {
+      if(player->vessel_in) {
+        cameracentre = player->vessel_in->position;
+      } else {
+        cameracentre = player->position;
+      }
+    }
+    glTranslated(-cameracentre.x,
+                 -cameracentre.y,
+                 -cameracentre.z);
 
     // trails
     glBegin(GL_POINTS);
