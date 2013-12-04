@@ -87,12 +87,16 @@ void display::render() {
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);          // unbind the framebuffer
   */
 
+  ///GLuint framebuffer = 0;
+  ///glGenFramebuffers(1, &framebuffer);
+  ///glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+
+  //////////////////////////////////////////////////////////////////////////////
+  // create a texture
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
-  // generate an empty image
-  //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);  // NULL = leave data undefined
-  GLubyte temp_buffer[512][512][3];
   // analogue tv style banded white noise:
+  GLubyte temp_buffer[512][512][3];
   for(unsigned int x = 0; x != 512; ++x) {
     double const band = get_random_double(0.5, 1.0);
     for(unsigned int y = 0; y != 512; ++y) {
@@ -113,11 +117,10 @@ void display::render() {
   // texture parameters
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+  //////////////////////////////////////////////////////////////////////////////
 
 
   glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
@@ -134,6 +137,8 @@ void display::render() {
   glTexCoord2d(0.0, 1.0);
   glVertex3d(0.0,    size.y, size.z);
   glEnd();
+
+  glBindTexture(GL_TEXTURE_2D, 0);                      // unbind the texture
 
   ///// check if we have an input signal
   ///if(ports_in[0].target) {
