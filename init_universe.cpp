@@ -10,6 +10,8 @@
 #include "spacecraft.h"
 #include "altimeter.h"
 #include "sensor_pressure.h"
+#include "display.h"
+#include "mapper_system.h"
 
 universe extern root;
 astronaut extern *player;
@@ -178,6 +180,13 @@ void init_universe() {
   testdevice2->attach(playership);
   testdevice->connect(0, testdevice2, 0);
   testdevice->describe_to_console();
+
+  display *mainmonitor = new display;
+  mapper_system *mainmapper = new mapper_system;
+  mainmonitor->attach(playership);
+  mainmapper->attach(playership);
+  mainmonitor->connect(0, mainmapper, 0);
+  mainmonitor->describe_to_console();
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

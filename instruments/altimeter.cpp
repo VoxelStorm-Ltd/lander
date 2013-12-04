@@ -3,11 +3,7 @@
 altimeter::altimeter()
   : altitude(0.0) {
   /// Default constructor
-  port_in_type const port1 = {
-    nullptr,
-    0
-  };
-  ports_in.push_back(port1);
+  ports_in.resize(get_port_in_count());     // anything with input ports needs this
 }
 
 altimeter::~altimeter() {
@@ -52,8 +48,8 @@ std::string altimeter::get_port_in_description(unsigned int port) {
   case 0:
     {
       std::stringstream desc;
-      desc << "A numerical reading of the static pressure outside the vessel, in Pa (N/m2).";
-      desc << "  " << get_port_in_connstatus(port);
+      desc << "A numerical reading of the static pressure outside the vessel, in Pa (N/m2)."
+              "  " << get_port_in_connstatus(port);
       return desc.str();
     }
   default:

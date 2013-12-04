@@ -1117,6 +1117,8 @@
 		<Unit filename="body_render.cpp" />
 		<Unit filename="devices/device.cpp" />
 		<Unit filename="devices/device.h" />
+		<Unit filename="devices/mapper_system.cpp" />
+		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/sensor_pressure.cpp" />
 		<Unit filename="devices/sensor_pressure.h" />
 		<Unit filename="init_graphics.cpp" />
@@ -1130,6 +1132,9 @@
 		<Unit filename="instruments/altimeter.cpp" />
 		<Unit filename="instruments/altimeter.h" />
 		<Unit filename="instruments/altimeter_render.cpp" />
+		<Unit filename="instruments/display.cpp" />
+		<Unit filename="instruments/display.h" />
+		<Unit filename="instruments/display_render.cpp" />
 		<Unit filename="instruments/instrument.cpp" />
 		<Unit filename="instruments/instrument.h" />
 		<Unit filename="instruments/instrument_render.cpp" />

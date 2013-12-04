@@ -94,9 +94,29 @@ std::string device::get_port_out_description(unsigned int port __attribute__((__
 
 double device::get_port_out_data(unsigned int port __attribute__((__unused__))) {
   /// Query the data on the specified out port
-  // virtual placeholder
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+  // virtual placeholder - this may get called if nothing specialises it
   return 0.0;
+}
+
+void device::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
+  /// Query the data on the specified out port
+  // virtual placeholder - this may get called if nothing specialises it
+  // this gets called if someone connects an analogue video display to a non-video output
+  // TODO: render static
+}
+
+void device::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
+  /// Query the data on the specified out port
+  // virtual placeholder - this may get called if nothing specialises it
+  // this gets called if someone connects a digital video display to a non-video output
+  // TODO: render digital junk
+}
+
+void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
+  /// Query the data on the specified out port
+  // virtual placeholder - this may get called if nothing specialises it
+  // this gets called if someone connects a audio speaker to a non-audio output
+  // TODO: output hissing / buzzing / glitch noises
 }
 
 void device::attach(spacecraft *to_vessel) {
@@ -145,6 +165,8 @@ void device::connect(unsigned int port_in, device *target, unsigned int target_p
   }
   ports_in[port_in].target = target;
   ports_in[port_in].target_port = target_port_out;
+  update();
+  target->update();
 }
 
 void device::disconnect(unsigned int port_in) {
@@ -153,14 +175,16 @@ void device::disconnect(unsigned int port_in) {
     std::cout << "ERROR: tried to disconnect input port " << port_in << " on device " << get_name() << " which only has " << get_port_in_count() << " ports." << std::endl;
     return;
   }
+  device *cachedtarget = ports_in[port_in].target;
   ports_in[port_in].target = nullptr;
   ports_in[port_in].target_port = 0;
+  update();
+  cachedtarget->update();
 }
 
 void device::update() {
   /// Update the output states and respond to changes in input
-  // virtual placeholder
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+  // virtual placeholder - may be called by classes that don't specialise this
 }
 
 void device::destroy() {

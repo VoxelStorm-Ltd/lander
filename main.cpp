@@ -83,6 +83,20 @@ void mainloop() {   /// the main rendering loop
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    if(player) {
+      if(player->vessel_in) {
+        // draw cockpit view of the current ship
+        // cycle through the instruments and render them
+        for(auto const &it : player->vessel_in->instruments) {
+          it->render();
+        }
+      } else {
+        // draw first person view from outside
+        // TODO
+      }
+    }
+
+
     // TESTING ONLY
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
