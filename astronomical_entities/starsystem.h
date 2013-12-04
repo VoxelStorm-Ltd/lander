@@ -2,8 +2,7 @@
 #define STARSYSTEM_H_INCLUDED
 
 #include <string>
-#include <forward_list>
-//#include <vector>
+#include <list>
 #include "vmath.h"
 #include "random_engine.h"
 
@@ -25,7 +24,7 @@ public:
   virtual std::string get_description();
   virtual void set_description(std::string newdescription);
 
-  std::forward_list<body*> bodies;    // list of stellar and planetary bodies
+  std::list<body*> bodies;            // list of stellar and planetary bodies
   star *primary;                      // the primary body of this system
 
   Vector3d position;                  // relative to the galaxy
