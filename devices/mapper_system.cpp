@@ -133,8 +133,8 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   /// Render the star map on an analogue monitor
   centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
 
-  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-  glViewport(0, 0, windowsize.x, windowsize.y);
+  ///glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+  ///glViewport(0, 0, windowsize.x, windowsize.y);
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -225,7 +225,7 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
 
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  ///glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void mapper_system::update() {
@@ -234,8 +234,8 @@ void mapper_system::update() {
   if(ports_in[0].target) {
     scale = ports_in[0].target->get_port_out_data(ports_in[0].target_port);
   } else {
-    //scale = 0.00001;           // earth scale
-    scale = 0.000000002;       // solar system scale
+    scale = 0.00001;           // earth scale
+    //scale = 0.000000002;       // solar system scale
   }
   // update the rotation
   double rotation_y = 0.0;

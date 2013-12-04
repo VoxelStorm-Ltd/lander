@@ -87,10 +87,6 @@ void display::render() {
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);          // unbind the framebuffer
   */
 
-  ///GLuint framebuffer = 0;
-  ///glGenFramebuffers(1, &framebuffer);
-  ///glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-
   //////////////////////////////////////////////////////////////////////////////
   // create a texture
   glEnable(GL_TEXTURE_2D);
@@ -101,9 +97,12 @@ void display::render() {
     double const band = get_random_double(0.5, 1.0);
     for(unsigned int y = 0; y != 512; ++y) {
       unsigned char const value = get_random_int(63, 255) * band;
-      temp_buffer[x][y][0] = value;
+      temp_buffer[x][y][0] = value;                               // uniform b&w noise
       temp_buffer[x][y][1] = value;
       temp_buffer[x][y][2] = value;
+      //temp_buffer[x][y][0] = value + get_random_int(-25, 25);     // pale colour noise
+      //temp_buffer[x][y][1] = value + get_random_int(-25, 25);
+      //temp_buffer[x][y][2] = value + get_random_int(-25, 25);
     }
   }
   glTexImage2D(GL_TEXTURE_2D,       // target
@@ -120,13 +119,51 @@ void display::render() {
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
   //////////////////////////////////////////////////////////////////////////////
+
+  GLuint framebuffer = 0;
+  glGenFramebuffers(1, &framebuffer);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
+                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,            // texture target / cubemap face
+                            display_image,            // texture
+                            0);                       // level
+  GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+  if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+    std::cout << "framebuffer fucked: " << status;
+  }
+
+  glClearColor(0.0, 0.0, 0.5, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  if(ports_in[0].target) {
+    // call the target's render function
+
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    // cache the old viewport
+    Vector4i oldviewport;
+    glGetIntegerv(GL_VIEWPORT, oldviewport);
+    glViewport(0, 0, 512, 512);
+    ports_in[0].target->get_port_out_video_analogue(ports_in[0].target_port, framebuffer, Vector2d(512, 512));
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //glViewport(0, 0, windowwidth, windowheight);
+    glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
+  } else {
+    // draw a "no signal" output
+    // TODO
+  }
+
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);        // unbind the framebuffer
 
 
   glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
   //glColor4dv(Vector4d(0.5, 0.0, 0.0, 1.0));
   //glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
 
+
+  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glBegin(GL_QUADS);
   glTexCoord2d(0.0, 0.0);
   glVertex3d(0.0,    0.0,    size.z);
@@ -137,8 +174,7 @@ void display::render() {
   glTexCoord2d(0.0, 1.0);
   glVertex3d(0.0,    size.y, size.z);
   glEnd();
-
-  glBindTexture(GL_TEXTURE_2D, 0);                      // unbind the texture
+  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
 
   ///// check if we have an input signal
   ///if(ports_in[0].target) {
@@ -149,7 +185,7 @@ void display::render() {
   ///  // TODO
   ///}
 
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);          // unbind the framebuffer
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);        // unbind the framebuffer
 
   glPopMatrix();
 }

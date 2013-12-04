@@ -3,8 +3,10 @@
 display::display()
   : display_image(0) {
   /// Default constructor
-  size.x = 0.200;
-  size.y = 0.200;
+  //size.x = 0.200;
+  //size.y = 0.200;
+  size.x = 2.0;
+  size.y = 2.0;
   size.z = 0.020;
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
   glGenTextures(1, &display_image);         // allocate the texture

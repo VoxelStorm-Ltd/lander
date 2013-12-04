@@ -109,6 +109,6 @@ void mainloop() {   /// the main rendering loop
     glfwSwapBuffers(window_main);
 
     // DEBUG ONLY:
-    while(true);
+    //while(true);
   }
 }
