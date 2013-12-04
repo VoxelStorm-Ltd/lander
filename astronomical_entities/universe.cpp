@@ -45,11 +45,11 @@ void universe::make_explosion(Vector3d coords, double energy) {
     std::cout << "INFO: Vast damage occurs in the surrounding area." << std::endl;
     destroy_range(coords, 100000.0);
   } else if(energy > 4184000000000.0) {                  // 1 kiloton TNT
-    std::cout << "INFO: The impact produced a frightening fireball, the equivalent of " << energy / 4184000000000000.0 << " kilotons of TNT." << std::endl;
+    std::cout << "INFO: The impact produced a frightening fireball, the equivalent of " << energy / 4184000000000.0 << " kilotons of TNT." << std::endl;
     std::cout << "INFO: Serious damage occurs throughout the surrounding area." << std::endl;
     destroy_range(coords, 15000.0);
   } else if(energy > 4184000000.0) {                     // 1 ton of TNT
-    std::cout << "INFO: The impact produced a large explosion, the equivalent of " << energy / 4184000000000000.0 << " tons of TNT." << std::endl;
+    std::cout << "INFO: The impact produced a large explosion, the equivalent of " << energy / 4184000000.0 << " tons of TNT." << std::endl;
     std::cout << "INFO: The nearby area is showered with debris." << std::endl;
     destroy_range(coords, 500.0);
   } else {
