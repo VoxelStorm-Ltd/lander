@@ -54,7 +54,24 @@ void spacecraft::render_ultraviolet() {
 
 void spacecraft::render_cockpit() {
   /// Render the interior of the cockpit with instruments etc (visible spectrum)
+  glPushMatrix();
+  // render the cockpit panel
+  Vector3d panelsize(2.0, 1.0, 0.5);
+
+  glTranslated(-panelsize.x / 2.0, -panelsize.y, -1.2);
+  glRotated(-15.0, 1.0, 0.0, 0.0);
+
+  glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
+  glBegin(GL_QUADS);
+  glVertex3d(0.0,         0.0,         0.0);
+  glVertex3d(panelsize.x, 0.0,         0.0);
+  glVertex3d(panelsize.x, panelsize.y, 0.0);
+  glVertex3d(0.0,         panelsize.y, 0.0);
+  glEnd();
+
+  // cycle through the instruments and render them
   for(auto const &it : instruments) {
     it->render();
   }
+  glPopMatrix();
 }

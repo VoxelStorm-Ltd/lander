@@ -3,6 +3,9 @@
 altimeter::altimeter()
   : altitude(0.0) {
   /// Default constructor
+  size.x = 0.080;
+  size.y = 0.080;
+  size.z = 0.005;
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
 }
 

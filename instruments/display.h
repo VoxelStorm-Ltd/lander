@@ -1,10 +1,15 @@
 #ifndef DISPLAY_H_INCLUDED
 #define DISPLAY_H_INCLUDED
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "instrument.h"
 
 class display : public instrument {
   /// General display device that takes a video signal and displays 2D imagery
+private:
+  GLuint display_image;
+
 public:
   display();
   ~display();

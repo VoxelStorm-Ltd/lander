@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include "vmath.h"
 #include "random_engine.h"
 
 class spacecraft;
@@ -41,8 +44,8 @@ public:
   virtual std::string  get_port_out_name(          unsigned int port);
   virtual std::string  get_port_out_description(   unsigned int port);
   virtual double       get_port_out_data(          unsigned int port);
-  virtual void         get_port_out_video_digital( unsigned int port);
-  virtual void         get_port_out_video_analogue(unsigned int port);
+  virtual void         get_port_out_video_digital( unsigned int port, GLuint framebuffer, Vector2i windowsize);
+  virtual void         get_port_out_video_analogue(unsigned int port, GLuint framebuffer, Vector2i windowsize);
   virtual void         get_port_out_sound(         unsigned int port);
   virtual void update();
 

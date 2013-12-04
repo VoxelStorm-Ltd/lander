@@ -7,8 +7,8 @@
 
 // globals
 GLFWwindow extern *window_main;
-int extern windowwidth;
-int extern windowheight;
+extern int windowwidth;
+extern int windowheight;
 
 void callback_mousepos(   GLFWwindow *thiswindow, double x, double z);
 void callback_key(        GLFWwindow *thiswindow, int key, int scancode __attribute__((unused)), int action, int mods);
@@ -122,9 +122,7 @@ void init_graphics() {
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);   // ensure one-sided lighting
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
   //glEnable(GL_MINMAX);      // allow min and max colour tables for HDR effects
-
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // filled
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);   // wireframe
   glShadeModel(GL_SMOOTH);  // SMOOTH or FLAT

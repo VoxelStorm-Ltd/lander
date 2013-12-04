@@ -98,14 +98,18 @@ double device::get_port_out_data(unsigned int port __attribute__((__unused__))) 
   return 0.0;
 }
 
-void device::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
+void device::get_port_out_video_analogue(unsigned int port   __attribute__((__unused__)),
+                                         GLuint framebuffer  __attribute__((__unused__)),
+                                         Vector2i windowsize __attribute__((__unused__))) {
   /// Query the data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects an analogue video display to a non-video output
   // TODO: render static
 }
 
-void device::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
+void device::get_port_out_video_digital(unsigned int port   __attribute__((__unused__)),
+                                        GLuint framebuffer  __attribute__((__unused__)),
+                                        Vector2i windowsize __attribute__((__unused__))) {
   /// Query the data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects a digital video display to a non-video output

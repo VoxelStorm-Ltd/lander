@@ -12,8 +12,12 @@
 // globals
 bool keeprunning = true;
 GLFWwindow *window_main;      // the main game window
-int windowwidth  = 800;
-int windowheight = 800;
+int const extern windowwidth  = 800;
+int const extern windowheight = 800;
+double const aspect_ratio = windowheight / windowwidth;
+double const fov = 50;
+//double const fov_ratio = tan(fov / 360.0 * M_PI);
+double const fov_ratio = 1.0;
 universe root;
 astronaut *player;
 
@@ -69,14 +73,33 @@ void mainloop() {   /// the main rendering loop
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    double const nearplane = 0.1;
+    double const farplane  = 20.0;
+    glFrustum(nearplane * -fov_ratio,
+              nearplane *  fov_ratio,
+              nearplane * -fov_ratio * aspect_ratio,
+              nearplane *  fov_ratio * aspect_ratio,
+              nearplane, farplane);
+    // TODO: cache this matrix at init, and load it here
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     if(player) {
       if(player->vessel_in) {
+        // translate and rotate to player's view in the cockpit
+        glTranslated(-player->position.x,
+                     -player->position.y,
+                     -player->position.z);
         // draw cockpit view of the current ship
-        // cycle through the instruments and render them
-        for(auto const &it : player->vessel_in->instruments) {
-          it->render();
-        }
+        player->vessel_in->render_cockpit();
       } else {
+        // translate and rotate to player's view in the universe
+        glTranslated(-player->position.x,
+                     -player->position.y,
+                     -player->position.z);
         // draw first person view from outside
         // TODO
       }
@@ -84,5 +107,8 @@ void mainloop() {   /// the main rendering loop
     //root.render();
 
     glfwSwapBuffers(window_main);
+
+    // DEBUG ONLY:
+    while(true);
   }
 }

@@ -9,7 +9,7 @@
 class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
-  Vector2i windowsize;
+  //Vector2i windowsize;
 
   double scale;
   Matrix4d rotation;
@@ -39,7 +39,7 @@ public:
   unsigned int get_port_out_count();
   std::string  get_port_out_name(          unsigned int port);
   std::string  get_port_out_description(   unsigned int port);
-  void         get_port_out_video_analogue(unsigned int port);
+  void         get_port_out_video_analogue(unsigned int port, GLuint framebuffer, Vector2i windowsize);
   void update();
 };
 

@@ -6,8 +6,9 @@
 
 class instrument : public device {
 public:
-  Vector2d position;                  // its location on the instrument panel
-  Vector2d size;                      // how much space it takes up on the panel
+  Vector3d position;                  // its location on the instrument panel, in metres
+  Vector3d size;                      // how much physical space it takes up, in metres
+  Quatd rotation;                     // its rotation relative to the panel
 
   instrument();
   ~instrument();

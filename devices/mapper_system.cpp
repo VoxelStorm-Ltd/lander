@@ -13,9 +13,6 @@ mapper_system::mapper_system()
     trail_ref(nullptr) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  windowsize.x = 640;
-  windowsize.y = 640;
-  centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
 }
 
 mapper_system::~mapper_system() {
@@ -130,18 +127,27 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
   }
 }
 
-void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
+void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__)),
+                                                GLuint framebuffer,
+                                                Vector2i windowsize) {
   /// Render the star map on an analogue monitor
+  centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
+
+  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+  glViewport(0, 0, windowsize.x, windowsize.y);
+
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
   glLoadIdentity();
   glOrtho(0.0, windowsize.x, windowsize.y, 0.0, -1406000000000.0 * scale, 1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
   glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
   glScaled(scale, scale, scale);                                  // zoom
   //glRotated(-45.0, 1.0, 0.0, 0.0);                                // tilt projection plane
   glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
   glLoadIdentity();
   // translate and rotate us to the camera's viewpoint
   glRotated(-45, 1.0, 0.0, 0.0);
@@ -207,23 +213,19 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
     it->render_diagram(scale);
   }
 
-  //// auto scale
-  //if(Vector2d(player->position.x, player->position.y).length() * scale > windowsize.y / 2) {
-  //  // zoom out
-  //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
-  //  scale /= 2;
-  //} else if(Vector2d(player->position.x, player->position.y).length() * scale < windowsize.y / 4) {
-  //  // zoom in
-  //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
-  //  scale *= 2;
-  //}
-
   // trails
   if(trailcounter == 0) {
     trailcounter = trailperiod;
   } else {
     --trailcounter;
   }
+
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
+
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void mapper_system::update() {
