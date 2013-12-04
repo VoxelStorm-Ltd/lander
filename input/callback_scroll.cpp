@@ -22,9 +22,9 @@ void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoff
       std::cout << "DEBUG: inputstorm: scrolled vertically " << yoffset << std::endl;
     #endif
     if(yoffset > 0) {
-      scale *= 2.0;
+      ///scale *= 2.0;
     } else {
-      scale /= 2.0;
+      ///scale /= 2.0;
     }
   }
 }

@@ -1,6 +1,9 @@
 #include "mapper_system.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "universe.h"
 #include "starsystem.h"
+#include "spacecraft.h"
 
 extern universe root;
 
@@ -10,12 +13,14 @@ mapper_system::mapper_system()
     trail_ref(nullptr) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  windowsize.x = 640;
+  windowsize.y = 640;
+  centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
 }
 
 mapper_system::~mapper_system() {
   /// Default destructor
 }
-
 
 std::string mapper_system::get_name() {
   /// Return the name of this device
@@ -94,7 +99,7 @@ std::string mapper_system::get_port_in_description(unsigned int port) {
   }
 }
 
-bool mapper_system::get_port_in_required(unsigned int port) {
+bool mapper_system::get_port_in_required(unsigned int port __attribute__((__unused__))) {
   /// Whether an input on this port is necessary for this device to operate
   // all inputs are optional
   return false;
@@ -127,9 +132,99 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
 
 void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
   /// Render the star map on an analogue monitor
-  // TODO
-}
+  glClearColor(0.2, 0.3, 0.2, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0.0, windowsize.x, windowsize.y, 0.0, -1406000000000.0 * scale, 1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
+  glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
+  glScaled(scale, scale, scale);                                  // zoom
+  //glRotated(-45.0, 1.0, 0.0, 0.0);                                // tilt projection plane
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  // translate and rotate us to the camera's viewpoint
+  glRotated(-45, 1.0, 0.0, 0.0);
+  //glRotated(45.0, 0.0, 1.0, 0.0);
+
+  glTranslated(-vessel->position.x,
+               -vessel->position.y,
+               -vessel->position.z);
+
+  // trails
+  glBegin(GL_POINTS);
+  //glBegin(GL_LINES);
+  //for(auto it : trails) {
+  for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
+    glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
+    //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
+    glVertex3dv(it->linepoint);
+    //glVertex3dv(Vector3d(0.0, 1000000.0, 0.0));
+    it->fade *= 0.99995;
+    if(it->fade < 0.3) {
+      it = trails.erase(it);
+    } else {
+      ++it;
+    }
+  }
+  glEnd();
+
+  // bodies
+  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  for(auto const &it : root.currentsystem->bodies) {
+    Vector3d point  = it->position;
+    Vector3d vel    = it->velocity;
+    if(vel.length() > 0.0) {
+      vel.normalise();
+      vel *= 20.0;
+    } else {
+      vel *= 0.0;
+    }
+
+    // line to centre of system
+    glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
+    glBegin(GL_LINES);
+    glVertex2d(0.0, 0.0);
+    glVertex3dv(point);
+    glEnd();
+
+    // velocity vector
+    glColor4dv(Vector4d(0.4, 0.6, 0.4, 1.0));
+    glBegin(GL_LINES);
+    glVertex3dv(point);
+    glVertex3dv(point - vel);
+    glEnd();
+
+    // trails
+    if(trailcounter == 0) {
+      // every period add a trail point
+      trailtype trail;
+      trail.linepoint = point;
+      trail.fade = 1.0;
+      trails.push_back(trail);
+    }
+
+    it->render_diagram(scale);
+  }
+
+  //// auto scale
+  //if(Vector2d(player->position.x, player->position.y).length() * scale > windowsize.y / 2) {
+  //  // zoom out
+  //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
+  //  scale /= 2;
+  //} else if(Vector2d(player->position.x, player->position.y).length() * scale < windowsize.y / 4) {
+  //  // zoom in
+  //  std::cout << player->position.length() << "m out, scale " << scale << std::endl;
+  //  scale *= 2;
+  //}
+
+  // trails
+  if(trailcounter == 0) {
+    trailcounter = trailperiod;
+  } else {
+    --trailcounter;
+  }
+}
 
 void mapper_system::update() {
   /// Update the output states and respond to changes in input
@@ -137,8 +232,8 @@ void mapper_system::update() {
   if(ports_in[0].target) {
     scale = ports_in[0].target->get_port_out_data(ports_in[0].target_port);
   } else {
-    //double scale = 0.00001;           // earth scale
-    double scale = 0.000000002;       // solar system scale
+    //scale = 0.00001;           // earth scale
+    scale = 0.000000002;       // solar system scale
   }
   // update the rotation
   double rotation_y = 0.0;

@@ -1,16 +1,30 @@
 #ifndef MAPPER_SYSTEM_H_INCLUDED
 #define MAPPER_SYSTEM_H_INCLUDED
 
-#include "device.h"
+#include <deque>
 #include "vmath.h"
+#include "device.h"
 #include "body.h"
 
 class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
+  Vector2i windowsize;
+
   double scale;
   Matrix4d rotation;
   body *trail_ref;
+
+  struct trailtype {
+    Vector3d linepoint;
+    double fade;
+  };
+  unsigned int const trailperiod = 60;       // draw a dash in this many frames
+  unsigned int trailcounter = trailperiod;
+
+  std::deque<trailtype> trails;
+
+  Vector3d centreoffset;
 
 public:
   mapper_system();

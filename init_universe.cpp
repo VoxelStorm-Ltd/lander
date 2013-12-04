@@ -187,6 +187,7 @@ void init_universe() {
   mainmapper->attach(playership);
   mainmonitor->connect(0, mainmapper, 0);
   mainmonitor->describe_to_console();
+  mainmapper->describe_to_console();
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

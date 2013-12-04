@@ -9,7 +9,7 @@ void display::render() {
   // check if we have an input signal
   if(ports_in[0].target) {
     // call the target's render function
-    get_port_out_video_analogue(ports_in[0].target_port);
+    ports_in[0].target->get_port_out_video_analogue(ports_in[0].target_port);
   } else {
     // draw a "no signal" output
     // TODO
