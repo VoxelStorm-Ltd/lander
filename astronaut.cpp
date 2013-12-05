@@ -64,10 +64,10 @@ void astronaut::exit_ship() {
 
 void astronaut::kill() {
   /// Kill this astronaut, and perform whatever consequences are required
+  std::cout << get_name() << " has been killed." << std::endl;
   state = statetype::DEAD;
   // check if it's the player
   if(this == player) {
     std::cout << "Congratulations!  You died." << std::endl;
-    //exit(0);
   }
 }

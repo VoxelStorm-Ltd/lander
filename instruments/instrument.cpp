@@ -33,6 +33,7 @@ void instrument::attach(instrumentpanel *to_panel) {
 
 void instrument::remove() {
   /// Remove this device from whatever ship it's attached to
+  /// Note: not safe to be called in an iteration of instruments or devices!
   if(!vessel) {
     std::cout << "ERROR: tried to remove instrument " << get_name() << " which is already not attached to anything." << std::endl;
     return;
@@ -43,19 +44,13 @@ void instrument::remove() {
   //vessel->devices.erase(std::remove(vessel->devices.begin(), vessel->devices.end(), this), vessel->devices.end());
   //vessel->instruments.erase(std::remove(vessel->instruments.begin(), vessel->devices.end(), this), vessel->instruments.end());
   vessel->devices.remove(this);
-  // make sure there are no dangling connections
-  for(auto const &it : vessel->devices) {
-    for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
-      if(it->ports_in[i].target == this) {
-        it->disconnect(i);
-      }
-    }
-  }
+  disconnect_all();
   vessel = nullptr;     // this must obviously come last
 }
 
 void instrument::remove_panel() {
   /// Remove this instrument from its panel only (leave it attached to any ship)
+  /// Note: not safe to be called in an iteration of instruments!
   if(!vessel) {
     //std::cout << "ERROR: tried to remove instrument " << get_name() << " which is already not attached to a panel." << std::endl;
     return;

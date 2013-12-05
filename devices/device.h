@@ -53,6 +53,7 @@ public:
   virtual void remove();
   void connect(unsigned int port_in, device *target, unsigned int target_port_out);
   void disconnect(unsigned int port_in);
+  void disconnect_all();
 
   void destroy();
 

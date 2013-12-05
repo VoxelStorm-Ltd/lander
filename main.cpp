@@ -88,22 +88,20 @@ void mainloop() {   /// the main rendering loop
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    if(player) {
-      if(player->vessel_in) {
-        // translate and rotate to player's view in the cockpit
-        glTranslated(-player->position.x,
-                     -player->position.y,
-                     -player->position.z);
-        // draw cockpit view of the current ship
-        player->vessel_in->render_cockpit();
-      } else {
-        // translate and rotate to player's view in the universe
-        glTranslated(-player->position.x,
-                     -player->position.y,
-                     -player->position.z);
-        // draw first person view from outside
-        // TODO
-      }
+    if(player->state == astronaut::statetype::IN_VESSEL) {
+      // translate and rotate to player's view in the cockpit
+      glTranslated(-player->position.x,
+                   -player->position.y,
+                   -player->position.z);
+      // draw cockpit view of the current ship
+      player->vessel_in->render_cockpit();
+    } else if(player->state == astronaut::statetype::EVA) {
+      // translate and rotate to player's view in the universe
+      glTranslated(-player->position.x,
+                   -player->position.y,
+                   -player->position.z);
+      // draw first person view from outside
+      // TODO
     }
     //root.render();
 

@@ -10,6 +10,12 @@ instrumentpanel::instrumentpanel() {
 
 instrumentpanel::~instrumentpanel() {
   /// Default destructor
+  for(auto &it : instruments) {
+    it->vessel->devices.remove(it);
+    delete it;
+    it = nullptr;
+  }
+  instruments.clear();
 }
 
 
@@ -25,28 +31,21 @@ void instrumentpanel::attach(spacecraft *to_vessel) {
 
 void instrumentpanel::remove() {
   /// Remove this panel from whatever ship it's attached to
+  /// Note: this cannot be safely called inside an iterator of panels!
   if(!vessel) {
     std::cout << "ERROR: tried to remove instrument panel which is already not attached to anything." << std::endl;
     return;
   }
   // remove it from the list of the vessel's panels
   vessel->panels.remove(this);
-  // make sure all child instruments are detached from the ship
-  for(auto const &it : instruments) {
-    it->remove();
-  }
   vessel = nullptr;     // this must obviously come last
 }
 
 void instrumentpanel::destroy() {
   /// Destroy this panel and everything attached to it
-  for(auto &it : instruments) {
-    it->destroy();
-    delete it;
-    it = nullptr;
-  }
-  instruments.remove(nullptr);
-  remove();                 // remove this panel
+  /// Note: this cannot be safely called inside an iterator of panels!
+  std::cout << "Instrument panel is destroyed." << std::endl;
+  //remove();                 // remove this panel
   delete this;
 }
 

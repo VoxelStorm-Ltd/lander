@@ -11,6 +11,8 @@ device::device()
 
 device::~device() {
   /// Default destructor
+  std::cout << "DEBUG: removing device" << std::endl;
+  disconnect_all();
 }
 
 std::string device::get_name() {
@@ -184,6 +186,22 @@ void device::disconnect(unsigned int port_in) {
   cachedtarget->update();
 }
 
+void device::disconnect_all() {
+  // make sure there are no dangling connections from other devices to this
+  for(auto const &it : vessel->devices) {
+    if(!it || it == this) {
+      continue;         // don't check for connection to ourself
+    }
+    unsigned int numports = it->get_port_in_count();
+    for(unsigned int i = 0; i != numports; ++i) {
+      if(it->ports_in[i].target == this) {
+        std::cout << it->get_name() << " was disconnected from " << get_name();
+        it->disconnect(i);
+      }
+    }
+  }
+}
+
 void device::update() {
   /// Update the output states and respond to changes in input
   // virtual placeholder - may be called by classes that don't specialise this
@@ -191,6 +209,7 @@ void device::update() {
 
 void device::destroy() {
   /// Put this device out of commission
+  std::cout << get_name() << " is no longer operative." << std::endl;
   functional = false;
 }
 

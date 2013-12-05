@@ -8,6 +8,7 @@
 #include "device.h"
 #include "astronaut.h"
 #include "instrumentpanel.h"
+#include "dustcloud.h"
 
 extern universe root;
 
@@ -19,6 +20,21 @@ spacecraft::spacecraft()
 
 spacecraft::~spacecraft() {
   /// Default destructor
+  for(auto &it : panels) {
+    delete it;
+    it = nullptr;
+  }
+  panels.clear();
+  // every system is destroyed
+  for(auto &it : devices) {
+    delete it;
+    it = nullptr;
+  }
+  devices.clear();
+  // everybody on board dies
+  for(auto const &it : occupants) {
+    it->kill();
+  }
 }
 
 std::string spacecraft::get_name() {
@@ -118,7 +134,9 @@ void spacecraft::update_state(double time, double deltatime) {
         std::cout << "INFO: " << get_name() << " collided with " << it->get_name() << " at a fatal " << velocity_delta_mag << "m/s" << std::endl;
         // if the ship was destroyed, give a snide message relating to the kinetic energy and collateral damage
         double const ke = 0.5 * get_mass() * velocity_delta_mag * velocity_delta_mag;
-        root.make_explosion(position, ke);
+        Vector3d lastposition(position);    // cache position for after we delete "this"
+        destroy();
+        root.make_explosion(lastposition, ke);
       }
     }
   }
@@ -126,25 +144,17 @@ void spacecraft::update_state(double time, double deltatime) {
 
 void spacecraft::destroy() {
   /// Blow up or otherwise annihilate a ship destructively
-  // every panel is destroyed
-  for(auto &it : panels) {
-    it->destroy();
-    delete it;
-    it = nullptr;
+  std::cout << "Spacecraft " << get_name() << " has been fatally damaged." << std::endl;
+  //root.currentsystem->bodies.remove(this);        // this breaks the iterator, and is always called from inside it...
+  // replace it in the list with a dustcloud
+  for(auto &it : root.currentsystem->bodies) {
+    if(it == this) {
+      spacecraft *oldship = static_cast<spacecraft*>(it);   // we know a static cast is safe since we've already confirmed it's a pointer to this object
+      it = new dustcloud;
+      it->position = oldship->position;
+      it->rotation = oldship->rotation;
+      it->spin     = oldship->spin;
+    }
   }
-  panels.remove(nullptr);
-  // every system is destroyed
-  for(auto &it : devices) {
-    it->destroy();
-    delete it;
-    it = nullptr;
-  }
-  devices.remove(nullptr);
-  // everybody on board dies
-  for(auto const &it : occupants) {
-    it->kill();
-  }
-  // remove this ship from the system's list
-  root.currentsystem->bodies.remove(this);
   delete this;
 }
