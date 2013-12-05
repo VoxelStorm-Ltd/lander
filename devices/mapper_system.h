@@ -4,7 +4,8 @@
 #include <deque>
 #include "vmath.h"
 #include "device.h"
-#include "body.h"
+
+class body;
 
 class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system

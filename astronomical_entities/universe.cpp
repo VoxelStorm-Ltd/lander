@@ -2,6 +2,7 @@
 #include "starsystem.h"
 #include "astronaut.h"
 #include "spacecraft.h"
+#include "device.h"
 
 universe::universe() {
   /// Default constructor

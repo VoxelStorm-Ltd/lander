@@ -3,9 +3,10 @@
 
 #include <list>
 #include "physicsbody.h"
-#include "device.h"
-#include "instrument.h"
-#include "astronaut.h"
+
+class device;
+class astronaut;
+class instrumentpanel;
 
 class spacecraft : public physicsbody {
 private:
@@ -14,7 +15,7 @@ private:
 
 public:
   std::list<device*> devices;             // all devices on-board
-  std::list<instrument*> instruments;     // those devices that are instruments
+  std::list<instrumentpanel*> panels;     // instrument panels in the cockpit
   std::list<astronaut*> occupants;        // who's on board
 
   // temporary navigation target

@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "vmath.h"
+#include "instrumentpanel.h"
 
 void spacecraft::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
@@ -55,44 +56,10 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cockpit() {
   /// Render the interior of the cockpit with instruments etc (visible spectrum)
   glPushMatrix();
-  // render the cockpit panel
-  Vector3d panelsize(2.0, 1.0, 0.5);
+  // render the cockpit walls
 
-  glTranslated(-panelsize.x / 2.0, -panelsize.y, -1.1);
-  glRotated(-60.0, 1.0, 0.0, 0.0);
-
-  glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
-  glBegin(GL_QUADS);
-  // front
-  glVertex3d(0.0,         0.0,         0.0);
-  glVertex3d(panelsize.x, 0.0,         0.0);
-  glVertex3d(panelsize.x, panelsize.y, 0.0);
-  glVertex3d(0.0,         panelsize.y, 0.0);
-  glColor4dv(Vector4d(0.4, 0.4, 0.4, 1.0));
-  // top
-  glVertex3d(0.0,         panelsize.y, -panelsize.z);
-  glVertex3d(0.0,         panelsize.y, 0.0);
-  glVertex3d(panelsize.x, panelsize.y, 0.0);
-  glVertex3d(panelsize.x, panelsize.y, -panelsize.z);
-  // bottom
-  glVertex3d(0.0,         0.0,         -panelsize.z);
-  glVertex3d(panelsize.x, 0.0,         -panelsize.z);
-  glVertex3d(panelsize.x, 0.0,         0.0);
-  glVertex3d(0.0,         0.0,         0.0);
-  // right
-  glVertex3d(panelsize.x, 0.0,         -panelsize.z);
-  glVertex3d(panelsize.x, panelsize.y, -panelsize.z);
-  glVertex3d(panelsize.x, panelsize.y, 0.0);
-  glVertex3d(panelsize.x, 0.0,         0.0);
-  // left
-  glVertex3d(0.0,         0.0,         -panelsize.z);
-  glVertex3d(0.0,         0.0,         0.0);
-  glVertex3d(0.0,         panelsize.y, 0.0);
-  glVertex3d(0.0,         panelsize.y, -panelsize.z);
-  glEnd();
-
-  // cycle through the instruments and render them
-  for(auto const &it : instruments) {
+  // cycle through the instrument panels and render them
+  for(auto const &it : panels) {
     it->render();
   }
   glPopMatrix();

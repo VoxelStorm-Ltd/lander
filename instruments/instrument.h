@@ -3,6 +3,9 @@
 
 #include "vmath.h"
 #include "device.h"
+//#include "instrumentpanel.h"
+
+class instrumentpanel;
 
 class instrument : public device {
 public:
@@ -10,11 +13,15 @@ public:
   Vector3d size;                      // how much physical space it takes up, in metres
   Quatd rotation;                     // its rotation relative to the panel
 
+  instrumentpanel *panel;             // what instrument panel it's attached to
+
   instrument();
   ~instrument();
 
   virtual void attach(spacecraft *to_vessel);
+  virtual void attach(instrumentpanel *to_panel);
   virtual void remove();
+  virtual void remove_panel();
 
   //virtual void update();
   virtual void render();

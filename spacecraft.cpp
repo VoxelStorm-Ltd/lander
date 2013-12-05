@@ -5,6 +5,9 @@
 #include "vmath.h"
 #include "universe.h"
 #include "starsystem.h"
+#include "device.h"
+#include "astronaut.h"
+#include "instrumentpanel.h"
 
 extern universe root;
 
@@ -123,6 +126,13 @@ void spacecraft::update_state(double time, double deltatime) {
 
 void spacecraft::destroy() {
   /// Blow up or otherwise annihilate a ship destructively
+  // every panel is destroyed
+  for(auto &it : panels) {
+    it->destroy();
+    delete it;
+    it = nullptr;
+  }
+  panels.remove(nullptr);
   // every system is destroyed
   for(auto &it : devices) {
     it->destroy();
@@ -136,4 +146,5 @@ void spacecraft::destroy() {
   }
   // remove this ship from the system's list
   root.currentsystem->bodies.remove(this);
+  delete this;
 }

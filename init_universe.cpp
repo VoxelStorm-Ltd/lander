@@ -8,6 +8,7 @@
 #include "moon.h"
 #include "astronaut.h"
 #include "spacecraft.h"
+#include "instrumentpanel.h"
 #include "altimeter.h"
 #include "sensor_pressure.h"
 #include "display.h"
@@ -173,10 +174,13 @@ void init_universe() {
   player->enter_ship(playership);
   playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0);    // ~= ISS altitude
   playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
+  instrumentpanel *controlpanel = new instrumentpanel;
+  controlpanel->attach(playership);
 
   altimeter *testdevice = new altimeter;
   sensor_pressure *testdevice2 = new sensor_pressure;
   testdevice->attach(playership);
+  testdevice->attach(controlpanel);
   testdevice->position = Vector3d(0.1, 0.84, 0.0);
   testdevice2->attach(playership);
   testdevice->connect(0, testdevice2, 0);
@@ -185,6 +189,7 @@ void init_universe() {
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
   mainmonitor->attach(playership);
+  mainmonitor->attach(controlpanel);
   mainmonitor->position = Vector3d(0.1, 0.1, 0.0);
   mainmapper->attach(playership);
   mainmonitor->connect(0, mainmapper, 0);
