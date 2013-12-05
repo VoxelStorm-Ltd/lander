@@ -177,7 +177,7 @@ void init_universe() {
   altimeter *testdevice = new altimeter;
   sensor_pressure *testdevice2 = new sensor_pressure;
   testdevice->attach(playership);
-  testdevice->position = Vector3d(0.1, 0.34, 0.0);
+  testdevice->position = Vector3d(0.1, 0.84, 0.0);
   testdevice2->attach(playership);
   testdevice->connect(0, testdevice2, 0);
   testdevice->describe_to_console();

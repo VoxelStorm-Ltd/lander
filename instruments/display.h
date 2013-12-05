@@ -10,9 +10,13 @@ class display : public instrument {
 private:
   GLuint display_image;
   GLuint framebuffer;
+  GLuint depthbuffer;
 
   GLuint static const screen_width = 256;
   GLuint static const screen_height = screen_width;
+
+  Vector2d screen_pos;
+  Vector2d screen_size;
 
 public:
   display();
@@ -25,7 +29,7 @@ public:
   std::string get_port_in_description(unsigned int port);
   bool get_port_in_required(          unsigned int port);
 
-  //void update();
+  void update();
   void render();
 };
 

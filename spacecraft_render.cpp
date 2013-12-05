@@ -58,15 +58,37 @@ void spacecraft::render_cockpit() {
   // render the cockpit panel
   Vector3d panelsize(2.0, 1.0, 0.5);
 
-  glTranslated(-panelsize.x / 2.0, -panelsize.y, -1.2);
-  glRotated(-15.0, 1.0, 0.0, 0.0);
+  glTranslated(-panelsize.x / 2.0, -panelsize.y, -1.1);
+  glRotated(-60.0, 1.0, 0.0, 0.0);
 
   glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
   glBegin(GL_QUADS);
+  // front
   glVertex3d(0.0,         0.0,         0.0);
   glVertex3d(panelsize.x, 0.0,         0.0);
   glVertex3d(panelsize.x, panelsize.y, 0.0);
   glVertex3d(0.0,         panelsize.y, 0.0);
+  glColor4dv(Vector4d(0.4, 0.4, 0.4, 1.0));
+  // top
+  glVertex3d(0.0,         panelsize.y, -panelsize.z);
+  glVertex3d(0.0,         panelsize.y, 0.0);
+  glVertex3d(panelsize.x, panelsize.y, 0.0);
+  glVertex3d(panelsize.x, panelsize.y, -panelsize.z);
+  // bottom
+  glVertex3d(0.0,         0.0,         -panelsize.z);
+  glVertex3d(panelsize.x, 0.0,         -panelsize.z);
+  glVertex3d(panelsize.x, 0.0,         0.0);
+  glVertex3d(0.0,         0.0,         0.0);
+  // right
+  glVertex3d(panelsize.x, 0.0,         -panelsize.z);
+  glVertex3d(panelsize.x, panelsize.y, -panelsize.z);
+  glVertex3d(panelsize.x, panelsize.y, 0.0);
+  glVertex3d(panelsize.x, 0.0,         0.0);
+  // left
+  glVertex3d(0.0,         0.0,         -panelsize.z);
+  glVertex3d(0.0,         0.0,         0.0);
+  glVertex3d(0.0,         panelsize.y, 0.0);
+  glVertex3d(0.0,         panelsize.y, -panelsize.z);
   glEnd();
 
   // cycle through the instruments and render them
