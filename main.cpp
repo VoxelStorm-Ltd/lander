@@ -12,12 +12,14 @@
 // globals
 bool keeprunning = true;
 GLFWwindow *window_main;      // the main game window
-int const extern windowwidth  = 800;
-int const extern windowheight = 800;
-double const aspect_ratio = windowheight / windowwidth;
-double const fov = 50;
-//double const fov_ratio = tan(fov / 360.0 * M_PI);
-double const fov_ratio = 1.0;
+int const extern windowwidth  = 1200.0;
+int const extern windowheight = 800.0;
+//double const aspect_ratio = 1.0;
+double const aspect_ratio = static_cast<double>(windowheight) / static_cast<double>(windowwidth);
+//double const aspect_ratio = static_cast<double>(windowwidth) / static_cast<double>(windowheight);
+double const fov = 90.0;
+//double const fov_ratio = 1.0;
+double const fov_ratio = tan(fov / 360.0 * M_PI);
 universe root;
 astronaut *player;
 

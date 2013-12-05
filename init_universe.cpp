@@ -175,6 +175,9 @@ void init_universe() {
   playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0);    // ~= ISS altitude
   playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
   instrumentpanel *controlpanel = new instrumentpanel;
+  controlpanel->size = Vector3d(2.0, 1.0, 0.5);
+  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, -controlpanel->size.y, -1.1);
+  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 
   altimeter *testdevice = new altimeter;

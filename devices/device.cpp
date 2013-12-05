@@ -11,7 +11,6 @@ device::device()
 
 device::~device() {
   /// Default destructor
-  std::cout << "DEBUG: removing device" << std::endl;
   disconnect_all();
 }
 
