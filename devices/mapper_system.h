@@ -39,7 +39,7 @@ public:
   unsigned int get_port_out_count();
   std::string  get_port_out_name(          unsigned int port);
   std::string  get_port_out_description(   unsigned int port);
-  void         get_port_out_video_analogue(unsigned int port, GLuint framebuffer, Vector2i windowsize);
+  void         get_port_out_video_analogue(unsigned int port, Vector2i windowsize);
   void update();
 };
 

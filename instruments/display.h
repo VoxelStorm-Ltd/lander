@@ -9,6 +9,10 @@ class display : public instrument {
   /// General display device that takes a video signal and displays 2D imagery
 private:
   GLuint display_image;
+  GLuint framebuffer;
+
+  GLuint static const screen_width = 256;
+  GLuint static const screen_height = screen_width;
 
 public:
   display();

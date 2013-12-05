@@ -1,15 +1,40 @@
 #include "display.h"
 
 display::display()
-  : display_image(0) {
+  : display_image(0),
+    framebuffer(0) {
   /// Default constructor
-  //size.x = 0.200;
-  //size.y = 0.200;
-  size.x = 2.0;
-  size.y = 2.0;
+  size.x = 0.400;
+  size.y = 0.400;
   size.z = 0.020;
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  glGenTextures(1, &display_image);         // allocate the texture
+
+  // create a blank texture
+  glGenTextures(1, &display_image);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screen_width, screen_height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+  // texture parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+
+  // create a framebuffer
+  glGenFramebuffers(1, &framebuffer);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
+                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,            // texture target / cubemap face
+                            display_image,            // texture
+                            0);                       // level
+  GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+  if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+    std::cout << "framebuffer fucked: " << status;
+  }
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 display::~display() {

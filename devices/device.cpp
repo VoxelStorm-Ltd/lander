@@ -99,7 +99,6 @@ double device::get_port_out_data(unsigned int port __attribute__((__unused__))) 
 }
 
 void device::get_port_out_video_analogue(unsigned int port   __attribute__((__unused__)),
-                                         GLuint framebuffer  __attribute__((__unused__)),
                                          Vector2i windowsize __attribute__((__unused__))) {
   /// Query the data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
@@ -108,7 +107,6 @@ void device::get_port_out_video_analogue(unsigned int port   __attribute__((__un
 }
 
 void device::get_port_out_video_digital(unsigned int port   __attribute__((__unused__)),
-                                        GLuint framebuffer  __attribute__((__unused__)),
                                         Vector2i windowsize __attribute__((__unused__))) {
   /// Query the data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it

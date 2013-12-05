@@ -128,13 +128,9 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
 }
 
 void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__)),
-                                                GLuint framebuffer,
                                                 Vector2i windowsize) {
   /// Render the star map on an analogue monitor
   centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
-
-  ///glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-  ///glViewport(0, 0, windowsize.x, windowsize.y);
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -224,8 +220,6 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   glPopMatrix();
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
-
-  ///glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void mapper_system::update() {
