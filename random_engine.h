@@ -14,6 +14,7 @@ private:
   static char const *const neuternames[];
   static char const *const surnames[];
   static char const *const corporations[];
+  static char const *const colours[];
   static unsigned int const greeknames_max;
   static unsigned int const romannames_max;
   static unsigned int const malenames_max;
@@ -21,6 +22,7 @@ private:
   static unsigned int const neuternames_max;
   static unsigned int const surnames_max;
   static unsigned int const corporations_max;
+  static unsigned int const colours_max;
 
   uint32_t seed;              // assigned a value from lastseed on object construction
 
@@ -56,6 +58,7 @@ public:
   std::string get_random_name_roman();
   std::string get_random_name_ancient();
   std::string get_random_name_corporation();
+  std::string get_random_colour();
 
   // TODO: consider implementing http://stackoverflow.com/a/1227137/1678468
 };
