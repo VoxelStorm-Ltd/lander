@@ -64,16 +64,21 @@ std::string display::get_name() {
   return "graphical display";
 }
 
+std::string display::get_model() {
+  /// Return a model name for this device
+  random_reset();
+  unsigned int const modelnum = get_random_int(1, 9);
+  std::stringstream model;
+  model << "CRT0" << modelnum << "0" << modelnum << "-G";
+  return model.str();
+}
+
 std::string display::get_description() {
   /// Return a detailed description of this device
-  random_reset();
-  std::stringstream desc;
-  desc << get_random_name_corporation() << " model CRT0606-G."
-          "  A very cheap and old but reliable analogue CRT monitor."
-          "  Capable of withstanding a lot of punishment, both physical and electromagnetic."
-          "  Technically capable of displaying any colour, but for some reason tends to tint everything with a sickly greenish hue."
-          "  Slightly increases the pilot's overall radiation exposure.";
-  return desc.str();
+  return "A very cheap and old but reliable analogue CRT monitor."
+         "  Capable of withstanding a lot of punishment, both physical and electromagnetic."
+         "  Technically capable of displaying any colour, but for some reason tends to tint everything with a sickly greenish hue."
+         "  Slightly increases the pilot's overall radiation exposure.";
 }
 
 unsigned int display::get_port_in_count() {

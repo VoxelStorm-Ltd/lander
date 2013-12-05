@@ -22,12 +22,18 @@ std::string sensor_pressure::get_name() {
   return "static pressure sensor";
 }
 
+std::string sensor_pressure::get_model() {
+  /// Return a model name for this device
+  std::stringstream model;
+  model << "PS-" << static_cast<int>(pressurelimit / 1000000) << "-" << static_cast<int>(temperaturelimit / 100);
+  return model.str();
+}
+
 std::string sensor_pressure::get_description() {
   /// Return a detailed description of this device
   random_reset();
   std::stringstream desc;
-  desc << get_random_name_corporation() << " model PS-" << static_cast<int>(pressurelimit / 1000000) << "-" << static_cast<int>(temperaturelimit / 100)
-       << ".  A pressure sensor that monitors external ambient static pressure.  Capable of withstanding up to "
+  desc << "A pressure sensor that monitors external ambient static pressure.  Capable of withstanding up to "
        << pressurelimit << "Pa pressure and "
        << temperaturelimit << "K temperature.";
   return desc.str();

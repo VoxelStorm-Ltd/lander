@@ -23,6 +23,7 @@ public:
   ~display();
 
   std::string get_name();
+  std::string  get_model();
   std::string get_description();
   unsigned int get_port_in_count();
   std::string get_port_in_name(       unsigned int port);

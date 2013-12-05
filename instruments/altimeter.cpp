@@ -19,15 +19,16 @@ std::string altimeter::get_name() {
   return "barometric altimeter";
 }
 
+std::string altimeter::get_model() {
+  /// Return a model name for this device
+  return "ALT-100E";
+}
+
 std::string altimeter::get_description() {
   /// Return a detailed description of this device
-  random_reset();
-  std::stringstream desc;
-  desc << get_random_name_corporation() << " model ALT-100E."
-          "  A simple and inexpensive altimeter that calculates altitude based on static atmospheric pressure."
-          "  Calibrated for use in Earth's atmosphere only."
-          "  Not capable of giving meaningful results outside of an atmosphere.";
-  return desc.str();
+  return "A simple and inexpensive altimeter that calculates altitude based on static atmospheric pressure."
+         "  Calibrated for use in Earth's atmosphere only."
+         "  Not capable of giving meaningful results outside of an atmosphere.";
 }
 
 unsigned int altimeter::get_port_in_count() {

@@ -21,6 +21,19 @@ std::string device::get_name() {
   return "Device";
 }
 
+std::string device::get_manufacturer() {
+  /// Return a manufacturer name for this device
+  random_reset();
+  return get_random_name_corporation();
+}
+
+std::string device::get_model() {
+  /// Return a model name for this device
+  // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+  return "DEV0001a";
+}
+
 std::string device::get_description() {
   /// Return a detailed description of this device
   // virtual placeholder
@@ -94,29 +107,39 @@ std::string device::get_port_out_description(unsigned int port __attribute__((__
 }
 
 double device::get_port_out_data(unsigned int port __attribute__((__unused__))) {
-  /// Query the data on the specified out port
+  /// Query the value data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   return 0.0;
 }
 
-void device::get_port_out_video_analogue(unsigned int port   __attribute__((__unused__)),
-                                         Vector2i windowsize __attribute__((__unused__))) {
-  /// Query the data on the specified out port
+std::string device::get_port_out_text(unsigned int port) {
+  /// Query the text data on the specified out port
+  // generate a string of random junk
+  std::stringstream ss;
+  for(unsigned int i = 0; i != 8; ++i) {
+    ss << static_cast<char>(get_random_uint(33, 126));
+  }
+  return ss.str();
+}
+
+void device::get_port_out_video_analogue(unsigned int port          __attribute__((__unused__)),
+                                         Vector2i const &windowsize __attribute__((__unused__))) {
+  /// Query the analogue video data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects an analogue video display to a non-video output
   // TODO: render static
 }
 
-void device::get_port_out_video_digital(unsigned int port   __attribute__((__unused__)),
-                                        Vector2i windowsize __attribute__((__unused__))) {
-  /// Query the data on the specified out port
+void device::get_port_out_video_digital(unsigned int port          __attribute__((__unused__)),
+                                        Vector2i const &windowsize __attribute__((__unused__))) {
+  /// Query the digital video data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects a digital video display to a non-video output
   // TODO: render digital junk
 }
 
 void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
-  /// Query the data on the specified out port
+  /// Query the audio data on the specified out port
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects a audio speaker to a non-audio output
   // TODO: output hissing / buzzing / glitch noises
@@ -214,7 +237,7 @@ void device::destroy() {
 
 void device::describe_to_console() {
   /// Dump a vebrose description of this device and all its connections to the console
-  std::cout << "*** " << get_name() << " ***" << std::endl;
+  std::cout << "*** " << get_manufacturer() << " model " << get_model() << ": " << get_name() << " ***" << std::endl;
   std::cout << get_description() << std::endl;
   std::cout << "Input ports: " << get_port_in_count() << std::endl;
   for(unsigned int i = 0; i != get_port_in_count(); ++i) {

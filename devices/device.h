@@ -34,6 +34,8 @@ public:
   virtual ~device();
 
   virtual std::string  get_name();
+  virtual std::string  get_manufacturer();
+  virtual std::string  get_model();
   virtual std::string  get_description();
   virtual unsigned int get_port_in_count();
   virtual std::string  get_port_in_name(           unsigned int port);
@@ -44,8 +46,9 @@ public:
   virtual std::string  get_port_out_name(          unsigned int port);
   virtual std::string  get_port_out_description(   unsigned int port);
   virtual double       get_port_out_data(          unsigned int port);
-  virtual void         get_port_out_video_digital( unsigned int port, Vector2i windowsize);
-  virtual void         get_port_out_video_analogue(unsigned int port, Vector2i windowsize);
+  virtual std::string  get_port_out_text(          unsigned int port);
+  virtual void         get_port_out_video_digital( unsigned int port, Vector2i const &windowsize);
+  virtual void         get_port_out_video_analogue(unsigned int port, Vector2i const &windowsize);
   virtual void         get_port_out_sound(         unsigned int port);
   virtual void update();
 

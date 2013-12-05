@@ -16,6 +16,7 @@ public:
   ~sensor_pressure();
 
   std::string  get_name();
+  std::string  get_model();
   std::string  get_description();
   unsigned int get_port_out_count();
   std::string  get_port_out_name(       unsigned int port);

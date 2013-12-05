@@ -24,18 +24,21 @@ std::string mapper_system::get_name() {
   return "star system mapper";
 }
 
+std::string mapper_system::get_model() {
+  /// Return a model name for this device
+  std::stringstream model;
+  model << "MAP-S" << get_random_int(100, 999) << "0a";
+  return model.str();
+}
+
 std::string mapper_system::get_description() {
   /// Return a detailed description of this device
-  random_reset();
-  std::stringstream desc;
-  desc << get_random_name_corporation() << " model MAP-S" << get_random_int(100, 999) << "0a."
-       << "  A mapping computer that keeps track of the orbital positions of all "
-          "known bodies within the current star system, including planets, "
-          "spacecraft, and all known radar and visual contacts."
-          "  The display is orthographic."
-          "  Capable of rotation and zoom."
-          "  Displays object trails relative to a selectable reference frame.";
-  return desc.str();
+  return "A mapping computer that keeps track of the orbital positions of all "
+         "known bodies within the current star system, including planets, "
+         "spacecraft, and all known radar and visual contacts."
+         "  The display is orthographic."
+         "  Capable of rotation and zoom."
+         "  Displays object trails relative to a selectable reference frame.";
 }
 
 unsigned int mapper_system::get_port_in_count() {
@@ -128,7 +131,7 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
 }
 
 void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__)),
-                                                Vector2i windowsize) {
+                                                Vector2i const &windowsize) {
   /// Render the star map on an analogue monitor
   centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
 

@@ -1141,6 +1141,8 @@
 		<Unit filename="instruments/instrument.cpp" />
 		<Unit filename="instruments/instrument.h" />
 		<Unit filename="instruments/instrument_render.cpp" />
+		<Unit filename="instruments/memory.cpp" />
+		<Unit filename="instruments/memory.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mathematical/integrator.cpp" />
 		<Unit filename="mathematical/integrator.h" />
