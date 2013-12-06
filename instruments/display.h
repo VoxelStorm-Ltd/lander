@@ -12,7 +12,7 @@ private:
   GLuint framebuffer;
   GLuint depthbuffer;
 
-  GLuint static const screen_width = 25;
+  GLuint static const screen_width = 256;
   GLuint static const screen_height = screen_width;
 
   Vector2d screen_pos;
