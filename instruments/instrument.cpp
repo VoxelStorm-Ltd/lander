@@ -1,4 +1,6 @@
 #include "instrument.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include "spacecraft.h"
 #include "instrumentpanel.h"
 
@@ -62,3 +64,8 @@ void instrument::remove_panel() {
 //void instrument::update() {
 //  /// Update the readings on this instrument and re-cache new values
 //}
+
+void instrument::render() {
+  /// Show this instrument on the control panel
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+}

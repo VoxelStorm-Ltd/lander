@@ -1089,7 +1089,6 @@
 		</Compiler>
 		<Unit filename="astronaut.cpp" />
 		<Unit filename="astronaut.h" />
-		<Unit filename="astronaut_render.cpp" />
 		<Unit filename="astronomical_entities/blackhole.cpp" />
 		<Unit filename="astronomical_entities/blackhole.h" />
 		<Unit filename="astronomical_entities/dustcloud.cpp" />
@@ -1102,12 +1101,10 @@
 		<Unit filename="astronomical_entities/orbitalbody.h" />
 		<Unit filename="astronomical_entities/planet.cpp" />
 		<Unit filename="astronomical_entities/planet.h" />
-		<Unit filename="astronomical_entities/planet_render.cpp" />
 		<Unit filename="astronomical_entities/pulsar.cpp" />
 		<Unit filename="astronomical_entities/pulsar.h" />
 		<Unit filename="astronomical_entities/star.cpp" />
 		<Unit filename="astronomical_entities/star.h" />
-		<Unit filename="astronomical_entities/star_render.cpp" />
 		<Unit filename="astronomical_entities/starsystem.cpp" />
 		<Unit filename="astronomical_entities/starsystem.h" />
 		<Unit filename="astronomical_entities/universe.cpp" />
@@ -1116,7 +1113,6 @@
 		<Unit filename="astronomical_entities/whitedwarf.h" />
 		<Unit filename="body.cpp" />
 		<Unit filename="body.h" />
-		<Unit filename="body_render.cpp" />
 		<Unit filename="devices/device.cpp" />
 		<Unit filename="devices/device.h" />
 		<Unit filename="devices/mapper_system.cpp" />
@@ -1135,12 +1131,10 @@
 		<Unit filename="instrumentpanel.h" />
 		<Unit filename="instruments/altimeter.cpp" />
 		<Unit filename="instruments/altimeter.h" />
-		<Unit filename="instruments/altimeter_render.cpp" />
 		<Unit filename="instruments/display.cpp" />
 		<Unit filename="instruments/display.h" />
 		<Unit filename="instruments/instrument.cpp" />
 		<Unit filename="instruments/instrument.h" />
-		<Unit filename="instruments/instrument_render.cpp" />
 		<Unit filename="instruments/memory.cpp" />
 		<Unit filename="instruments/memory.h" />
 		<Unit filename="main.cpp" />

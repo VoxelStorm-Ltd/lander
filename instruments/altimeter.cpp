@@ -1,4 +1,6 @@
 #include "altimeter.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 altimeter::altimeter()
   : altitude(0.0) {
@@ -84,4 +86,26 @@ void altimeter::update() {
   // pressure_sealevel = 101325 Pa
   // altitude = ((10 * log10(pressure / pressure_sealevel) / 5.2558797) - 1) / (-6.8755856 * 10^-6)
   altitude = (((10.0 / 5.2558797) * log10(pressure / 101325)) - 1.0) / -0.0000068755856;
+}
+
+void altimeter::render() {
+  /// Draw the altimiter arrows and clock
+  glPushMatrix();
+
+  glTranslated(position.x,
+               position.y,
+               position.z);
+
+  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  glBegin(GL_QUADS);
+  glVertex3d(0.0,    0.0,    size.z);
+  glVertex3d(size.x, 0.0,    size.z);
+  glVertex3d(size.x, size.y, size.z);
+  glVertex3d(0.0,    size.y, size.z);
+  glEnd();
+
+  // render arrow
+  // TODO
+
+  glPopMatrix();
 }

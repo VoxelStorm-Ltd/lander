@@ -13,6 +13,7 @@
 #include "sensor_pressure.h"
 #include "display.h"
 #include "mapper_system.h"
+#include "memory.h"
 
 universe extern root;
 astronaut extern *player;
@@ -191,13 +192,20 @@ void init_universe() {
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
+  memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach(controlpanel);
   mainmonitor->position = Vector3d(0.1, 0.1, 0.0);
   mainmapper->attach(playership);
   mainmonitor->connect(0, mainmapper, 0);
+  mem_planetref->attach(playership);
+  mem_planetref->attach(controlpanel);
+  mem_planetref->position = Vector3d(1.1, 0.1, 0.0);
+  mem_planetref->set_memory_value(1.0);
+  mainmapper->connect(3, mem_planetref, 0);               // hook it up to the trails reference frame input
   mainmonitor->describe_to_console();
   mainmapper->describe_to_console();
+  mem_planetref->describe_to_console();
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
