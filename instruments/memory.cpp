@@ -15,6 +15,9 @@ memory::memory()
      << get_random_uint(1000, 1000) << "-"
      << get_random_uint(1000, 1000);
   memory_text = ss.str();
+  size.x = 0.01;    // small cube
+  size.y = 0.01;
+  size.z = 0.03;
 }
 
 memory::~memory() {

@@ -200,8 +200,8 @@ void init_universe() {
   mainmonitor->connect(0, mainmapper, 0);
   mem_planetref->attach(playership);
   mem_planetref->attach(controlpanel);
-  mem_planetref->position = Vector3d(1.1, 0.1, 0.0);
-  mem_planetref->set_memory_value(1.0);
+  mem_planetref->position = Vector3d(0.4, 0.05, 0.0);
+  mem_planetref->set_memory_value(4.0);                   // earth = 4
   mainmapper->connect(3, mem_planetref, 0);               // hook it up to the trails reference frame input
   mainmonitor->describe_to_console();
   mainmapper->describe_to_console();

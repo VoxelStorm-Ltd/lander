@@ -6,6 +6,9 @@
 
 instrument::instrument() {
   /// Default constructor
+  size.x = 0.01;    // fallback 1cm cube
+  size.y = 0.01;
+  size.z = 0.01;
 }
 
 instrument::~instrument() {
@@ -67,5 +70,41 @@ void instrument::remove_panel() {
 
 void instrument::render() {
   /// Show this instrument on the control panel
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+  // render a basic placeholder for unspecified instruments
+  glPushMatrix();
+
+  glTranslated(position.x,
+               position.y,
+               position.z);
+
+  glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
+  glBegin(GL_QUADS);
+  // front
+  glVertex3d(0.0,    0.0,    size.z);
+  glVertex3d(size.x, 0.0,    size.z);
+  glVertex3d(size.x, size.y, size.z);
+  glVertex3d(0.0,    size.y, size.z);
+  // top
+  glVertex3d(0.0,    size.y, 0.0);
+  glVertex3d(0.0,    size.y, size.z);
+  glVertex3d(size.x, size.y, size.z);
+  glVertex3d(size.x, size.y, 0.0);
+  // bottom
+  glVertex3d(0.0,    0.0,    0.0);
+  glVertex3d(size.x, 0.0,    0.0);
+  glVertex3d(size.x, 0.0,    size.z);
+  glVertex3d(0.0,    0.0,    size.z);
+  // right
+  glVertex3d(size.x, 0.0,    0.0);
+  glVertex3d(size.x, size.y, 0.0);
+  glVertex3d(size.x, size.y, size.z);
+  glVertex3d(size.x, 0.0,    size.z);
+  // left
+  glVertex3d(0.0,    0.0,    0.0);
+  glVertex3d(0.0,    0.0,    size.z);
+  glVertex3d(0.0,    size.y, size.z);
+  glVertex3d(0.0,    size.y, 0.0);
+  glEnd();
+
+  glPopMatrix();
 }

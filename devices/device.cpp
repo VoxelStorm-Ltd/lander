@@ -217,7 +217,7 @@ void device::disconnect_all() {
     unsigned int numports = it->get_port_in_count();
     for(unsigned int i = 0; i != numports; ++i) {
       if(it->ports_in[i].target == this) {
-        std::cout << it->get_name() << " was disconnected from " << get_name();
+        //std::cout << it->get_name() << " was disconnected from " << get_name() << std::endl;
         it->disconnect(i);
       }
     }

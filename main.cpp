@@ -12,7 +12,7 @@
 // globals
 bool keeprunning = true;
 GLFWwindow *window_main;      // the main game window
-int const extern windowwidth  = 1200.0;
+int const extern windowwidth  = 800.0;
 int const extern windowheight = 800.0;
 //double const aspect_ratio = 1.0;
 double const aspect_ratio = static_cast<double>(windowheight) / static_cast<double>(windowwidth);

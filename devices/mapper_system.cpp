@@ -156,24 +156,6 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
                -vessel->position.y,
                -vessel->position.z);
 
-  // trails
-  glBegin(GL_POINTS);
-  //glBegin(GL_LINES);
-  //for(auto it : trails) {
-  for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
-    glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
-    //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
-    glVertex3dv(it->linepoint);
-    //glVertex3dv(Vector3d(0.0, 1000000.0, 0.0));
-    it->fade *= 0.99995;
-    if(it->fade < 0.3) {
-      it = trails.erase(it);
-    } else {
-      ++it;
-    }
-  }
-  glEnd();
-
   // bodies
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   for(auto const &it : root.currentsystem->bodies) {
@@ -204,7 +186,11 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
     if(trailcounter == 0) {
       // every period add a trail point
       trailtype trail;
-      trail.linepoint = point;
+      if(trail_ref) {
+        trail.linepoint = point - trail_ref->position;
+      } else {
+        trail.linepoint = point;
+      }
       trail.fade = 1.0;
       trails.push_back(trail);
     }
@@ -213,6 +199,29 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   }
 
   // trails
+  if(trail_ref) {
+    // if we have a trail reference point, translate the trails to match that
+    glTranslated(trail_ref->position.x,
+                 trail_ref->position.y,
+                 trail_ref->position.z);
+  }
+  glBegin(GL_POINTS);
+  //glBegin(GL_LINES);
+  //for(auto it : trails) {
+  for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
+    glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
+    //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
+    glVertex3dv(it->linepoint);
+    //glVertex3dv(Vector3d(0.0, 1000000.0, 0.0));
+    it->fade *= 0.99995;
+    if(it->fade < 0.3) {
+      it = trails.erase(it);
+    } else {
+      ++it;
+    }
+  }
+  glEnd();
+  // trail counter
   if(trailcounter == 0) {
     trailcounter = trailperiod;
   } else {
@@ -254,6 +263,7 @@ void mapper_system::update() {
       unsigned int const ntarget = static_cast<unsigned int>(ntarget_pre);
       for(auto const &it : root.currentsystem->bodies) {
         if(ntarget == n) {
+          std::cout << get_name() << " trails now locked to " << it->get_name() << " reference frame." << std::endl;
           trail_ref = it;
           break;
         }
