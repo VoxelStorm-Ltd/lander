@@ -3,6 +3,7 @@
 memory::memory()
   : memory_value(0.0) {
   /// Default constructor
+  ports_in.resize(get_port_in_count());     // anything with input ports needs this
   random_reset();
   // set up initial values for outputs
   std::stringstream ss;

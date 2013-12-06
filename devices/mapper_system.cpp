@@ -238,15 +238,15 @@ void mapper_system::update() {
   double rotation_y = 0.0;
   double rotation_x = 0.0;
   if(ports_in[1].target) {
-    rotation_y = ports_in[2].target->get_port_out_data(ports_in[2].target_port);
+    rotation_y = ports_in[1].target->get_port_out_data(ports_in[1].target_port);
   }
   if(ports_in[2].target) {
-    rotation_x = ports_in[1].target->get_port_out_data(ports_in[1].target_port);
+    rotation_x = ports_in[2].target->get_port_out_data(ports_in[2].target_port);
   }
   rotation = Matrix4f::createRotationAroundAxis(rotation_x, rotation_y, 0.0);
   // update the trail reference target
   if(ports_in[3].target) {
-    double const ntarget_pre = ports_in[2].target->get_port_out_data(ports_in[2].target_port);
+    double const ntarget_pre = ports_in[3].target->get_port_out_data(ports_in[3].target_port);
     // sanity checks
     if(ntarget_pre >= 1.0) {
       // iterate through the bodies to try to find the nth
