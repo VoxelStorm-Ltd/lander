@@ -1,41 +1,17 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "astronaut.h"
 
-bool extern keeprunning;
-GLFWwindow extern *window_main;
-int extern windowwidth;
-int extern windowheight;
+extern astronaut *player;
 
-
-void callback_windowresize_3d(GLFWwindow *thiswindow __attribute__((unused)), int newwidth, int newheight) {
+void callback_windowresize(GLFWwindow *thiswindow __attribute__((unused)), int newwidth, int newheight) {
   /// Callback for handling window resize events
-  windowwidth  = newwidth;
-  windowheight = newheight;
-  glViewport(0, 0, windowwidth, windowheight);
+  player->update_window(Vector2i(newwidth, newheight));
 
-  double aspect_ratio = static_cast<double>(windowheight) / windowwidth;
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glFrustum(-0.5, 0.5,
-            -0.5 * aspect_ratio,
-            0.5 * aspect_ratio,
-            0.5, 10);
-  glMatrixMode(GL_MODELVIEW);
-
-  //config->mousecentrex = (windowwidth  / 2.0);
-  //config->mousecentrey = (windowheight / 2.0);
-}
-
-void callback_windowresize_2d(GLFWwindow *thiswindow __attribute__((unused)), int newwidth, int newheight) {
-  /// Callback for handling window resize events
-  windowwidth  = newwidth;
-  windowheight = newheight;
-  glViewport(0, 0, windowwidth, windowheight);
-
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0, windowwidth, 0, windowheight);
-  glMatrixMode(GL_MODELVIEW);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  player->render_firstperson();                   // test render while the window is being dragged
+  glfwSwapBuffers(thiswindow);
 
   //config->mousecentrex = (windowwidth  / 2.0);
   //config->mousecentrey = (windowheight / 2.0);

@@ -7,16 +7,15 @@
 
 // globals
 GLFWwindow extern *window_main;
-extern int windowwidth;
-extern int windowheight;
 
-void callback_mousepos(   GLFWwindow *thiswindow, double x, double z);
-void callback_key(        GLFWwindow *thiswindow, int key, int scancode __attribute__((unused)), int action, int mods);
-void callback_windowclose(GLFWwindow *thiswindow);
-void callback_scroll(     GLFWwindow *thiswindow, double xoffset, double yoffset);
+void callback_mousepos(    GLFWwindow *thiswindow, double x, double z);
+void callback_key(         GLFWwindow *thiswindow, int key, int scancode, int action, int mods);
+void callback_scroll(      GLFWwindow *thiswindow, double xoffset, double yoffset);
+void callback_windowresize(GLFWwindow *thiswindow, int newwidth, int newheight);
+void callback_windowclose( GLFWwindow *thiswindow);
 
 
-void init_graphics() {
+void init_graphics(Vector2i windowsize) {
   std::cout << "Initialising graphics..." << std::endl;
   // initialise the opengl window
   if(glfwInit() != GL_TRUE) {
@@ -66,8 +65,8 @@ void init_graphics() {
 
   glfwWindowHint(GLFW_CONTEXT_ROBUSTNESS, GLFW_NO_RESET_NOTIFICATION);
   glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-  window_main = glfwCreateWindow(windowwidth,
-                                 windowheight,
+  window_main = glfwCreateWindow(windowsize.x,
+                                 windowsize.y,
                                  "Lander",
                                  oculusmonitor,
                                  NULL);
@@ -161,9 +160,12 @@ void init_graphics() {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //glfwSetCursorPosCallback(window_main, callback_mousepos);
-  glfwSetKeyCallback(      window_main, callback_key);
-  glfwSetScrollCallback(   window_main, callback_scroll);
+  // callbacks
+  glfwSetCursorPosCallback(  window_main, callback_mousepos);
+  glfwSetKeyCallback(        window_main, callback_key);
+  glfwSetScrollCallback(     window_main, callback_scroll);
+  glfwSetWindowSizeCallback( window_main, callback_windowresize);
+  glfwSetWindowCloseCallback(window_main, callback_windowclose);
 
   std::stringstream title;
   title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;

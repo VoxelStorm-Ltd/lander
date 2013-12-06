@@ -21,6 +21,11 @@ public:
   spacecraft *vessel_in;
   planet *walking_on;
 
+  // first person graphics settings
+  Vector2i windowsize;
+  double fov_ratio;
+  double aspect_ratio;
+
   astronaut();
   ~astronaut();
 
@@ -38,6 +43,12 @@ public:
   void render_radio();
   void render_infrared();
   void render_ultraviolet();
+  // first person render setup
+  void render_firstperson();
+  void update_fov_ratio(double fov = 90);
+  void update_window(Vector2i newwindowsize);
+  void update_aspect_ratio();
+  void setup_render_perspective(double nearplane = 0.1, double farplane = 20.0);
 };
 
 #endif // ASTRONAUT_H_INCLUDED

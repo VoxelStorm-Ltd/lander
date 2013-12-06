@@ -6,7 +6,9 @@
 extern astronaut *player;
 
 astronaut::astronaut()
-  : state(statetype::INACTIVE),
+  : fov_ratio(1.0),
+    aspect_ratio(1.0),
+    state(statetype::INACTIVE),
     vessel_in(nullptr),
     walking_on(nullptr) {
   /// Default constructor
@@ -136,4 +138,70 @@ void astronaut::render_infrared() {
 void astronaut::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
+}
+
+void astronaut::render_firstperson() {
+  /// Render from this astronaut's first person view
+  switch(state) {
+  case statetype::IN_VESSEL:
+    // translate and rotate to player's view in the cockpit
+    setup_render_perspective(0.1, 20.0);
+    glTranslated(-position.x,
+                 -position.y,
+                 -position.z);
+    // draw cockpit view of the current ship
+    player->vessel_in->render_cockpit();
+    break;
+  case statetype::EVA:
+  case statetype::ATMOSPHERIC:     // "or" equiv
+  case statetype::SURFACE:         // "or" equiv
+    // translate and rotate to player's view in the universe
+    setup_render_perspective(0.5, 1406000000000.0);    // far = heliopause
+    glTranslated(-position.x,
+                 -position.y,
+                 -position.z);
+    // draw first person view from outside
+    // TODO
+    break;
+  case statetype::INACTIVE:
+  case statetype::DEAD:
+    // pearly gates
+    // TODO
+    break;
+  }
+}
+
+void astronaut::update_fov_ratio(double fov_angle) {
+  /// Helper function to calculate field of view ratio from a field of view angle
+  // fov_ratio = 1.0;
+  fov_ratio = tan(fov_angle / (360.0 * M_PI));
+}
+
+void astronaut::update_window(Vector2i newwindowsize) {
+  windowsize = newwindowsize;
+  glViewport(0, 0, windowsize.x, windowsize.y);
+  //glViewport(-windowsize.x, -windowsize.y, windowsize.x, windowsize.y);
+  update_aspect_ratio();
+}
+
+void astronaut::update_aspect_ratio() {
+  // aspect_ratio = 1.0;
+  aspect_ratio = static_cast<double>(windowsize.y) / static_cast<double>(windowsize.x);
+  //std::cout << "New window size " << windowsize << " aspect ratio " << aspect_ratio << std::endl;
+}
+
+void astronaut::setup_render_perspective(double nearplane,
+                                         double farplane) {
+  /// Set up the projection matrix to the correct specifications
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glFrustum(nearplane * -fov_ratio,
+            nearplane *  fov_ratio,
+            nearplane * -fov_ratio * aspect_ratio,
+            nearplane *  fov_ratio * aspect_ratio,
+            nearplane, farplane);
+  // TODO: cache this matrix in a separate update function called on windowresize only, and load it here
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 }
