@@ -35,6 +35,11 @@ std::string display::get_description() {
          "  Slightly increases the pilot's overall radiation exposure.";
 }
 
+double display::get_mass() {
+  /// Return the weight of the device, in kilograms
+  return 22.0;
+}
+
 unsigned int display::get_port_in_count() {
   /// How many input ports it has
   return 1;
@@ -80,7 +85,7 @@ void display::update() {
   if(ports_in[0].target) {
     display_image = ports_in[0].target->get_port_out_video_analogue(ports_in[0].target_port);
   } else {
-    std::cout << "DEBUG: no signal" << std::endl;
+    //std::cout << "DEBUG: no signal" << std::endl;
     display_image = generate_static_analogue();
     // TODO: overlay "no signal" text on static
   }

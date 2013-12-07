@@ -51,7 +51,7 @@ std::string device::get_description() {
   return "A device of some sort.  It doesn't appear to do anything.";
 }
 
-double device::get_weight() {
+double device::get_mass() {
   /// Return the weight of the device, in kilograms
   // virtual placeholder
   return 1.0;

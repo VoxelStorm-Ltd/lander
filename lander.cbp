@@ -1136,6 +1136,14 @@
 		<Unit filename="instruments/altimeter.h" />
 		<Unit filename="instruments/display.cpp" />
 		<Unit filename="instruments/display.h" />
+		<Unit filename="instruments/display_converter_analogue_digital.cpp" />
+		<Unit filename="instruments/display_converter_analogue_digital.h" />
+		<Unit filename="instruments/display_converter_digital_analogue.cpp" />
+		<Unit filename="instruments/display_converter_digital_analogue.h" />
+		<Unit filename="instruments/display_digital.cpp" />
+		<Unit filename="instruments/display_digital.h" />
+		<Unit filename="instruments/display_small.cpp" />
+		<Unit filename="instruments/display_small.h" />
 		<Unit filename="instruments/instrument.cpp" />
 		<Unit filename="instruments/instrument.h" />
 		<Unit filename="instruments/memory.cpp" />

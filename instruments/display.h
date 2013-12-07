@@ -7,23 +7,24 @@
 
 class display : public instrument {
   /// General display device that takes a video signal and displays 2D imagery
-private:
+protected:
   GLuint display_image;               // cached reference to the texture we use
 
 public:
   display();
   ~display();
 
-  std::string get_name();
-  std::string  get_model();
-  std::string get_description();
-  unsigned int get_port_in_count();
-  std::string get_port_in_name(       unsigned int port);
-  std::string get_port_in_description(unsigned int port);
-  bool get_port_in_required(          unsigned int port);
-  Vector3d get_size();
+  virtual std::string get_name();
+  virtual std::string get_model();
+  virtual std::string get_description();
+  virtual double      get_mass();
+  unsigned int        get_port_in_count();
+  std::string         get_port_in_name(       unsigned int port);
+  std::string         get_port_in_description(unsigned int port);
+  bool                get_port_in_required(   unsigned int port);
+  virtual Vector3d    get_size();
 
-  void update();
+  virtual void update();
   void render();
 };
 

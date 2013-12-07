@@ -44,7 +44,7 @@ public:
   virtual std::string  get_manufacturer();
   virtual std::string  get_model();
   virtual std::string  get_description();
-  virtual double       get_weight();
+  virtual double       get_mass();
   virtual unsigned int get_port_in_count();
   virtual std::string  get_port_in_name(           unsigned int port);
   virtual std::string  get_port_in_description(    unsigned int port);

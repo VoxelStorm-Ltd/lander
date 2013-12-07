@@ -20,9 +20,9 @@ public:
   // getters and setters
   virtual Vector3d get_position();
   virtual Vector3d get_size();
-  virtual Quatd get_rotation();
-  virtual void set_position(Vector3d const &newposition);
-  virtual void set_position(double x, double y, double z);
+  virtual Quatd    get_rotation();
+  virtual void     set_position(Vector3d const &newposition);
+  virtual void     set_position(double x, double y, double z);
   // no default setters for size and rotation - these are fixed for most instruments
 
   virtual void attach(spacecraft *to_vessel);

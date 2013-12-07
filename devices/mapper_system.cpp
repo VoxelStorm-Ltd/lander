@@ -70,6 +70,7 @@ std::string mapper_system::get_name() {
 
 std::string mapper_system::get_model() {
   /// Return a model name for this device
+  random_reset();
   std::stringstream model;
   model << "MAP-S" << get_random_int(100, 999) << "0a";
   return model.str();
@@ -83,6 +84,11 @@ std::string mapper_system::get_description() {
          "  The display is orthographic."
          "  Capable of rotation and zoom."
          "  Displays object trails relative to a selectable reference frame.";
+}
+
+double mapper_system::get_mass() {
+  /// Return the weight of the device, in kilograms
+  return 46.0;
 }
 
 unsigned int mapper_system::get_port_in_count() {

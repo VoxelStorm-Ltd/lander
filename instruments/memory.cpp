@@ -82,6 +82,11 @@ std::string memory::get_description() {
          "is their flexibility.";
 }
 
+double memory::get_mass() {
+  /// Return the weight of the device, in kilograms
+  return 0.0085;    // 8.5g
+}
+
 unsigned int memory::get_port_in_count() {
   /// How many input ports it has
   return 1;
@@ -149,7 +154,7 @@ void memory::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
 
 Vector3d memory::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.005, 0.03, 0.01);    // thumbstick shape, ish
+  return Vector3d(0.01, 0.03, 0.005);    // thumbstick shape, ish
 }
 
 void memory::update() {

@@ -39,6 +39,7 @@ public:
   std::string  get_name();
   std::string  get_model();
   std::string  get_description();
+  double get_mass();
   unsigned int get_port_in_count();
   std::string get_port_in_name(            unsigned int port);
   std::string get_port_in_description(     unsigned int port);

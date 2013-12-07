@@ -39,6 +39,11 @@ std::string sensor_pressure::get_description() {
   return desc.str();
 }
 
+double sensor_pressure::get_mass() {
+  /// Return the weight of the device, in kilograms
+  return 0.35;
+}
+
 unsigned int sensor_pressure::get_port_out_count() {
   /// How many output ports it has
   return 1;

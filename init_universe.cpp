@@ -12,8 +12,11 @@
 #include "altimeter.h"
 #include "sensor_pressure.h"
 #include "display.h"
+#include "display_digital.h"
+#include "display_small.h"
 #include "mapper_system.h"
 #include "memory.h"
+#include "display_converter_analogue_digital.h"
 
 universe extern root;
 astronaut extern *player;
@@ -198,9 +201,7 @@ void init_universe() {
   mainmonitor->attach(controlpanel);
   mainmonitor->set_position(0.1, 0.1, 0.0);
   mainmapper->attach(playership);
-  //mainmonitor->connect(0, mainmapper, 0);
-  // static source:
-  mainmonitor->connect(0, testdevice2, 0);
+  mainmonitor->connect(0, mainmapper, 0);
   mem_zoom->attach(playership);
   mem_zoom->attach(controlpanel);
   mem_zoom->set_position(0.1, 0.05, 0.0);
@@ -214,6 +215,26 @@ void init_universe() {
   mainmonitor->describe_to_console();
   mainmapper->describe_to_console();
   mem_planetref->describe_to_console();
+
+  display_digital *staticmonitor1 = new display_digital;
+  staticmonitor1->attach(playership);
+  staticmonitor1->attach(controlpanel);
+  staticmonitor1->set_position(1.0, 0.1, 0.0);
+  //staticmonitor1->connect(0, testdevice2, 0);             // noise source
+  //staticmonitor1->connect(0, mainmapper, 0);
+  display_small *staticmonitor2 = new display_small;
+  staticmonitor2->attach(playership);
+  staticmonitor2->attach(controlpanel);
+  staticmonitor2->set_position(1.0, 0.6, 0.0);
+  //staticmonitor2->connect(0, testdevice2, 0);             // noise source
+  staticmonitor2->connect(0, mainmapper, 0);
+
+  display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
+  converter1->attach(playership);
+  converter1->attach(controlpanel);
+  converter1->set_position(1.5, 0.1, 0.0);
+  converter1->connect(0, mainmapper, 0);
+  staticmonitor1->connect(0, converter1, 0);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
