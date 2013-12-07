@@ -3,8 +3,10 @@
 #include <iostream>
 #include "spacecraft.h"
 
-Vector2i device::static_screensize(256, 256);
-GLuint device::image_static = 0;
+Vector2i device::screensize_static_analogue(64, 64);
+Vector2i device::screensize_static_digital( 16, 16);
+GLuint device::image_static_analogue = 0;
+GLuint device::image_static_digital  = 0;
 
 device::device()
   : vessel(nullptr),
@@ -115,7 +117,7 @@ double device::get_port_out_data(unsigned int port __attribute__((__unused__))) 
   return 0.0;
 }
 
-std::string device::get_port_out_text(unsigned int port) {
+std::string device::get_port_out_text(unsigned int port __attribute__((__unused__))) {
   /// Query the text data on the specified out port
   // generate a string of random junk
   std::stringstream ss;
@@ -128,19 +130,43 @@ std::string device::get_port_out_text(unsigned int port) {
 GLuint device::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
   /// Query the analogue video data on the specified out port - returns a texture id
   // virtual placeholder - this may get called if nothing specialises it
-  if(image_static == 0) {
+  return generate_static_analogue();
+}
+
+GLuint device::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
+  /// Query the digital video data on the specified out port - returns a texture id
+  // virtual placeholder - this may get called if nothing specialises it
+  return generate_static_digital();
+}
+
+void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
+  /// Query the audio data on the specified out port
+  // virtual placeholder - this may get called if nothing specialises it
+  // this gets called if someone connects a audio speaker to a non-audio output
+  // TODO: output hissing / buzzing / glitch noises
+}
+
+GLuint device::generate_static_analogue() {
+  /// Generate and return a static image - this is static and can be called without an instance of device
+  if(image_static_analogue == 0) {
     // we haven't allocated a texture, so do so now
-    glGenTextures(1, &image_static);
+    glGenTextures(1, &image_static_analogue);
     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, image_static_analogue);        // bind the texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_analogue.x, screensize_static_analogue.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+    glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
   }
 
   // this gets called if someone connects an analogue video display to a non-video output
-  glBindTexture(GL_TEXTURE_2D, image_static);            // bind the screen texture
+  glBindTexture(GL_TEXTURE_2D, image_static_analogue);            // bind the screen texture
   // analogue tv style banded white noise:
-  GLubyte temp_buffer[static_screensize.x][static_screensize.y][3];
-  for(int x = 0; x != static_screensize.x; ++x) {
+  GLubyte temp_buffer[screensize_static_analogue.x][screensize_static_analogue.y][3];
+  for(int x = 0; x != screensize_static_analogue.x; ++x) {
     double const band = get_random_double(0.5, 1.0);
-    for(int y = 0; y != static_screensize.y; ++y) {
+    for(int y = 0; y != screensize_static_analogue.y; ++y) {
       unsigned char const value = get_random_int(63, 255) * band;
       temp_buffer[x][y][0] = value;                             // uniform b&w noise
       temp_buffer[x][y][1] = value;
@@ -153,35 +179,60 @@ GLuint device::get_port_out_video_analogue(unsigned int port __attribute__((__un
   glTexImage2D(GL_TEXTURE_2D,                             // target
                0,                                         // mipmap level
                GL_RGB,                                    // internalFormat
-               static_screensize.x,                       // dimensions
-               static_screensize.y,
+               screensize_static_analogue.x,              // dimensions
+               screensize_static_analogue.y,
                0,                                         // border
                GL_RGB,                                    // format
                GL_UNSIGNED_BYTE,                          // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
                &temp_buffer);                             // buffer or NULL to leave undefined
   glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
-  return image_static;
+
+  return image_static_analogue;
 }
 
-GLuint device::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
-  /// Query the digital video data on the specified out port - returns a texture id
-  // virtual placeholder - this may get called if nothing specialises it
+GLuint device::generate_static_digital() {
   // this gets called if someone connects a digital video display to a non-video output
-  if(image_static == 0) {
+  if(image_static_digital == 0) {
     // we haven't allocated a texture, so do so now
-    glGenTextures(1, &image_static);
+    glGenTextures(1, &image_static_digital);
     glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, image_static_digital);        // bind the texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_digital.x, screensize_static_digital.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering for square pixel effect
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+    glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
   }
 
-  // TODO: render digital junk
-  return image_static;
-}
+  glBindTexture(GL_TEXTURE_2D, image_static_digital);            // bind the screen texture
+  // digital tv style strips of junk
+  GLubyte temp_buffer[screensize_static_digital.x * screensize_static_digital.y][3];
+  Vector3d newcolour(get_random_int(0, 255),
+                     get_random_int(0, 255),
+                     get_random_int(0, 255));
+  for(int i = 0; i != screensize_static_digital.x * screensize_static_digital.y; ++i) {
+    // periodically re-randomise
+    if(get_random_bool(1 / (screensize_static_digital.x * 1.5))) {
+      newcolour.r = get_random_int(0, 255);
+      newcolour.g = get_random_int(0, 255);
+      newcolour.b = get_random_int(0, 255);
+    }
+    temp_buffer[i][0] = newcolour.r + get_random_int(-10, 10);
+    temp_buffer[i][1] = newcolour.g + get_random_int(-10, 10);
+    temp_buffer[i][2] = newcolour.b + get_random_int(-10, 10);
+  }
+  glTexImage2D(GL_TEXTURE_2D,                             // target
+               0,                                         // mipmap level
+               GL_RGB,                                    // internalFormat
+               screensize_static_digital.x,               // dimensions
+               screensize_static_digital.y,
+               0,                                         // border
+               GL_RGB,                                    // format
+               GL_UNSIGNED_BYTE,                          // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
+               &temp_buffer);                             // buffer or NULL to leave undefined
+  glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
 
-void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
-  /// Query the audio data on the specified out port
-  // virtual placeholder - this may get called if nothing specialises it
-  // this gets called if someone connects a audio speaker to a non-audio output
-  // TODO: output hissing / buzzing / glitch noises
+  return image_static_digital;
 }
 
 void device::attach(spacecraft *to_vessel) {
@@ -228,6 +279,10 @@ void device::connect(unsigned int port_in, device *target, unsigned int target_p
     std::cout << "ERROR: tried to connect " << get_name() << " to output port " << target_port_out << " on device " << target->get_name() << " which only has " << target->get_port_out_count() << " ports." << std::endl;
     return;
   }
+  //if(ports_in[port_in].target) {
+  //  // it's already plugged into something - disconnect it first
+  //  disconnect(port_in);
+  //}
   ports_in[port_in].target = target;
   ports_in[port_in].target_port = target_port_out;
   update();

@@ -198,7 +198,9 @@ void init_universe() {
   mainmonitor->attach(controlpanel);
   mainmonitor->set_position(0.1, 0.1, 0.0);
   mainmapper->attach(playership);
-  mainmonitor->connect(0, mainmapper, 0);
+  //mainmonitor->connect(0, mainmapper, 0);
+  // static source:
+  mainmonitor->connect(0, testdevice2, 0);
   mem_zoom->attach(playership);
   mem_zoom->attach(controlpanel);
   mem_zoom->set_position(0.1, 0.05, 0.0);

@@ -6,11 +6,11 @@
 extern astronaut *player;
 
 astronaut::astronaut()
-  : fov_ratio(1.0),
-    aspect_ratio(1.0),
-    state(statetype::INACTIVE),
+  : state(statetype::INACTIVE),
     vessel_in(nullptr),
-    walking_on(nullptr) {
+    walking_on(nullptr),
+    fov_ratio(1.0),
+    aspect_ratio(1.0) {
   /// Default constructor
   set_mass(0.0);
   set_radius(0.0);

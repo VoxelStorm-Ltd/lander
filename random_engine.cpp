@@ -2,6 +2,7 @@
 #include <random>
 #include "vmath.h"
 
+//std::mt19937 random_engine::generator;
 uint32_t random_engine::lastseed = 1337;    // first initialisation
 
 random_engine::random_engine()

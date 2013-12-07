@@ -84,7 +84,7 @@ std::string memory::get_description() {
 
 unsigned int memory::get_port_in_count() {
   /// How many input ports it has
-  return 4;
+  return 1;
 }
 
 std::string memory::get_port_in_name(unsigned int port __attribute__((__unused__))) {

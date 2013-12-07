@@ -12,8 +12,10 @@ class spacecraft;
 
 class device : public random_engine {
 private:
-  Vector2i static static_screensize;    // global texture for tv tyoe static
-  GLuint static image_static;           // global texture for tv tyoe static
+  Vector2i static screensize_static_analogue;    // screen size for tv type static generation
+  Vector2i static screensize_static_digital;     // screen size for digital noise type static
+  GLuint static image_static_analogue;           // global texture for tv type static
+  GLuint static image_static_digital;            // global texture for digital noise type static
 
 public:
   struct port_in_type {
@@ -55,6 +57,9 @@ public:
   virtual GLuint       get_port_out_video_analogue(unsigned int port);
   virtual void         get_port_out_sound(         unsigned int port);
   virtual void update();
+
+  GLuint generate_static_analogue();
+  GLuint generate_static_digital();
 
   virtual void attach(spacecraft *to_vessel);
   virtual void remove();
