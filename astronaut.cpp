@@ -14,6 +14,11 @@ astronaut::astronaut()
   /// Default constructor
   set_mass(0.0);
   set_radius(0.0);
+  rotation_head_yaw   = 0.0;
+  rotation_head_pitch = 0.0;
+  //rotation_head = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);   // null rotation quaternion
+  mouse_sensitivity.x = mouse_sensitivity.y = 0.5;
+  update_fov_ratio(90.0);
 }
 
 astronaut::~astronaut() {
@@ -146,9 +151,6 @@ void astronaut::render_firstperson() {
   case statetype::IN_VESSEL:
     // translate and rotate to player's view in the cockpit
     setup_render_perspective(0.1, 20.0);
-    glTranslated(-position.x,
-                 -position.y,
-                 -position.z);
     // draw cockpit view of the current ship
     player->vessel_in->render_cockpit();
     break;
@@ -157,9 +159,6 @@ void astronaut::render_firstperson() {
   case statetype::SURFACE:         // "or" equiv
     // translate and rotate to player's view in the universe
     setup_render_perspective(0.5, 1406000000000.0);    // far = heliopause
-    glTranslated(-position.x,
-                 -position.y,
-                 -position.z);
     // draw first person view from outside
     // TODO
     break;
@@ -174,7 +173,8 @@ void astronaut::render_firstperson() {
 void astronaut::update_fov_ratio(double fov_angle) {
   /// Helper function to calculate field of view ratio from a field of view angle
   // fov_ratio = 1.0;
-  fov_ratio = tan(fov_angle / (360.0 * M_PI));
+  fov_ratio = tan(fov_angle * (M_PI / 360.0));
+  std::cout << "New FOV ratio: " << fov_ratio << std::endl;
 }
 
 void astronaut::update_window(Vector2i newwindowsize) {
@@ -204,4 +204,13 @@ void astronaut::setup_render_perspective(double nearplane,
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+
+  glMultMatrixd(rotation.transform());              // body rotation
+  //glMultMatrixd(rotation_head.transform());         // head rotation
+  glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);    // head rotation
+  glRotated(rotation_head_yaw,   0.0, 1.0, 0.0);
+
+  glTranslated(-position.x,                         // position
+               -position.y,
+               -position.z);
 }

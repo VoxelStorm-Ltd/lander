@@ -166,6 +166,10 @@ void init_graphics(Vector2i windowsize) {
   glfwSetScrollCallback(     window_main, callback_scroll);
   glfwSetWindowSizeCallback( window_main, callback_windowresize);
   glfwSetWindowCloseCallback(window_main, callback_windowclose);
+  // input settings
+  //glfwSetInputMode(window_main, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+  //glfwSetInputMode(window_main, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+  glfwSetInputMode(window_main, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   std::stringstream title;
   title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;

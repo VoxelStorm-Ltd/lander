@@ -22,9 +22,14 @@ public:
   planet *walking_on;
 
   // first person graphics settings
-  Vector2i windowsize;
-  double fov_ratio;
-  double aspect_ratio;
+  Vector2d mouse_sensitivity;     // degrees per pixel moved for both horizontal and vertical mouse movement
+  Vector2d mouse_last;            // mouse coords relative to origin
+  Vector2i windowsize;            // set by glfw - modifying this directly changes nothing
+  double fov_ratio;               // updated by update_fov_ratio() from degrees
+  double aspect_ratio;            // updated by update_aspect_ratio() from windowsize
+  double rotation_head_yaw;       // euler angles for head rotation - we want gimbal limitation here
+  double rotation_head_pitch;
+  //Quatd rotation_head;            // which way the astronaut is facing - updated by update_rotation_head()
 
   astronaut();
   ~astronaut();

@@ -12,7 +12,6 @@
 // globals
 bool keeprunning = true;
 GLFWwindow *window_main;      // the main game window
-double fov = 90.0;
 universe root;
 astronaut *player;
 

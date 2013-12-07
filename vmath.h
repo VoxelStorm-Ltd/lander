@@ -3127,8 +3127,9 @@ class Quaternion {
      * @return Quaternion object representing transformation.
      */
     inline static Quaternion<T> fromEulerAngles(T x, T y, T z) {
-      Quaternion<T> ret = fromAxisRot(Vector3<T>(1, 0, 0), x) * fromAxisRot(Vector3<T>(0, 1, 0), y)
-                          * fromAxisRot(Vector3<T>(0, 0, 1), z);
+      Quaternion<T> ret = fromAxisRot(Vector3<T>(1, 0, 0), x) *
+                          fromAxisRot(Vector3<T>(0, 1, 0), y) *
+                          fromAxisRot(Vector3<T>(0, 0, 1), z);
       return ret;
     }
 

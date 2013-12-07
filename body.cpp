@@ -8,6 +8,7 @@ body::body()
     radius(0.0),
     gm(0.0) {
   /// Default constructor
+  rotation = spin = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);   // null rotation quaternion
 }
 
 body::~body() {
