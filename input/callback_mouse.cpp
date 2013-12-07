@@ -8,6 +8,7 @@ extern astronaut *player;
 
 void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x, double z) {
   /// React to mouse position updates
+  // Quake mouselook code is here for reference: https://github.com/id-Software/Quake/blob/bf4ac424ce754894ac8f1dae6a3981954bc9852d/WinQuake/in_win.c
   Vector2d const mouse_new(x, z);
   Vector2d mouse_diff = mouse_new - player->mouse_last;
   player->mouse_last = mouse_new;

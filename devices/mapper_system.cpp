@@ -10,6 +10,8 @@ extern universe root;
 mapper_system::mapper_system()
   //: scale(0.00001),           // earth scale
   : scale(0.000000002),       // solar system scale
+    rotation_x(-90.0),
+    rotation_y(0.0),
     trail_ref(nullptr) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
@@ -144,13 +146,12 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   glOrtho(0.0, windowsize.x, windowsize.y, 0.0, -1406000000000.0 * scale, 1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
   glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
   glScaled(scale, scale, scale);                                  // zoom
-  //glRotated(-45.0, 1.0, 0.0, 0.0);                                // tilt projection plane
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadIdentity();
   // translate and rotate us to the camera's viewpoint
-  glRotated(-45, 1.0, 0.0, 0.0);
-  //glRotated(45.0, 0.0, 1.0, 0.0);
+  glRotated(rotation_x, 1.0, 0.0, 0.0);                           // rotate the map in 3D
+  glRotated(rotation_y, 0.0, 1.0, 0.0);
 
   glTranslated(-vessel->position.x,
                -vessel->position.y,
@@ -247,15 +248,12 @@ void mapper_system::update() {
     //scale = 0.000000002;       // solar system scale
   }
   // update the rotation
-  double rotation_y = 0.0;
-  double rotation_x = 0.0;
   if(ports_in[1].target) {
     rotation_y = ports_in[1].target->get_port_out_data(ports_in[1].target_port);
   }
   if(ports_in[2].target) {
     rotation_x = ports_in[2].target->get_port_out_data(ports_in[2].target_port);
   }
-  rotation = Matrix4f::createRotationAroundAxis(rotation_x, rotation_y, 0.0);
   // update the trail reference target
   if(ports_in[3].target) {
     double const ntarget_pre = ports_in[3].target->get_port_out_data(ports_in[3].target_port);

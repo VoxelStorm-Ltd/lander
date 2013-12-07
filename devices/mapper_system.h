@@ -12,15 +12,16 @@ class mapper_system : public device {
 private:
   //Vector2i windowsize;
 
-  double scale;
-  Matrix4d rotation;
+  double scale;                               // scale multiplier (zoom)
+  double rotation_y;                          // map rotation around y axis
+  double rotation_x;                          // map rotation around x axis
   body *trail_ref;
 
   struct trailtype {
     Vector3d linepoint;
     double fade;
   };
-  unsigned int const trailperiod = 60;       // draw a dash in this many frames
+  unsigned int const trailperiod = 60;        // draw a dash in this many frames
   unsigned int trailcounter = trailperiod;
 
   std::deque<trailtype> trails;

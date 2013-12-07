@@ -37,7 +37,5 @@ void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoff
         player->update_fov(new_angle);
       }
     }
-    std::cout << "fov_angle = " << player->fov_angle << std::endl;
-    std::cout << "fov_ratio = " << player->fov_ratio << std::endl;
   }
 }

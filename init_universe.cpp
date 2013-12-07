@@ -192,12 +192,18 @@ void init_universe() {
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
+  memory *mem_zoom = new memory;
   memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach(controlpanel);
   mainmonitor->position = Vector3d(0.1, 0.1, 0.0);
   mainmapper->attach(playership);
   mainmonitor->connect(0, mainmapper, 0);
+  mem_zoom->attach(playership);
+  mem_zoom->attach(controlpanel);
+  mem_zoom->position = Vector3d(0.1, 0.05, 0.0);
+  mem_zoom->set_memory_value(0.00001) ;                   // set the scale ratio
+  mainmapper->connect(0, mem_zoom, 0);                    // hook it up to the zoom reference frame input
   mem_planetref->attach(playership);
   mem_planetref->attach(controlpanel);
   mem_planetref->position = Vector3d(0.4, 0.05, 0.0);
