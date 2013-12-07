@@ -62,6 +62,8 @@
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add library="lib\win32\libboost_chrono-mgw48-mt-sd-1_54.a" />
+					<Add library="lib\win32\libboost_system-mgw48-mt-sd-1_54.a" />
 					<Add library="lib\win32\libglew32.a" />
 					<Add library="lib\win32\libglfw3.a" />
 					<Add library="lib\win32\libftgl_static_D.a" />
@@ -165,9 +167,9 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
+					<Add library="lib\win32\libboost_chrono-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libboost_system-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libboost_thread-mgw48-mt-s-1_54.a" />
-					<Add library="lib\win32\libboost_chrono-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libboost_filesystem-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libglew32.a" />
 					<Add library="lib\win32\libglfw3.a" />

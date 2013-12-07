@@ -48,6 +48,7 @@ public:
   std::string  get_port_out_description(   unsigned int port);
   GLuint       get_port_out_video_analogue(unsigned int port);
   void update();
+  void update_if_time();
   void refresh();
 };
 

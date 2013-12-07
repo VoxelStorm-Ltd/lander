@@ -175,8 +175,7 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
 }
 
 GLuint mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
-  refresh();
-  // TODO: add a refresh rate timer
+  update_if_time();
   return display_image;
 }
 
@@ -333,5 +332,14 @@ void mapper_system::update() {
     }
   } else {
     trail_ref = nullptr;
+  }
+}
+
+void mapper_system::update_if_time() {
+  /// Run the update function only if it's time for an update, and reset the update clock
+  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
+  if(time_now >= time_nextupdate) {
+    refresh();
+    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(50));  // 20fps
   }
 }

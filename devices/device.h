@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <boost/chrono.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "vmath.h"
@@ -12,25 +13,25 @@ class spacecraft;
 
 class device : public random_engine {
 private:
-  Vector2i static screensize_static_analogue;    // screen size for tv type static generation
-  Vector2i static screensize_static_digital;     // screen size for digital noise type static
+  Vector2i static const screensize_static_analogue;    // screen size for tv type static generation
+  Vector2i static const screensize_static_digital;     // screen size for digital noise type static
   GLuint static image_static_analogue;           // global texture for tv type static
   GLuint static image_static_digital;            // global texture for digital noise type static
+  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_analogue;
+  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_digital;
+  boost::chrono::duration<double> static const time_interval_static_analogue;
+  boost::chrono::duration<double> static const time_interval_static_digital;
+
+protected:
+  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
 
 public:
   struct port_in_type {
-    //std::string name;                 // short name for what input is expected
-    //std::string description;          // verbose description of what input is expected
     device *target;                   // output device this is connected to
     unsigned int target_port;         // connected port number on the target
   };
-  //struct port_out_type {
-  //  //std::string name;                 // short name for what output is provided
-  //  //std::string description;          // verbose description of what output is provided
-  //};
 
   std::vector<port_in_type> ports_in;
-  //std::vector<port_out_type> ports_out;
 
   spacecraft *vessel;                   // what vessel it belongs to
 
@@ -43,6 +44,7 @@ public:
   virtual std::string  get_manufacturer();
   virtual std::string  get_model();
   virtual std::string  get_description();
+  virtual double       get_weight();
   virtual unsigned int get_port_in_count();
   virtual std::string  get_port_in_name(           unsigned int port);
   virtual std::string  get_port_in_description(    unsigned int port);
@@ -57,6 +59,7 @@ public:
   virtual GLuint       get_port_out_video_analogue(unsigned int port);
   virtual void         get_port_out_sound(         unsigned int port);
   virtual void update();
+  virtual void update_if_time();
 
   GLuint generate_static_analogue();
   GLuint generate_static_digital();
