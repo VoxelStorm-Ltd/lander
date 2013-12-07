@@ -17,8 +17,8 @@ astronaut::astronaut()
   rotation_head_yaw   = 0.0;
   rotation_head_pitch = 0.0;
   //rotation_head = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);   // null rotation quaternion
-  mouse_sensitivity.x = mouse_sensitivity.y = 0.5;
-  update_fov_ratio(90.0);
+  mouse_sensitivity.x = mouse_sensitivity.y = 0.01;
+  update_fov(50.0);
 }
 
 astronaut::~astronaut() {
@@ -170,10 +170,15 @@ void astronaut::render_firstperson() {
   }
 }
 
-void astronaut::update_fov_ratio(double fov_angle) {
+void astronaut::update_fov(double new_fov) {
+  fov_angle = new_fov;
+  update_fov_ratio();
+}
+
+void astronaut::update_fov_ratio() {
   /// Helper function to calculate field of view ratio from a field of view angle
   // fov_ratio = 1.0;
-  fov_ratio = tan(fov_angle * (M_PI / 360.0));
+  fov_ratio = tan(fov_angle / 360.0 * M_PI);
   std::cout << "New FOV ratio: " << fov_ratio << std::endl;
 }
 

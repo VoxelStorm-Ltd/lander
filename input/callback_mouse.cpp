@@ -13,7 +13,8 @@ void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x,
   player->mouse_last = mouse_new;
 
   // apply sensitivity
-  mouse_diff *= player->mouse_sensitivity;
+  //mouse_diff *= player->mouse_sensitivity;
+  mouse_diff *= player->mouse_sensitivity * player->fov_angle;
 
   // generate a rotation quaternion
   //Quatd temp = Quatd::fromEulerAngles(mouse_diff.y, mouse_diff.x, 0.0);

@@ -187,6 +187,9 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
       // every period add a trail point
       trailtype trail;
       if(trail_ref) {
+        if(it == trail_ref) {     // don't add trails for the (still) reference body
+          continue;
+        }
         trail.linepoint = point - trail_ref->position;
       } else {
         trail.linepoint = point;

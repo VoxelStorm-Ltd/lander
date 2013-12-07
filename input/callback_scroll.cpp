@@ -2,8 +2,9 @@
 #include <cmath>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <astronaut.h>
 
-double extern scale;
+extern astronaut *player;
 
 void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoffset __attribute__((unused)), double yoffset) {
   /// Apply relevant action for using the mouse scroll
@@ -22,9 +23,21 @@ void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoff
       std::cout << "DEBUG: inputstorm: scrolled vertically " << yoffset << std::endl;
     #endif
     if(yoffset > 0) {
-      ///scale *= 2.0;
+      double const new_angle = player->fov_angle / 2.0;
+      if(new_angle < 10.0) {
+        player->update_fov(10.0);
+      } else {
+        player->update_fov(new_angle);
+      }
     } else {
-      ///scale /= 2.0;
+      double const new_angle = player->fov_angle * 2.0;
+      if(new_angle > 90.0) {
+        player->update_fov(90.0);
+      } else {
+        player->update_fov(new_angle);
+      }
     }
+    std::cout << "fov_angle = " << player->fov_angle << std::endl;
+    std::cout << "fov_ratio = " << player->fov_ratio << std::endl;
   }
 }

@@ -25,6 +25,7 @@ public:
   Vector2d mouse_sensitivity;     // degrees per pixel moved for both horizontal and vertical mouse movement
   Vector2d mouse_last;            // mouse coords relative to origin
   Vector2i windowsize;            // set by glfw - modifying this directly changes nothing
+  double fov_angle;               // cached field of view, degrees
   double fov_ratio;               // updated by update_fov_ratio() from degrees
   double aspect_ratio;            // updated by update_aspect_ratio() from windowsize
   double rotation_head_yaw;       // euler angles for head rotation - we want gimbal limitation here
@@ -50,7 +51,8 @@ public:
   void render_ultraviolet();
   // first person render setup
   void render_firstperson();
-  void update_fov_ratio(double fov = 90);
+  void update_fov(double fov = 90);
+  void update_fov_ratio();
   void update_window(Vector2i newwindowsize);
   void update_aspect_ratio();
   void setup_render_perspective(double nearplane = 0.1, double farplane = 20.0);
