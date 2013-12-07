@@ -5,16 +5,12 @@
 altimeter::altimeter()
   : altitude(0.0) {
   /// Default constructor
-  size.x = 0.080;
-  size.y = 0.080;
-  size.z = 0.005;
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
 }
 
 altimeter::~altimeter() {
   /// Default destructor
 }
-
 
 std::string altimeter::get_name() {
   /// Return the name of this device
@@ -69,6 +65,11 @@ bool altimeter::get_port_in_required(unsigned int port __attribute__((__unused__
   return true;
 }
 
+Vector3d altimeter::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.08, 0.08, 0.005);
+}
+
 void altimeter::update() {
   /// Update the readings on this instrument and re-cache new values
   if(!ports_in[0].target) {
@@ -92,16 +93,16 @@ void altimeter::render() {
   /// Draw the altimiter arrows and clock
   glPushMatrix();
 
-  glTranslated(position.x,
-               position.y,
-               position.z);
+  glTranslated(get_position().x,
+               get_position().y,
+               get_position().z);
 
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   glBegin(GL_QUADS);
-  glVertex3d(0.0,    0.0,    size.z);
-  glVertex3d(size.x, 0.0,    size.z);
-  glVertex3d(size.x, size.y, size.z);
-  glVertex3d(0.0,    size.y, size.z);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
   glEnd();
 
   // render arrow

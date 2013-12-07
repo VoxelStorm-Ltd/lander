@@ -11,6 +11,10 @@
 class spacecraft;
 
 class device : public random_engine {
+private:
+  Vector2i static static_screensize;    // global texture for tv tyoe static
+  GLuint static image_static;           // global texture for tv tyoe static
+
 public:
   struct port_in_type {
     //std::string name;                 // short name for what input is expected
@@ -47,8 +51,8 @@ public:
   virtual std::string  get_port_out_description(   unsigned int port);
   virtual double       get_port_out_data(          unsigned int port);
   virtual std::string  get_port_out_text(          unsigned int port);
-  virtual void         get_port_out_video_digital( unsigned int port, Vector2i const &windowsize);
-  virtual void         get_port_out_video_analogue(unsigned int port, Vector2i const &windowsize);
+  virtual GLuint       get_port_out_video_digital( unsigned int port);
+  virtual GLuint       get_port_out_video_analogue(unsigned int port);
   virtual void         get_port_out_sound(         unsigned int port);
   virtual void update();
 

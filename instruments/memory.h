@@ -8,7 +8,7 @@ class memory : public instrument {
 private:
   // stored values
   double memory_value;
-  //GLUint memory_image;
+  GLuint memory_image;
   std::string memory_text;
 
 public:
@@ -27,18 +27,15 @@ public:
   std::string  get_port_out_description(   unsigned int port);
   double       get_port_out_data(          unsigned int port);
   std::string  get_port_out_text(          unsigned int port);
-  void         get_port_out_video_digital( unsigned int port, Vector2i const &windowsize);
-  void         get_port_out_video_analogue(unsigned int port, Vector2i const &windowsize);
+  GLuint       get_port_out_video_digital( unsigned int port);
+  GLuint       get_port_out_video_analogue(unsigned int port);
   void         get_port_out_sound(         unsigned int port);
+  Vector3d     get_size();
   void update();
 
   // memory-chip specific setters:
   void set_memory_value(double newvalue);
   void set_memory_text(std::string const &newstring);
-  // TODO:
-  //void get_port_out_video_digital();
-  //void get_port_out_video_analogue();
-  //void get_port_out_sound();
 };
 
 #endif // MEMORY_H_INCLUDED

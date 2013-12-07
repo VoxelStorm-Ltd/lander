@@ -10,11 +10,15 @@ class body;
 class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
-  //Vector2i windowsize;
+  Vector2i static const windowsize;
+
+  GLuint display_image;
+  GLuint framebuffer;
+  GLuint depthbuffer;
 
   double scale;                               // scale multiplier (zoom)
-  double rotation_y;                          // map rotation around y axis
   double rotation_x;                          // map rotation around x axis
+  double rotation_y;                          // map rotation around y axis
   body *trail_ref;
 
   struct trailtype {
@@ -42,8 +46,9 @@ public:
   unsigned int get_port_out_count();
   std::string  get_port_out_name(          unsigned int port);
   std::string  get_port_out_description(   unsigned int port);
-  void         get_port_out_video_analogue(unsigned int port, Vector2i const &windowsize);
+  GLuint       get_port_out_video_analogue(unsigned int port);
   void update();
+  void refresh();
 };
 
 #endif // MAPPER_SYSTEM_H_INCLUDED

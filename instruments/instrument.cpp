@@ -6,13 +6,35 @@
 
 instrument::instrument() {
   /// Default constructor
-  size.x = 0.01;    // fallback 1cm cube
-  size.y = 0.01;
-  size.z = 0.01;
 }
 
 instrument::~instrument() {
   /// Default destructor
+}
+
+Vector3d instrument::get_position() {
+  /// Return a position for this object on the instrument panel
+  return position;
+}
+
+Vector3d instrument::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.01, 0.01, 0.01);
+}
+
+Quatd instrument::get_rotation() {
+  /// Return the rotation quaternion of this object - hardcoded
+  return Quatd(1.0, 0.0, 0.0, 0.0);       // null rotation quaternion
+}
+
+void instrument::set_position(Vector3d const &newposition) {
+  /// Return a position for this object on the instrument panel
+  position = newposition;
+}
+
+void instrument::set_position(double x, double y, double z) {
+  /// Return a position for this object on the instrument panel - component version
+  position = Vector3d(x, y, z);
 }
 
 void instrument::attach(spacecraft *to_vessel) {
@@ -80,30 +102,30 @@ void instrument::render() {
   glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
   glBegin(GL_QUADS);
   // front
-  glVertex3d(0.0,    0.0,    size.z);
-  glVertex3d(size.x, 0.0,    size.z);
-  glVertex3d(size.x, size.y, size.z);
-  glVertex3d(0.0,    size.y, size.z);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
   // top
-  glVertex3d(0.0,    size.y, 0.0);
-  glVertex3d(0.0,    size.y, size.z);
-  glVertex3d(size.x, size.y, size.z);
-  glVertex3d(size.x, size.y, 0.0);
+  glVertex3d(0.0,          get_size().y, 0.0);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, 0.0);
   // bottom
-  glVertex3d(0.0,    0.0,    0.0);
-  glVertex3d(size.x, 0.0,    0.0);
-  glVertex3d(size.x, 0.0,    size.z);
-  glVertex3d(0.0,    0.0,    size.z);
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(0.0,          0.0,          get_size().z);
   // right
-  glVertex3d(size.x, 0.0,    0.0);
-  glVertex3d(size.x, size.y, 0.0);
-  glVertex3d(size.x, size.y, size.z);
-  glVertex3d(size.x, 0.0,    size.z);
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, get_size().y, 0.0);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
   // left
-  glVertex3d(0.0,    0.0,    0.0);
-  glVertex3d(0.0,    0.0,    size.z);
-  glVertex3d(0.0,    size.y, size.z);
-  glVertex3d(0.0,    size.y, 0.0);
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, 0.0);
   glEnd();
 
   glPopMatrix();

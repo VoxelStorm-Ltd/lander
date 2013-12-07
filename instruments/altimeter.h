@@ -18,6 +18,7 @@ public:
   std::string get_port_in_name(       unsigned int port);
   std::string get_port_in_description(unsigned int port);
   bool get_port_in_required(          unsigned int port);
+  Vector3d get_size();
   void update();
   void render();
 };

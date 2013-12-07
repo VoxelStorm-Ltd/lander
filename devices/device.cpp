@@ -3,6 +3,9 @@
 #include <iostream>
 #include "spacecraft.h"
 
+Vector2i device::static_screensize(256, 256);
+GLuint device::image_static = 0;
+
 device::device()
   : vessel(nullptr),
     functional(true) {
@@ -122,20 +125,56 @@ std::string device::get_port_out_text(unsigned int port) {
   return ss.str();
 }
 
-void device::get_port_out_video_analogue(unsigned int port          __attribute__((__unused__)),
-                                         Vector2i const &windowsize __attribute__((__unused__))) {
-  /// Query the analogue video data on the specified out port
+GLuint device::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
+  /// Query the analogue video data on the specified out port - returns a texture id
   // virtual placeholder - this may get called if nothing specialises it
+  if(image_static == 0) {
+    // we haven't allocated a texture, so do so now
+    glGenTextures(1, &image_static);
+    glEnable(GL_TEXTURE_2D);
+  }
+
   // this gets called if someone connects an analogue video display to a non-video output
-  // TODO: render static
+  glBindTexture(GL_TEXTURE_2D, image_static);            // bind the screen texture
+  // analogue tv style banded white noise:
+  GLubyte temp_buffer[static_screensize.x][static_screensize.y][3];
+  for(int x = 0; x != static_screensize.x; ++x) {
+    double const band = get_random_double(0.5, 1.0);
+    for(int y = 0; y != static_screensize.y; ++y) {
+      unsigned char const value = get_random_int(63, 255) * band;
+      temp_buffer[x][y][0] = value;                             // uniform b&w noise
+      temp_buffer[x][y][1] = value;
+      temp_buffer[x][y][2] = value;
+      //temp_buffer[x][y][0] = value + get_random_int(-25, 25);   // pale colour noise
+      //temp_buffer[x][y][1] = value + get_random_int(-25, 25);
+      //temp_buffer[x][y][2] = value + get_random_int(-25, 25);
+    }
+  }
+  glTexImage2D(GL_TEXTURE_2D,                             // target
+               0,                                         // mipmap level
+               GL_RGB,                                    // internalFormat
+               static_screensize.x,                       // dimensions
+               static_screensize.y,
+               0,                                         // border
+               GL_RGB,                                    // format
+               GL_UNSIGNED_BYTE,                          // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
+               &temp_buffer);                             // buffer or NULL to leave undefined
+  glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
+  return image_static;
 }
 
-void device::get_port_out_video_digital(unsigned int port          __attribute__((__unused__)),
-                                        Vector2i const &windowsize __attribute__((__unused__))) {
-  /// Query the digital video data on the specified out port
+GLuint device::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
+  /// Query the digital video data on the specified out port - returns a texture id
   // virtual placeholder - this may get called if nothing specialises it
   // this gets called if someone connects a digital video display to a non-video output
+  if(image_static == 0) {
+    // we haven't allocated a texture, so do so now
+    glGenTextures(1, &image_static);
+    glEnable(GL_TEXTURE_2D);
+  }
+
   // TODO: render digital junk
+  return image_static;
 }
 
 void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {

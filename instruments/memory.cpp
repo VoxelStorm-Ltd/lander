@@ -15,9 +15,6 @@ memory::memory()
      << get_random_uint(1000, 1000) << "-"
      << get_random_uint(1000, 1000);
   memory_text = ss.str();
-  size.x = 0.01;    // small cube
-  size.y = 0.01;
-  size.z = 0.03;
 }
 
 memory::~memory() {
@@ -135,21 +132,24 @@ std::string memory::get_port_out_text(unsigned int port __attribute__((__unused_
   return memory_text;
 }
 
-void memory::get_port_out_video_analogue(unsigned int port          __attribute__((__unused__)),
-                                         Vector2i const &windowsize __attribute__((__unused__))) {
+GLuint memory::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
   /// Query the analogue video data on the specified out port
-  // TODO
+  return memory_image;
 }
 
-void memory::get_port_out_video_digital(unsigned int port          __attribute__((__unused__)),
-                                        Vector2i const &windowsize __attribute__((__unused__))) {
+GLuint memory::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
   /// Query the digital video data on the specified out port
-  // TODO
+  return memory_image;
 }
 
 void memory::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
   /// Query the audio data on the specified out port
   // TODO
+}
+
+Vector3d memory::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.005, 0.03, 0.01);    // thumbstick shape, ish
 }
 
 void memory::update() {

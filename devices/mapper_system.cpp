@@ -7,14 +7,56 @@
 
 extern universe root;
 
+Vector2i const mapper_system::windowsize = Vector2i(256, 256);
+
 mapper_system::mapper_system()
-  //: scale(0.00001),           // earth scale
-  : scale(0.000000002),       // solar system scale
+  : display_image(0),
+    framebuffer(0),
+    //scale(0.00001),           // earth scale
+    scale(0.000000002),       // solar system scale
     rotation_x(-90.0),
     rotation_y(0.0),
     trail_ref(nullptr) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+
+  // create a blank texture
+  glGenTextures(1, &display_image);
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+  // texture parameters
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);   // nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
+  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);  // when texture area is small, bilinear filter the closest mipmap
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                 // when texture area is large, bilinear filter the original
+  glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+
+  // create a framebuffer
+  glGenFramebuffers(1, &framebuffer);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
+                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,            // texture target / cubemap face
+                            display_image,            // texture
+                            0);                       // level
+  // add a depth buffer
+  glGenRenderbuffersEXT(1, &depthbuffer);
+  glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
+  glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, windowsize.x, windowsize.y);
+  glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,   GL_RENDERBUFFER_EXT, depthbuffer);
+
+  GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+  if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
+    std::cout << "framebuffer fucked: " << status;
+  }
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 mapper_system::~mapper_system() {
@@ -132,10 +174,21 @@ std::string mapper_system::get_port_out_description(unsigned int port) {
   }
 }
 
-void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__)),
-                                                Vector2i const &windowsize) {
+GLuint mapper_system::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
+  refresh();
+  // TODO: add a refresh rate timer
+  return display_image;
+}
+
+void mapper_system::refresh() {
   /// Render the star map on an analogue monitor
   centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
+
+  // cache the old viewport
+  Vector4i oldviewport;
+  glGetIntegerv(GL_VIEWPORT, oldviewport);
+  glViewport(0, 0, windowsize.x, windowsize.y);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
 
   glClearColor(0.2, 0.3, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,6 +289,11 @@ void mapper_system::get_port_out_video_analogue(unsigned int port __attribute__(
   glPopMatrix();
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
+
+  // release the framebuffer
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
 }
 
 void mapper_system::update() {

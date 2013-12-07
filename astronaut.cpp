@@ -16,7 +16,6 @@ astronaut::astronaut()
   set_radius(0.0);
   rotation_head_yaw   = 0.0;
   rotation_head_pitch = 0.0;
-  //rotation_head = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);   // null rotation quaternion
   mouse_sensitivity.x = mouse_sensitivity.y = 0.01;
   update_fov(90.0);
 }

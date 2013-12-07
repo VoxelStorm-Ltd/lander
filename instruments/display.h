@@ -8,15 +8,7 @@
 class display : public instrument {
   /// General display device that takes a video signal and displays 2D imagery
 private:
-  GLuint display_image;
-  GLuint framebuffer;
-  GLuint depthbuffer;
-
-  GLuint static const screen_width = 256;
-  GLuint static const screen_height = screen_width;
-
-  Vector2d screen_pos;
-  Vector2d screen_size;
+  GLuint display_image;               // cached reference to the texture we use
 
 public:
   display();
@@ -29,6 +21,7 @@ public:
   std::string get_port_in_name(       unsigned int port);
   std::string get_port_in_description(unsigned int port);
   bool get_port_in_required(          unsigned int port);
+  Vector3d get_size();
 
   void update();
   void render();
