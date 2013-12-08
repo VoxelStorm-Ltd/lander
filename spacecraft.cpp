@@ -223,8 +223,8 @@ void spacecraft::render_cabin() {
   glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
   glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
   glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           90.0);                             // width of angle of spotlight, 180 = all-round
-  glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);
-  glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);                              // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
+  glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
   glEnable( GL_LIGHT0);
 
@@ -236,7 +236,7 @@ void spacecraft::render_cabin() {
   glLightf( GL_LIGHT1, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
   glLightf( GL_LIGHT1, GL_SPOT_CUTOFF,           60.0);                             // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT1, GL_CONSTANT_ATTENUATION,  0.0);
-  glLightf( GL_LIGHT1, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT1, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
   glEnable( GL_LIGHT1);
 
@@ -252,7 +252,7 @@ void spacecraft::render_cabin() {
   glLightf( GL_LIGHT2, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
   glLightf( GL_LIGHT2, GL_SPOT_CUTOFF,           45.0);                             // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT2, GL_CONSTANT_ATTENUATION,  0.0);
-  glLightf( GL_LIGHT2, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT2, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 1.0 / 0.7);                        // effective brightness
   glEnable( GL_LIGHT2);
 
