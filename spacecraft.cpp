@@ -215,109 +215,170 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
+
+  // white light on front wall
+  glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 1.75, -1.95, 1.0));
+  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
+  glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
+  glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           90.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);
+  glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
+  glEnable( GL_LIGHT0);
+
+  // red side up-light
+  glLightfv(GL_LIGHT1, GL_DIFFUSE,               Vector4f(1.0, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_SPECULAR,              Vector4f(1.0, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_POSITION,              Vector4f(-1.95, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION,        Vector3f(0.0, 1.0, 0.0));
+  glLightf( GL_LIGHT1, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
+  glLightf( GL_LIGHT1, GL_SPOT_CUTOFF,           60.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT1, GL_CONSTANT_ATTENUATION,  0.0);
+  glLightf( GL_LIGHT1, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
+  glEnable( GL_LIGHT1);
+
+  // white overhead panel light
+  //glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(0.5, 0.5, 0.5, 1.0));
+  //glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(0.5, 0.5, 0.5, 1.0));
+  glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT2, GL_POSITION,              Vector4f(0.0, 1.75, -1.0, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
+  glLightf( GL_LIGHT2, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
+  glLightf( GL_LIGHT2, GL_SPOT_CUTOFF,           45.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT2, GL_CONSTANT_ATTENUATION,  0.0);
+  glLightf( GL_LIGHT2, GL_LINEAR_ATTENUATION,    0.0);
+  glLightf( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 1.0 / 0.7);                        // effective brightness
+  glEnable( GL_LIGHT2);
+
+
   // render the cabin walls - basic octagonal cabin
-  glColor4d(0.8, 0.8, 0.8, 1.0);
+  //glColor4d(0.8, 0.8, 0.8, 1.0);
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,  Vector4f(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.4, 0.5, 0.4, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+
   glBegin(GL_TRIANGLES);
   // floor
-  glVertex3d(-2.0, -1.0,  1.0);     // middle
-  glVertex3d( 2.0, -1.0,  1.0);
-  glVertex3d( 2.0, -1.0, -1.0);
-  glVertex3d( 2.0, -1.0, -1.0);
-  glVertex3d(-2.0, -1.0, -1.0);
-  glVertex3d(-2.0, -1.0,  1.0);
+  glNormal3d( 0.0,  1.0,  0.0);
 
-  glVertex3d(-2.0, -1.0, -1.0);     // front
-  glVertex3d( 2.0, -1.0, -1.0);
-  glVertex3d( 1.0, -1.0, -2.0);
-  glVertex3d( 1.0, -1.0, -2.0);
-  glVertex3d(-1.0, -1.0, -2.0);
-  glVertex3d(-2.0, -1.0, -1.0);
+  glVertex3d(-2.0,  0.0,  1.0);     // middle
+  glVertex3d( 2.0,  0.0,  1.0);
+  glVertex3d( 2.0,  0.0, -1.0);
+  glVertex3d( 2.0,  0.0, -1.0);
+  glVertex3d(-2.0,  0.0, -1.0);
+  glVertex3d(-2.0,  0.0,  1.0);
 
-  glVertex3d(-1.0, -1.0,  2.0);     // back
-  glVertex3d( 1.0, -1.0,  2.0);
-  glVertex3d( 2.0, -1.0,  1.0);
-  glVertex3d( 2.0, -1.0,  1.0);
-  glVertex3d(-2.0, -1.0,  1.0);
-  glVertex3d(-1.0, -1.0,  2.0);
+  glVertex3d(-2.0,  0.0, -1.0);     // front
+  glVertex3d( 2.0,  0.0, -1.0);
+  glVertex3d( 1.0,  0.0, -2.0);
+  glVertex3d( 1.0,  0.0, -2.0);
+  glVertex3d(-1.0,  0.0, -2.0);
+  glVertex3d(-2.0,  0.0, -1.0);
+
+  glVertex3d(-1.0,  0.0,  2.0);     // back
+  glVertex3d( 1.0,  0.0,  2.0);
+  glVertex3d( 2.0,  0.0,  1.0);
+  glVertex3d( 2.0,  0.0,  1.0);
+  glVertex3d(-2.0,  0.0,  1.0);
+  glVertex3d(-1.0,  0.0,  2.0);
 
   // ceiling
-  glVertex3d(-2.0,  1.0, -1.0);     // middle
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d(-2.0,  1.0,  1.0);
-  glVertex3d(-2.0,  1.0, -1.0);
+  glNormal3d( 0.0, -1.0,  0.0);
 
-  glVertex3d(-1.0,  1.0, -2.0);     // front
-  glVertex3d( 1.0,  1.0, -2.0);
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d(-2.0,  1.0, -1.0);
-  glVertex3d(-1.0,  1.0, -2.0);
+  glVertex3d(-2.0,  2.0, -1.0);     // middle
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d(-2.0,  2.0,  1.0);
+  glVertex3d(-2.0,  2.0, -1.0);
 
-  glVertex3d(-2.0,  1.0,  1.0);     // back
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d( 1.0,  1.0,  2.0);
-  glVertex3d( 1.0,  1.0,  2.0);
-  glVertex3d(-1.0,  1.0,  2.0);
-  glVertex3d(-2.0,  1.0,  1.0);
+  glVertex3d(-1.0,  2.0, -2.0);     // front
+  glVertex3d( 1.0,  2.0, -2.0);
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d(-2.0,  2.0, -1.0);
+  glVertex3d(-1.0,  2.0, -2.0);
+
+  glVertex3d(-2.0,  2.0,  1.0);     // back
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d( 1.0,  2.0,  2.0);
+  glVertex3d( 1.0,  2.0,  2.0);
+  glVertex3d(-1.0,  2.0,  2.0);
+  glVertex3d(-2.0,  2.0,  1.0);
 
   // walls
-  glVertex3d(-1.0, -1.0, -2.0);     // north
-  glVertex3d( 1.0, -1.0, -2.0);
-  glVertex3d( 1.0,  1.0, -2.0);
-  glVertex3d( 1.0,  1.0, -2.0);
-  glVertex3d(-1.0,  1.0, -2.0);
-  glVertex3d(-1.0, -1.0, -2.0);
+  glNormal3d( 0.0,  0.0,  1.0);
+  glVertex3d(-1.0,  0.0, -2.0);     // north
+  glVertex3d( 1.0,  0.0, -2.0);
+  glVertex3d( 1.0,  2.0, -2.0);
+  glVertex3d( 1.0,  2.0, -2.0);
+  glVertex3d(-1.0,  2.0, -2.0);
+  glVertex3d(-1.0,  0.0, -2.0);
 
-  glVertex3d( 1.0, -1.0, -2.0);     // north-east
-  glVertex3d( 2.0, -1.0, -1.0);
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d( 1.0,  1.0, -2.0);
-  glVertex3d( 1.0, -1.0, -2.0);
+  glNormal3dv(Vector3d(-1.0, 0.0, 1.0).normalise_copy());
+  glVertex3d( 1.0,  0.0, -2.0);     // north-east
+  glVertex3d( 2.0,  0.0, -1.0);
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d( 1.0,  2.0, -2.0);
+  glVertex3d( 1.0,  0.0, -2.0);
 
-  glVertex3d( 2.0, -1.0, -1.0);     // east
-  glVertex3d( 2.0, -1.0,  1.0);
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d( 2.0,  1.0, -1.0);
-  glVertex3d( 2.0, -1.0, -1.0);
+  glNormal3d(-1.0,  0.0,  0.0);
+  glVertex3d( 2.0,  0.0, -1.0);     // east
+  glVertex3d( 2.0,  0.0,  1.0);
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d( 2.0,  2.0, -1.0);
+  glVertex3d( 2.0,  0.0, -1.0);
 
-  glVertex3d( 2.0, -1.0,  1.0);     // south-east
-  glVertex3d( 1.0, -1.0,  2.0);
-  glVertex3d( 1.0,  1.0,  2.0);
-  glVertex3d( 1.0,  1.0,  2.0);
-  glVertex3d( 2.0,  1.0,  1.0);
-  glVertex3d( 2.0, -1.0,  1.0);
+  glNormal3dv(Vector3d(-1.0, 0.0, -1.0).normalise_copy());
+  glVertex3d( 2.0,  0.0,  1.0);     // south-east
+  glVertex3d( 1.0,  0.0,  2.0);
+  glVertex3d( 1.0,  2.0,  2.0);
+  glVertex3d( 1.0,  2.0,  2.0);
+  glVertex3d( 2.0,  2.0,  1.0);
+  glVertex3d( 2.0,  0.0,  1.0);
 
-  glVertex3d( 1.0, -1.0,  2.0);     // south
-  glVertex3d(-1.0, -1.0,  2.0);
-  glVertex3d(-1.0,  1.0,  2.0);
-  glVertex3d(-1.0,  1.0,  2.0);
-  glVertex3d( 1.0,  1.0,  2.0);
-  glVertex3d( 1.0, -1.0,  2.0);
+  glNormal3d( 0.0,  0.0, -1.0);
+  glVertex3d( 1.0,  0.0,  2.0);     // south
+  glVertex3d(-1.0,  0.0,  2.0);
+  glVertex3d(-1.0,  2.0,  2.0);
+  glVertex3d(-1.0,  2.0,  2.0);
+  glVertex3d( 1.0,  2.0,  2.0);
+  glVertex3d( 1.0,  0.0,  2.0);
 
-  glVertex3d(-1.0, -1.0,  2.0);     // south-west
-  glVertex3d(-2.0, -1.0,  1.0);
-  glVertex3d(-2.0,  1.0,  1.0);
-  glVertex3d(-2.0,  1.0,  1.0);
-  glVertex3d(-1.0,  1.0,  2.0);
-  glVertex3d(-1.0, -1.0,  2.0);
+  glNormal3dv(Vector3d(1.0, 0.0, -1.0).normalise_copy());
+  glVertex3d(-1.0,  0.0,  2.0);     // south-west
+  glVertex3d(-2.0,  0.0,  1.0);
+  glVertex3d(-2.0,  2.0,  1.0);
+  glVertex3d(-2.0,  2.0,  1.0);
+  glVertex3d(-1.0,  2.0,  2.0);
+  glVertex3d(-1.0,  0.0,  2.0);
 
-  glVertex3d(-2.0, -1.0,  1.0);     // west
-  glVertex3d(-2.0, -1.0, -1.0);
-  glVertex3d(-2.0,  1.0, -1.0);
-  glVertex3d(-2.0,  1.0, -1.0);
-  glVertex3d(-2.0,  1.0,  1.0);
-  glVertex3d(-2.0, -1.0,  1.0);
+  glNormal3d( 1.0,  0.0,  0.0);
+  glVertex3d(-2.0,  0.0,  1.0);     // west
+  glVertex3d(-2.0,  0.0, -1.0);
+  glVertex3d(-2.0,  2.0, -1.0);
+  glVertex3d(-2.0,  2.0, -1.0);
+  glVertex3d(-2.0,  2.0,  1.0);
+  glVertex3d(-2.0,  0.0,  1.0);
 
-  glVertex3d(-2.0, -1.0, -1.0);     // north-west
-  glVertex3d(-1.0, -1.0, -2.0);
-  glVertex3d(-1.0,  1.0, -2.0);
-  glVertex3d(-1.0,  1.0, -2.0);
-  glVertex3d(-2.0,  1.0, -1.0);
-  glVertex3d(-2.0, -1.0, -1.0);
+  glNormal3dv(Vector3d(1.0, 0.0, 1.0).normalise_copy());
+  glVertex3d(-2.0,  0.0, -1.0);     // north-west
+  glVertex3d(-1.0,  0.0, -2.0);
+  glVertex3d(-1.0,  2.0, -2.0);
+  glVertex3d(-1.0,  2.0, -2.0);
+  glVertex3d(-2.0,  2.0, -1.0);
+  glVertex3d(-2.0,  0.0, -1.0);
 
   glEnd();
 

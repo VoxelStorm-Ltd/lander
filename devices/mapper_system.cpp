@@ -33,7 +33,6 @@ mapper_system::mapper_system()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                 // when texture area is large, bilinear filter the original
   //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
@@ -200,7 +199,11 @@ void mapper_system::refresh() {
   glViewport(0, 0, windowsize.x, windowsize.y);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
 
-  glClearColor(0.2, 0.3, 0.2, 1.0);
+  glPushAttrib(GL_LIGHTING_BIT);                          // save state - see http://opengl.czweb.org/ch14/462-465.html
+  glDisable(GL_LIGHTING);
+  //glClearColor(0.2, 0.3, 0.2, 1.0);
+  //glClearColor(0.2, 0.2, 0.2, 1.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_PROJECTION);
@@ -299,6 +302,7 @@ void mapper_system::refresh() {
   glPopMatrix();
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
+  glPopAttrib();
 
   // release the framebuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -26,5 +26,10 @@ void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x,
 
   player->rotation_head_yaw   += mouse_diff.x;
   player->rotation_head_pitch += mouse_diff.y;
+  if(player->rotation_head_pitch > 80) {
+    player->rotation_head_pitch = 80;
+  } else if(player->rotation_head_pitch < -80) {
+    player->rotation_head_pitch = -80;
+  }
 
 }

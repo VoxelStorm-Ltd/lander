@@ -204,7 +204,6 @@ GLuint device::generate_static_analogue() {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_analogue.x, screensize_static_analogue.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
       glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
     }
 
@@ -253,7 +252,6 @@ GLuint device::generate_static_digital() {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_digital.x, screensize_static_digital.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering for square pixel effect
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
       glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
     }
 
@@ -467,29 +465,43 @@ void device::render() {
                position.y,
                position.z);
 
-  glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
+  //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(1.6, 1.1, 0.2, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(2.0, 1.9, 1.7, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           27.89743616);                           // 0 to 127
+
   glBegin(GL_QUADS);
   // front
+  glNormal3d(0.0, 0.0, 1.0);
   glVertex3d(0.0,          0.0,          get_size().z);
   glVertex3d(get_size().x, 0.0,          get_size().z);
   glVertex3d(get_size().x, get_size().y, get_size().z);
   glVertex3d(0.0,          get_size().y, get_size().z);
   // top
+  glNormal3d(0.0, 1.0, 0.0);
   glVertex3d(0.0,          get_size().y, 0.0);
   glVertex3d(0.0,          get_size().y, get_size().z);
   glVertex3d(get_size().x, get_size().y, get_size().z);
   glVertex3d(get_size().x, get_size().y, 0.0);
   // bottom
+  glNormal3d(0.0, -1.0, 0.0);
   glVertex3d(0.0,          0.0,          0.0);
   glVertex3d(get_size().x, 0.0,          0.0);
   glVertex3d(get_size().x, 0.0,          get_size().z);
   glVertex3d(0.0,          0.0,          get_size().z);
   // right
+  glNormal3d(1.0, 0.0, 0.0);
   glVertex3d(get_size().x, 0.0,          0.0);
   glVertex3d(get_size().x, get_size().y, 0.0);
   glVertex3d(get_size().x, get_size().y, get_size().z);
   glVertex3d(get_size().x, 0.0,          get_size().z);
   // left
+  glNormal3d(-1.0, 0.0, 0.0);
   glVertex3d(0.0,          0.0,          0.0);
   glVertex3d(0.0,          0.0,          get_size().z);
   glVertex3d(0.0,          get_size().y, get_size().z);

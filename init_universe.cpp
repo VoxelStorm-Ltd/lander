@@ -180,7 +180,7 @@ void init_universe() {
   playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
-  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, -controlpanel->size.y, -0.3);  // ~300mm in front of user
+  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
   controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 

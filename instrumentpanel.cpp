@@ -57,30 +57,41 @@ void instrumentpanel::render() {
   glTranslated(position.x, position.y, position.z);
   glMultMatrixd(rotation.transform());
 
-  glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
+  //glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,  Vector4f(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,  Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+
   glBegin(GL_QUADS);
   // front
+  glNormal3d(0.0, 0.0, 1.0);
   glVertex3d(0.0,    0.0,    0.0);
   glVertex3d(size.x, 0.0,    0.0);
   glVertex3d(size.x, size.y, 0.0);
   glVertex3d(0.0,    size.y, 0.0);
-  glColor4dv(Vector4d(0.4, 0.4, 0.4, 1.0));   // TODO: remove
   // top
+  glNormal3d(0.0, 1.0, 0.0);
   glVertex3d(0.0,    size.y, -size.z);
   glVertex3d(0.0,    size.y, 0.0);
   glVertex3d(size.x, size.y, 0.0);
   glVertex3d(size.x, size.y, -size.z);
   // bottom
+  glNormal3d(0.0, -1.0, 0.0);
   glVertex3d(0.0,    0.0,    -size.z);
   glVertex3d(size.x, 0.0,    -size.z);
   glVertex3d(size.x, 0.0,    0.0);
   glVertex3d(0.0,    0.0,    0.0);
   // right
+  glNormal3d(1.0, 0.0, 0.0);
   glVertex3d(size.x, 0.0,    -size.z);
   glVertex3d(size.x, size.y, -size.z);
   glVertex3d(size.x, size.y, 0.0);
   glVertex3d(size.x, 0.0,    0.0);
   // left
+  glNormal3d(-1.0, 0.0, 0.0);
   glVertex3d(0.0,    0.0,    -size.z);
   glVertex3d(0.0,    0.0,    0.0);
   glVertex3d(0.0,    size.y, 0.0);
@@ -89,9 +100,13 @@ void instrumentpanel::render() {
 
   for(auto const &it : devices) {
     it->render();
+  }
 
-    // show connecting lines between components
-    glColor3d(0.0, 1.0, 0.0);
+  // show connecting lines between components
+  glPushAttrib(GL_LIGHTING_BIT);
+  glDisable(GL_LIGHTING);
+  glColor4d(0.0, 1.0, 0.0, 1.0);
+  for(auto const &it : devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {
         instrument *target = dynamic_cast<instrument*>(it->ports_in[i].target);
@@ -116,6 +131,7 @@ void instrumentpanel::render() {
       }
     }
   }
+  glPopAttrib();
 
   glPopMatrix();
 }

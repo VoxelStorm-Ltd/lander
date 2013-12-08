@@ -87,6 +87,11 @@ double memory::get_mass() {
   return 0.0085;    // 8.5g
 }
 
+Vector3d memory::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.02, 0.005, 0.04);    // thumbstick shape...ish
+}
+
 unsigned int memory::get_port_in_count() {
   /// How many input ports it has
   return 1;
@@ -150,11 +155,6 @@ GLuint memory::get_port_out_video_digital(unsigned int port __attribute__((__unu
 void memory::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
   /// Query the audio data on the specified out port
   // TODO
-}
-
-Vector3d memory::get_size() {
-  /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.01, 0.03, 0.005);    // thumbstick shape, ish
 }
 
 void memory::update() {

@@ -131,7 +131,6 @@ void init_graphics(Vector2i windowsize) {
 
   // fog settings
   glDisable(GL_FOG);
-  //glEnable(GL_FOG);
   //Vector4f fogcolour(0.82, 0.85, 1.0, 1);
   //glFogfv(GL_FOG_COLOR, fogcolour);
   //glFogi(GL_FOG_MODE, GL_EXP2); // GL_LINEAR GL_EXP GL_EXP2
@@ -146,6 +145,7 @@ void init_graphics(Vector2i windowsize) {
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);*/
 
   // set up some lights
+  glEnable(GL_LIGHTING);
   ////GLfloat ambientlightcol[] = {.25,0,0,1};
   //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0)); // global ambient
   ////glLightfv(GL_LIGHT0, GL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));

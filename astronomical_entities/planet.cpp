@@ -208,7 +208,7 @@ void planet::render_diagram(double scale, bool labels) {
   }
 
   // draw a filled circle at the radius
-  glColor4dv(Vector4d(0.25, 0.35, 0.25, 1.0));
+  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
   glBegin(GL_TRIANGLE_FAN);
   glVertex3d(0.0, 0.0, 0.0);
   double const circlestep = M_PI / 32.0;

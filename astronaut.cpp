@@ -33,6 +33,7 @@ double astronaut::get_mass() {
     return get_random_double(70.0, 90.0);
   }
 }
+
 double astronaut::get_radius() {
   if(radius != 0.0) {
     return radius;
@@ -209,10 +210,11 @@ void astronaut::setup_render_perspective(double nearplane,
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  glMultMatrixd(rotation.transform());              // body rotation
   //glMultMatrixd(rotation_head.transform());         // head rotation
   glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);    // head rotation
   glRotated(rotation_head_yaw,   0.0, 1.0, 0.0);
+  glTranslated(0.0, -1.7, 0.0);                     // eye height
+  glMultMatrixd(rotation.transform());              // body rotation
 
   glTranslated(-position.x,                         // position
                -position.y,
