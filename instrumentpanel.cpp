@@ -53,7 +53,7 @@ void instrumentpanel::destroy() {
 void instrumentpanel::render() {
   /// Render this panel and all its instruments
   glPushMatrix();
-  // render the cockpit panel
+  // render the cabin panel
   glTranslated(position.x, position.y, position.z);
   glMultMatrixd(rotation.transform());
 

@@ -212,10 +212,10 @@ void spacecraft::render_ultraviolet() {
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
 
-void spacecraft::render_cockpit() {
-  /// Render the interior of the cockpit with instruments etc (visible spectrum)
+void spacecraft::render_cabin() {
+  /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
-  // render the cockpit walls
+  // render the cabin walls
 
   // cycle through the instrument panels and render them
   for(auto const &it : panels) {

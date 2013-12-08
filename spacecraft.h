@@ -17,7 +17,7 @@ public:
   std::list<device*> devices;             // all devices on-board
   std::list<device*> devices_hull;        // subset of devices out on the hull
   std::list<device*> devices_cabin;       // subset of devices mounted inside the cabin
-  std::list<instrumentpanel*> panels;     // instrument panels in the cockpit
+  std::list<instrumentpanel*> panels;     // instrument panels in the cabin
   std::list<astronaut*> occupants;        // who's on board
 
   // temporary navigation target
@@ -44,7 +44,7 @@ public:
   virtual void render_radio();
   virtual void render_infrared();
   virtual void render_ultraviolet();
-  void render_cockpit();
+  void render_cabin();
 };
 
 #endif // SPACECRAFT_H_INCLUDED

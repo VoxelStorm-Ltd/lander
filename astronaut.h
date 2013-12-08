@@ -11,7 +11,7 @@ class astronaut : public physicsbody {
 public:
   enum class statetype : char {
     INACTIVE    = 0,              // "just ignore me"
-    IN_VESSEL   = 1,              // normal state - inside a spacecraft, position and velocity are relative to cockpit
+    IN_VESSEL   = 1,              // normal state - inside a spacecraft, position and velocity are relative to cabin
     EVA         = 2,              // outside a spacecraft, not in atmosphere
     ATMOSPHERIC = 3,              // outside a spacecraft, in an atmosphere
     SURFACE     = 4,              // outside a spacecraft, walking around on a planet

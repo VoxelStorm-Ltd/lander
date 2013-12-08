@@ -148,10 +148,10 @@ void astronaut::render_firstperson() {
   /// Render from this astronaut's first person view
   switch(state) {
   case statetype::IN_VESSEL:
-    // translate and rotate to player's view in the cockpit
+    // translate and rotate to player's view in the cabin
     setup_render_perspective(0.1, 20.0);
-    // draw cockpit view of the current ship
-    player->vessel_in->render_cockpit();
+    // draw cabin view of the current ship
+    player->vessel_in->render_cabin();
     break;
   case statetype::EVA:
   case statetype::ATMOSPHERIC:     // "or" equiv
