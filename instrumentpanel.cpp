@@ -88,6 +88,32 @@ void instrumentpanel::render() {
 
   for(auto const &it : instruments) {
     it->render();
+    // show connecting lines between components
+
+    glColor3d(0.0, 1.0, 0.0);
+    for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
+      if(it->ports_in[i].target) {
+        instrument *target = dynamic_cast<instrument*>(it->ports_in[i].target);
+        if(target) {            // only proceed to link other instruments
+          glBegin(GL_LINES);
+          glVertex3d(it->get_position().x + it->get_size().x / 2,
+                     it->get_position().y,
+                     it->get_position().z + it->get_size().z / 2);
+          glVertex3d(target->get_position().x + target->get_size().x / 2,
+                     target->get_position().y + target->get_size().y,
+                     target->get_position().z + target->get_size().z / 2);
+          glEnd();
+        } else {
+          // show all other connections as exiting down
+          glBegin(GL_LINES);
+          glVertex3d(it->get_position().x + it->get_size().x / 2,
+                     it->get_position().y,
+                     it->get_position().z + it->get_size().z / 2);
+          glVertex3d(it->get_position().x + it->get_size().x / 2, 0.0, 0.0);
+          glEnd();
+        }
+      }
+    }
   }
 
   glPopMatrix();

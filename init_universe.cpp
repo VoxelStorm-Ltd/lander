@@ -199,8 +199,10 @@ void init_universe() {
   memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach(controlpanel);
-  mainmonitor->set_position(0.1, 0.1, 0.0);
+  mainmonitor->set_position(0.1, 0.3, 0.0);
   mainmapper->attach(playership);
+  mainmapper->attach(controlpanel);
+  mainmapper->set_position(0.1, 0.1, 0.0);
   mainmonitor->connect(0, mainmapper, 0);
   mem_zoom->attach(playership);
   mem_zoom->attach(controlpanel);
@@ -219,15 +221,15 @@ void init_universe() {
   display_digital *staticmonitor1 = new display_digital;
   staticmonitor1->attach(playership);
   staticmonitor1->attach(controlpanel);
-  staticmonitor1->set_position(1.0, 0.1, 0.0);
+  staticmonitor1->set_position(1.0, 0.5, 0.0);
   //staticmonitor1->connect(0, testdevice2, 0);             // noise source
   //staticmonitor1->connect(0, mainmapper, 0);
   display_small *staticmonitor2 = new display_small;
   staticmonitor2->attach(playership);
   staticmonitor2->attach(controlpanel);
-  staticmonitor2->set_position(1.0, 0.6, 0.0);
-  //staticmonitor2->connect(0, testdevice2, 0);             // noise source
-  staticmonitor2->connect(0, mainmapper, 0);
+  staticmonitor2->set_position(0.5, 0.8, 0.0);
+  staticmonitor2->connect(0, testdevice2, 0);             // noise source
+  //staticmonitor2->connect(0, mainmapper, 0);
 
   display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
   converter1->attach(playership);

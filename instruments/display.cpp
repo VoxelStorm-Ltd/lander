@@ -137,13 +137,13 @@ void display::render() {
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glBegin(GL_QUADS);
   glTexCoord2d(0.0, 0.0);
-  glVertex3d(screen_pos.x,  screen_pos.y,  get_size().z + 0.001);
+  glVertex3d(screen_pos.x,                 screen_pos.y,                 get_size().z + 0.001);
   glTexCoord2d(1.0, 0.0);
-  glVertex3d(screen_size.x, screen_pos.y,  get_size().z + 0.001);
+  glVertex3d(screen_pos.x + screen_size.x, screen_pos.y,                 get_size().z + 0.001);
   glTexCoord2d(1.0, 1.0);
-  glVertex3d(screen_size.x, screen_size.y, get_size().z + 0.001);
+  glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + screen_size.y, get_size().z + 0.001);
   glTexCoord2d(0.0, 1.0);
-  glVertex3d(screen_pos.x,  screen_size.y, get_size().z + 0.001);
+  glVertex3d(screen_pos.x,                 screen_pos.y + screen_size.y, get_size().z + 0.001);
   glEnd();
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
 

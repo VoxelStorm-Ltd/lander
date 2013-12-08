@@ -3,11 +3,11 @@
 
 #include <deque>
 #include "vmath.h"
-#include "device.h"
+#include "instrument.h"
 
 class body;
 
-class mapper_system : public device {
+class mapper_system : public instrument {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
   Vector2i static const windowsize;
@@ -39,11 +39,12 @@ public:
   std::string  get_name();
   std::string  get_model();
   std::string  get_description();
-  double get_mass();
+  Vector3d     get_size();
+  double       get_mass();
   unsigned int get_port_in_count();
-  std::string get_port_in_name(            unsigned int port);
-  std::string get_port_in_description(     unsigned int port);
-  bool get_port_in_required(               unsigned int port);
+  std::string  get_port_in_name(           unsigned int port);
+  std::string  get_port_in_description(    unsigned int port);
+  bool         get_port_in_required(       unsigned int port);
   unsigned int get_port_out_count();
   std::string  get_port_out_name(          unsigned int port);
   std::string  get_port_out_description(   unsigned int port);

@@ -91,6 +91,11 @@ double mapper_system::get_mass() {
   return 46.0;
 }
 
+Vector3d mapper_system::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.24, 0.12, 0.04);
+}
+
 unsigned int mapper_system::get_port_in_count() {
   /// How many input ports it has
   return 4;
