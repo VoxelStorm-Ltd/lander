@@ -155,6 +155,7 @@ Operator devices
   nand
   nor
   xor
+  string append (text)
 
 
 Orbital elements:
@@ -175,7 +176,72 @@ Orbital elements:
 
 
 
-
+Menus
+  Player menu
+    Personal log
+    Health status
+      injuries
+      temperature
+      thirst
+      nutrition
+    Suit menu
+      info / environmental status
+        oxygen
+        pressure
+        water
+        nutrition
+        temperature
+      stardreamer (time acceleration)
+        accelerate to x
+          for n seconds/minutes/hours/days/weeks/months/years
+          until something interesting happens
+          indefinitely
+        sleep for (instantly skip)
+          n seconds/minutes/hours/days/weeks/months/years or until something interesting happens
+          until something interesting happens
+          sleep until woken
+      open / close helmet sunshield
+      open / close helmet visor
+      take off / put on helmet (becomes item in cabin with info & put on settings)
+      take off suit (becomes item in cabin with info & put on settings)
+      suicide pill
+        confirmation dialogue
+    quit
+  Ship
+    Seat context menu
+      buckle in / unbuckle
+    Airlock context menu
+      info / status
+      pressurise / depressurise
+      open / close inner door
+        manual override
+      open / close outer door
+        manual override
+    Coldsleep casket (if fitted) context menu
+      info / status / occupant biometrics
+      open / close door
+        manual override (if occupied)
+      set sleep timer / wake occupant
+        sleep for n seconds/minutes/hours/days/weeks/months/years regardless of what happens
+        sleep for n or until something interesting happens
+        sleep until something interesting happens
+        sleep until woken
+    Device context menus
+      info - make, model, description
+      ports in list
+      ports out list
+      remove from vessel / fit to vessel (will often require EVA)
+  Instrument context menus
+    info - make, model, description
+    ports in list
+      connection status, whether required
+      connect
+    ports out
+      connection status
+      disconnect all
+    switch status
+    assign key
+    remove from instrument panel / fit to panel
 
 
 
