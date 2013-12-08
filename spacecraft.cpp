@@ -215,7 +215,111 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
-  // render the cabin walls
+  // render the cabin walls - basic octagonal cabin
+  glColor4d(0.8, 0.8, 0.8, 1.0);
+  glBegin(GL_TRIANGLES);
+  // floor
+  glVertex3d(-2.0, -1.0,  1.0);     // middle
+  glVertex3d( 2.0, -1.0,  1.0);
+  glVertex3d( 2.0, -1.0, -1.0);
+  glVertex3d( 2.0, -1.0, -1.0);
+  glVertex3d(-2.0, -1.0, -1.0);
+  glVertex3d(-2.0, -1.0,  1.0);
+
+  glVertex3d(-2.0, -1.0, -1.0);     // front
+  glVertex3d( 2.0, -1.0, -1.0);
+  glVertex3d( 1.0, -1.0, -2.0);
+  glVertex3d( 1.0, -1.0, -2.0);
+  glVertex3d(-1.0, -1.0, -2.0);
+  glVertex3d(-2.0, -1.0, -1.0);
+
+  glVertex3d(-1.0, -1.0,  2.0);     // back
+  glVertex3d( 1.0, -1.0,  2.0);
+  glVertex3d( 2.0, -1.0,  1.0);
+  glVertex3d( 2.0, -1.0,  1.0);
+  glVertex3d(-2.0, -1.0,  1.0);
+  glVertex3d(-1.0, -1.0,  2.0);
+
+  // ceiling
+  glVertex3d(-2.0,  1.0, -1.0);     // middle
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d(-2.0,  1.0,  1.0);
+  glVertex3d(-2.0,  1.0, -1.0);
+
+  glVertex3d(-1.0,  1.0, -2.0);     // front
+  glVertex3d( 1.0,  1.0, -2.0);
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d(-2.0,  1.0, -1.0);
+  glVertex3d(-1.0,  1.0, -2.0);
+
+  glVertex3d(-2.0,  1.0,  1.0);     // back
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d( 1.0,  1.0,  2.0);
+  glVertex3d( 1.0,  1.0,  2.0);
+  glVertex3d(-1.0,  1.0,  2.0);
+  glVertex3d(-2.0,  1.0,  1.0);
+
+  // walls
+  glVertex3d(-1.0, -1.0, -2.0);     // north
+  glVertex3d( 1.0, -1.0, -2.0);
+  glVertex3d( 1.0,  1.0, -2.0);
+  glVertex3d( 1.0,  1.0, -2.0);
+  glVertex3d(-1.0,  1.0, -2.0);
+  glVertex3d(-1.0, -1.0, -2.0);
+
+  glVertex3d( 1.0, -1.0, -2.0);     // north-east
+  glVertex3d( 2.0, -1.0, -1.0);
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d( 1.0,  1.0, -2.0);
+  glVertex3d( 1.0, -1.0, -2.0);
+
+  glVertex3d( 2.0, -1.0, -1.0);     // east
+  glVertex3d( 2.0, -1.0,  1.0);
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d( 2.0,  1.0, -1.0);
+  glVertex3d( 2.0, -1.0, -1.0);
+
+  glVertex3d( 2.0, -1.0,  1.0);     // south-east
+  glVertex3d( 1.0, -1.0,  2.0);
+  glVertex3d( 1.0,  1.0,  2.0);
+  glVertex3d( 1.0,  1.0,  2.0);
+  glVertex3d( 2.0,  1.0,  1.0);
+  glVertex3d( 2.0, -1.0,  1.0);
+
+  glVertex3d( 1.0, -1.0,  2.0);     // south
+  glVertex3d(-1.0, -1.0,  2.0);
+  glVertex3d(-1.0,  1.0,  2.0);
+  glVertex3d(-1.0,  1.0,  2.0);
+  glVertex3d( 1.0,  1.0,  2.0);
+  glVertex3d( 1.0, -1.0,  2.0);
+
+  glVertex3d(-1.0, -1.0,  2.0);     // south-west
+  glVertex3d(-2.0, -1.0,  1.0);
+  glVertex3d(-2.0,  1.0,  1.0);
+  glVertex3d(-2.0,  1.0,  1.0);
+  glVertex3d(-1.0,  1.0,  2.0);
+  glVertex3d(-1.0, -1.0,  2.0);
+
+  glVertex3d(-2.0, -1.0,  1.0);     // west
+  glVertex3d(-2.0, -1.0, -1.0);
+  glVertex3d(-2.0,  1.0, -1.0);
+  glVertex3d(-2.0,  1.0, -1.0);
+  glVertex3d(-2.0,  1.0,  1.0);
+  glVertex3d(-2.0, -1.0,  1.0);
+
+  glVertex3d(-2.0, -1.0, -1.0);     // north-west
+  glVertex3d(-1.0, -1.0, -2.0);
+  glVertex3d(-1.0,  1.0, -2.0);
+  glVertex3d(-1.0,  1.0, -2.0);
+  glVertex3d(-2.0,  1.0, -1.0);
+  glVertex3d(-2.0, -1.0, -1.0);
+
+  glEnd();
 
   // cycle through the instrument panels and render them
   for(auto const &it : panels) {

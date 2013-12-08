@@ -16,7 +16,7 @@ astronaut::astronaut()
   set_radius(0.0);
   rotation_head_yaw   = 0.0;
   rotation_head_pitch = 0.0;
-  mouse_sensitivity.x = mouse_sensitivity.y = 0.01;
+  mouse_sensitivity.x = mouse_sensitivity.y = 0.005;
   update_fov(90.0);
 }
 

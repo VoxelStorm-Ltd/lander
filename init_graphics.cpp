@@ -122,8 +122,8 @@ void init_graphics(Vector2i windowsize) {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   //glEnable(GL_MINMAX);      // allow min and max colour tables for HDR effects
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);  // filled
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);   // wireframe
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // filled
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
   glShadeModel(GL_SMOOTH);  // SMOOTH or FLAT
   //glShadeModel(GL_FLAT);    //may look more spectacular for a cube world
 

@@ -9,7 +9,7 @@ instrument::~instrument() {
   /// Default destructor
 }
 
-bool instrument::attach_cabin(instrumentpanel *to_panel) {
+bool instrument::attach_cabin(instrumentpanel *to_panel __attribute__((__unused__))) {
   // this must be mounted on the instrument panel only
   return false;
 }
