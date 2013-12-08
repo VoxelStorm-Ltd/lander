@@ -7,7 +7,7 @@
 
 class body;
 
-class mapper_system : public instrument {
+class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
   Vector2i static const windowsize;

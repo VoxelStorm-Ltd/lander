@@ -4,13 +4,13 @@
 #include <list>
 #include "vmath.h"
 
-class instrument;
+class device;
 class spacecraft;
 
 class instrumentpanel {
   /// A physical surface that instruments can be attached to
 public:
-  std::list<instrument*> instruments;     // instruments attached to this panel
+  std::list<device*> devices;             // devices attached to this panel
 
   Vector3d position;                      // its location relative to cockpit origin, in metres
   Vector3d size;                          // how much physical space it takes up, in metres

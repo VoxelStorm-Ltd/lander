@@ -10,6 +10,7 @@
 #include "random_engine.h"
 
 class spacecraft;
+class instrumentpanel;
 
 class device : public random_engine {
 private:
@@ -24,16 +25,27 @@ private:
 
 protected:
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
+  Vector3d position;                  // its location in the cabin or on the ship or on the instrument panel
+  Quatd rotation;                     // its rotation relative to the ship ro cabin or instrument panel
 
 public:
+  enum class statustype : char {
+    UNMOUNTED,
+    ON_HULL,
+    IN_CABIN,
+    ON_PANEL
+  };
+  statustype status;                    // current situation of this device
+
   struct port_in_type {
-    device *target;                   // output device this is connected to
-    unsigned int target_port;         // connected port number on the target
+    device *target;                     // output device this is connected to
+    unsigned int target_port;           // connected port number on the target
   };
 
   std::vector<port_in_type> ports_in;
 
   spacecraft *vessel;                   // what vessel it belongs to
+  instrumentpanel *panel;               // what instrument panel it's attached to
 
   bool functional;                      // whether it's currently working
 
@@ -45,6 +57,13 @@ public:
   virtual std::string  get_model();
   virtual std::string  get_description();
   virtual double       get_mass();
+  virtual Vector3d     get_size();
+  virtual Vector3d     get_position();
+  virtual Quatd        get_rotation();
+  virtual void         set_position(Vector3d const &newposition);
+  virtual void         set_position(double x, double y, double z);
+  virtual void         set_rotation(Quatd const &newrotation);
+  // no default setters for size and mass - these are fixed for most devices
   virtual unsigned int get_port_in_count();
   virtual std::string  get_port_in_name(           unsigned int port);
   virtual std::string  get_port_in_description(    unsigned int port);
@@ -58,14 +77,22 @@ public:
   virtual GLuint       get_port_out_video_digital( unsigned int port);
   virtual GLuint       get_port_out_video_analogue(unsigned int port);
   virtual void         get_port_out_sound(         unsigned int port);
+
   virtual void update();
   virtual void update_if_time();
+  virtual void render();
 
   GLuint generate_static_analogue();
   GLuint generate_static_digital();
 
   virtual void attach(spacecraft *to_vessel);
+  virtual bool attach_panel(instrumentpanel *to_panel);
+  virtual bool attach_hull();
+  virtual bool attach_cabin();
   virtual void remove();
+  virtual void remove_panel();
+  virtual void remove_hull();
+  virtual void remove_cabin();
   void connect(unsigned int port_in, device *target, unsigned int target_port_out);
   void disconnect(unsigned int port_in);
   void disconnect_all();

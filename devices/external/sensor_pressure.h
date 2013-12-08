@@ -1,9 +1,9 @@
 #ifndef SENSOR_PRESSURE_H_INCLUDED
 #define SENSOR_PRESSURE_H_INCLUDED
 
-#include "device.h"
+#include "device_external.h"
 
-class sensor_pressure : public device {
+class sensor_pressure : public device_external {
   /// Static pressure sensor
   // stats vaguely based on http://www.abb.com/product/seitp330/a1d23674d8a8cc85c125762c00500889.aspx
 private:

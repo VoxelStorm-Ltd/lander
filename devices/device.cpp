@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 #include "spacecraft.h"
+#include "instrumentpanel.h"
 
 Vector2i const device::screensize_static_analogue(64, 64);
 Vector2i const device::screensize_static_digital( 16, 16);
@@ -14,9 +15,11 @@ boost::chrono::duration<double> const device::time_interval_static_digital( boos
 
 device::device()
   : time_nextupdate(boost::chrono::high_resolution_clock::now()),
+    status(statustype::UNMOUNTED),
     vessel(nullptr),
     functional(true) {
   /// Default constructor
+  rotation = Quatd(1.0, 0.0, 0.0, 0.0);       // null rotation quaternion
 }
 
 device::~device() {
@@ -55,6 +58,36 @@ double device::get_mass() {
   /// Return the weight of the device, in kilograms
   // virtual placeholder
   return 1.0;
+}
+
+Vector3d device::get_position() {
+  /// Return a position for this object in the ship or on the panel
+  return position;
+}
+
+Vector3d device::get_size() {
+  /// Return a size for this object, in metres - hardcoded
+  return Vector3d(0.2, 0.2, 0.2);
+}
+
+Quatd device::get_rotation() {
+  /// Return the rotation quaternion of this object - hardcoded
+  return rotation;
+}
+
+void device::set_position(Vector3d const &newposition) {
+  /// Update the position of this device
+  position = newposition;
+}
+
+void device::set_position(double x, double y, double z) {
+  /// Update the position of this device - component version
+  position = Vector3d(x, y, z);
+}
+
+void device::set_rotation(Quatd const &newrotation) {
+  /// Return the rotation quaternion of this object
+  rotation = newrotation;
 }
 
 unsigned int device::get_port_in_count() {
@@ -263,26 +296,99 @@ void device::attach(spacecraft *to_vessel) {
   }
   vessel = to_vessel;
   vessel->devices.push_back(this);
+  // don't attach it to any panel by default
+}
+
+bool device::attach_panel(instrumentpanel *to_panel) {
+  /// Attempt to attach this device to the specified panel, return success status
+  if(!to_panel) {
+    std::cout << "ERROR: tried to attach device " << get_name() << " to null panel." << std::endl;
+    return false;
+  }
+  panel = to_panel;
+  panel->devices.push_back(this);
+  // TODO: find an available position for it on the panel
+  set_rotation(Quatd(1.0, 0.0, 0.0, 0.0));       // null rotation quaternion
+  status = statustype::ON_PANEL;
+  return true;
+}
+
+bool device::attach_hull() {
+  /// Attempt to attach this device to the hull, return success status
+  if(panel) {
+    panel->devices.remove(this);
+  }
+  vessel->devices_cabin.remove(this);
+  vessel->devices_hull.push_back(this);
+  status = statustype::ON_HULL;
+  return true;
+}
+
+bool device::attach_cabin() {
+  /// Attempt to attach this device to a wall of the cabin, return success status
+  if(panel) {
+    panel->devices.remove(this);
+  }
+  vessel->devices_hull.remove(this);
+  vessel->devices_cabin.push_back(this);
+  status = statustype::IN_CABIN;
+  return true;
 }
 
 void device::remove() {
-  /// Remove this device from whatever it's attached to
+  /// Remove this device from whatever ship it's attached to
+  /// Note: not safe to be called in an iteration of instruments or devices!
   if(!vessel) {
     std::cout << "ERROR: tried to remove " << get_name() << " which is already not attached to anything." << std::endl;
     return;
   }
-  vessel = nullptr;
+  // detach it from whatever part of the ship it's connected to
+  remove_panel();
+  remove_hull();
+  remove_cabin();
   // remove it from the list of the vessel's devices
-  //vessel->devices.erase(std::remove(vessel->devices.begin(), vessel->devices.end(), this), vessel->devices.end());
   vessel->devices.remove(this);
-  // make sure there are no connections dangling to this device
-  for(auto const &it : vessel->devices) {
-    for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
-      if(it->ports_in[i].target == this) {
-        it->disconnect(i);
-      }
-    }
+  disconnect_all();
+  vessel = nullptr;     // this must obviously come last
+}
+
+void device::remove_panel() {
+  /// Remove this instrument from its panel only (leave it attached to any ship)
+  /// Note: not safe to be called in an iteration of instruments!
+  if(!vessel) {
+    std::cout << "ERROR: tried to remove instrument " << get_name() << " which is already not attached to a vessel." << std::endl;
+    return;
   }
+  if(!panel) {
+    // not every device is connected to a panel
+    //std::cout << "ERROR: tried to remove instrument " << get_name() << " which is already not attached to a panel." << std::endl;
+    return;
+  }
+  panel->devices.remove(this);
+  panel = nullptr;     // this must obviously come last
+  status = statustype::UNMOUNTED;
+}
+
+void device::remove_hull() {
+  /// Remove this device from the hull only (leave it attached to any ship)
+  /// Note: not safe to be called in an iteration of hull devices!
+  if(!vessel) {
+    std::cout << "ERROR: tried to remove hull device " << get_name() << " which is already not attached to a vessel." << std::endl;
+    return;
+  }
+  vessel->devices_hull.remove(this);
+  status = statustype::UNMOUNTED;
+}
+
+void device::remove_cabin() {
+  /// Remove this device from the cabin only (leave it attached to any ship)
+  /// Note: not safe to be called in an iteration of cabin devices!
+  if(!vessel) {
+    std::cout << "ERROR: tried to remove cabin device " << get_name() << " which is already not attached to a vessel." << std::endl;
+    return;
+  }
+  vessel->devices_cabin.remove(this);
+  status = statustype::UNMOUNTED;
 }
 
 void device::connect(unsigned int port_in, device *target, unsigned int target_port_out) {
@@ -352,6 +458,47 @@ void device::update_if_time() {
   }
 }
 
+void device::render() {
+  /// Show this instrument on the control panel
+  // render a basic placeholder for unspecified devices
+  glPushMatrix();
+
+  glTranslated(position.x,
+               position.y,
+               position.z);
+
+  glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
+  glBegin(GL_QUADS);
+  // front
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  // top
+  glVertex3d(0.0,          get_size().y, 0.0);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, 0.0);
+  // bottom
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  // right
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, get_size().y, 0.0);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  // left
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, 0.0);
+  glEnd();
+
+  glPopMatrix();
+}
+
 void device::destroy() {
   /// Put this device out of commission
   std::cout << get_name() << " is no longer operative." << std::endl;
@@ -362,6 +509,22 @@ void device::describe_to_console() {
   /// Dump a vebrose description of this device and all its connections to the console
   std::cout << "*** " << get_manufacturer() << " model " << get_model() << ": " << get_name() << " ***" << std::endl;
   std::cout << get_description() << std::endl;
+  std::cout << "Status: ";
+  switch(status) {
+  case statustype::UNMOUNTED:
+    std::cout << "In the spare parts bin.";
+    break;
+  case statustype::ON_HULL:
+    std::cout << "Mounted outside on the hull.";
+    break;
+  case statustype::IN_CABIN:
+    std::cout << "Mounted on a wall of the cabin.";
+    break;
+  case statustype::ON_PANEL:
+    std::cout << "Mounted on an instrument panel.";
+    break;
+  }
+  std::cout << std::endl;
   std::cout << "Input ports: " << get_port_in_count() << std::endl;
   for(unsigned int i = 0; i != get_port_in_count(); ++i) {
     std::cout << "  " << i + 1 << ": " << get_port_in_name(i) << std::endl;
@@ -372,4 +535,17 @@ void device::describe_to_console() {
     std::cout << "  " << i + 1 << ": " << get_port_out_name(i) << std::endl;
     std::cout << "    " << get_port_out_description(i) << std::endl;
   }
+  std::cout << "Dimensions: ";
+  if(get_size().x < 1 || get_size().y < 1 || get_size().z < 1) {
+    std::cout << get_size() / 1000 << "mm";
+  } else {
+    std::cout << get_size() << "m";
+  }
+  std::cout << ", Mass: ";
+  if(get_mass() < 1) {
+    std::cout << get_mass() / 1000 << "g";
+  } else {
+    std::cout << get_mass() << "Kg";
+  }
+  std::cout << std::endl;
 }

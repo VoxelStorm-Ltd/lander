@@ -184,33 +184,34 @@ void init_universe() {
   controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 
-  altimeter *testdevice = new altimeter;
-  sensor_pressure *testdevice2 = new sensor_pressure;
-  testdevice->attach(playership);
-  testdevice->attach(controlpanel);
-  testdevice->set_position(0.1, 0.84, 0.0);
-  testdevice2->attach(playership);
-  testdevice->connect(0, testdevice2, 0);
-  testdevice->describe_to_console();
+  altimeter *test_altimeter = new altimeter;
+  sensor_pressure *test_pressuresensor = new sensor_pressure;
+  test_altimeter->attach(playership);
+  test_altimeter->attach_panel(controlpanel);
+  test_altimeter->set_position(0.1, 0.84, 0.0);
+  test_pressuresensor->attach(playership);
+  test_pressuresensor->attach_hull();
+  test_altimeter->connect(0, test_pressuresensor, 0);
+  test_altimeter->describe_to_console();
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
   memory *mem_zoom = new memory;
   memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
-  mainmonitor->attach(controlpanel);
+  mainmonitor->attach_panel(controlpanel);
   mainmonitor->set_position(0.1, 0.3, 0.0);
   mainmapper->attach(playership);
-  mainmapper->attach(controlpanel);
+  mainmapper->attach_panel(controlpanel);
   mainmapper->set_position(0.1, 0.1, 0.0);
   mainmonitor->connect(0, mainmapper, 0);
   mem_zoom->attach(playership);
-  mem_zoom->attach(controlpanel);
+  mem_zoom->attach_panel(controlpanel);
   mem_zoom->set_position(0.1, 0.05, 0.0);
   mem_zoom->set_memory_value(0.00001) ;                   // set the scale ratio
   mainmapper->connect(0, mem_zoom, 0);                    // hook it up to the zoom reference frame input
   mem_planetref->attach(playership);
-  mem_planetref->attach(controlpanel);
+  mem_planetref->attach_panel(controlpanel);
   mem_planetref->set_position(0.4, 0.05, 0.0);
   mem_planetref->set_memory_value(4.0);                   // earth = 4
   mainmapper->connect(3, mem_planetref, 0);               // hook it up to the trails reference frame input
@@ -220,20 +221,20 @@ void init_universe() {
 
   display_digital *staticmonitor1 = new display_digital;
   staticmonitor1->attach(playership);
-  staticmonitor1->attach(controlpanel);
+  staticmonitor1->attach_panel(controlpanel);
   staticmonitor1->set_position(1.0, 0.5, 0.0);
-  //staticmonitor1->connect(0, testdevice2, 0);             // noise source
+  //staticmonitor1->connect(0, test_pressuresensor, 0);             // noise source
   //staticmonitor1->connect(0, mainmapper, 0);
   display_small *staticmonitor2 = new display_small;
   staticmonitor2->attach(playership);
-  staticmonitor2->attach(controlpanel);
+  staticmonitor2->attach_panel(controlpanel);
   staticmonitor2->set_position(0.5, 0.8, 0.0);
-  staticmonitor2->connect(0, testdevice2, 0);             // noise source
+  staticmonitor2->connect(0, test_pressuresensor, 0);             // noise source
   //staticmonitor2->connect(0, mainmapper, 0);
 
   display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
   converter1->attach(playership);
-  converter1->attach(controlpanel);
+  converter1->attach_panel(controlpanel);
   converter1->set_position(1.5, 0.1, 0.0);
   converter1->connect(0, mainmapper, 0);
   staticmonitor1->connect(0, converter1, 0);

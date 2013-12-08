@@ -3,7 +3,7 @@
 
 #include "instrument.h"
 
-class display_converter_analogue_digital : public instrument {
+class display_converter_analogue_digital : public device {
 public:
   display_converter_analogue_digital();
   ~display_converter_analogue_digital();

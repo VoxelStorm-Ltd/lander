@@ -10,12 +10,13 @@ instrumentpanel::instrumentpanel() {
 
 instrumentpanel::~instrumentpanel() {
   /// Default destructor
-  for(auto &it : instruments) {
-    it->vessel->devices.remove(it);
-    delete it;
-    it = nullptr;
+  for(auto &it : devices) {
+    //it->vessel->devices.remove(it);
+    //delete it;
+    //it = nullptr;
+    it->remove_panel();
   }
-  instruments.clear();
+  devices.clear();
 }
 
 
@@ -86,10 +87,10 @@ void instrumentpanel::render() {
   glVertex3d(0.0,    size.y, -size.z);
   glEnd();
 
-  for(auto const &it : instruments) {
+  for(auto const &it : devices) {
     it->render();
-    // show connecting lines between components
 
+    // show connecting lines between components
     glColor3d(0.0, 1.0, 0.0);
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {

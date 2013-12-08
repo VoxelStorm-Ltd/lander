@@ -15,6 +15,8 @@ private:
 
 public:
   std::list<device*> devices;             // all devices on-board
+  std::list<device*> devices_hull;        // subset of devices out on the hull
+  std::list<device*> devices_cabin;       // subset of devices mounted inside the cabin
   std::list<instrumentpanel*> panels;     // instrument panels in the cockpit
   std::list<astronaut*> occupants;        // who's on board
 
