@@ -238,7 +238,7 @@ void mapper_system::refresh() {
     // line to centre of system
     glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
     glBegin(GL_LINES);
-    glVertex2d(0.0, 0.0);
+    glVertex3d(0.0, 0.0, 0.0);
     glVertex3dv(point);
     glEnd();
 
@@ -254,10 +254,9 @@ void mapper_system::refresh() {
       // every period add a trail point
       trailtype trail;
       if(trail_ref) {
-        if(it == trail_ref) {     // don't add trails for the (still) reference body
-          continue;
+        if(it != trail_ref) {     // don't add trails for the (still) reference body
+          trail.linepoint = point - trail_ref->position;
         }
-        trail.linepoint = point - trail_ref->position;
       } else {
         trail.linepoint = point;
       }
@@ -305,7 +304,6 @@ void mapper_system::refresh() {
   glPopAttrib();
 
   // release the framebuffer
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
   glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
 }

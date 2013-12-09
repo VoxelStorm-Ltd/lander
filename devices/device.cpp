@@ -17,6 +17,7 @@ device::device()
   : time_nextupdate(boost::chrono::high_resolution_clock::now()),
     status(statustype::UNMOUNTED),
     vessel(nullptr),
+    panel(nullptr),
     functional(true) {
   /// Default constructor
   rotation = Quatd(1.0, 0.0, 0.0, 0.0);       // null rotation quaternion
@@ -549,13 +550,13 @@ void device::describe_to_console() {
   }
   std::cout << "Dimensions: ";
   if(get_size().x < 1 || get_size().y < 1 || get_size().z < 1) {
-    std::cout << get_size() / 1000 << "mm";
+    std::cout << get_size() * 1000 << "mm";
   } else {
     std::cout << get_size() << "m";
   }
   std::cout << ", Mass: ";
   if(get_mass() < 1) {
-    std::cout << get_mass() / 1000 << "g";
+    std::cout << get_mass() * 1000 << "g";
   } else {
     std::cout << get_mass() << "Kg";
   }

@@ -182,7 +182,6 @@ function Compute() {
 }
 */
 
-
 void planet::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
   glPushMatrix();
@@ -209,10 +208,10 @@ void planet::render_diagram(double scale, bool labels) {
   }
 
   // draw a filled circle at the radius
+  double const circlestep = M_PI / 32.0;
   glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
   glBegin(GL_TRIANGLE_FAN);
   glVertex3d(0.0, 0.0, 0.0);
-  double const circlestep = M_PI / 32.0;
   for(double angle = 0.0; angle < (M_PI * 2.0) + circlestep; angle += circlestep) {
     glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
   }
