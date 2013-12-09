@@ -923,6 +923,28 @@ class Vector3 {
       return Vector3<T>(y * rhs.z - rhs.y * z, z * rhs.x - rhs.z * x, x * rhs.y - rhs.x * y);
     }
 
+    //--------------[ rotation with quaternions ]-----------------
+    // see http://mollyrocket.com/forums/viewtopic.php?t=833&sid=3a84e00a70ccb046cfc87ac39881a3d0
+    /**
+     * Multiplication by quaternion operator (rotation by quaternion)
+     * @param rhs Right hand side argument of binary operator.
+     */
+    inline Vector3<T> operator*(const Quaternion<T>& rhs) const {
+      const Vector3<T>& lhs = *this;
+      const Vector3<T> temp = rhs.v.crossProduct(lhs) * 2;
+      return lhs + (temp * rhs.w) + rhs.v.crossProduct(temp);
+    }
+
+    /**
+     * Multiplication by quaternion operator (rotation by quaternion)
+     * @param rhs Right hand side argument of binary operator.
+     */
+    inline Vector3<T>& operator*=(const Quaternion<T>& rhs) {
+      const Vector3<T> temp = rhs.v.crossProduct(*this) * 2;
+      *this += (temp * rhs.w) + rhs.v.crossProduct(temp);
+      return *this;
+    }
+
     //--------------[ scalar vector operator ]--------------------
     /**
      * Addition operator
@@ -1104,6 +1126,13 @@ class Vector3 {
       x = nx;
       y = ny;
       z = nz;
+    }
+    /**
+     * Rotate vector by a quaternion.
+     * @param ax Quaternion to rotate by.
+     */
+    inline void rotate(const Quaternion<T>& rhs) {
+      *this *= rhs;
     }
 
     /**
