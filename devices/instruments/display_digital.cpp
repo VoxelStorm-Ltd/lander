@@ -46,3 +46,87 @@ void display_digital::update() {
     // TODO: overlay "no signal" text on static
   }
 }
+
+void display_digital::render() {
+  /// Render this display's contents in the right place
+  update();
+
+  glPushMatrix();
+
+  glTranslated(get_position().x,
+               get_position().y,
+               get_position().z);
+
+  //glColor4dv(Vector4d(0.6, 0.6, 0.6, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+
+  glBegin(GL_QUADS);
+  // front
+  glNormal3d(0.0, 0.0, 1.0);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  // top
+  glNormal3d(0.0, 1.0, 0.0);
+  glVertex3d(0.0,          get_size().y, 0.0);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, get_size().y, 0.0);
+  // bottom
+  glNormal3d(0.0, -1.0, 0.0);
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  // right
+  glNormal3d(1.0, 0.0, 0.0);
+  glVertex3d(get_size().x, 0.0,          0.0);
+  glVertex3d(get_size().x, get_size().y, 0.0);
+  glVertex3d(get_size().x, get_size().y, get_size().z);
+  glVertex3d(get_size().x, 0.0,          get_size().z);
+  // left
+  glNormal3d(-1.0, 0.0, 0.0);
+  glVertex3d(0.0,          0.0,          0.0);
+  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(0.0,          get_size().y, 0.0);
+  glEnd();
+
+  Vector2d const screen_pos(0.01, 0.01);
+  Vector2d const screen_size(get_size().x - 0.02, get_size().y - 0.02);
+
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           20.0);                         // 0 to 127
+
+  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+
+  glBegin(GL_QUADS);
+  glNormal3d(0.0, 0.0, 1.0);
+  double const screenheight = get_size().z + 0.002;
+  double const xstep = screen_size.x / 10;
+  double const ystep = screen_size.y / 10;
+  for(double x = 0.0; x <= screen_size.x - xstep; x += xstep) {
+    for(double y = 0.0; y <= screen_size.y - ystep; y += ystep) {
+      glTexCoord2d(x           / screen_size.x, y           / screen_size.y);
+      glVertex3d(screen_pos.x + x,         screen_pos.y + y,         screenheight);
+      glTexCoord2d((x + xstep) / screen_size.x, y           / screen_size.y);
+      glVertex3d(screen_pos.x + x + xstep, screen_pos.y + y,         screenheight);
+      glTexCoord2d((x + xstep) / screen_size.x, (y + ystep) / screen_size.y);
+      glVertex3d(screen_pos.x + x + xstep, screen_pos.y + y + ystep, screenheight);
+      glTexCoord2d(x           / screen_size.x, (y + ystep) / screen_size.y);
+      glVertex3d(screen_pos.x + x,         screen_pos.y + y + ystep, screenheight);
+    }
+  }
+  glEnd();
+
+  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+
+  glPopMatrix();
+}

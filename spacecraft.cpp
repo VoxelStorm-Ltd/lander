@@ -215,7 +215,7 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
-
+  /**
   // white light on front wall
   glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
   glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
@@ -255,7 +255,7 @@ void spacecraft::render_cabin() {
   glLightf( GL_LIGHT2, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 1.0 / 0.7);                        // effective brightness
   glEnable( GL_LIGHT2);
-
+  **/
 
   // render the cabin walls - basic octagonal cabin
   //glColor4d(0.8, 0.8, 0.8, 1.0);

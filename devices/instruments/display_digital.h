@@ -15,6 +15,7 @@ public:
   std::string get_description();
   double      get_mass();
   void update();
+  void render();
 };
 
 #endif // DISPLAY_DIGITAL_H_INCLUDED

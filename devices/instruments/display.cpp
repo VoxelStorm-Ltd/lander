@@ -145,9 +145,10 @@ void display::render() {
 
   //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.05, 0.2, 0.05, 1.0));
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.05, 0.2, 0.05, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(1.0, 0.8, 1.0, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.05, 0.0, 1.0));
   glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           127.0);                         // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture

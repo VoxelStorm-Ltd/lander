@@ -25,7 +25,7 @@ public:
   virtual Vector3d    get_size();
 
   virtual void update();
-  void render();
+  virtual void render();
 };
 
 #endif // DISPLAY_H_INCLUDED
