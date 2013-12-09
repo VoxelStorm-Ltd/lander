@@ -60,16 +60,20 @@ void init_graphics(Vector2i &windowsize) {
     }
   }
   if(oculusmonitor != NULL) {
-    oculus.enabled = true;
-    windowsize.x = oculus.hmdinfo.HResolution;
-    windowsize.y = oculus.hmdinfo.VResolution;
-    //drawfunction = &draw_oculus;
+    if(oculus.enabled) {
+      // rift is available
+      windowsize.x = oculus.hmdinfo.HResolution;
+      windowsize.y = oculus.hmdinfo.VResolution;
+      //drawfunction = &draw_oculus;
+    } else {
+      // rift connected but turned off / disabled
+      oculusmonitor = NULL;
+    }
   } else {
     //drawfunction = &draw;
     // no rift connected, so drop the object
     //delete oculus;
     //oculus = nullptr;
-    oculus.enabled = false;
   }
   // set up window hints in advance
   //glfwWindowHint(GLFW_RED_BITS,   state->videomode->redBits);

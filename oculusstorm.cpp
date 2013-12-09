@@ -34,6 +34,7 @@ oculusstorm::oculusstorm()
   if(sensor) {
     std::cout << "Oculus: Sensor found" << std::endl;
     sensorfusion.AttachToSensor(sensor);
+    enabled = true;
   } else {
     std::cout << "Oculus: Sensor not found" << std::endl;
   }
