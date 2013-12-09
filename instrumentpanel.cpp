@@ -68,10 +68,21 @@ void instrumentpanel::render() {
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
-  glVertex3d(0.0,    0.0,    0.0);
-  glVertex3d(size.x, 0.0,    0.0);
-  glVertex3d(size.x, size.y, 0.0);
-  glVertex3d(0.0,    size.y, 0.0);
+  //glVertex3d(0.0,    0.0,    0.0);
+  //glVertex3d(size.x, 0.0,    0.0);
+  //glVertex3d(size.x, size.y, 0.0);
+  //glVertex3d(0.0,    size.y, 0.0);
+  double const xstep = size.x / 100;
+  double const ystep = size.y / 50;
+  for(double x = 0.0; x <= size.x; x += xstep) {
+    for(double y = 0.0; y <= size.y; y += ystep) {
+      glVertex3d(x,         y,         0.0);
+      glVertex3d(x + xstep, y,         0.0);
+      glVertex3d(x + xstep, y + ystep, 0.0);
+      glVertex3d(x,         y + ystep, 0.0);
+    }
+  }
+
   // top
   glNormal3d(0.0, 1.0, 0.0);
   glVertex3d(0.0,    size.y, -size.z);

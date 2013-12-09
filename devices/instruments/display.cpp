@@ -154,16 +154,113 @@ void display::render() {
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
 
   glBegin(GL_QUADS);
-  glNormal3d(0.0, 0.0, 1.0);
-  glTexCoord2d(0.0, 0.0);
-  glVertex3d(screen_pos.x,                 screen_pos.y,                 get_size().z + 0.001);
-  glTexCoord2d(1.0, 0.0);
-  glVertex3d(screen_pos.x + screen_size.x, screen_pos.y,                 get_size().z + 0.001);
-  glTexCoord2d(1.0, 1.0);
-  glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + screen_size.y, get_size().z + 0.001);
-  glTexCoord2d(0.0, 1.0);
-  glVertex3d(screen_pos.x,                 screen_pos.y + screen_size.y, get_size().z + 0.001);
+  //glNormal3d(0.0, 0.0, 1.0);
+  //glTexCoord2d(0.0, 0.0);
+  //glVertex3d(screen_pos.x,                 screen_pos.y,                 get_size().z + 0.001);
+  //glTexCoord2d(1.0, 0.0);
+  //glVertex3d(screen_pos.x + screen_size.x, screen_pos.y,                 get_size().z + 0.001);
+  //glTexCoord2d(1.0, 1.0);
+  //glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + screen_size.y, get_size().z + 0.001);
+  //glTexCoord2d(0.0, 1.0);
+  //glVertex3d(screen_pos.x,                 screen_pos.y + screen_size.y, get_size().z + 0.001);
+  //double const scalefactor = 0.5;
+  double const scalefactor = 0.5 / screen_size.length();
+  double const maxheight = (pow(screen_size.x / 2, 2) + pow(screen_size.y / 2, 2)) * scalefactor;
+  double const heightinit = get_size().z + maxheight;
+  double const xstep = screen_size.x / 10;
+  double const ystep = screen_size.y / 10;
+  for(double x = 0.0; x <= screen_size.x - xstep; x += xstep) {
+    double const xdist0 = x           - (screen_size.x / 2);
+    double const xdist1 = (x + xstep) - (screen_size.x / 2);
+    for(double y = 0.0; y <= screen_size.y - ystep; y += ystep) {
+      double const ydist0 = y           - (screen_size.y / 2);
+      double const ydist1 = (y + ystep) - (screen_size.y / 2);
+      // TODO: adjust normals for this curvature
+      glNormal3d(0.0, 0.0, 1.0);
+      glTexCoord2d(x           / screen_size.x, y           / screen_size.y);
+      double const height00 = heightinit - ((xdist0 * xdist0 + ydist0 * ydist0) * scalefactor);
+      glVertex3d(screen_pos.x + x,         screen_pos.y + y,         height00);
+      glTexCoord2d((x + xstep) / screen_size.x, y           / screen_size.y);
+      double const height10 = heightinit - ((xdist1 * xdist1 + ydist0 * ydist0) * scalefactor);
+      glVertex3d(screen_pos.x + x + xstep, screen_pos.y + y,         height10);
+      glTexCoord2d((x + xstep) / screen_size.x, (y + ystep) / screen_size.y);
+      double const height11 = heightinit - ((xdist1 * xdist1 + ydist1 * ydist1) * scalefactor);
+      glVertex3d(screen_pos.x + x + xstep, screen_pos.y + y + ystep, height11);
+      glTexCoord2d(x           / screen_size.x, (y + ystep) / screen_size.y);
+      double const height01 = heightinit - ((xdist0 * xdist0 + ydist1 * ydist1) * scalefactor);
+      glVertex3d(screen_pos.x + x,         screen_pos.y + y + ystep, height01);
+    }
+  }
+  // edge strip: left
+  glNormal3d(-1.0, 0.0, 0.0);
+  for(double y = 0.0; y <= screen_size.y - ystep; y += ystep) {
+    double const xdist1 = screen_size.x / 2;
+    double const ydist0 = y           - (screen_size.y / 2);
+    double const ydist1 = (y + ystep) - (screen_size.y / 2);
+    glTexCoord2d(0.0, y           / screen_size.y);
+    glVertex3d(screen_pos.x, screen_pos.y + y,         0.0);
+    glTexCoord2d(0.0, y           / screen_size.y);
+    double const height10 = heightinit - ((xdist1 * xdist1 + ydist0 * ydist0) * scalefactor);
+    glVertex3d(screen_pos.x, screen_pos.y + y,         height10);
+    glTexCoord2d(0.0, (y + ystep) / screen_size.y);
+    double const height11 = heightinit - ((xdist1 * xdist1 + ydist1 * ydist1) * scalefactor);
+    glVertex3d(screen_pos.x, screen_pos.y + y + ystep, height11);
+    glTexCoord2d(0.0, (y + ystep) / screen_size.y);
+    glVertex3d(screen_pos.x, screen_pos.y + y + ystep, 0.0);
+  }
+  // edge strip: right
+  glNormal3d(1.0, 0.0, 0.0);
+  for(double y = 0.0; y <= screen_size.y - ystep; y += ystep) {
+    double const xdist0 = screen_size.x / 2;
+    double const ydist0 = y           - (screen_size.y / 2);
+    double const ydist1 = (y + ystep) - (screen_size.y / 2);
+    glTexCoord2d(1.0, y           / screen_size.y);
+    double const height00 = heightinit - ((xdist0 * xdist0 + ydist0 * ydist0) * scalefactor);
+    glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + y,         height00);
+    glTexCoord2d(1.0, y           / screen_size.y);
+    glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + y,         0.0);
+    glTexCoord2d(1.0, (y + ystep) / screen_size.y);
+    glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + y + ystep, 0.0);
+    glTexCoord2d(1.0, (y + ystep) / screen_size.y);
+    double const height01 = heightinit - ((xdist0 * xdist0 + ydist1 * ydist1) * scalefactor);
+    glVertex3d(screen_pos.x + screen_size.x, screen_pos.y + y + ystep, height01);
+  }
+  // edge strip: bottom
+  glNormal3d(0.0, -1.0, 0.0);
+  for(double x = 0.0; x <= screen_size.x - xstep; x += xstep) {
+    double const ydist1 = screen_size.y / 2;
+    double const xdist0 = x           - (screen_size.x / 2);
+    double const xdist1 = (x + xstep) - (screen_size.x / 2);
+    glTexCoord2d(x           / screen_size.x, 0.0);
+    glVertex3d(screen_pos.x + x,         screen_pos.y, 0.0);
+    glTexCoord2d((x + xstep) / screen_size.x, 0.0);
+    glVertex3d(screen_pos.x + x + xstep, screen_pos.y, 0.0);
+    glTexCoord2d((x + xstep) / screen_size.x, 0.0);
+    double const height11 = heightinit - ((ydist1 * ydist1 + xdist1 * xdist1) * scalefactor);
+    glVertex3d(screen_pos.x + x + xstep, screen_pos.y, height11);
+    glTexCoord2d(x           / screen_size.x, 0.0);
+    double const height10 = heightinit - ((ydist1 * ydist1 + xdist0 * xdist0) * scalefactor);
+    glVertex3d(screen_pos.x + x,         screen_pos.y, height10);
+  }
+  // edge strip: top
+  glNormal3d(0.0, 1.0, 0.0);
+  for(double x = 0.0; x <= screen_size.x - xstep; x += xstep) {
+    double const ydist1 = screen_size.y / 2;
+    double const xdist0 = x           - (screen_size.x / 2);
+    double const xdist1 = (x + xstep) - (screen_size.x / 2);
+    glTexCoord2d(x           / screen_size.x, 1.0);
+    glVertex3d(screen_pos.x + x,         screen_pos.y + screen_size.y, 0.0);
+    glTexCoord2d(x           / screen_size.x, 1.0);
+    double const height10 = heightinit - ((ydist1 * ydist1 + xdist0 * xdist0) * scalefactor);
+    glVertex3d(screen_pos.x + x,         screen_pos.y + screen_size.y, height10);
+    glTexCoord2d((x + xstep) / screen_size.x, 1.0);
+    double const height11 = heightinit - ((ydist1 * ydist1 + xdist1 * xdist1) * scalefactor);
+    glVertex3d(screen_pos.x + x + xstep, screen_pos.y + screen_size.y, height11);
+    glTexCoord2d((x + xstep) / screen_size.x, 1.0);
+    glVertex3d(screen_pos.x + x + xstep, screen_pos.y + screen_size.y, 0.0);
+  }
   glEnd();
+
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
 
   glPopMatrix();

@@ -126,6 +126,9 @@ void init_graphics(Vector2i windowsize) {
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
   glShadeModel(GL_SMOOTH);  // SMOOTH or FLAT
   //glShadeModel(GL_FLAT);    //may look more spectacular for a cube world
+  glDisable(GL_NORMALIZE);
+  //glDisable(GL_RESCALE_NORMALS);
+
 
   srand(1337);   // seed the random generator predictably
 
