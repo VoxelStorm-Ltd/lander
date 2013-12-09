@@ -283,7 +283,7 @@ void mapper_system::refresh() {
     //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
     glVertex3dv(it->linepoint);
     //glVertex3dv(Vector3d(0.0, 1000000.0, 0.0));
-    it->fade *= 0.99995;
+    it->fade *= trailfade;
     if(it->fade < 0.3) {
       it = trails.erase(it);
     } else {

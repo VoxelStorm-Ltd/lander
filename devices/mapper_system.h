@@ -25,7 +25,8 @@ private:
     Vector3d linepoint;
     double fade;
   };
-  unsigned int const trailperiod = 60;        // draw a dash in this many frames
+  unsigned int static constexpr trailperiod = 2;    // draw a dash in this many frames
+  double static constexpr trailfade = 0.999;        // how much the trails fade every tick
   unsigned int trailcounter = trailperiod;
 
   std::deque<trailtype> trails;
