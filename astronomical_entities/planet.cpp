@@ -217,12 +217,14 @@ void planet::render_diagram(double scale, bool labels) {
   }
   glEnd();
   // circle outline
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  glBegin(GL_LINE_LOOP);
-  for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
-    glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
-  }
-  glEnd();
+  //glDisable(GL_DEPTH_TEST);
+  //glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  //glBegin(GL_LINE_LOOP);
+  //for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
+  //  glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
+  //}
+  //glEnd();
+  //glEnable(GL_DEPTH_TEST);
 
   // atmosphere
   glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));

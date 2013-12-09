@@ -59,6 +59,8 @@ universe
                   indicated airspeed
                   ground speed
                   cameras
+                  motion sensor
+                  magnetic proximity sensor
                   comparative velocity
                   absolute velocity
                   (see doc for complete list)

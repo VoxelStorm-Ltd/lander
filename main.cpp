@@ -15,7 +15,7 @@ GLFWwindow *window_main;      // the main game window
 universe root;
 astronaut *player;
 
-void init_graphics(Vector2i windowsize);
+void init_graphics(Vector2i &windowsize);
 void init_universe();
 
 void init();

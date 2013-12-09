@@ -4,9 +4,11 @@
 #include <GLFW/glfw3.h>
 #include "vmath.h"
 #include "version.h"
+#include "oculusstorm.h"
 
 // globals
 GLFWwindow extern *window_main;
+oculusstorm oculus;          // oculus rift controller
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double z);
 void callback_key(         GLFWwindow *thiswindow, int key, int scancode, int action, int mods);
@@ -14,14 +16,15 @@ void callback_scroll(      GLFWwindow *thiswindow, double xoffset, double yoffse
 void callback_windowresize(GLFWwindow *thiswindow, int newwidth, int newheight);
 void callback_windowclose( GLFWwindow *thiswindow);
 
-
-void init_graphics(Vector2i windowsize) {
+void init_graphics(Vector2i &windowsize) {
   std::cout << "Initialising graphics..." << std::endl;
   // initialise the opengl window
   if(glfwInit() != GL_TRUE) {
     std::cout << "ERROR: glfwInit() failed" << std::endl;
     _Exit(EXIT_FAILURE);
   }
+
+  //oculus = new oculusstorm();   // initialise the oculus rift before graphics init
 
   int nummonitors = 0;
   GLFWmonitor **monitor_list = glfwGetMonitors(&nummonitors);
@@ -47,8 +50,27 @@ void init_graphics(Vector2i windowsize) {
     std::cout << "  Physical size: " << physicalwidth << " " << physicalheight << std::endl;
     std::cout << "  Position: " << xpos << " " << ypos << std::endl;
     std::cout << "  Mode: " << videomode->width << " " << videomode->height << " " << videomode->refreshRate << std::endl;
-  }
 
+    // try to determine if this monitor is the Oculus Rift's display
+    if(static_cast<unsigned int>(videomode->width)  == oculus.hmdinfo.HResolution &&
+       static_cast<unsigned int>(videomode->height) == oculus.hmdinfo.VResolution &&
+       thismonitor != monitor_primary) {
+      std::cout << "  (Oculus Rift candidate)" << std::endl;
+      oculusmonitor = thismonitor;
+    }
+  }
+  if(oculusmonitor != NULL) {
+    oculus.enabled = true;
+    windowsize.x = oculus.hmdinfo.HResolution;
+    windowsize.y = oculus.hmdinfo.VResolution;
+    //drawfunction = &draw_oculus;
+  } else {
+    //drawfunction = &draw;
+    // no rift connected, so drop the object
+    //delete oculus;
+    //oculus = nullptr;
+    oculus.enabled = false;
+  }
   // set up window hints in advance
   //glfwWindowHint(GLFW_RED_BITS,   state->videomode->redBits);
   //glfwWindowHint(GLFW_GREEN_BITS, state->videomode->greenBits);
@@ -128,6 +150,7 @@ void init_graphics(Vector2i windowsize) {
   //glShadeModel(GL_FLAT);    //may look more spectacular for a cube world
   glDisable(GL_NORMALIZE);
   //glDisable(GL_RESCALE_NORMALS);
+  glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);    // GL_FASTEST, GL_NICEST or GL_DONT_CARE
 
 
   srand(1337);   // seed the random generator predictably

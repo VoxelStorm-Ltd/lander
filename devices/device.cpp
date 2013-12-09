@@ -196,6 +196,7 @@ GLuint device::generate_static_analogue() {
   // only redraw if it's time to do so
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
   if(time_now >= time_next_static_analogue) {
+    // TODO: render n frames of static once only to 3D texture, and cycle through the layers
     time_next_static_analogue = time_now + time_interval_static_analogue;
     if(image_static_analogue == 0) {
       // we haven't allocated a texture, so do so now

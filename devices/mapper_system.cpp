@@ -36,7 +36,8 @@ mapper_system::mapper_system()
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
-  glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                        // automatically generate mipmaps - doesn't work for FBO
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
@@ -311,8 +312,9 @@ void mapper_system::refresh() {
   glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
 
+  // generate mipmaps - only use this if we're actually using a mipmap
   glBindTextureEXT(GL_TEXTURE_2D, display_image);
-  glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  glGenerateMipmapEXT(GL_TEXTURE_2D);
   glBindTextureEXT(GL_TEXTURE_2D, 0);
 }
 

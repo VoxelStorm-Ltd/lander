@@ -2,8 +2,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "spacecraft.h"
+#include "oculusstorm.h"
 
 extern astronaut *player;
+extern oculusstorm oculus;          // oculus rift controller
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),
@@ -151,9 +153,37 @@ void astronaut::render_firstperson() {
   switch(state) {
   case statetype::IN_VESSEL:
     // translate and rotate to player's view in the cabin
-    setup_render_perspective(0.1, 20.0);
-    // draw cabin view of the current ship
-    player->vessel_in->render_cabin();
+    if(oculus.enabled) {
+      // TODO: replace this with a function pointer to a draw func
+      // use the rift's view setup
+      oculus.nearplane = 0.1;
+      oculus.farplane = 20.0;
+      // left eye
+      oculus.setup_left();
+      glMultMatrixf(oculus.getmatrix().inverse());
+      glTranslated(0.0, -1.7, 0.0);                     // eye height
+      glMultMatrixd(rotation.transform().inverse());    // body rotation
+      glTranslated(-position.x,                         // position
+                   -position.y,
+                   -position.z);
+      // draw cabin view of the current ship
+      player->vessel_in->render_cabin();
+
+      // right eye
+      oculus.setup_right();
+      glMultMatrixf(oculus.getmatrix().inverse());
+      glTranslated(0.0, -1.7, 0.0);                     // eye height
+      glMultMatrixd(rotation.transform().inverse());    // body rotation
+      glTranslated(-position.x,                         // position
+                   -position.y,
+                   -position.z);
+      // draw cabin view of the current ship
+      player->vessel_in->render_cabin();
+    } else {
+      setup_render_perspective(0.1, 20.0);
+      // draw cabin view of the current ship
+      player->vessel_in->render_cabin();
+    }
     break;
   case statetype::EVA:
   case statetype::ATMOSPHERIC:     // "or" equiv
@@ -214,11 +244,10 @@ void astronaut::setup_render_perspective(double nearplane,
   //glMultMatrixd(rotation_head.transform());         // head rotation
   glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);    // head rotation
   if(rotation_head_yaw != 0.0) {
-    glRotated(rotation_head_yaw,   0.0, 1.0, 0.0);
+    glRotated(rotation_head_yaw, 0.0, 1.0, 0.0);
   }
   glTranslated(0.0, -1.7, 0.0);                     // eye height
   glMultMatrixd(rotation.transform().inverse());    // body rotation
-
   glTranslated(-position.x,                         // position
                -position.y,
                -position.z);
