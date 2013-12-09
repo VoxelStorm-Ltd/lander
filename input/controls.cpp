@@ -11,17 +11,19 @@ void pollcontrols(GLFWwindow *thiswindow) {
   double const amount = 1.001;
   double const angle = 0.15;
 
-  if(glfwGetKey(thiswindow, GLFW_KEY_W) == GLFW_PRESS) {
-    player->position.z -= 0.005;
-  }
-  if(glfwGetKey(thiswindow, GLFW_KEY_S) == GLFW_PRESS) {
-    player->position.z += 0.005;
-  }
-  if(glfwGetKey(thiswindow, GLFW_KEY_A) == GLFW_PRESS) {
-    player->position.x -= 0.005;
-  }
-  if(glfwGetKey(thiswindow, GLFW_KEY_D) == GLFW_PRESS) {
-    player->position.x += 0.005;
+  if(!player->strappeddown) {   // don't check movement while strapped into a seat
+    if(glfwGetKey(thiswindow, GLFW_KEY_W) == GLFW_PRESS) {
+      player->position.z -= 0.005;
+    }
+    if(glfwGetKey(thiswindow, GLFW_KEY_S) == GLFW_PRESS) {
+      player->position.z += 0.005;
+    }
+    if(glfwGetKey(thiswindow, GLFW_KEY_A) == GLFW_PRESS) {
+      player->position.x -= 0.005;
+    }
+    if(glfwGetKey(thiswindow, GLFW_KEY_D) == GLFW_PRESS) {
+      player->position.x += 0.005;
+    }
   }
 
   if(glfwGetKey(thiswindow, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -46,12 +48,4 @@ void pollcontrols(GLFWwindow *thiswindow) {
     //std::cout << "Applying delta V " << player->vessel_in->target.length() << "m/s^2" << std::endl;
   }
 
-  if(glfwGetKey(thiswindow, GLFW_KEY_P) == GLFW_PRESS) {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
-    glDisable(GL_LIGHTING);
-  }
-  if(glfwGetKey(thiswindow, GLFW_KEY_O) == GLFW_PRESS) {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // filled
-    glEnable(GL_LIGHTING);
-  }
 }

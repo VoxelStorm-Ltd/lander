@@ -18,10 +18,12 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
     // these first key catches work in all input modes
     switch(key) {
     case GLFW_KEY_O:
-      //temp -= 20;
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
+      glDisable(GL_LIGHTING);
       break;
     case GLFW_KEY_P:
-      //temp += 20;
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // filled
+      glEnable(GL_LIGHTING);
       break;
     /*
     case GLFW_KEY_PRINT_SCREEN:   // prt scrn to take screenshots

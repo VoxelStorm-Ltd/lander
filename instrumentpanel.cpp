@@ -79,7 +79,6 @@ void instrumentpanel::render() {
       glVertex3d(x,         y + ystep, 0.0);
     }
   }
-
   // top
   glNormal3d(0.0, 1.0, 0.0);
   glVertex3d(0.0,    size.y, -size.z);
@@ -88,11 +87,6 @@ void instrumentpanel::render() {
   glVertex3d(size.x, size.y, -size.z);
   // bottom
   glNormal3d(0.0, -1.0, 0.0);
-  //glVertex3d(0.0,    0.0,    -size.z);
-  //glVertex3d(size.x, 0.0,    -size.z);
-  //glVertex3d(size.x, 0.0,    0.0);
-  //glVertex3d(0.0,    0.0,    0.0);
-
   for(double x = 0.0; x <= size.x; x += xstep) {
     for(double z = 0.0; z < size.z; z += zstep) {
       glVertex3d(x,         0.0, -(z + zstep));
@@ -126,8 +120,8 @@ void instrumentpanel::render() {
   for(auto const &it : devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {
-        instrument *target = dynamic_cast<instrument*>(it->ports_in[i].target);
-        if(target) {            // only proceed to link other instruments
+        device *target = it->ports_in[i].target;
+        if(target->panel == this) {            // only proceed to link other instruments on this panel
           glBegin(GL_LINES);
           glVertex3d(it->get_position().x + it->get_size().x / 2,
                      it->get_position().y,

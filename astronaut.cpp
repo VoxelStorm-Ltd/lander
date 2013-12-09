@@ -9,6 +9,7 @@ astronaut::astronaut()
   : state(statetype::INACTIVE),
     vessel_in(nullptr),
     walking_on(nullptr),
+    strappeddown(false),
     fov_ratio(1.0),
     aspect_ratio(1.0) {
   /// Default constructor

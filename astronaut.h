@@ -20,6 +20,7 @@ public:
   statetype state;
   spacecraft *vessel_in;
   planet *walking_on;
+  bool strappeddown;              // whether we're free to move or not (belted into a seat etc)
 
   // first person graphics settings
   Vector2d mouse_sensitivity;     // degrees per pixel moved for both horizontal and vertical mouse movement
