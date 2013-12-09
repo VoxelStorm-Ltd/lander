@@ -26,15 +26,19 @@ mapper_system::mapper_system()
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
   // texture parameters
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);   // nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
-  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);  // when texture area is small, bilinear filter the closest mipmap
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);    // average between two mipmap levels on nearest neighbour texture pixel
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);    // when texture area is small, bilinear filter the closest mipmap
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);     // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                  // nearest neighbour filtering
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                 // when texture area is large, bilinear filter the original
-  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                  // nearest-neighbour on closeup views to show the pixel squares
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
+  glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
 
   // create a framebuffer
@@ -306,6 +310,10 @@ void mapper_system::refresh() {
   // release the framebuffer
   glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
+
+  glBindTextureEXT(GL_TEXTURE_2D, display_image);
+  glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  glBindTextureEXT(GL_TEXTURE_2D, 0);
 }
 
 void mapper_system::update() {
