@@ -88,6 +88,7 @@ double planet::get_atmos_pressure(double thisradius) {
 
 double planet::get_atmos_temperature(double thisradius) {
   /// Return the atmospheric temperature at this radius from the body
+  // TODO
   return 0.0;
 }
 

@@ -12,17 +12,29 @@ void pollcontrols(GLFWwindow *thiswindow) {
   double const angle = 0.15;
 
   if(!player->strappeddown) {   // don't check movement while strapped into a seat
+    Vector3d movevector;
     if(glfwGetKey(thiswindow, GLFW_KEY_W) == GLFW_PRESS) {
-      player->position.z -= 0.005;
+      movevector.z -= 1.0;
     }
     if(glfwGetKey(thiswindow, GLFW_KEY_S) == GLFW_PRESS) {
-      player->position.z += 0.005;
+      movevector.z += 1.0;
     }
     if(glfwGetKey(thiswindow, GLFW_KEY_A) == GLFW_PRESS) {
-      player->position.x -= 0.005;
+      movevector.x -= 1.0;
     }
     if(glfwGetKey(thiswindow, GLFW_KEY_D) == GLFW_PRESS) {
-      player->position.x += 0.005;
+      movevector.x += 1.0;
+    }
+    if(!(movevector.x == 0.0 &&
+         movevector.z == 0.0 &&
+         movevector.y == 0.0)) {
+      movevector.normalise();
+      movevector *= 0.005;
+      //movevector = player->rotation.rotMatrix() * movevector;   // the slow way
+      //movevector = movevector * player->rotation;               // faster
+      //movevector *= player->rotation;                           // fastest
+      movevector.rotate(player->rotation);                      // same effect but clearer
+      player->position += movevector;
     }
   }
 

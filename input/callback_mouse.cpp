@@ -26,11 +26,13 @@ void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x,
 
   if(player->strappeddown) {
     // while strapped down mouse turns only the head
-    player->rotation_head_yaw   += mouse_diff.x;
+    player->rotation_head_yaw += mouse_diff.x;
   } else {
     // while walking mouse turns the body, not the head
-    Quatd yaw = Quatd::fromAxisRot(Vector3d(0, 1, 0), mouse_diff.x);
+    Quatd yaw = Quatd::fromAxisRot(Vector3d(0, -1, 0), mouse_diff.x);
     player->rotation = yaw * player->rotation;
+    player->rotation_head_yaw = 0.0;
+    // TODO: turn head instantly, and have body follow gradually
   }
 
   player->rotation_head_pitch += mouse_diff.y;
@@ -39,5 +41,5 @@ void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x,
   } else if(player->rotation_head_pitch < -80) {
     player->rotation_head_pitch = -80;
   }
-
+  //player->rotation = Quatd::fromAxisRot(Vector3d(-1, 0, 0), mouse_diff.y) * player->rotation;
 }

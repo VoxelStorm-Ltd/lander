@@ -213,9 +213,11 @@ void astronaut::setup_render_perspective(double nearplane,
 
   //glMultMatrixd(rotation_head.transform());         // head rotation
   glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);    // head rotation
-  glRotated(rotation_head_yaw,   0.0, 1.0, 0.0);
+  if(rotation_head_yaw != 0.0) {
+    glRotated(rotation_head_yaw,   0.0, 1.0, 0.0);
+  }
   glTranslated(0.0, -1.7, 0.0);                     // eye height
-  glMultMatrixd(rotation.transform());              // body rotation
+  glMultMatrixd(rotation.transform().inverse());    // body rotation
 
   glTranslated(-position.x,                         // position
                -position.y,
