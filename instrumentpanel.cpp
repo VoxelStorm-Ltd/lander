@@ -68,12 +68,9 @@ void instrumentpanel::render() {
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
-  //glVertex3d(0.0,    0.0,    0.0);
-  //glVertex3d(size.x, 0.0,    0.0);
-  //glVertex3d(size.x, size.y, 0.0);
-  //glVertex3d(0.0,    size.y, 0.0);
-  double const xstep = size.x / 100;
-  double const ystep = size.y / 50;
+  double const xstep = size.x / 40;
+  double const ystep = size.y / 20;
+  double const zstep = size.z / 5;
   for(double x = 0.0; x <= size.x; x += xstep) {
     for(double y = 0.0; y <= size.y; y += ystep) {
       glVertex3d(x,         y,         0.0);
@@ -91,10 +88,19 @@ void instrumentpanel::render() {
   glVertex3d(size.x, size.y, -size.z);
   // bottom
   glNormal3d(0.0, -1.0, 0.0);
-  glVertex3d(0.0,    0.0,    -size.z);
-  glVertex3d(size.x, 0.0,    -size.z);
-  glVertex3d(size.x, 0.0,    0.0);
-  glVertex3d(0.0,    0.0,    0.0);
+  //glVertex3d(0.0,    0.0,    -size.z);
+  //glVertex3d(size.x, 0.0,    -size.z);
+  //glVertex3d(size.x, 0.0,    0.0);
+  //glVertex3d(0.0,    0.0,    0.0);
+
+  for(double x = 0.0; x <= size.x; x += xstep) {
+    for(double z = 0.0; z < size.z; z += zstep) {
+      glVertex3d(x,         0.0, -(z + zstep));
+      glVertex3d(x + xstep, 0.0, -(z + zstep));
+      glVertex3d(x + xstep, 0.0, -z);
+      glVertex3d(x,         0.0, -z);
+    }
+  }
   // right
   glNormal3d(1.0, 0.0, 0.0);
   glVertex3d(size.x, 0.0,    -size.z);

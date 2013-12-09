@@ -101,7 +101,7 @@ void display_digital::render() {
 
   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.25, 0.25, 0.25, 1.0));
   glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           20.0);                         // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture

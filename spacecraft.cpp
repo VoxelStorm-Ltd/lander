@@ -15,6 +15,8 @@
 
 extern universe root;
 
+bool lightson1 = true;
+
 spacecraft::spacecraft()
   : temperature_hull(285.18),     // http://www.learnthermo.com/examples/ch04/p-4b-3.php
     temperature_cabin(21.0 + 273.15) {
@@ -215,47 +217,64 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
-  /**
+  if(rand() % 100 == 0) {
+    lightson1 = !lightson1;
+  }
+  if(lightson1) {
   // white light on front wall
   glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
   glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 1.75, -1.95, 1.0));
+  glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 1.95, -1.95, 1.0));
   glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
-  glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
-  glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           90.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         10.0);                              // accepts 0-128
+  glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           60.0);                             // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);                              // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
   glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
   glEnable( GL_LIGHT0);
+  } else {
+    glDisable(GL_LIGHT0);
+  }
 
   // red side up-light
   glLightfv(GL_LIGHT1, GL_DIFFUSE,               Vector4f(1.0, 0.0, 0.0, 1.0));
   glLightfv(GL_LIGHT1, GL_SPECULAR,              Vector4f(1.0, 0.0, 0.0, 1.0));
   glLightfv(GL_LIGHT1, GL_POSITION,              Vector4f(-1.95, 0.0, 0.0, 1.0));
   glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION,        Vector3f(0.0, 1.0, 0.0));
-  glLightf( GL_LIGHT1, GL_SPOT_EXPONENT,         0.1);                              // accepts 0-128
-  glLightf( GL_LIGHT1, GL_SPOT_CUTOFF,           60.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT1, GL_SPOT_EXPONENT,         1.0);                              // accepts 0-128
+  glLightf( GL_LIGHT1, GL_SPOT_CUTOFF,           90.0);                             // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT1, GL_CONSTANT_ATTENUATION,  0.0);
   glLightf( GL_LIGHT1, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
   glEnable( GL_LIGHT1);
 
-  // white overhead panel light
-  //glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(0.2, 0.2, 0.2, 1.0));
-  //glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(0.2, 0.2, 0.2, 1.0));
-  //glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(0.5, 0.5, 0.5, 1.0));
-  //glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(0.5, 0.5, 0.5, 1.0));
-  glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT2, GL_POSITION,              Vector4f(0.0, 1.75, -1.0, 1.0));
-  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
-  glLightf( GL_LIGHT2, GL_SPOT_EXPONENT,         5.0);                              // accepts 0-128
-  glLightf( GL_LIGHT2, GL_SPOT_CUTOFF,           60.0);                             // width of angle of spotlight, 180 = all-round
+  // yellow right side-light
+  glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(1.0, 1.0, 0.5, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(1.0, 1.0, 0.5, 1.0));
+  glLightfv(GL_LIGHT2, GL_POSITION,              Vector4f(1.95, 1.5, 0.0, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION,        Vector3f(-1.0, 0.0, 0.0));
+  glLightf( GL_LIGHT2, GL_SPOT_EXPONENT,         0.0);                              // accepts 0-128
+  glLightf( GL_LIGHT2, GL_SPOT_CUTOFF,           180.0);                             // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT2, GL_CONSTANT_ATTENUATION,  0.0);
   glLightf( GL_LIGHT2, GL_LINEAR_ATTENUATION,    0.0001);
-  glLightf( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 1.0 / 0.7);                        // effective brightness
+  glLightf( GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 1.0 / 1.0);                        // effective brightness
   glEnable( GL_LIGHT2);
-  **/
+
+  // white overhead panel light
+  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(0.5, 0.5, 0.5, 1.0));
+  //glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(0.5, 0.5, 0.5, 1.0));
+  glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_POSITION,              Vector4f(0.0, 1.75, -1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
+  glLightf( GL_LIGHT3, GL_SPOT_EXPONENT,         1.0);                              // accepts 0-128
+  glLightf( GL_LIGHT3, GL_SPOT_CUTOFF,           90.0);                             // width of angle of spotlight, 180 = all-round
+  glLightf( GL_LIGHT3, GL_CONSTANT_ATTENUATION,  0.0);
+  glLightf( GL_LIGHT3, GL_LINEAR_ATTENUATION,    0.0001);
+  glLightf( GL_LIGHT3, GL_QUADRATIC_ATTENUATION, 1.0 / 0.7);                        // effective brightness
+  glEnable( GL_LIGHT3);
 
   // render the cabin walls - basic octagonal cabin
   //glColor4d(0.8, 0.8, 0.8, 1.0);
@@ -266,30 +285,24 @@ void spacecraft::render_cabin() {
   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
 
-  glBegin(GL_TRIANGLES);
+  glBegin(GL_QUADS);
   // floor
   glNormal3d( 0.0,  1.0,  0.0);
 
   glVertex3d(-2.0,  0.0,  1.0);     // middle
   glVertex3d( 2.0,  0.0,  1.0);
   glVertex3d( 2.0,  0.0, -1.0);
-  glVertex3d( 2.0,  0.0, -1.0);
   glVertex3d(-2.0,  0.0, -1.0);
-  glVertex3d(-2.0,  0.0,  1.0);
 
   glVertex3d(-2.0,  0.0, -1.0);     // front
   glVertex3d( 2.0,  0.0, -1.0);
   glVertex3d( 1.0,  0.0, -2.0);
-  glVertex3d( 1.0,  0.0, -2.0);
   glVertex3d(-1.0,  0.0, -2.0);
-  glVertex3d(-2.0,  0.0, -1.0);
 
   glVertex3d(-1.0,  0.0,  2.0);     // back
   glVertex3d( 1.0,  0.0,  2.0);
   glVertex3d( 2.0,  0.0,  1.0);
-  glVertex3d( 2.0,  0.0,  1.0);
   glVertex3d(-2.0,  0.0,  1.0);
-  glVertex3d(-1.0,  0.0,  2.0);
 
   // ceiling
   glNormal3d( 0.0, -1.0,  0.0);
@@ -297,89 +310,98 @@ void spacecraft::render_cabin() {
   glVertex3d(-2.0,  2.0, -1.0);     // middle
   glVertex3d( 2.0,  2.0, -1.0);
   glVertex3d( 2.0,  2.0,  1.0);
-  glVertex3d( 2.0,  2.0,  1.0);
   glVertex3d(-2.0,  2.0,  1.0);
-  glVertex3d(-2.0,  2.0, -1.0);
 
   glVertex3d(-1.0,  2.0, -2.0);     // front
   glVertex3d( 1.0,  2.0, -2.0);
   glVertex3d( 2.0,  2.0, -1.0);
-  glVertex3d( 2.0,  2.0, -1.0);
   glVertex3d(-2.0,  2.0, -1.0);
-  glVertex3d(-1.0,  2.0, -2.0);
 
   glVertex3d(-2.0,  2.0,  1.0);     // back
   glVertex3d( 2.0,  2.0,  1.0);
   glVertex3d( 1.0,  2.0,  2.0);
-  glVertex3d( 1.0,  2.0,  2.0);
   glVertex3d(-1.0,  2.0,  2.0);
-  glVertex3d(-2.0,  2.0,  1.0);
 
   // walls
-  glNormal3d( 0.0,  0.0,  1.0);
-  glVertex3d(-1.0,  0.0, -2.0);     // north
-  glVertex3d( 1.0,  0.0, -2.0);
-  glVertex3d( 1.0,  2.0, -2.0);
-  glVertex3d( 1.0,  2.0, -2.0);
-  glVertex3d(-1.0,  2.0, -2.0);
-  glVertex3d(-1.0,  0.0, -2.0);
+  double const xsize = 2.0;
+  double const ysize = 2.0;
+  double const qsize = 1.0;
+  double const xstep = xsize / 20;
+  double const ystep = ysize / 20;
+  double const qstep = qsize / 12;
+  glNormal3d( 0.0,  0.0,  1.0);     // north
+  for(double x = 0.0; x < xsize; x += xstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(-1.0 + x,         y,         -2.0);
+      glVertex3d(-1.0 + x + xstep, y,         -2.0);
+      glVertex3d(-1.0 + x + xstep, y + ystep, -2.0);
+      glVertex3d(-1.0 + x,         y + ystep, -2.0);
+    }
+  }
+  glNormal3dv(Vector3d(-1.0, 0.0, 1.0).normalise_copy());      // north-east
+  for(double q = 0.0; q < qsize; q += qstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(1.0 + q        , y,         -2.0 + q        );
+      glVertex3d(1.0 + q + qstep, y,         -2.0 + q + qstep);
+      glVertex3d(1.0 + q + qstep, y + ystep, -2.0 + q + qstep);
+      glVertex3d(1.0 + q        , y + ystep, -2.0 + q        );
+    }
+  }
+  glNormal3d(-1.0,  0.0,  0.0);     // east
+  for(double x = 0.0; x < xsize; x += xstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(2.0, y,         -1.0 + x        );
+      glVertex3d(2.0, y,         -1.0 + x + xstep);
+      glVertex3d(2.0, y + ystep, -1.0 + x + xstep);
+      glVertex3d(2.0, y + ystep, -1.0 + x        );
+    }
+  }
+  glNormal3dv(Vector3d(-1.0, 0.0, -1.0).normalise_copy());     // south-east
+  for(double q = 0.0; q < qsize; q += qstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(2.0 - (q        ), y,         1.0 + q        );
+      glVertex3d(2.0 - (q + qstep), y,         1.0 + q + qstep);
+      glVertex3d(2.0 - (q + qstep), y + ystep, 1.0 + q + qstep);
+      glVertex3d(2.0 - (q        ), y + ystep, 1.0 + q        );
+    }
+  }
+  glNormal3d( 0.0,  0.0, -1.0);     // south
+  for(double x = 0.0; x < xsize; x += xstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(-1.0 + x + xstep, y,         2.0);
+      glVertex3d(-1.0 + x,         y,         2.0);
+      glVertex3d(-1.0 + x,         y + ystep, 2.0);
+      glVertex3d(-1.0 + x + xstep, y + ystep, 2.0);
+    }
+  }
 
-  glNormal3dv(Vector3d(-1.0, 0.0, 1.0).normalise_copy());
-  glVertex3d( 1.0,  0.0, -2.0);     // north-east
-  glVertex3d( 2.0,  0.0, -1.0);
-  glVertex3d( 2.0,  2.0, -1.0);
-  glVertex3d( 2.0,  2.0, -1.0);
-  glVertex3d( 1.0,  2.0, -2.0);
-  glVertex3d( 1.0,  0.0, -2.0);
-
-  glNormal3d(-1.0,  0.0,  0.0);
-  glVertex3d( 2.0,  0.0, -1.0);     // east
-  glVertex3d( 2.0,  0.0,  1.0);
-  glVertex3d( 2.0,  2.0,  1.0);
-  glVertex3d( 2.0,  2.0,  1.0);
-  glVertex3d( 2.0,  2.0, -1.0);
-  glVertex3d( 2.0,  0.0, -1.0);
-
-  glNormal3dv(Vector3d(-1.0, 0.0, -1.0).normalise_copy());
-  glVertex3d( 2.0,  0.0,  1.0);     // south-east
-  glVertex3d( 1.0,  0.0,  2.0);
-  glVertex3d( 1.0,  2.0,  2.0);
-  glVertex3d( 1.0,  2.0,  2.0);
-  glVertex3d( 2.0,  2.0,  1.0);
-  glVertex3d( 2.0,  0.0,  1.0);
-
-  glNormal3d( 0.0,  0.0, -1.0);
-  glVertex3d( 1.0,  0.0,  2.0);     // south
-  glVertex3d(-1.0,  0.0,  2.0);
-  glVertex3d(-1.0,  2.0,  2.0);
-  glVertex3d(-1.0,  2.0,  2.0);
-  glVertex3d( 1.0,  2.0,  2.0);
-  glVertex3d( 1.0,  0.0,  2.0);
-
-  glNormal3dv(Vector3d(1.0, 0.0, -1.0).normalise_copy());
-  glVertex3d(-1.0,  0.0,  2.0);     // south-west
-  glVertex3d(-2.0,  0.0,  1.0);
-  glVertex3d(-2.0,  2.0,  1.0);
-  glVertex3d(-2.0,  2.0,  1.0);
-  glVertex3d(-1.0,  2.0,  2.0);
-  glVertex3d(-1.0,  0.0,  2.0);
-
-  glNormal3d( 1.0,  0.0,  0.0);
-  glVertex3d(-2.0,  0.0,  1.0);     // west
-  glVertex3d(-2.0,  0.0, -1.0);
-  glVertex3d(-2.0,  2.0, -1.0);
-  glVertex3d(-2.0,  2.0, -1.0);
-  glVertex3d(-2.0,  2.0,  1.0);
-  glVertex3d(-2.0,  0.0,  1.0);
-
-  glNormal3dv(Vector3d(1.0, 0.0, 1.0).normalise_copy());
-  glVertex3d(-2.0,  0.0, -1.0);     // north-west
-  glVertex3d(-1.0,  0.0, -2.0);
-  glVertex3d(-1.0,  2.0, -2.0);
-  glVertex3d(-1.0,  2.0, -2.0);
-  glVertex3d(-2.0,  2.0, -1.0);
-  glVertex3d(-2.0,  0.0, -1.0);
-
+  glNormal3dv(Vector3d(1.0, 0.0, -1.0).normalise_copy());     // south-west
+  for(double q = 0.0; q < qsize; q += qstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(-1.0 - (q        ), y,         2.0 - (q        ));
+      glVertex3d(-1.0 - (q + qstep), y,         2.0 - (q + qstep));
+      glVertex3d(-1.0 - (q + qstep), y + ystep, 2.0 - (q + qstep));
+      glVertex3d(-1.0 - (q        ), y + ystep, 2.0 - (q        ));
+    }
+  }
+  glNormal3d( 1.0,  0.0,  0.0);     // west
+  for(double x = 0.0; x < xsize; x += xstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(-2.0, y,         -1.0 + x + xstep);
+      glVertex3d(-2.0, y,         -1.0 + x        );
+      glVertex3d(-2.0, y + ystep, -1.0 + x        );
+      glVertex3d(-2.0, y + ystep, -1.0 + x + xstep);
+    }
+  }
+  glNormal3dv(Vector3d(1.0, 0.0, 1.0).normalise_copy());     // north-west
+  for(double q = 0.0; q < qsize; q += qstep) {
+    for(double y = 0.0; y < ysize; y += ystep) {
+      glVertex3d(-1.0 - (q + qstep), y,         -2.0 + q + qstep);
+      glVertex3d(-1.0 - (q        ), y,         -2.0 + q        );
+      glVertex3d(-1.0 - (q        ), y + ystep, -2.0 + q        );
+      glVertex3d(-1.0 - (q + qstep), y + ystep, -2.0 + q + qstep);
+    }
+  }
   glEnd();
 
   // cycle through the instrument panels and render them
