@@ -1,11 +1,12 @@
 #include "astronaut.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "spacecraft.h"
 #include "oculusstorm.h"
+#include "spacecraft.h"
+#include "device.h"
 
-extern astronaut *player;
 extern oculusstorm oculus;          // oculus rift controller
+extern astronaut *player;
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),
@@ -13,7 +14,8 @@ astronaut::astronaut()
     walking_on(nullptr),
     strappeddown(false),
     fov_ratio(1.0),
-    aspect_ratio(1.0) {
+    aspect_ratio(1.0),
+    picked(nullptr) {
   /// Default constructor
   set_mass(0.0);
   set_radius(0.0);
@@ -251,4 +253,62 @@ void astronaut::setup_render_perspective(double nearplane,
   glTranslated(-position.x,                         // position
                -position.y,
                -position.z);
+}
+
+void astronaut::rotate_mouse(Vector2d mouse_pos) {
+  /// React to mouse position updates
+  // Quake mouselook code is here for reference: https://github.com/id-Software/Quake/blob/bf4ac424ce754894ac8f1dae6a3981954bc9852d/WinQuake/in_win.c
+  Vector2d mouse_diff = mouse_pos - mouse_last;
+  mouse_last = mouse_pos;
+
+  // apply sensitivity
+  //mouse_diff *= mouse_sensitivity;
+  mouse_diff *= mouse_sensitivity * fov_angle;
+
+  // generate a rotation quaternion
+  //Quatd temp = Quatd::fromEulerAngles(mouse_diff.y, mouse_diff.x, 0.0);
+  //Quatd temp = Quatd::fromAxisRot(Vector3d(1, 0, 0), mouse_diff.y) *
+  //             Quatd::fromAxisRot(Vector3d(0, 1, 0), mouse_diff.x);
+  //rotation_head = temp * rotation_head;
+  //rotation_head.normalise();
+
+  if(strappeddown) {
+    // while strapped down mouse turns only the head
+    rotation_head_yaw += mouse_diff.x;
+  } else {
+    // while walking mouse turns the body, not the head
+    Quatd yaw = Quatd::fromAxisRot(Vector3d(0, -1, 0), mouse_diff.x);
+    rotation = yaw * rotation;
+    rotation_head_yaw = 0.0;
+    // TODO: turn head instantly but have body follow gradually
+  }
+
+  rotation_head_pitch += mouse_diff.y;
+  if(rotation_head_pitch > 80) {
+    rotation_head_pitch = 80;
+  } else if(rotation_head_pitch < -80) {
+    rotation_head_pitch = -80;
+  }
+  //rotation = Quatd::fromAxisRot(Vector3d(-1, 0, 0), mouse_diff.y) * rotation;
+}
+
+void astronaut::cursor_activate() {
+  /// Activate the object that the player is currently looking at
+  if(!picked) {
+    return;
+  }
+  picked->activate();
+}
+
+void astronaut::cursor_menu() {
+  /// Open a menu on the object the player is currently looking at
+  if(!picked) {
+    return;
+  }
+  // TODO
+}
+
+void astronaut::cursor_menu_close() {
+  /// Close the currently open menu if there is one, and carry out whatever function we ended on
+  // TODO
 }

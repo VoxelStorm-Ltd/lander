@@ -10,7 +10,8 @@
 GLFWwindow extern *window_main;
 oculusstorm oculus;          // oculus rift controller
 
-void callback_mousepos(    GLFWwindow *thiswindow, double x, double z);
+void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
+void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
 void callback_key(         GLFWwindow *thiswindow, int key, int scancode, int action, int mods);
 void callback_scroll(      GLFWwindow *thiswindow, double xoffset, double yoffset);
 void callback_windowresize(GLFWwindow *thiswindow, int newwidth, int newheight);
@@ -192,6 +193,7 @@ void init_graphics(Vector2i &windowsize) {
 
   // callbacks
   glfwSetCursorPosCallback(  window_main, callback_mousepos);
+  glfwSetMouseButtonCallback(window_main, callback_mousebutton);
   glfwSetKeyCallback(        window_main, callback_key);
   glfwSetScrollCallback(     window_main, callback_scroll);
   glfwSetWindowSizeCallback( window_main, callback_windowresize);

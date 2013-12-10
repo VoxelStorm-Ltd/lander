@@ -1227,6 +1227,7 @@
 		<Unit filename="init_universe.cpp" />
 		<Unit filename="input/callback_key.cpp" />
 		<Unit filename="input/callback_mouse.cpp" />
+		<Unit filename="input/callback_mousebutton.cpp" />
 		<Unit filename="input/callback_scroll.cpp" />
 		<Unit filename="input/callback_textinput.cpp" />
 		<Unit filename="input/callback_windowclose.cpp" />

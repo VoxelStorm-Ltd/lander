@@ -563,3 +563,9 @@ void device::describe_to_console() {
   }
   std::cout << std::endl;
 }
+
+void device::activate() {
+  /// Activate the current device, whatever that means for this particular one
+  // virtual placeholder
+  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
+}

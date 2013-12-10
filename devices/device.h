@@ -97,9 +97,11 @@ public:
   void disconnect(unsigned int port_in);
   void disconnect_all();
 
-  void destroy();
+  virtual void destroy();
 
   void describe_to_console();
+
+  virtual void activate();
 };
 
 #endif // DEVICE_H_INCLUDED

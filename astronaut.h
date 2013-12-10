@@ -5,6 +5,7 @@
 
 class spacecraft;
 class planet;
+class device;
 
 class astronaut : public physicsbody {
   /// The little men and women who go whizzing around the moon
@@ -33,6 +34,9 @@ public:
   double rotation_head_pitch;
   //Quatd rotation_head;            // which way the astronaut is facing - updated by update_rotation_head()
 
+  // interactions
+  device *picked;
+
   astronaut();
   ~astronaut();
 
@@ -57,6 +61,12 @@ public:
   void update_window(Vector2i newwindowsize);
   void update_aspect_ratio();
   void setup_render_perspective(double nearplane = 0.1, double farplane = 20.0);
+
+  // world interaction and input
+  void rotate_mouse(Vector2d mouse_pos);
+  void cursor_activate();
+  void cursor_menu();
+  void cursor_menu_close();
 };
 
 #endif // ASTRONAUT_H_INCLUDED
