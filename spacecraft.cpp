@@ -17,6 +17,9 @@ extern universe root;
 
 bool lightson1 = true;
 
+// DEBUG ONLY:
+device extern *picktestdevice;
+
 spacecraft::spacecraft()
   : temperature_hull(285.18),     // http://www.learnthermo.com/examples/ch04/p-4b-3.php
     temperature_cabin(21.0 + 273.15) {
@@ -110,10 +113,44 @@ double spacecraft::get_temperature_cabin() {
 
 device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvector) {
   /// try to find the device pointed at by the current cursor in the cabin
-  for(auto const &it : devices_cabin) {
+  for(auto const &it : panels) {
     // rotate our test vector by the device's orientation
+    Vector3d local_vect(pickvector);
+    local_vect.rotate(it->rotation);
+    //std::cout << "local_vect = " << local_vect << std::endl;
 
-    // check against the device's bounding box
+    //Vector3d offset = it->position - origin;
+    Vector3d offset = origin - it->position;
+    //std::cout << "offset 1   = " << offset << std::endl;
+    offset.rotate(it->rotation);
+    //std::cout << "offset 2   = " << offset << std::endl;
+
+    double x = offset.x + (-local_vect.x / local_vect.z * offset.z);
+    double y = offset.y + ( local_vect.y / local_vect.z * offset.z);
+    if(x < 0.0) {
+      x = 0.0;
+    } else if(x > it->size.x - picktestdevice->get_size().x) {
+      x = it->size.x - picktestdevice->get_size().x;
+    }
+    if(y < 0.0) {
+      y = 0.0;
+    } else if(y > it->size.y - picktestdevice->get_size().y) {
+      y = it->size.y - picktestdevice->get_size().y;
+    }
+
+    //std::cout << "x            = " << x << std::endl;
+    //std::cout << "y            = " << x << std::endl;
+    picktestdevice->set_position(x, y, 0.0);
+
+
+    double distance = offset.y;
+
+    // check against the panel's bounding rectangle
+
+    // distance is y
+  }
+  for(auto const &it : devices_cabin) {
+
   }
   return nullptr;     // not found
 }

@@ -21,6 +21,9 @@
 universe extern root;
 astronaut extern *player;
 
+// DEBUG ONLY:
+device *picktestdevice;
+
 void init_universe() {
   std::cout << "Initialising universe..." << std::endl;
 
@@ -181,7 +184,8 @@ void init_universe() {
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
   controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
-  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
+  ///controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
+  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -25.0);
   controlpanel->attach(playership);
 
   altimeter *test_altimeter = new altimeter;
@@ -238,6 +242,11 @@ void init_universe() {
   converter1->set_position(1.2, 0.38, 0.0);
   converter1->connect(0, mainmapper, 0);
   staticmonitor1->connect(0, converter1, 0);
+
+  // DEBUG ONLY:
+  picktestdevice = new display_small;
+  picktestdevice->attach(playership);
+  picktestdevice->attach_panel(controlpanel);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

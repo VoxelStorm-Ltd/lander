@@ -319,6 +319,7 @@ void astronaut::pick() {
       facing_vector.rotate(rotation_head_pitch, 0.0, 0.0);
 
       picked_device = vessel_in->pick_cabin(head_position, facing_vector);
+      //picked_device = vessel_in->pick_cabin(position, facing_vector);
       //picked_body = vessel_in;
       // the above is set when we get in a ship and unset when we get out
     }
