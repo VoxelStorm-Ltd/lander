@@ -34,6 +34,8 @@ public:
   double get_radius();
   double get_temperature_hull();
   double get_temperature_cabin();
+  device *pick_cabin(Vector3d const &origin, Vector3d const &pickvector);
+  device *pick_hull( Vector3d const &origin, Vector3d const &pickvector);
 
   virtual void update_state(double time, double deltatime);
   virtual void destroy();

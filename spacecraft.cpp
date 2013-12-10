@@ -108,6 +108,24 @@ double spacecraft::get_temperature_cabin() {
   return temperature_cabin;
 }
 
+device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvector) {
+  /// try to find the device pointed at by the current cursor in the cabin
+  for(auto const &it : devices_cabin) {
+    // rotate our test vector by the device's orientation
+
+    // check against the device's bounding box
+  }
+  return nullptr;     // not found
+}
+
+device *spacecraft::pick_hull(Vector3d const &origin, Vector3d const &pickvector) {
+  /// try to find the device pointed at by the current cursor on the hull
+  for(auto const &it : devices_hull) {
+    // TODO
+  }
+  return nullptr;
+}
+
 void spacecraft::update_state(double time, double deltatime) {
   /// update all relevant state information
   // the default integrator for position and velocity
@@ -163,7 +181,6 @@ void spacecraft::destroy() {
   }
   delete this;
 }
-
 
 void spacecraft::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view

@@ -35,7 +35,8 @@ public:
   //Quatd rotation_head;            // which way the astronaut is facing - updated by update_rotation_head()
 
   // interactions
-  device *picked;
+  device *picked_device;          // what device we're looking at, if any
+  body   *picked_body;            // what body we're looking at, if any
 
   astronaut();
   ~astronaut();
@@ -64,6 +65,7 @@ public:
 
   // world interaction and input
   void rotate_mouse(Vector2d mouse_pos);
+  void pick();
   void cursor_activate();
   void cursor_menu();
   void cursor_menu_close();

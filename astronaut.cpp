@@ -1,12 +1,16 @@
 #include "astronaut.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "vmath.h"
 #include "oculusstorm.h"
+#include "universe.h"
 #include "spacecraft.h"
+#include "starsystem.h"
 #include "device.h"
 
 extern oculusstorm oculus;          // oculus rift controller
 extern astronaut *player;
+extern universe root;
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),
@@ -15,7 +19,8 @@ astronaut::astronaut()
     strappeddown(false),
     fov_ratio(1.0),
     aspect_ratio(1.0),
-    picked(nullptr) {
+    picked_device(nullptr),
+    picked_body(nullptr) {
   /// Default constructor
   set_mass(0.0);
   set_radius(0.0);
@@ -60,6 +65,7 @@ void astronaut::enter_ship(spacecraft *ship) {
   position.assign();      // clear - assign defaults to 0
   velocity.assign();
   vessel_in->occupants.push_back(this);
+  picked_body = vessel_in;
 }
 
 void astronaut::exit_ship() {
@@ -72,6 +78,7 @@ void astronaut::exit_ship() {
   velocity = vessel_in->velocity;
   vessel_in->occupants.remove(this);
   vessel_in = nullptr;
+  picked_body = nullptr;
   // TODO: decide if we're on the ground or in space or what
   state = statetype::EVA;
 }
@@ -169,7 +176,7 @@ void astronaut::render_firstperson() {
                    -position.y,
                    -position.z);
       // draw cabin view of the current ship
-      player->vessel_in->render_cabin();
+      vessel_in->render_cabin();
 
       // right eye
       oculus.setup_right();
@@ -180,17 +187,17 @@ void astronaut::render_firstperson() {
                    -position.y,
                    -position.z);
       // draw cabin view of the current ship
-      player->vessel_in->render_cabin();
+      vessel_in->render_cabin();
     } else {
       setup_render_perspective(0.1, 20.0);
       // draw cabin view of the current ship
-      player->vessel_in->render_cabin();
+      vessel_in->render_cabin();
     }
     break;
   case statetype::EVA:
   case statetype::ATMOSPHERIC:     // "or" equiv
   case statetype::SURFACE:         // "or" equiv
-    // translate and rotate to player's view in the universe
+    // translate and rotate to our view in the universe
     setup_render_perspective(0.5, 1406000000000.0);    // far = heliopause
     // draw first person view from outside
     // TODO
@@ -290,22 +297,78 @@ void astronaut::rotate_mouse(Vector2d mouse_pos) {
     rotation_head_pitch = -80;
   }
   //rotation = Quatd::fromAxisRot(Vector3d(-1, 0, 0), mouse_diff.y) * rotation;
+
+  // update our picked objects
+  pick();
+}
+
+void astronaut::pick() {
+  /// Update the picked objects with whatever's under the current cursor
+  switch(state) {
+  case statetype::IN_VESSEL:
+    {
+      Vector3d head_vector(0.0, 1.7, 0.0);
+      head_vector.rotate(rotation);
+      Vector3d const head_position = position + head_vector;
+
+      Vector3d facing_vector(0.0, 0.0, 1.0);
+      facing_vector.rotate(rotation);
+      if(rotation_head_yaw != 0.0) {
+        facing_vector.rotate(0.0, rotation_head_yaw, 0.0);
+      }
+      facing_vector.rotate(rotation_head_pitch, 0.0, 0.0);
+
+      picked_device = vessel_in->pick_cabin(head_position, facing_vector);
+      //picked_body = vessel_in;
+      // the above is set when we get in a ship and unset when we get out
+    }
+    break;
+  case statetype::EVA:
+  case statetype::ATMOSPHERIC:     // "or" equiv
+  case statetype::SURFACE:         // "or" equiv
+    for(auto const &it : root.currentsystem->bodies) {
+      // TODO: move this to starsystem class
+      // TODO: check for intersections and then pick within them depending on what we get, use polymorphism ftw
+    }
+    break;
+  default:
+    // nothing doing
+    break;
+  }
+  std::cout << "DEBUG: picked_device " << picked_device << " picked_body " << picked_body << std::endl;
 }
 
 void astronaut::cursor_activate() {
-  /// Activate the object that the player is currently looking at
-  if(!picked) {
+  /// Activate the object that we are currently looking at
+  if(picked_device) {
+    // we're looking at a device, either in a ship or outside
+    std::cout << "DEBUG: clicked on device " << picked_device->get_name() << std::endl;
+    picked_device->activate();
     return;
+  } else if(picked_body) {
+    // we're looking at some sort of body - act based on what it is
+    std::cout << "DEBUG: clicked on body " << picked_body->get_name() << std::endl;
+    // TODO
+  } else {
+    // we're picking nothing local - whatever it is, we can't affect it with a normal click
   }
-  picked->activate();
 }
 
 void astronaut::cursor_menu() {
-  /// Open a menu on the object the player is currently looking at
-  if(!picked) {
+  /// Open a menu on the object we are currently looking at
+  if(picked_device) {
+    // we're looking at a device, either in a ship or outside
+    std::cout << "DEBUG: requested menu for device " << picked_device->get_name() << std::endl;
+    // TODO
     return;
+  } else if(picked_body) {
+    // we're looking at some sort of body - act based on what it is
+    std::cout << "DEBUG: requested menu for body " << picked_body->get_name() << std::endl;
+    // TODO
+  } else {
+    // we're picking nothing local - check what's here in the wider universe
+    // TODO
   }
-  // TODO
 }
 
 void astronaut::cursor_menu_close() {
