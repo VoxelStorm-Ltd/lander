@@ -144,10 +144,10 @@ void star::render_diagram(double scale, bool labels) {
   }
 
   // draw a filled circle at the radius
-  glColor4dv(get_colour());
+  glColor3dv(get_colour());
+  double const circlestep = M_PI / 32.0;
   glBegin(GL_TRIANGLE_FAN);
   glVertex3d(0.0, 0.0, 0.0);
-  double const circlestep = M_PI / 22.0;
   for(double angle = 0.0; angle < (M_PI * 2.0) + circlestep; angle += circlestep) {
     glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
   }
@@ -162,7 +162,7 @@ void star::render_diagram(double scale, bool labels) {
   glEnd();
 
   // circle outline
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  //glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   //glBegin(GL_LINE_LOOP);
   //for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
   //  glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
