@@ -43,6 +43,14 @@ spacecraft::~spacecraft() {
   for(auto const &it : occupants) {
     it->kill();
   }
+
+  //for(auto &it : root.currentsystem->bodies) {
+  //  // make sure we don't leave a dangling pointer to this
+  //  if(it == this) {
+  //    it = nullptr;
+  //  }
+  //}
+  root.currentsystem->bodies.remove(this);
 }
 
 std::string spacecraft::get_name() {
@@ -209,9 +217,10 @@ void spacecraft::update_state(double time, double deltatime) {
         std::cout << "INFO: " << get_name() << " collided with " << it->get_name() << " at a fatal " << velocity_delta_mag << "m/s" << std::endl;
         // if the ship was destroyed, give a snide message relating to the kinetic energy and collateral damage
         double const ke = 0.5 * get_mass() * velocity_delta_mag * velocity_delta_mag;
-        Vector3d lastposition(position);    // cache position for after we delete "this"
+        Vector3d const lastposition(position);    // cache position for after we delete "this"
         destroy();
         root.make_explosion(lastposition, ke);
+        return;
       }
     }
   }
