@@ -3194,13 +3194,13 @@ class Quaternion {
      * @return The quaternion q such that q * (*this) == (*this) * q
      * == [ 0 0 0 1 ]<sup>T</sup>.
      */
-    inline Quaternion<T> inverse() {
+    inline void invert() {
       T l = length();
       conjugate();
       (*this) /= l;
     }
 
-    inline Quaternion<T> inverse_copy() const {
+    inline Quaternion<T> invert_copy() const {
       return conjugate_copy() / length();
     }
 
