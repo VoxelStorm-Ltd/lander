@@ -231,6 +231,7 @@ void spacecraft::destroy() {
       it->spin     = oldship->spin;
     }
   }
+
   delete this;
 }
 
@@ -254,10 +255,16 @@ void spacecraft::render_diagram(double scale, bool labels) {
   // draw an asteroids-style arrow at the radius
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   glBegin(GL_LINE_LOOP);
-  glVertex3d(0.0, -thisradius, 0.0);
-  glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
-  glVertex3d(0.0, thisradius / 2.0, 0.0);
-  glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  // y = up
+  //glVertex3d(0.0, -thisradius, 0.0);
+  //glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  //glVertex3d(0.0, thisradius / 2.0, 0.0);
+  //glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  // z = up
+  glVertex3d(0.0, 0.0, -thisradius);
+  glVertex3d(-thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
+  glVertex3d(0.0, 0.0, thisradius / 2.0);
+  glVertex3d( thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
   glEnd();
 
   glPopMatrix();                            // restore position & rotation
