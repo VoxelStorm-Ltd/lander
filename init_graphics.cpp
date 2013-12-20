@@ -8,7 +8,7 @@
 
 // globals
 GLFWwindow extern *window_main;
-oculusstorm oculus;          // oculus rift controller
+oculusstorm *oculus;          // oculus rift controller
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
@@ -25,7 +25,7 @@ void init_graphics(Vector2i &windowsize) {
     _Exit(EXIT_FAILURE);
   }
 
-  //oculus = new oculusstorm();   // initialise the oculus rift before graphics init
+  oculus = new oculusstorm();   // initialise the oculus rift before graphics init
 
   int nummonitors = 0;
   GLFWmonitor **monitor_list = glfwGetMonitors(&nummonitors);
@@ -53,18 +53,18 @@ void init_graphics(Vector2i &windowsize) {
     std::cout << "  Mode: " << videomode->width << " " << videomode->height << " " << videomode->refreshRate << std::endl;
 
     // try to determine if this monitor is the Oculus Rift's display
-    if(static_cast<unsigned int>(videomode->width)  == oculus.hmdinfo.HResolution &&
-       static_cast<unsigned int>(videomode->height) == oculus.hmdinfo.VResolution &&
+    if(static_cast<unsigned int>(videomode->width)  == oculus->hmdinfo.HResolution &&
+       static_cast<unsigned int>(videomode->height) == oculus->hmdinfo.VResolution &&
        thismonitor != monitor_primary) {
       std::cout << "  (Oculus Rift candidate)" << std::endl;
       oculusmonitor = thismonitor;
     }
   }
   if(oculusmonitor != NULL) {
-    if(oculus.enabled) {
+    if(oculus->enabled) {
       // rift is available
-      windowsize.x = oculus.hmdinfo.HResolution;
-      windowsize.y = oculus.hmdinfo.VResolution;
+      windowsize.x = oculus->hmdinfo.HResolution;
+      windowsize.y = oculus->hmdinfo.VResolution;
       //drawfunction = &draw_oculus;
     } else {
       // rift connected but turned off / disabled
