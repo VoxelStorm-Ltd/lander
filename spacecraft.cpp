@@ -116,38 +116,49 @@ device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvecto
   for(auto const &it : panels) {
     // rotate our test vector by the device's orientation
     Vector3d local_vect(pickvector);
-    local_vect.rotate(it->rotation);
-    //std::cout << "local_vect = " << local_vect << std::endl;
-
-    //Vector3d offset = it->position - origin;
     Vector3d offset = origin - it->position;
-    //std::cout << "offset 1   = " << offset << std::endl;
-    offset.rotate(it->rotation);
-    //std::cout << "offset 2   = " << offset << std::endl;
+    local_vect.rotate(it->rotation);
+    offset.rotate(it->rotation.conjugate_copy());
 
-    double x = offset.x + (-local_vect.x / local_vect.z * offset.z);
-    double y = offset.y + ( local_vect.y / local_vect.z * offset.z);
-    if(x < 0.0) {
-      x = 0.0;
-    } else if(x > it->size.x - picktestdevice->get_size().x) {
-      x = it->size.x - picktestdevice->get_size().x;
-    }
-    if(y < 0.0) {
-      y = 0.0;
-    } else if(y > it->size.y - picktestdevice->get_size().y) {
-      y = it->size.y - picktestdevice->get_size().y;
-    }
+    Vector2d pickpos;
+    pickpos.x = offset.x + (offset.z / local_vect.z * -local_vect.x);
+    pickpos.y = offset.y + (offset.z / local_vect.z *  local_vect.y);
 
-    //std::cout << "x            = " << x << std::endl;
-    //std::cout << "y            = " << x << std::endl;
-    picktestdevice->set_position(x, y, 0.0);
+    //if(pickpos.x < 0.0) {
+    //  pickpos.x = 0.0;
+    //} else if(pickpos.x > it->size.x - picktestdevice->get_size().x) {
+    //  pickpos.x = it->size.x - picktestdevice->get_size().x;
+    //}
+    //if(pickpos.y < 0.0) {
+    //  pickpos.y = 0.0;
+    //} else if(pickpos.y > it->size.y - picktestdevice->get_size().y) {
+    //  pickpos.y = it->size.y - picktestdevice->get_size().y;
+    //}
 
-
-    double distance = offset.y;
+    // DEBUG ONLY:
+    picktestdevice->set_position(pickpos.x, pickpos.y, 0.0);
 
     // check against the panel's bounding rectangle
+    if(pickpos.x < 0.0 ||
+       pickpos.y < 0.0 ||
+       pickpos.x > it->size.x ||
+       pickpos.y > it->size.y) {
+      continue;
+    }
+    //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
 
-    // distance is y
+    // we're looking at this panel, so iterate through its devices
+    for(auto const &itd : it->devices) {
+      if(pickpos.x < itd->get_position().x ||
+         pickpos.y < itd->get_position().y ||
+         pickpos.x > itd->get_position().x + itd->get_size().x ||
+         pickpos.y > itd->get_position().y + itd->get_size().y) {
+        continue;
+      }
+      // we've found our device
+      //std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
+      return itd;
+    }
   }
   for(auto const &it : devices_cabin) {
 

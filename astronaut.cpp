@@ -312,11 +312,11 @@ void astronaut::pick() {
       Vector3d const head_position = position + head_vector;
 
       Vector3d facing_vector(0.0, 0.0, 1.0);
-      facing_vector.rotate(rotation);
       if(rotation_head_yaw != 0.0) {
         facing_vector.rotate(0.0, rotation_head_yaw, 0.0);
       }
       facing_vector.rotate(rotation_head_pitch, 0.0, 0.0);
+      facing_vector.rotate(rotation);
 
       picked_device = vessel_in->pick_cabin(head_position, facing_vector);
       //picked_device = vessel_in->pick_cabin(position, facing_vector);
@@ -336,7 +336,7 @@ void astronaut::pick() {
     // nothing doing
     break;
   }
-  std::cout << "DEBUG: picked_device " << picked_device << " picked_body " << picked_body << std::endl;
+  //std::cout << "DEBUG: picked_device " << picked_device << " picked_body " << picked_body << std::endl;
 }
 
 void astronaut::cursor_activate() {
