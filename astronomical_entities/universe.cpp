@@ -55,6 +55,7 @@ void universe::make_explosion(Vector3d coords, double energy) {
     destroy_range(coords, 500.0);
   } else {
     // generic small explosion
+    std::cout << "The impact released " << energy << "J kinetic energy" << std::endl;
     destroy_range(coords, 15.0);
   }
 }
