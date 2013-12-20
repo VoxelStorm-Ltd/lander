@@ -28,10 +28,10 @@ spacecraft::spacecraft()
 
 spacecraft::~spacecraft() {
   /// Default destructor
-  for(auto &it : panels) {
-    delete it;
-    it = nullptr;
-  }
+  //for(auto &it : panels) {
+  //  delete it;
+  //  it = nullptr;
+  //}
   panels.clear();
   // every system is destroyed
   for(auto &it : devices) {
@@ -189,6 +189,10 @@ void spacecraft::update_state(double time, double deltatime) {
 
   // check collisions
   for(auto const &it : root.currentsystem->bodies) {
+    // skip checking ourselves
+    if(it == this) {
+      continue;
+    }
     // check spheres of influence / bounding boxes first
     if(!it->check_within_physical_influence(position)) {
       continue;
