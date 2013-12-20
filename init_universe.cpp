@@ -22,6 +22,7 @@ universe extern root;
 astronaut extern *player;
 
 // DEBUG ONLY:
+memory *mem_zoom;
 device *picktestdevice;
 
 void init_universe() {
@@ -199,7 +200,8 @@ void init_universe() {
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
-  memory *mem_zoom = new memory;
+  ///memory *mem_zoom = new memory;
+  mem_zoom = new memory;
   memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach_panel(controlpanel);
