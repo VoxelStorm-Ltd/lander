@@ -244,6 +244,13 @@ void init_universe() {
   converter1->connect(0, mainmapper, 0);
   staticmonitor1->connect(0, converter1, 0);
 
+  spacecraft *crashtester = new spacecraft;
+  crashtester->set_name("Crash Tester");
+  solarsystem->bodies.push_back(crashtester);
+  crashtester->position = earth->position + Vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
+  crashtester->velocity = earth->velocity + Vector3d(-20000.0, 0.0, 0.0);
+
+
   // DEBUG ONLY:
   picktestdevice = new display_small;
   picktestdevice->attach(playership);
