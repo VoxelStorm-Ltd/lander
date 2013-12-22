@@ -1,8 +1,11 @@
 #include "instrumentpanel.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 #include <spacecraft.h>
 #include <instrument.h>
+
+extern FTFont *fontconsole;          // global font definitions
 
 instrumentpanel::instrumentpanel() {
   /// Default constructor
@@ -18,7 +21,6 @@ instrumentpanel::~instrumentpanel() {
   }
   devices.clear();
 }
-
 
 void instrumentpanel::attach(spacecraft *to_vessel) {
   /// Attach this panel to the specified ship
@@ -116,7 +118,7 @@ void instrumentpanel::render() {
   // show connecting lines between components
   glPushAttrib(GL_LIGHTING_BIT);
   glDisable(GL_LIGHTING);
-  glColor4d(0.0, 1.0, 0.0, 1.0);
+  glColor4d(0.0, 1.0, 0.0, 0.75);
   for(auto const &it : devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {
@@ -141,6 +143,30 @@ void instrumentpanel::render() {
         }
       }
     }
+  }
+  glPopAttrib();
+
+  // DEBUG ONLY: font testing
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
+  for(auto const &it : devices) {
+    //glColor4d(1.0, 1.0, 1.0, 0.75);
+    glColor4d(1.0, 0.0, 0.0, 1.0);
+    //fontconsole->Render(it->get_name().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    fontconsole->Render("Apollo 11");
+    ///fontconsole->Render(inputbuffer.c_str(), -1,
+    ///             FTPoint(xpos + border + 3, ypos + border + 3, 0),
+    ///             FTPoint(), FTGL::RENDER_FRONT);
+    ///fontconsole->Render(extendedline.c_str(), -1,
+    ///             FTPoint(leftx + nickwidth + (charwidth * 3), bottomy + (yoffset * line), 0),
+    ///             FTPoint(), FTGL::RENDER_FRONT);
+    ///fontconsole->Render(finalmessage.c_str(), -1,
+    ///             FTPoint(leftx + nickwidth + (charwidth * 3), bottomy + (yoffset * line), 0),
+    ///             FTPoint(), FTGL::RENDER_FRONT);
+    ///fontconsole->Render("<", 1,
+    ///             FTPoint(leftx, bottomy + (yoffset * line), 0),
+    ///             FTPoint(), FTGL::RENDER_FRONT);
   }
   glPopAttrib();
 

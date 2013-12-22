@@ -196,7 +196,8 @@ void init_graphics(Vector2i &windowsize) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // initialise fonts
-  fontconsole = font_load("resources/FuturaExt-Normal.ttf");
+  //fontconsole = font_load("resources/FuturaExt-Normal.ttf");
+  fontconsole = font_load("resources/Futurak.ttf");
   if(!fontconsole) {
     std::cout << "Failed to load one or more fonts - exiting" << std::endl;
     return;
