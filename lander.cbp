@@ -39,37 +39,23 @@
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-Warray-bounds" />
 					<Add option="-D_WIN32_WINNT=0x0501" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DDEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib/win32/libboost_chrono-mgw48-mt-sd-1_54.a" />
-					<Add library="lib/win32/libboost_system-mgw48-mt-sd-1_54.a" />
-					<Add library="lib/win32/libglew32.a" />
-					<Add library="lib/win32/libglfw3.a" />
-					<Add library="lib/win32/libftgl_static_D.a" />
-					<Add library="lib/win32/libglu32.a" />
-					<Add library="lib/win32/libopengl32.a" />
-					<Add library="lib/win32/libfreetype.a" />
-					<Add library="lib/win32/libws2_32.a" />
-					<Add library="lib/win32/libgdi32.a" />
-					<Add library="lib/win32/libwinmm.a" />
-					<Add library="lib/win32/libsetupapi.a" />
+					<Add library="lib\win32\libboost_chrono-mgw48-mt-sd-1_54.a" />
+					<Add library="lib\win32\libboost_system-mgw48-mt-sd-1_54.a" />
+					<Add library="lib\win32\libglew32.a" />
+					<Add library="lib\win32\libglfw3.a" />
+					<Add library="lib\win32\libftgl_static_D.a" />
+					<Add library="lib\win32\libglu32.a" />
+					<Add library="lib\win32\libopengl32.a" />
+					<Add library="lib\win32\libfreetype.a" />
+					<Add library="lib\win32\libws2_32.a" />
+					<Add library="lib\win32\libgdi32.a" />
+					<Add library="lib\win32\libwinmm.a" />
+					<Add library="lib\win32\libsetupapi.a" />
 				</Linker>
 			</Target>
 			<Target title="Win32_Release">
@@ -146,14 +132,9 @@
 					<Add option="--param large-function-growth=2000" />
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
-					<Add option="-DNDEBUG" />
 					<Add option="-D_WIN32_WINNT=0x0501" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
+					<Add option="-DNDEBUG" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -165,18 +146,18 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib/win32/libboost_chrono-mgw48-mt-s-1_54.a" />
-					<Add library="lib/win32/libboost_system-mgw48-mt-s-1_54.a" />
-					<Add library="lib/win32/libglew32.a" />
-					<Add library="lib/win32/libglfw3.a" />
-					<Add library="lib/win32/libftgl_static_D.a" />
-					<Add library="lib/win32/libglu32.a" />
-					<Add library="lib/win32/libopengl32.a" />
-					<Add library="lib/win32/libfreetype.a" />
-					<Add library="lib/win32/libws2_32.a" />
-					<Add library="lib/win32/libgdi32.a" />
-					<Add library="lib/win32/libwinmm.a" />
-					<Add library="lib/win32/libsetupapi.a" />
+					<Add library="lib\win32\libboost_chrono-mgw48-mt-s-1_54.a" />
+					<Add library="lib\win32\libboost_system-mgw48-mt-s-1_54.a" />
+					<Add library="lib\win32\libglew32.a" />
+					<Add library="lib\win32\libglfw3.a" />
+					<Add library="lib\win32\libftgl_static_D.a" />
+					<Add library="lib\win32\libglu32.a" />
+					<Add library="lib\win32\libopengl32.a" />
+					<Add library="lib\win32\libfreetype.a" />
+					<Add library="lib\win32\libws2_32.a" />
+					<Add library="lib\win32\libgdi32.a" />
+					<Add library="lib\win32\libwinmm.a" />
+					<Add library="lib\win32\libsetupapi.a" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -204,20 +185,6 @@
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DIGNORE_DEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -299,12 +266,7 @@
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
 					<Add option="-DNDEBUG" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -342,34 +304,20 @@
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DIGNORE_DEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib/linux32/libboost_system-gcc48-mt-sd-1_53.a" />
-					<Add library="lib/linux32/libboost_chrono-gcc48-mt-sd-1_53.a" />
-					<Add library="lib/linux32/libGLEW.a" />
-					<Add library="lib/linux32/libglfw3.a" />
+					<Add library="lib\linux32\libboost_system-gcc48-mt-sd-1_53.a" />
+					<Add library="lib\linux32\libboost_chrono-gcc48-mt-sd-1_53.a" />
+					<Add library="lib\linux32\libGLEW.a" />
+					<Add library="lib\linux32\libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib/linux32/libftgl.a" />
-					<Add library="lib/linux32/libGLU.a" />
+					<Add library="lib\linux32\libftgl.a" />
+					<Add library="lib\linux32\libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib/linux32/libfreetype.a" />
+					<Add library="lib\linux32\libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="pthread" />
@@ -450,12 +398,7 @@
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
 					<Add option="-DNDEBUG" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -467,15 +410,15 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib/linux32/libboost_system-gcc48-mt-s-1_53.a" />
-					<Add library="lib/linux32/libboost_chrono-gcc48-mt-s-1_53.a" />
-					<Add library="lib/linux32/libGLEW.a" />
-					<Add library="lib/linux32/libglfw3.a" />
+					<Add library="lib\linux32\libboost_system-gcc48-mt-s-1_53.a" />
+					<Add library="lib\linux32\libboost_chrono-gcc48-mt-s-1_53.a" />
+					<Add library="lib\linux32\libGLEW.a" />
+					<Add library="lib\linux32\libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib/linux32/libftgl.a" />
-					<Add library="lib/linux32/libGLU.a" />
+					<Add library="lib\linux32\libftgl.a" />
+					<Add library="lib\linux32\libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib/linux32/libfreetype.a" />
+					<Add library="lib\linux32\libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="pthread" />
@@ -507,33 +450,19 @@
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DIGNORE_DEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib/linux64/libboost_chrono-gcc48-mt-sd-1_54.a" />
-					<Add library="lib/linux64/libboost_system-gcc48-mt-sd-1_54.a" />
-					<Add library="lib/linux64/libGLEW.a" />
-					<Add library="lib/linux64/libglfw3.a" />
+					<Add library="lib\linux64\libboost_chrono-gcc48-mt-sd-1_54.a" />
+					<Add library="lib\linux64\libboost_system-gcc48-mt-sd-1_54.a" />
+					<Add library="lib\linux64\libGLEW.a" />
+					<Add library="lib\linux64\libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib/linux64/libftgl.a" />
-					<Add library="lib/linux64/libGLU.a" />
+					<Add library="lib\linux64\libftgl.a" />
+					<Add library="lib\linux64\libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib/linux64/libfreetype.a" />
+					<Add library="lib\linux64\libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="Xi" />
@@ -617,12 +546,7 @@
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
 					<Add option="-DNDEBUG" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -634,19 +558,19 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib/linux64/libboost_system-gcc48-mt-s-1_53.a" />
-					<Add library="lib/linux64/libboost_chrono-gcc48-mt-s-1_53.a" />
-					<Add library="lib/linux64/libGLEW.a" />
-					<Add library="lib/linux64/libglfw3.a" />
+					<Add library="lib\linux64\libboost_system-gcc48-mt-s-1_53.a" />
+					<Add library="lib\linux64\libboost_chrono-gcc48-mt-s-1_53.a" />
+					<Add library="lib\linux64\libGLEW.a" />
+					<Add library="lib\linux64\libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib/linux64/libftgl.a" />
-					<Add library="lib/linux64/libGLU.a" />
+					<Add library="lib\linux64\libftgl.a" />
+					<Add library="lib\linux64\libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib/linux64/libfreetype.a" />
+					<Add library="lib\linux64\libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="pthread" />
-					<Add library="lib/linux64/libovr.a" />
+					<Add library="lib\linux64\libovr.a" />
 					<Add library="udev" />
 					<Add library="Xinerama" />
 				</Linker>
@@ -675,20 +599,6 @@
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DIGNORE_DEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -769,12 +679,7 @@
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
 					<Add option="-DNDEBUG" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -812,20 +717,6 @@
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
-					<Add option="-DIGNORE_DEBUG_NETWORK" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_HIGHLEVEL" />
-					<Add option="-DIGNORE_DEBUG_NETWORK_CHECKALL" />
-					<Add option="-DIGNORE_DEBUG_UPDATE" />
-					<Add option="-DIGNORE_DEBUG_LOCK" />
-					<Add option="-DIGNORE_DEBUG_INPUTSTORM" />
-					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
-					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
-					<Add option="-DIGNORE_DEBUG_CACHE" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
@@ -906,12 +797,7 @@
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
 					<Add option="-DNDEBUG" />
-					<Add option="-DBOOST_THREAD_VERSION=3" />
-					<Add option="-DBOOST_THREAD_USE_LIB" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
-					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add option="-DGLEW_STATIC" />
-					<Add option="-DCURL_STATICLIB" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -941,6 +827,11 @@
 			<Add alias="All_Win64" targets="Win64_Release;Win64_Debug;" />
 		</VirtualTargets>
 		<Compiler>
+			<Add option="-DBOOST_THREAD_VERSION=3" />
+			<Add option="-DBOOST_THREAD_USE_LIB" />
+			<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
+			<Add option="-DGLEW_STATIC" />
+			<Add option="-DCURL_STATICLIB" />
 			<Add directory="." />
 			<Add directory="include" />
 			<Add directory="astronomical_entities" />
