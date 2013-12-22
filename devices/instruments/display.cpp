@@ -272,7 +272,7 @@ void display::render() {
   Vector3d const thissize = get_size();
   double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
   //glEnable(GL_NORMALIZE);                   // to allow correct lighting
-  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting
+  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
@@ -281,18 +281,15 @@ void display::render() {
   glTranslated(0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
   font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
-  font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_SIDE);
-  //font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_ALL);
   glPopMatrix();
   glPushMatrix();
   glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
   glTranslated(-font_title->Advance(get_model().c_str(), -1), 0.0, 0.0);    // slide it back for right-align
-  //font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
-  font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_ALL);
+  font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
   //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
-  glDisable(GL_RESCALE_NORMAL);               // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
 
   glPopMatrix();
 }
