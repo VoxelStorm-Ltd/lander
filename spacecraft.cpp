@@ -15,11 +15,6 @@
 
 extern universe root;
 
-bool lightson1 = true;
-
-// DEBUG ONLY:
-device extern *picktestdevice;
-
 spacecraft::spacecraft()
   : temperature_hull(285.18),     // http://www.learnthermo.com/examples/ch04/p-4b-3.php
     temperature_cabin(21.0 + 273.15) {
@@ -135,9 +130,6 @@ device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvecto
     //  pickpos.y = it->size.y - picktestdevice->get_size().y;
     //}
 
-    // DEBUG ONLY:
-    picktestdevice->set_position(pickpos.x, pickpos.y, 0.0);
-
     // check against the panel's bounding rectangle
     if(pickpos.x < 0.0 ||
        pickpos.y < 0.0 ||
@@ -156,7 +148,7 @@ device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvecto
         continue;
       }
       // we've found our device
-      //std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
+      std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
       return itd;
     }
   }
@@ -282,10 +274,6 @@ void spacecraft::render_ultraviolet() {
 void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
-  if(rand() % 100 == 0) {
-    lightson1 = !lightson1;
-  }
-  if(lightson1) {
   // white light on front wall
   glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
   glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
@@ -297,9 +285,6 @@ void spacecraft::render_cabin() {
   glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0001);
   glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 1.0 / 3.0);                        // effective brightness
   glEnable( GL_LIGHT0);
-  } else {
-    glDisable(GL_LIGHT0);
-  }
 
   // red side up-light
   glLightfv(GL_LIGHT1, GL_DIFFUSE,               Vector4f(1.0, 0.0, 0.0, 1.0));
