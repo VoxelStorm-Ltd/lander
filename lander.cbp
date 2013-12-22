@@ -53,28 +53,23 @@
 					<Add option="-DIGNORE_DEBUG_COLOURSTORM" />
 					<Add option="-DIGNORE_DEBUG_FILESYSTEM" />
 					<Add option="-DDEBUG_CACHE" />
-					<Add directory="mathematical" />
-					<Add directory="astronomical_entities" />
-					<Add directory="devices" />
-					<Add directory="devices/external" />
-					<Add directory="devices/instruments" />
 				</Compiler>
 				<Linker>
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\win32\libboost_chrono-mgw48-mt-sd-1_54.a" />
-					<Add library="lib\win32\libboost_system-mgw48-mt-sd-1_54.a" />
-					<Add library="lib\win32\libglew32.a" />
-					<Add library="lib\win32\libglfw3.a" />
-					<Add library="lib\win32\libftgl_static_D.a" />
-					<Add library="lib\win32\libglu32.a" />
-					<Add library="lib\win32\libopengl32.a" />
-					<Add library="lib\win32\libfreetype.a" />
-					<Add library="lib\win32\libws2_32.a" />
-					<Add library="lib\win32\libgdi32.a" />
-					<Add library="lib\win32\libwinmm.a" />
-					<Add library="lib\win32\libsetupapi.a" />
+					<Add library="lib/win32/libboost_chrono-mgw48-mt-sd-1_54.a" />
+					<Add library="lib/win32/libboost_system-mgw48-mt-sd-1_54.a" />
+					<Add library="lib/win32/libglew32.a" />
+					<Add library="lib/win32/libglfw3.a" />
+					<Add library="lib/win32/libftgl_static_D.a" />
+					<Add library="lib/win32/libglu32.a" />
+					<Add library="lib/win32/libopengl32.a" />
+					<Add library="lib/win32/libfreetype.a" />
+					<Add library="lib/win32/libws2_32.a" />
+					<Add library="lib/win32/libgdi32.a" />
+					<Add library="lib/win32/libwinmm.a" />
+					<Add library="lib/win32/libsetupapi.a" />
 				</Linker>
 			</Target>
 			<Target title="Win32_Release">
@@ -170,25 +165,18 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\win32\libboost_chrono-mgw48-mt-s-1_54.a" />
-					<Add library="lib\win32\libboost_system-mgw48-mt-s-1_54.a" />
-					<Add library="lib\win32\libboost_thread-mgw48-mt-s-1_54.a" />
-					<Add library="lib\win32\libboost_filesystem-mgw48-mt-s-1_54.a" />
-					<Add library="lib\win32\libglew32.a" />
-					<Add library="lib\win32\libglfw3.a" />
-					<Add library="lib\win32\libftgl_static.a" />
-					<Add library="lib\win32\libglu32.a" />
-					<Add library="lib\win32\libopengl32.a" />
-					<Add library="lib\win32\libfreetype.a" />
-					<Add library="lib\win32\libcurl.a" />
-					<Add library="lib\win32\libws2_32.a" />
-					<Add library="lib\win32\libSOIL.a" />
-					<Add library="lib\win32\libpng.a" />
-					<Add library="lib\win32\libssl.a" />
-					<Add library="lib\win32\libcrypto.a" />
-					<Add library="lib\win32\libz.a" />
-					<Add library="lib\win32\libgdi32.a" />
-					<Add library="lib\win32\libturbojpeg.a" />
+					<Add library="lib/win32/libboost_chrono-mgw48-mt-s-1_54.a" />
+					<Add library="lib/win32/libboost_system-mgw48-mt-s-1_54.a" />
+					<Add library="lib/win32/libglew32.a" />
+					<Add library="lib/win32/libglfw3.a" />
+					<Add library="lib/win32/libftgl_static_D.a" />
+					<Add library="lib/win32/libglu32.a" />
+					<Add library="lib/win32/libopengl32.a" />
+					<Add library="lib/win32/libfreetype.a" />
+					<Add library="lib/win32/libws2_32.a" />
+					<Add library="lib/win32/libgdi32.a" />
+					<Add library="lib/win32/libwinmm.a" />
+					<Add library="lib/win32/libsetupapi.a" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -235,24 +223,6 @@
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\win64\libboost_system-mgw48-mt-sd-1_53.a" />
-					<Add library="lib\win64\libboost_thread-mgw48-mt-sd-1_53.a" />
-					<Add library="lib\win64\libboost_chrono-mgw48-mt-sd-1_53.a" />
-					<Add library="lib\win64\libboost_filesystem-mgw48-mt-sd-1_53.a" />
-					<Add library="lib\win64\libglew_static_D.a" />
-					<Add library="lib\win64\libglfw3.a" />
-					<Add library="lib\win64\libftgl_static_D.a" />
-					<Add library="lib\win64\libglu32.a" />
-					<Add library="lib\win64\libopengl32.a" />
-					<Add library="lib\win64\libfreetype_Dmx.a" />
-					<Add library="lib\win64\libcurl.a" />
-					<Add library="lib\win64\libws2_32.a" />
-					<Add library="lib\win64\libpng.a" />
-					<Add library="lib\win64\libssl.a" />
-					<Add library="lib\win64\libcrypto.a" />
-					<Add library="lib\win64\libz.a" />
-					<Add library="lib\win64\libgdi32.a" />
-					<Add library="lib\win64\libturbojpeg.a" />
 				</Linker>
 			</Target>
 			<Target title="Win64_Release">
@@ -346,24 +316,6 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\win64\libboost_system-mgw48-mt-s-1_53.a" />
-					<Add library="lib\win64\libboost_thread-mgw48-mt-s-1_53.a" />
-					<Add library="lib\win64\libboost_chrono-mgw48-mt-s-1_53.a" />
-					<Add library="lib\win64\libboost_filesystem-mgw48-mt-s-1_53.a" />
-					<Add library="lib\win64\libglew_static_R.a" />
-					<Add library="lib\win64\libglfw3.a" />
-					<Add library="lib\win64\libftgl_static.a" />
-					<Add library="lib\win64\libglu32.a" />
-					<Add library="lib\win64\libopengl32.a" />
-					<Add library="lib\win64\libfreetype_Rmx.a" />
-					<Add library="lib\win64\libcurl.a" />
-					<Add library="lib\win64\libws2_32.a" />
-					<Add library="lib\win64\libpng.a" />
-					<Add library="lib\win64\libssl.a" />
-					<Add library="lib\win64\libcrypto.a" />
-					<Add library="lib\win64\libz.a" />
-					<Add library="lib\win64\libgdi32.a" />
-					<Add library="lib\win64\libturbojpeg.a" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -409,24 +361,20 @@
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\linux32\libboost_system-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\linux32\libboost_thread-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\linux32\libboost_chrono-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\linux32\libboost_filesystem-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\linux32\libGLEW.a" />
-					<Add library="lib\linux32\libglfw3.a" />
+					<Add library="lib/linux32/libboost_system-gcc48-mt-sd-1_53.a" />
+					<Add library="lib/linux32/libboost_chrono-gcc48-mt-sd-1_53.a" />
+					<Add library="lib/linux32/libGLEW.a" />
+					<Add library="lib/linux32/libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib\linux32\libftgl.a" />
-					<Add library="lib\linux32\libGLU.a" />
+					<Add library="lib/linux32/libftgl.a" />
+					<Add library="lib/linux32/libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib\linux32\libfreetype.a" />
-					<Add library="lib\linux32\libpng.a" />
-					<Add library="lib\linux32\libssl.a" />
-					<Add library="lib\linux32\libcrypto.a" />
-					<Add library="lib\linux32\libz.a" />
+					<Add library="lib/linux32/libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
-					<Add library="lib\linux32\libturbojpeg.a" />
+					<Add library="pthread" />
+					<Add library="udev" />
+					<Add library="Xinerama" />
 				</Linker>
 			</Target>
 			<Target title="Linux32_Release">
@@ -519,24 +467,20 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\linux32\libboost_system-gcc48-mt-s-1_53.a" />
-					<Add library="lib\linux32\libboost_thread-gcc48-mt-s-1_53.a" />
-					<Add library="lib\linux32\libboost_chrono-gcc48-mt-s-1_53.a" />
-					<Add library="lib\linux32\libboost_filesystem-gcc48-mt-s-1_53.a" />
-					<Add library="lib\linux32\libGLEW.a" />
-					<Add library="lib\linux32\libglfw3.a" />
+					<Add library="lib/linux32/libboost_system-gcc48-mt-s-1_53.a" />
+					<Add library="lib/linux32/libboost_chrono-gcc48-mt-s-1_53.a" />
+					<Add library="lib/linux32/libGLEW.a" />
+					<Add library="lib/linux32/libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib\linux32\libftgl.a" />
-					<Add library="lib\linux32\libGLU.a" />
+					<Add library="lib/linux32/libftgl.a" />
+					<Add library="lib/linux32/libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib\linux32\libfreetype.a" />
-					<Add library="lib\linux32\libpng.a" />
-					<Add library="lib\linux32\libssl.a" />
-					<Add library="lib\linux32\libcrypto.a" />
-					<Add library="lib\linux32\libz.a" />
+					<Add library="lib/linux32/libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
-					<Add library="lib\linux32\libturbojpeg.a" />
+					<Add library="pthread" />
+					<Add library="udev" />
+					<Add library="Xinerama" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -581,30 +525,23 @@
 				<Linker>
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\linux64\libboost_system-gcc48-mt-sd-1_54.a" />
-					<Add library="lib\linux64\libboost_thread-gcc48-mt-sd-1_54.a" />
-					<Add library="lib\linux64\libboost_chrono-gcc48-mt-sd-1_54.a" />
-					<Add library="lib\linux64\libboost_filesystem-gcc48-mt-sd-1_54.a" />
-					<Add library="lib\linux64\libGLEW.a" />
-					<Add library="lib\linux64\libglfw3.a" />
+					<Add library="lib/linux64/libboost_chrono-gcc48-mt-sd-1_54.a" />
+					<Add library="lib/linux64/libboost_system-gcc48-mt-sd-1_54.a" />
+					<Add library="lib/linux64/libGLEW.a" />
+					<Add library="lib/linux64/libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib\linux64\libftgl.a" />
-					<Add library="lib\linux64\libGLU.a" />
+					<Add library="lib/linux64/libftgl.a" />
+					<Add library="lib/linux64/libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib\linux64\libfreetype.a" />
-					<Add library="lib\linux64\libcurl.a" />
-					<Add library="lib\linux64\libpng16.a" />
-					<Add library="lib\linux64\libssl.a" />
-					<Add library="lib\linux64\libcrypto.a" />
-					<Add library="lib\linux64\libz.a" />
+					<Add library="lib/linux64/libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="Xi" />
 					<Add library="X11" />
 					<Add library="Xxf86vm" />
 					<Add library="pthread" />
-					<Add library="dl" />
-					<Add library="lib\linux64\libturbojpeg.a" />
+					<Add library="udev" />
+					<Add library="Xinerama" />
 				</Linker>
 			</Target>
 			<Target title="Linux64_Release">
@@ -697,30 +634,21 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\linux64\libboost_system-gcc48-mt-s-1_54.a" />
-					<Add library="lib\linux64\libboost_thread-gcc48-mt-s-1_54.a" />
-					<Add library="lib\linux64\libboost_chrono-gcc48-mt-s-1_54.a" />
-					<Add library="lib\linux64\libboost_filesystem-gcc48-mt-s-1_54.a" />
-					<Add library="lib\linux64\libGLEW.a" />
-					<Add library="lib\linux64\libglfw3.a" />
+					<Add library="lib/linux64/libboost_system-gcc48-mt-s-1_53.a" />
+					<Add library="lib/linux64/libboost_chrono-gcc48-mt-s-1_53.a" />
+					<Add library="lib/linux64/libGLEW.a" />
+					<Add library="lib/linux64/libglfw3.a" />
 					<Add library="Xrandr" />
-					<Add library="lib\linux64\libftgl.a" />
-					<Add library="lib\linux64\libGLU.a" />
+					<Add library="lib/linux64/libftgl.a" />
+					<Add library="lib/linux64/libGLU.a" />
 					<Add library="GL" />
-					<Add library="lib\linux64\libfreetype.a" />
-					<Add library="lib\linux64\libcurl.a" />
-					<Add library="lib\linux64\libpng16.a" />
-					<Add library="lib\linux64\libssl.a" />
-					<Add library="lib\linux64\libcrypto.a" />
-					<Add library="lib\linux64\libz.a" />
+					<Add library="lib/linux64/libfreetype.a" />
 					<Add library="Xt" />
 					<Add library="Xm" />
-					<Add library="Xi" />
-					<Add library="X11" />
-					<Add library="Xxf86vm" />
 					<Add library="pthread" />
-					<Add library="dl" />
-					<Add library="lib\linux64\libturbojpeg.a" />
+					<Add library="lib/linux64/libovr.a" />
+					<Add library="udev" />
+					<Add library="Xinerama" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -766,23 +694,6 @@
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\mac32\libboost_system-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac32\libboost_thread-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac32\libboost_chrono-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac32\libboost_filesystem-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac32\libGLEW.a" />
-					<Add library="lib\mac32\libglfw3.a" />
-					<Add library="Xrandr" />
-					<Add library="lib\mac32\libftgl.a" />
-					<Add library="lib\mac32\libGLU.a" />
-					<Add library="GL" />
-					<Add library="lib\mac32\libfreetype.a" />
-					<Add library="lib\mac32\libpng.a" />
-					<Add library="lib\mac32\libssl.a" />
-					<Add library="lib\mac32\libcrypto.a" />
-					<Add library="lib\mac32\libz.a" />
-					<Add library="Xt" />
-					<Add library="Xm" />
 				</Linker>
 			</Target>
 			<Target title="Mac32_Release">
@@ -875,23 +786,6 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\mac32\libboost_system-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac32\libboost_thread-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac32\libboost_chrono-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac32\libboost_filesystem-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac32\libGLEW.a" />
-					<Add library="lib\mac32\libglfw3.a" />
-					<Add library="Xrandr" />
-					<Add library="lib\mac32\libftgl.a" />
-					<Add library="lib\mac32\libGLU.a" />
-					<Add library="GL" />
-					<Add library="lib\mac32\libfreetype.a" />
-					<Add library="lib\mac32\libpng.a" />
-					<Add library="lib\mac32\libssl.a" />
-					<Add library="lib\mac32\libcrypto.a" />
-					<Add library="lib\mac32\libz.a" />
-					<Add library="Xt" />
-					<Add library="Xm" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -937,23 +831,6 @@
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add library="lib\mac64\libboost_system-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac64\libboost_thread-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac64\libboost_chrono-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac64\libboost_filesystem-gcc48-mt-sd-1_53.a" />
-					<Add library="lib\mac64\libGLEW.a" />
-					<Add library="lib\mac64\libglfw3.a" />
-					<Add library="Xrandr" />
-					<Add library="lib\mac64\libftgl.a" />
-					<Add library="lib\mac64\libGLU.a" />
-					<Add library="GL" />
-					<Add library="lib\mac64\libfreetype.a" />
-					<Add library="lib\mac64\libpng.a" />
-					<Add library="lib\mac64\libssl.a" />
-					<Add library="lib\mac64\libcrypto.a" />
-					<Add library="lib\mac64\libz.a" />
-					<Add library="Xt" />
-					<Add library="Xm" />
 				</Linker>
 			</Target>
 			<Target title="Mac64_Release">
@@ -1046,23 +923,6 @@
 					<Add option="-fuse-linker-plugin" />
 					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
-					<Add library="lib\mac64\libboost_system-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac64\libboost_thread-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac64\libboost_chrono-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac64\libboost_filesystem-gcc48-mt-s-1_53.a" />
-					<Add library="lib\mac64\libGLEW.a" />
-					<Add library="lib\mac64\libglfw3.a" />
-					<Add library="Xrandr" />
-					<Add library="lib\mac64\libftgl.a" />
-					<Add library="lib\mac64\libGLU.a" />
-					<Add library="GL" />
-					<Add library="lib\mac64\libfreetype.a" />
-					<Add library="lib\mac64\libpng.a" />
-					<Add library="lib\mac64\libssl.a" />
-					<Add library="lib\mac64\libcrypto.a" />
-					<Add library="lib\mac64\libz.a" />
-					<Add library="Xt" />
-					<Add library="Xm" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -1082,15 +942,13 @@
 		</VirtualTargets>
 		<Compiler>
 			<Add directory="." />
-			<Add directory="command" />
-			<Add directory="entity" />
-			<Add directory="gui" />
-			<Add directory="input" />
-			<Add directory="iodata" />
-			<Add directory="worldcomponents" />
-			<Add directory="lock" />
 			<Add directory="include" />
-			<Add directory="$(#boost.include)" />
+			<Add directory="astronomical_entities" />
+			<Add directory="mathematical" />
+			<Add directory="devices" />
+			<Add directory="devices/instruments" />
+			<Add directory="devices/external" />
+			<Add directory="OVR" />
 		</Compiler>
 		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Alg.h" />
@@ -1125,7 +983,18 @@
 		<Unit filename="OVR/Kernel/OVR_System.cpp" />
 		<Unit filename="OVR/Kernel/OVR_System.h" />
 		<Unit filename="OVR/Kernel/OVR_Threads.h" />
-		<Unit filename="OVR/Kernel/OVR_ThreadsWinAPI.cpp" />
+		<Unit filename="OVR/Kernel/OVR_ThreadsPthread.cpp">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/Kernel/OVR_ThreadsWinAPI.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
 		<Unit filename="OVR/Kernel/OVR_Timer.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Timer.h" />
 		<Unit filename="OVR/Kernel/OVR_Types.h" />
@@ -1145,6 +1014,90 @@
 		<Unit filename="OVR/OVR_JSON.h" />
 		<Unit filename="OVR/OVR_LatencyTestImpl.cpp" />
 		<Unit filename="OVR/OVR_LatencyTestImpl.h" />
+		<Unit filename="OVR/OVR_Linux_DeviceManager.cpp">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_DeviceManager.h">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_HIDDevice.cpp">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_HIDDevice.h">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_HMDDevice.cpp">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_HMDDevice.h">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Linux_SensorDevice.cpp">
+			<Option target="Linux32_Debug" />
+			<Option target="Linux32_Release" />
+			<Option target="Linux64_Debug" />
+			<Option target="Linux64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_DeviceManager.cpp">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_DeviceManager.h">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_HIDDevice.cpp">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_HIDDevice.h">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_HMDDevice.cpp">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_HMDDevice.h">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_OSX_SensorDevice.cpp">
+			<Option target="Mac32_Debug" />
+			<Option target="Mac32_Release" />
+			<Option target="Mac64_Debug" />
+			<Option target="Mac64_Release" />
+		</Unit>
 		<Unit filename="OVR/OVR_Profile.cpp" />
 		<Unit filename="OVR/OVR_Profile.h" />
 		<Unit filename="OVR/OVR_SensorFilter.cpp" />
@@ -1155,16 +1108,66 @@
 		<Unit filename="OVR/OVR_SensorImpl.h" />
 		<Unit filename="OVR/OVR_ThreadCommandQueue.cpp" />
 		<Unit filename="OVR/OVR_ThreadCommandQueue.h" />
-		<Unit filename="OVR/OVR_Win32_DeviceManager.cpp" />
-		<Unit filename="OVR/OVR_Win32_DeviceManager.h" />
-		<Unit filename="OVR/OVR_Win32_DeviceStatus.cpp" />
-		<Unit filename="OVR/OVR_Win32_DeviceStatus.h" />
-		<Unit filename="OVR/OVR_Win32_HIDDevice.cpp" />
-		<Unit filename="OVR/OVR_Win32_HIDDevice.h" />
-		<Unit filename="OVR/OVR_Win32_HMDDevice.cpp" />
-		<Unit filename="OVR/OVR_Win32_HMDDevice.h" />
-		<Unit filename="OVR/OVR_Win32_SensorDevice.cpp" />
-		<Unit filename="OVR/OVR_Win32_SensorDevice.h" />
+		<Unit filename="OVR/OVR_Win32_DeviceManager.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_DeviceManager.h">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_DeviceStatus.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_DeviceStatus.h">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_HIDDevice.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_HIDDevice.h">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_HMDDevice.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_HMDDevice.h">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_SensorDevice.cpp">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
+		<Unit filename="OVR/OVR_Win32_SensorDevice.h">
+			<Option target="Win32_Debug" />
+			<Option target="Win32_Release" />
+			<Option target="Win64_Debug" />
+			<Option target="Win64_Release" />
+		</Unit>
 		<Unit filename="OVR/Util/Util_LatencyTest.cpp" />
 		<Unit filename="OVR/Util/Util_LatencyTest.h" />
 		<Unit filename="OVR/Util/Util_MagCalibration.cpp" />

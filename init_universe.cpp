@@ -22,6 +22,7 @@ universe extern root;
 astronaut extern *player;
 
 // DEBUG ONLY:
+memory *mem_zoom;
 device *picktestdevice;
 
 void init_universe() {
@@ -184,8 +185,7 @@ void init_universe() {
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
   controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
-  ///controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
-  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -25.0);
+  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 
   altimeter *test_altimeter = new altimeter;
@@ -200,7 +200,8 @@ void init_universe() {
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
-  memory *mem_zoom = new memory;
+  ///memory *mem_zoom = new memory;
+  mem_zoom = new memory;
   memory *mem_planetref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach_panel(controlpanel);

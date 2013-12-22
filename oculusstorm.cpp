@@ -21,8 +21,16 @@ oculusstorm::oculusstorm()
   // oculus rift initialisation
   std::cout << "Oculus: Initialising Oculus Rift..." << std::endl;
   OVR::System::Init();
-  manager = *OVR::DeviceManager::Create();
-  device = *manager->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
+  try {
+    manager = *OVR::DeviceManager::Create();
+  } catch(std::exception &e) {
+    std::cout << "Oculus: exception while creating device manager: " << e.what() << std::endl;
+  }
+  try {
+    device = *manager->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
+  } catch(std::exception &e) {
+    std::cout << "Oculus: exception while creating hmd device: " << e.what() << std::endl;
+  }
   if(device) {
     std::cout << "Oculus: Device found" << std::endl;
     infoloaded = device->GetDeviceInfo(&hmdinfo);

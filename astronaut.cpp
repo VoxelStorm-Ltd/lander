@@ -8,7 +8,7 @@
 #include "starsystem.h"
 #include "device.h"
 
-extern oculusstorm oculus;          // oculus rift controller
+extern oculusstorm *oculus;          // oculus rift controller
 extern astronaut *player;
 extern universe root;
 
@@ -162,14 +162,14 @@ void astronaut::render_firstperson() {
   switch(state) {
   case statetype::IN_VESSEL:
     // translate and rotate to player's view in the cabin
-    if(oculus.enabled) {
+    if(oculus->enabled) {
       // TODO: replace this with a function pointer to a draw func
       // use the rift's view setup
-      oculus.nearplane = 0.1;
-      oculus.farplane = 20.0;
+      oculus->nearplane = 0.1;
+      oculus->farplane = 20.0;
       // left eye
-      oculus.setup_left();
-      glMultMatrixf(oculus.getmatrix().inverse());
+      oculus->setup_left();
+      glMultMatrixf(oculus->getmatrix().inverse());
       glTranslated(0.0, -1.7, 0.0);                     // eye height
       glMultMatrixd(rotation.transform().inverse());    // body rotation
       glTranslated(-position.x,                         // position
@@ -179,8 +179,8 @@ void astronaut::render_firstperson() {
       vessel_in->render_cabin();
 
       // right eye
-      oculus.setup_right();
-      glMultMatrixf(oculus.getmatrix().inverse());
+      oculus->setup_right();
+      glMultMatrixf(oculus->getmatrix().inverse());
       glTranslated(0.0, -1.7, 0.0);                     // eye height
       glMultMatrixd(rotation.transform().inverse());    // body rotation
       glTranslated(-position.x,                         // position
@@ -312,11 +312,11 @@ void astronaut::pick() {
       Vector3d const head_position = position + head_vector;
 
       Vector3d facing_vector(0.0, 0.0, 1.0);
-      facing_vector.rotate(rotation);
       if(rotation_head_yaw != 0.0) {
         facing_vector.rotate(0.0, rotation_head_yaw, 0.0);
       }
       facing_vector.rotate(rotation_head_pitch, 0.0, 0.0);
+      facing_vector.rotate(rotation);
 
       picked_device = vessel_in->pick_cabin(head_position, facing_vector);
       //picked_device = vessel_in->pick_cabin(position, facing_vector);
@@ -336,7 +336,7 @@ void astronaut::pick() {
     // nothing doing
     break;
   }
-  std::cout << "DEBUG: picked_device " << picked_device << " picked_body " << picked_body << std::endl;
+  //std::cout << "DEBUG: picked_device " << picked_device << " picked_body " << picked_body << std::endl;
 }
 
 void astronaut::cursor_activate() {

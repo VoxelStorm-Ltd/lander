@@ -344,7 +344,7 @@ void mapper_system::update() {
       unsigned int const ntarget = static_cast<unsigned int>(ntarget_pre);
       for(auto const &it : root.currentsystem->bodies) {
         if(ntarget == n) {
-          std::cout << get_name() << " trails now locked to " << it->get_name() << " reference frame." << std::endl;
+          //std::cout << get_name() << " trails now locked to " << it->get_name() << " reference frame." << std::endl;
           trail_ref = it;
           break;
         }
@@ -362,6 +362,7 @@ void mapper_system::update_if_time() {
   /// Run the update function only if it's time for an update, and reset the update clock
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
   if(time_now >= time_nextupdate) {
+    update();
     refresh();
     time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(50));  // 20fps
   }

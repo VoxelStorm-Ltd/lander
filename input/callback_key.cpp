@@ -2,11 +2,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 //#include "screenshotstorm.h"
+#include "memory.h"
 
 bool extern keeprunning;
 GLFWwindow extern *window_main;
 
-//extern double temp;
+// DEBUG ONLY:
+extern memory *mem_zoom;
 
 void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
                   int key,
@@ -17,6 +19,14 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
   if(action == GLFW_PRESS) {   // here are all the down-presses we care about
     // these first key catches work in all input modes
     switch(key) {
+    case GLFW_KEY_EQUAL:
+      mem_zoom->set_memory_value(mem_zoom->get_port_out_data(0) * 2.0);
+      std::cout << "DEBUG: memory holds " << mem_zoom->get_port_out_data(0) << std::endl;
+      break;
+    case GLFW_KEY_MINUS:
+      mem_zoom->set_memory_value(mem_zoom->get_port_out_data(0) / 2.0);
+      std::cout << "DEBUG: memory holds " << mem_zoom->get_port_out_data(0) << std::endl;
+      break;
     case GLFW_KEY_O:
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
       glDisable(GL_LIGHTING);

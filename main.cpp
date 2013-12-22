@@ -41,7 +41,7 @@ void init() {       /// all the one-time initialisation we need for the engine
 }
 
 void mainloop() {   /// the main rendering loop
-  double deltatime = 1.0;
+  double deltatime = 5.0;
   //for(;;) {                            // cheap infinite loop
   for(root.time = 0.0; keeprunning; root.time += deltatime) {
     // update the orbits for the orbital bodies in the current system
