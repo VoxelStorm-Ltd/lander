@@ -23,6 +23,7 @@ astronaut extern *player;
 
 // DEBUG ONLY:
 memory *mem_zoom;
+device *picktestdevice;
 
 void init_universe() {
   std::cout << "Initialising universe..." << std::endl;
@@ -242,6 +243,18 @@ void init_universe() {
   converter1->set_position(1.2, 0.38, 0.0);
   converter1->connect(0, mainmapper, 0);
   staticmonitor1->connect(0, converter1, 0);
+
+  spacecraft *crashtester = new spacecraft;
+  crashtester->set_name("Crash Tester");
+  solarsystem->bodies.push_back(crashtester);
+  crashtester->position = earth->position + Vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
+  crashtester->velocity = earth->velocity + Vector3d(-20000.0, 0.0, 0.0);
+
+
+  // DEBUG ONLY:
+  picktestdevice = new display_small;
+  picktestdevice->attach(playership);
+  picktestdevice->attach_panel(controlpanel);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;

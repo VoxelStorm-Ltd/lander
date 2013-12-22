@@ -22,10 +22,10 @@ spacecraft::spacecraft()
 
 spacecraft::~spacecraft() {
   /// Default destructor
-  for(auto &it : panels) {
-    delete it;
-    it = nullptr;
-  }
+  //for(auto &it : panels) {
+  //  delete it;
+  //  it = nullptr;
+  //}
   panels.clear();
   // every system is destroyed
   for(auto &it : devices) {
@@ -37,6 +37,14 @@ spacecraft::~spacecraft() {
   for(auto const &it : occupants) {
     it->kill();
   }
+
+  //for(auto &it : root.currentsystem->bodies) {
+  //  // make sure we don't leave a dangling pointer to this
+  //  if(it == this) {
+  //    it = nullptr;
+  //  }
+  //}
+  root.currentsystem->bodies.remove(this);
 }
 
 std::string spacecraft::get_name() {
@@ -180,6 +188,10 @@ void spacecraft::update_state(double time, double deltatime) {
 
   // check collisions
   for(auto const &it : root.currentsystem->bodies) {
+    // skip checking ourselves
+    if(it == this) {
+      continue;
+    }
     // check spheres of influence / bounding boxes first
     if(!it->check_within_physical_influence(position)) {
       continue;
@@ -196,9 +208,10 @@ void spacecraft::update_state(double time, double deltatime) {
         std::cout << "INFO: " << get_name() << " collided with " << it->get_name() << " at a fatal " << velocity_delta_mag << "m/s" << std::endl;
         // if the ship was destroyed, give a snide message relating to the kinetic energy and collateral damage
         double const ke = 0.5 * get_mass() * velocity_delta_mag * velocity_delta_mag;
-        Vector3d lastposition(position);    // cache position for after we delete "this"
+        Vector3d const lastposition(position);    // cache position for after we delete "this"
         destroy();
         root.make_explosion(lastposition, ke);
+        return;
       }
     }
   }
@@ -218,6 +231,7 @@ void spacecraft::destroy() {
       it->spin     = oldship->spin;
     }
   }
+
   delete this;
 }
 
@@ -241,10 +255,16 @@ void spacecraft::render_diagram(double scale, bool labels) {
   // draw an asteroids-style arrow at the radius
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
   glBegin(GL_LINE_LOOP);
-  glVertex3d(0.0, -thisradius, 0.0);
-  glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
-  glVertex3d(0.0, thisradius / 2.0, 0.0);
-  glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  // y = up
+  //glVertex3d(0.0, -thisradius, 0.0);
+  //glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  //glVertex3d(0.0, thisradius / 2.0, 0.0);
+  //glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
+  // z = up
+  glVertex3d(0.0, 0.0, -thisradius);
+  glVertex3d(-thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
+  glVertex3d(0.0, 0.0, thisradius / 2.0);
+  glVertex3d( thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
   glEnd();
 
   glPopMatrix();                            // restore position & rotation
