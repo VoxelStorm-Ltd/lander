@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+#include <boost/chrono.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
@@ -46,8 +47,12 @@ void init() {       /// all the one-time initialisation we need for the engine
 }
 
 void mainloop() {   /// the main rendering loop
+  // fps counter setup
+  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_fpsupdate(boost::chrono::high_resolution_clock::now());
+  unsigned int fps = 0;
+  unsigned int frames_last_second = 0;
+
   double deltatime = 5.0;
-  //for(;;) {                            // cheap infinite loop
   for(root.time = 0.0; keeprunning; root.time += deltatime) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {
@@ -65,6 +70,17 @@ void mainloop() {   /// the main rendering loop
     player->render_firstperson();
 
     glfwSwapBuffers(window_main);
+
+    // fps counter update
+    boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
+    if(time_now >= time_fpsupdate) {
+      fps = frames_last_second;
+      frames_last_second = 0;
+      time_fpsupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(1000));
+      std::cout << "FPS: " << fps << std::endl;
+    } else {
+      ++frames_last_second;
+    }
   }
 }
 
