@@ -106,10 +106,10 @@ void display::render() {
                get_position().z);
 
   //glColor4dv(Vector4d(0.6, 0.6, 0.6, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
 
   glBegin(GL_QUADS);
   // front
@@ -149,11 +149,11 @@ void display::render() {
 
   //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.05, 0.2, 0.05, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(1.0, 0.8, 1.0, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.05, 0.0, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           127.0);                         // 0 to 127
+  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.05, 0.2, 0.05, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 0.8, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.05, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                         // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
@@ -273,10 +273,10 @@ void display::render() {
   double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
   //glEnable(GL_NORMALIZE);                   // to allow correct lighting
   glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
   glPushMatrix();
   glTranslated(0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);

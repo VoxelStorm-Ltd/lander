@@ -468,14 +468,14 @@ void device::render() {
                position.z);
 
   //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
-  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(1.6, 1.1, 0.2, 1.0));
-  //glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(2.0, 1.9, 1.7, 1.0));
-  //glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  //glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           27.89743616);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(1.6, 1.1, 0.2, 1.0));
+  //glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(2.0, 1.9, 1.7, 1.0));
+  //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                           // 0 to 127
 
   glBegin(GL_QUADS);
   // front

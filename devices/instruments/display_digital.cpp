@@ -58,10 +58,10 @@ void display_digital::render() {
                get_position().z);
 
   //glColor4dv(Vector4d(0.6, 0.6, 0.6, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
 
   glBegin(GL_QUADS);
   // front
@@ -99,10 +99,10 @@ void display_digital::render() {
   Vector2d const screen_pos(0.01, 0.01);
   Vector2d const screen_size(get_size().x - 0.02, get_size().y - 0.02);
 
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.25, 0.25, 0.25, 1.0));
-  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           20.0);                         // 0 to 127
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.25, 0.25, 0.25, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           20.0);                         // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
