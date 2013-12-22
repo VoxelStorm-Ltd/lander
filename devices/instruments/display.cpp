@@ -1,6 +1,10 @@
 #include "display.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
+
+extern FTFont *font_title;          // global font definitions
+extern FTFont *font_text;
 
 display::display()
   : display_image(0) {
@@ -263,6 +267,32 @@ void display::render() {
   glEnd();
 
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+
+  // manufacturer / model label
+  Vector3d const thissize = get_size();
+  double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
+  //glEnable(GL_NORMALIZE);                   // to allow correct lighting
+  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT_AND_BACK,  GL_SHININESS,           2.0);                           // 0 to 127
+  glPushMatrix();
+  glTranslated(0.002, 0.002, thissize.z + 0.001);
+  glScaled(scale, scale, scale);
+  font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+  font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_SIDE);
+  //font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_ALL);
+  glPopMatrix();
+  glPushMatrix();
+  glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
+  glScaled(scale, scale, scale);
+  glTranslated(-font_title->Advance(get_model().c_str(), -1), 0.0, 0.0);    // slide it back for right-align
+  //font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+  font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_ALL);
+  glPopMatrix();
+  //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);               // enable needed to allow correct lighting, disable for speed
 
   glPopMatrix();
 }

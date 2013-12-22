@@ -151,24 +151,69 @@ void instrumentpanel::render() {
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
   for(auto const &it : devices) {
-    //glColor4d(1.0, 1.0, 1.0, 0.75);
-    glColor4d(1.0, 0.0, 0.0, 1.0);
-    //fontconsole->Render(it->get_name().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
-    fontconsole->Render("Apollo 11");
-    ///fontconsole->Render(inputbuffer.c_str(), -1,
-    ///             FTPoint(xpos + border + 3, ypos + border + 3, 0),
-    ///             FTPoint(), FTGL::RENDER_FRONT);
-    ///fontconsole->Render(extendedline.c_str(), -1,
-    ///             FTPoint(leftx + nickwidth + (charwidth * 3), bottomy + (yoffset * line), 0),
-    ///             FTPoint(), FTGL::RENDER_FRONT);
-    ///fontconsole->Render(finalmessage.c_str(), -1,
-    ///             FTPoint(leftx + nickwidth + (charwidth * 3), bottomy + (yoffset * line), 0),
-    ///             FTPoint(), FTGL::RENDER_FRONT);
-    ///fontconsole->Render("<", 1,
-    ///             FTPoint(leftx, bottomy + (yoffset * line), 0),
-    ///             FTPoint(), FTGL::RENDER_FRONT);
+    glPushMatrix();
+
+    glTranslated(it->get_position().x,
+                 it->get_position().y,
+                 it->get_position().z + it->get_size().z);
+
+    glScaled(0.00035277777, 0.00035277777, 0.00035277777);   // 1m / (72dpi * 39.3700787in) = 0.00035277777
+
+    glColor4d(1.0, 1.0, 1.0, 0.75);
+    //glColor4d(1.0, 0.0, 0.0, 1.0);
+    std::stringstream ss;
+    ss << it->get_manufacturer() << " " << it->get_model();
+
+    ///fontconsole->Render(ss.str().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+
+    glPopMatrix();
   }
   glPopAttrib();
 
   glPopMatrix();
+}
+
+device *instrumentpanel::pick(Vector3d const &origin, Vector3d const &pickvector) {
+  /// Pick into this panel and return a pointer to a device if there is one
+  // rotate our test vector by the device's orientation
+  Vector3d local_vect(pickvector);
+  Vector3d offset = origin - position;
+  local_vect.rotate(rotation);
+  offset.rotate(rotation.conjugate_copy());
+
+  Vector2d pickpos;
+  pickpos.x = offset.x + (offset.z / local_vect.z * -local_vect.x);
+  pickpos.y = offset.y + (offset.z / local_vect.z *  local_vect.y);
+
+  // edge clamping
+  //if(pickpos.x < 0.0) {
+  //  pickpos.x = 0.0;
+  //} else if(pickpos.x > it->size.x - picktestdevice->get_size().x) {
+  //  pickpos.x = it->size.x - picktestdevice->get_size().x;
+  //}
+  //if(pickpos.y < 0.0) {
+  //  pickpos.y = 0.0;
+  //} else if(pickpos.y > it->size.y - picktestdevice->get_size().y) {
+  //  pickpos.y = it->size.y - picktestdevice->get_size().y;
+  //}
+
+  // check against the panel's bounding rectangle
+  if(pickpos.x < 0.0 ||
+     pickpos.y < 0.0 ||
+     pickpos.x > size.x ||
+     pickpos.y > size.y) {
+    return nullptr;
+  }
+  //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
+
+  // we're looking at this panel, so iterate through its devices
+  for(auto const &it : devices) {
+    if(it->pick(Vector2d(pickpos.x, pickpos.y))) {
+      // we've found our device
+      //std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
+      return it;
+    }
+  }
+  // nothing found
+  return nullptr;
 }

@@ -78,10 +78,6 @@ public:
   virtual GLuint       get_port_out_video_analogue(unsigned int port);
   virtual void         get_port_out_sound(         unsigned int port);
 
-  virtual void update();
-  virtual void update_if_time();
-  virtual void render();
-
   GLuint generate_static_analogue();
   GLuint generate_static_digital();
 
@@ -97,10 +93,13 @@ public:
   void disconnect(unsigned int port_in);
   void disconnect_all();
 
+  virtual void update();
+  virtual void update_if_time();
+  virtual void render();
+  virtual bool pick(Vector2d pickpos);
+  virtual bool pick(Vector3d pickpos);
   virtual void destroy();
-
   void describe_to_console();
-
   virtual void activate();
 };
 

@@ -251,11 +251,6 @@ void init_universe() {
   crashtester->velocity = earth->velocity + Vector3d(-20000.0, 0.0, 0.0);
 
 
-  // DEBUG ONLY:
-  picktestdevice = new display_small;
-  picktestdevice->attach(playership);
-  picktestdevice->attach_panel(controlpanel);
-
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
   }

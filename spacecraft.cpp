@@ -116,51 +116,13 @@ double spacecraft::get_temperature_cabin() {
 device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvector) {
   /// try to find the device pointed at by the current cursor in the cabin
   for(auto const &it : panels) {
-    // rotate our test vector by the device's orientation
-    Vector3d local_vect(pickvector);
-    Vector3d offset = origin - it->position;
-    local_vect.rotate(it->rotation);
-    offset.rotate(it->rotation.conjugate_copy());
-
-    Vector2d pickpos;
-    pickpos.x = offset.x + (offset.z / local_vect.z * -local_vect.x);
-    pickpos.y = offset.y + (offset.z / local_vect.z *  local_vect.y);
-
-    //if(pickpos.x < 0.0) {
-    //  pickpos.x = 0.0;
-    //} else if(pickpos.x > it->size.x - picktestdevice->get_size().x) {
-    //  pickpos.x = it->size.x - picktestdevice->get_size().x;
-    //}
-    //if(pickpos.y < 0.0) {
-    //  pickpos.y = 0.0;
-    //} else if(pickpos.y > it->size.y - picktestdevice->get_size().y) {
-    //  pickpos.y = it->size.y - picktestdevice->get_size().y;
-    //}
-
-    // check against the panel's bounding rectangle
-    if(pickpos.x < 0.0 ||
-       pickpos.y < 0.0 ||
-       pickpos.x > it->size.x ||
-       pickpos.y > it->size.y) {
-      continue;
-    }
-    //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
-
-    // we're looking at this panel, so iterate through its devices
-    for(auto const &itd : it->devices) {
-      if(pickpos.x < itd->get_position().x ||
-         pickpos.y < itd->get_position().y ||
-         pickpos.x > itd->get_position().x + itd->get_size().x ||
-         pickpos.y > itd->get_position().y + itd->get_size().y) {
-        continue;
-      }
-      // we've found our device
-      std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
-      return itd;
+    device *const pickeddevice = it->pick(origin, pickvector);
+    if(pickeddevice) {
+      return pickeddevice;
     }
   }
   for(auto const &it : devices_cabin) {
-
+    // TODO
   }
   return nullptr;     // not found
 }

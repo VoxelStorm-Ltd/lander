@@ -14,7 +14,7 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
                   int key,
                   int scancode __attribute__((unused)),
                   int action,
-                  int mods) {
+                  int mods __attribute__((unused))) {
   // here are the switch-type controls rather than polled realtime controls
   if(action == GLFW_PRESS) {   // here are all the down-presses we care about
     // these first key catches work in all input modes

@@ -17,7 +17,8 @@ GLFWwindow *window_main = nullptr;          // the main game window
 universe root;
 astronaut *player       = nullptr;
 oculusstorm *oculus     = nullptr;          // oculus rift controller
-FTFont *fontconsole     = nullptr;          // global font definitions
+FTFont *font_title      = nullptr;          // global font definitions
+FTFont *font_text       = nullptr;
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();

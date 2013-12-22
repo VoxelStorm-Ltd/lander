@@ -10,7 +10,8 @@
 // globals
 extern GLFWwindow *window_main;
 extern oculusstorm *oculus;          // oculus rift controller
-extern FTFont *fontconsole;          // global font definitions
+extern FTFont *font_title;           // global font definitions
+extern FTFont *font_text;
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
@@ -197,8 +198,9 @@ void init_graphics(Vector2i &windowsize) {
 
   // initialise fonts
   //fontconsole = font_load("resources/FuturaExt-Normal.ttf");
-  fontconsole = font_load("resources/Futurak.ttf");
-  if(!fontconsole) {
+  font_title = font_load("resources/Futurak.ttf");
+  font_text  = font_load("resources/FuturaExt-Normal.ttf");
+  if(!font_title || !font_text) {
     std::cout << "Failed to load one or more fonts - exiting" << std::endl;
     return;
   }

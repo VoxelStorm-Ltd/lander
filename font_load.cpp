@@ -8,16 +8,18 @@ FTFont *font_load(std::string filename) {
     std::cout << "ERROR: font_load: no such file as " << filename << std::endl;
     return nullptr;
   }
+  //FTFont *font = new FTTextureFont(filename.c_str());
   //FTFont *font = new FTBufferFont(filename.c_str());
   FTFont *font = new FTPolygonFont(filename.c_str());
+  //FTFont *font = new FTExtrudeFont(filename.c_str());
   if(!font) {
     std::cout << "ERROR: font_load: could not load font from file " << filename << std::endl;
     return nullptr;
   }
   font->CharMap(ft_encoding_unicode);
-  //font->FaceSize(16, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
-  //font->FaceSize(0.1, 72);
+  font->FaceSize(16, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
   font->UseDisplayList(true);
+  font->Depth(16.0);
 
   return font;
 }

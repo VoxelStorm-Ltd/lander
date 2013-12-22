@@ -24,8 +24,8 @@ void callback_scroll(GLFWwindow *thiswindow __attribute__((unused)), double xoff
     #endif
     if(yoffset > 0) {
       double const new_angle = player->fov_angle / 2.0;
-      if(new_angle < 10.0) {
-        player->update_fov(10.0);
+      if(new_angle < 5.0) {
+        player->update_fov(5.0);
       } else {
         player->update_fov(new_angle);
       }

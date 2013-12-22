@@ -25,6 +25,7 @@ public:
   void remove();
   void destroy();
   void render();
+  device *pick(Vector3d const &origin, Vector3d const &pickvector);
 };
 
 #endif // INSTRUMENTPANEL_H_INCLUDED

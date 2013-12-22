@@ -513,6 +513,35 @@ void device::render() {
   glPopMatrix();
 }
 
+
+bool device::pick(Vector2d pickpos) {
+  /// Return true if we're picking this by panel coords - 2D version
+  Vector3d const thissize = get_size();
+  if(pickpos.x >= position.x &&
+     pickpos.y >= position.y &&
+     pickpos.x <= position.x + thissize.x &&
+     pickpos.y <= position.y + thissize.y) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool device::pick(Vector3d pickpos) {
+  /// Return true if we're picking this by panel coords - 3D version
+  Vector3d const thissize = get_size();
+  if(pickpos.x >= position.x &&
+     pickpos.y >= position.y &&
+     pickpos.z >= position.z &&
+     pickpos.x <= position.x + thissize.x &&
+     pickpos.y <= position.y + thissize.y &&
+     pickpos.y <= position.z + thissize.z) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 void device::destroy() {
   /// Put this device out of commission
   std::cout << get_name() << " is no longer operative." << std::endl;
