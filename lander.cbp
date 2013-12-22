@@ -46,6 +46,7 @@
 					<Add option="-static-libstdc++" />
 					<Add library="lib\win32\libboost_chrono-mgw48-mt-sd-1_54.a" />
 					<Add library="lib\win32\libboost_system-mgw48-mt-sd-1_54.a" />
+					<Add library="lib\win32\libboost_filesystem-mgw48-mt-sd-1_54.a" />
 					<Add library="lib\win32\libglew32.a" />
 					<Add library="lib\win32\libglfw3.a" />
 					<Add library="lib\win32\libftgl_static_D.a" />
@@ -56,6 +57,7 @@
 					<Add library="lib\win32\libgdi32.a" />
 					<Add library="lib\win32\libwinmm.a" />
 					<Add library="lib\win32\libsetupapi.a" />
+					<Add library="lib\win32\libz.a" />
 				</Linker>
 			</Target>
 			<Target title="Win32_Release">
@@ -148,6 +150,7 @@
 					<Add option="-funsafe-math-optimizations" />
 					<Add library="lib\win32\libboost_chrono-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libboost_system-mgw48-mt-s-1_54.a" />
+					<Add library="lib\win32\libboost_filesystem-mgw48-mt-s-1_54.a" />
 					<Add library="lib\win32\libglew32.a" />
 					<Add library="lib\win32\libglfw3.a" />
 					<Add library="lib\win32\libftgl_static_D.a" />
@@ -158,6 +161,7 @@
 					<Add library="lib\win32\libgdi32.a" />
 					<Add library="lib\win32\libwinmm.a" />
 					<Add library="lib\win32\libsetupapi.a" />
+					<Add library="lib\win32\libz.a" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -456,6 +460,7 @@
 					<Add option="-static-libstdc++" />
 					<Add library="lib\linux64\libboost_chrono-gcc48-mt-sd-1_54.a" />
 					<Add library="lib\linux64\libboost_system-gcc48-mt-sd-1_54.a" />
+					<Add library="lib\linux64\libboost_filesystem-gcc48-mt-sd-1_54.a" />
 					<Add library="lib\linux64\libGLEW.a" />
 					<Add library="lib\linux64\libglfw3.a" />
 					<Add library="Xrandr" />
@@ -471,6 +476,7 @@
 					<Add library="pthread" />
 					<Add library="udev" />
 					<Add library="Xinerama" />
+					<Add library="lib\linux64\libz.a" />
 				</Linker>
 			</Target>
 			<Target title="Linux64_Release">
@@ -560,6 +566,7 @@
 					<Add option="-funsafe-math-optimizations" />
 					<Add library="lib\linux64\libboost_system-gcc48-mt-s-1_53.a" />
 					<Add library="lib\linux64\libboost_chrono-gcc48-mt-s-1_53.a" />
+					<Add library="lib\linux64\libboost_filesystem-gcc48-mt-s-1_54.a" />
 					<Add library="lib\linux64\libGLEW.a" />
 					<Add library="lib\linux64\libglfw3.a" />
 					<Add library="Xrandr" />
@@ -573,6 +580,7 @@
 					<Add library="lib\linux64\libovr.a" />
 					<Add library="udev" />
 					<Add library="Xinerama" />
+					<Add library="lib\linux64\libz.a" />
 				</Linker>
 				<ExtraCommands>
 					<Add after='strip -spv &quot;$(TARGET_OUTPUT_FILE)&quot;' />
@@ -1117,6 +1125,7 @@
 		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/memory.cpp" />
 		<Unit filename="devices/memory.h" />
+		<Unit filename="font_load.cpp" />
 		<Unit filename="init_graphics.cpp" />
 		<Unit filename="init_universe.cpp" />
 		<Unit filename="input/callback_key.cpp" />

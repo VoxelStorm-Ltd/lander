@@ -2,7 +2,9 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 #include "vmath.h"
+#include "oculusstorm.h"
 #include "universe.h"
 #include "starsystem.h"
 #include "body.h"
@@ -11,9 +13,11 @@
 
 // globals
 bool keeprunning = true;
-GLFWwindow *window_main;      // the main game window
+GLFWwindow *window_main = nullptr;          // the main game window
 universe root;
-astronaut *player;
+astronaut *player       = nullptr;
+oculusstorm *oculus     = nullptr;          // oculus rift controller
+FTFont *fontconsole     = nullptr;          // global font definitions
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();

@@ -2,13 +2,15 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 #include "vmath.h"
 #include "version.h"
 #include "oculusstorm.h"
 
 // globals
 GLFWwindow extern *window_main;
-oculusstorm *oculus;          // oculus rift controller
+oculusstorm extern *oculus;          // oculus rift controller
+FTFont extern *fontconsole;          // global font definitions
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
@@ -16,6 +18,8 @@ void callback_key(         GLFWwindow *thiswindow, int key, int scancode, int ac
 void callback_scroll(      GLFWwindow *thiswindow, double xoffset, double yoffset);
 void callback_windowresize(GLFWwindow *thiswindow, int newwidth, int newheight);
 void callback_windowclose( GLFWwindow *thiswindow);
+
+FTFont *font_load(std::string filename);
 
 void init_graphics(Vector2i &windowsize) {
   std::cout << "Initialising graphics..." << std::endl;
@@ -190,6 +194,13 @@ void init_graphics(Vector2i &windowsize) {
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  // initialise fonts
+  fontconsole = font_load("resources/FuturaExt-Normal.ttf");
+  if(!fontconsole) {
+    std::cout << "Failed to load one or more fonts - exiting" << std::endl;
+    return;
+  }
 
   // callbacks
   glfwSetCursorPosCallback(  window_main, callback_mousepos);
