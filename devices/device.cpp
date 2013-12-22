@@ -1,8 +1,14 @@
 #include "device.h"
 #include <sstream>
 #include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 #include "spacecraft.h"
 #include "instrumentpanel.h"
+
+extern FTFont *font_title;          // global font definitions
+extern FTFont *font_text;
 
 Vector2i const device::screensize_static_analogue(64, 64);
 Vector2i const device::screensize_static_digital( 16, 16);
@@ -467,7 +473,6 @@ void device::render() {
                position.y,
                position.z);
 
-  //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
@@ -509,6 +514,42 @@ void device::render() {
   glVertex3d(0.0,          get_size().y, get_size().z);
   glVertex3d(0.0,          get_size().y, 0.0);
   glEnd();
+
+  // manufacturer / model label
+  Vector3d const thissize = get_size();
+  double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
+  //glEnable(GL_NORMALIZE);                   // to allow correct lighting
+  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  double const modellength = font_title->Advance(get_model().c_str(), -1);
+  if(modellength * scale <= thissize.x + 0.004) {               // only insert if there's room to do so
+    glPushMatrix();
+    glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
+    glScaled(scale, scale, scale);
+    glTranslated(-modellength, 0.0, 0.0);    // slide it back for right-align
+    font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    glPopMatrix();
+    double const manufacturerlength = font_title->Advance(get_manufacturer().c_str(), -1);
+    if((modellength + manufacturerlength) * scale <= thissize.x - 0.006) {
+      glPushMatrix();
+      glTranslated(0.002, 0.002, thissize.z + 0.001);
+      glScaled(scale, scale, scale);
+      font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+      glPopMatrix();
+    }
+  } else {                                                     // otherwise scale model down to fit
+    glPushMatrix();
+    glTranslated(0.001, 0.001, thissize.z + 0.001);
+    double const newscale = (thissize.x - 0.002) / modellength;
+    glScaled(newscale, newscale, newscale);
+    font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    glPopMatrix();
+  }
+  //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
 
   glPopMatrix();
 }
