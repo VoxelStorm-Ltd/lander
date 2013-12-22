@@ -8,9 +8,9 @@
 #include "oculusstorm.h"
 
 // globals
-GLFWwindow extern *window_main;
-oculusstorm extern *oculus;          // oculus rift controller
-FTFont extern *fontconsole;          // global font definitions
+extern GLFWwindow *window_main;
+extern oculusstorm *oculus;          // oculus rift controller
+extern FTFont *fontconsole;          // global font definitions
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
