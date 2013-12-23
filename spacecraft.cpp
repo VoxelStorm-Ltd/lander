@@ -14,6 +14,7 @@
 #include "thruster.h"
 
 extern universe root;
+extern astronaut *player;
 
 spacecraft::spacecraft()
   : temperature_hull(285.18),     // http://www.learnthermo.com/examples/ch04/p-4b-3.php
@@ -242,12 +243,19 @@ void spacecraft::render_diagram(double scale, bool labels) {
   glTranslated(position.x, position.y, position.z);
   glMultMatrixd(rotation.transform());
 
-  // heading vector
-  glColor4dv(Vector4d(1.0, 0.6, 0.2, 0.75));
-  glBegin(GL_LINES);
-  glVertex3d(0.0, -100 / scale, 0.0);
-  glVertex3d(0.0, -120 / scale, 0.0);
-  glEnd();
+  if(this == player->vessel_in) {   // show navigation vectors only for the player ship
+    glColor4dv(Vector4d(1.0, 0.6, 0.2, 0.75));  // orange
+    glBegin(GL_LINES);
+    glVertex3d(0.0, -100 / scale, 0.0);         // heading vector
+    glVertex3d(0.0, -120 / scale, 0.0);
+    glColor4dv(Vector4d(1.0, 0.2, 0.2, 0.75));  // port light (red)
+    glVertex3d(-100 / scale, -5 / scale, 0.0);
+    glVertex3d(-100 / scale,  5 / scale, 0.0);
+    glColor4dv(Vector4d(0.2, 1.0, 0.0, 0.75));  // starboard light (green)
+    glVertex3d( 100 / scale, -5 / scale, 0.0);
+    glVertex3d( 100 / scale,  5 / scale, 0.0);
+    glEnd();
+  }
 
   double thisradius = get_radius();
   if(thisradius * scale < 4.0) {

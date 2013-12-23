@@ -19,8 +19,8 @@
 #include "display_converter_analogue_digital.h"
 #include "thruster.h"
 
-universe extern root;
-astronaut extern *player;
+extern universe root;
+extern astronaut *player;
 
 // DEBUG ONLY:
 memory *mem_zoom;
