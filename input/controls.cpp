@@ -57,10 +57,4 @@ void pollcontrols(GLFWwindow *thiswindow) {
   if(glfwGetKey(thiswindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) {
     player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0, -1.0,  0.0), angle);
   }
-
-  if(glfwGetKey(thiswindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
-    throttle->set_memory_value(1.0);
-  } else {
-    throttle->set_memory_value(0.0);
-  }
 }

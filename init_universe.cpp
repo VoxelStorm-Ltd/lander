@@ -18,13 +18,13 @@
 #include "memory.h"
 #include "display_converter_analogue_digital.h"
 #include "thruster.h"
+#include "switch_onoff.h"
 
 extern universe root;
 extern astronaut *player;
 
 // DEBUG ONLY:
 memory *mem_zoom;
-memory *throttle;
 
 void init_universe() {
   std::cout << "Initialising universe..." << std::endl;
@@ -194,12 +194,10 @@ void init_universe() {
   engine_main->attach(playership);
   engine_main->attach_hull();
   engine_main->set_position(0.0, -1.5, 0.0);
-  ///memory *throttle = new memory;
-  throttle = new memory;
+  switch_onoff *throttle = new switch_onoff;
   throttle->attach(playership);
   throttle->attach_panel(controlpanel);
-  throttle->set_position(0.1, 0.1, 0.0);
-  throttle->set_memory_value(0.0);
+  throttle->set_position(1.0, 0.5, 0.0);
   engine_main->connect(0, throttle, 0);
 
   altimeter *test_altimeter = new altimeter;

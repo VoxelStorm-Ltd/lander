@@ -80,6 +80,7 @@ public:
 
   GLuint generate_static_analogue();
   GLuint generate_static_digital();
+  void generate_static_sound();
 
   virtual void attach(spacecraft *to_vessel);
   virtual bool attach_panel(instrumentpanel *to_panel);

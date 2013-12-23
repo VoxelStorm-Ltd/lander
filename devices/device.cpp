@@ -198,7 +198,7 @@ void device::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
 }
 
 GLuint device::generate_static_analogue() {
-  /// Generate and return a static image - this is static and can be called without an instance of device
+  /// Generate and return a static image
   // only redraw if it's time to do so
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
   if(time_now >= time_next_static_analogue) {
@@ -246,6 +246,7 @@ GLuint device::generate_static_analogue() {
 }
 
 GLuint device::generate_static_digital() {
+  /// Generate and return a digital static image
   // this gets called if someone connects a digital video display to a non-video output
   // only redraw if it's time to do so
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
@@ -292,6 +293,11 @@ GLuint device::generate_static_digital() {
     glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
   }
   return image_static_digital;
+}
+
+void device::generate_static_sound() {
+  /// Generate hissing or buzzing or whistling noises that sound like untuned radio transmissions
+  // TODO
 }
 
 void device::attach(spacecraft *to_vessel) {
