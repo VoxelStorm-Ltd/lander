@@ -23,9 +23,6 @@ public:
   std::list<instrumentpanel*> panels;     // instrument panels in the cabin
   std::list<astronaut*> occupants;        // who's on board
 
-  // temporary navigation target
-  Vector3d target;
-
   spacecraft();
   ~spacecraft();
 

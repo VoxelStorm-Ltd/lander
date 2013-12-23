@@ -24,7 +24,7 @@ astronaut extern *player;
 
 // DEBUG ONLY:
 memory *mem_zoom;
-device *picktestdevice;
+memory *throttle;
 
 void init_universe() {
   std::cout << "Initialising universe..." << std::endl;
@@ -183,6 +183,7 @@ void init_universe() {
   player->enter_ship(playership);
   playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0);    // ~= ISS altitude
   playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
+  playership->rotation *= Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), 90.0);
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
   controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
@@ -193,11 +194,12 @@ void init_universe() {
   engine_main->attach(playership);
   engine_main->attach_hull();
   engine_main->set_position(0.0, -1.5, 0.0);
-  memory *throttle = new memory;
+  ///memory *throttle = new memory;
+  throttle = new memory;
   throttle->attach(playership);
   throttle->attach_panel(controlpanel);
   throttle->set_position(0.1, 0.1, 0.0);
-  throttle->set_memory_value(0.5);
+  throttle->set_memory_value(0.0);
   engine_main->connect(0, throttle, 0);
 
   altimeter *test_altimeter = new altimeter;
@@ -260,7 +262,8 @@ void init_universe() {
   crashtester->set_name("Crash Tester");
   solarsystem->bodies.push_back(crashtester);
   crashtester->position = earth->position + Vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
-  crashtester->velocity = earth->velocity + Vector3d(-20000.0, 0.0, 0.0);
+  crashtester->velocity = earth->velocity + Vector3d(-20000.0, 1000.0, 0.0);
+  crashtester->rotation *= Quatd::fromAxisRot(Vector3d(0.0, 0.0, 1.0), 90.0);
 
 
   for(auto  const &it : solarsystem->bodies) {

@@ -240,12 +240,13 @@ void spacecraft::render_diagram(double scale, bool labels) {
   glPushMatrix();
   // move into position
   glTranslated(position.x, position.y, position.z);
+  glMultMatrixd(rotation.transform());
 
-  // target vector
-  glColor4dv(Vector4d(1.0, 0.6, 0.2, 1.0));
+  // heading vector
+  glColor4dv(Vector4d(1.0, 0.6, 0.2, 0.75));
   glBegin(GL_LINES);
-  glVertex3d(0.0, 0.0, 0.0);
-  glVertex3dv(target * 1000000);
+  glVertex3d(0.0, -100 / scale, 0.0);
+  glVertex3d(0.0, -120 / scale, 0.0);
   glEnd();
 
   double thisradius = get_radius();
@@ -254,17 +255,32 @@ void spacecraft::render_diagram(double scale, bool labels) {
   }
   // draw an asteroids-style arrow at the radius
   glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  glBegin(GL_LINE_LOOP);
-  // y = up
+  // 2D, y = up:
+  //glBegin(GL_LINE_LOOP);
   //glVertex3d(0.0, -thisradius, 0.0);
   //glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
   //glVertex3d(0.0, thisradius / 2.0, 0.0);
   //glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), 0.0);
-  // z = up
-  glVertex3d(0.0, 0.0, -thisradius);
-  glVertex3d(-thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
-  glVertex3d(0.0, 0.0, thisradius / 2.0);
-  glVertex3d( thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
+  //glEnd();
+  // 2D, z = up:
+  //glBegin(GL_LINE_LOOP);
+  //glVertex3d(0.0, 0.0, -thisradius);
+  //glVertex3d(-thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
+  //glVertex3d(0.0, 0.0, thisradius / 2.0);
+  //glVertex3d( thisradius / sqrt(2.0), 0.0, thisradius / sqrt(2.0));
+  //glEnd();
+  // 3D, y = up, X shape:
+  glBegin(GL_LINE_LOOP);
+  glVertex3d(0.0, -thisradius, 0.0);
+  glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0), -thisradius / sqrt(2.0));
+  glVertex3d(0.0, thisradius / 2.0, 0.0);
+  glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0),  thisradius / sqrt(2.0));
+  glEnd();
+  glBegin(GL_LINE_LOOP);
+  glVertex3d(0.0, -thisradius, 0.0);
+  glVertex3d(-thisradius / sqrt(2.0), thisradius / sqrt(2.0),  thisradius / sqrt(2.0));
+  glVertex3d(0.0, thisradius / 2.0, 0.0);
+  glVertex3d( thisradius / sqrt(2.0), thisradius / sqrt(2.0), -thisradius / sqrt(2.0));
   glEnd();
 
   glPopMatrix();                            // restore position & rotation

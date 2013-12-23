@@ -1,15 +1,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include "astronaut.h"
 #include "spacecraft.h"
+#include "memory.h"
 
 extern astronaut *player;
 
+// DEBUG ONLY:
+extern memory *throttle;
+
 void pollcontrols(GLFWwindow *thiswindow) {
-  //double const amount = 10.0;
-  double const amount = 1.01;
-  double const angle = 2.0;
+  double const angle = 1.0;
 
   if(!player->strappeddown) {   // don't check movement while strapped into a seat
     Vector3d movevector;
@@ -39,25 +40,27 @@ void pollcontrols(GLFWwindow *thiswindow) {
   }
 
   if(glfwGetKey(thiswindow, GLFW_KEY_UP) == GLFW_PRESS) {
-    if(player->vessel_in->target.length() == 0) {
-      player->vessel_in->target = Vector3d(0, 0, -1);
-    }
-    player->vessel_in->target *= amount;
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d(-1.0,  0.0,  0.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_DOWN) == GLFW_PRESS) {
-    player->vessel_in->target /= amount;
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 1.0,  0.0,  0.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_LEFT) == GLFW_PRESS) {
-    //player->vessel_in->target.rotate(0.0, 0.0, -angle);
-    player->vessel_in->target.rotate(0.0, angle, 0.0);
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  0.0, -1.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-    //player->vessel_in->target.rotate(0.0, 0.0, angle);
-    player->vessel_in->target.rotate(0.0, -angle, 0.0);
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  0.0,  1.0), angle);
   }
-  if(glfwGetKey(thiswindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
-    player->vessel_in->velocity += player->vessel_in->target;
-    //std::cout << "Applying delta V " << player->vessel_in->target.length() << "m/s^2" << std::endl;
+  if(glfwGetKey(thiswindow, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS) {
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  1.0,  0.0), angle);
+  }
+  if(glfwGetKey(thiswindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) {
+    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0, -1.0,  0.0), angle);
   }
 
+  if(glfwGetKey(thiswindow, GLFW_KEY_ENTER) == GLFW_PRESS) {
+    throttle->set_memory_value(1.0);
+  } else {
+    throttle->set_memory_value(0.0);
+  }
 }
