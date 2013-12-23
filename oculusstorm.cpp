@@ -31,7 +31,7 @@ oculusstorm::oculusstorm()
   } catch(std::exception &e) {
     std::cout << "Oculus: exception while creating hmd device: " << e.what() << std::endl;
   }
-  if(device) {
+  if(!device) {
     std::cout << "Oculus: Device found" << std::endl;
     infoloaded = device->GetDeviceInfo(&hmdinfo);
     sensor = *device->GetSensor();
@@ -39,13 +39,13 @@ oculusstorm::oculusstorm()
     std::cout << "Oculus: Device not found" << std::endl;
     sensor = *manager->EnumerateDevices<OVR::SensorDevice>().CreateDevice();
   }
-  if(sensor) {
-    std::cout << "Oculus: Sensor found" << std::endl;
-    sensorfusion.AttachToSensor(sensor);
-    enabled = true;
-  } else {
+  if(!sensor) {
     std::cout << "Oculus: Sensor not found" << std::endl;
+    return;
   }
+  std::cout << "Oculus: Sensor found" << std::endl;
+  sensorfusion.AttachToSensor(sensor);
+  enabled = true;
 
   // setup:
   sensorfusion.EnableMotionTracking();   // make sure motion tracking is enabled
