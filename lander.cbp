@@ -842,12 +842,13 @@
 			<Add option="-DCURL_STATICLIB" />
 			<Add directory="." />
 			<Add directory="include" />
+			<Add directory="OVR" />
 			<Add directory="astronomical_entities" />
 			<Add directory="mathematical" />
 			<Add directory="devices" />
 			<Add directory="devices/instruments" />
 			<Add directory="devices/external" />
-			<Add directory="OVR" />
+			<Add directory="devices/thrusters" />
 		</Compiler>
 		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Alg.h" />
@@ -1125,6 +1126,8 @@
 		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/memory.cpp" />
 		<Unit filename="devices/memory.h" />
+		<Unit filename="devices/thrusters/thruster.cpp" />
+		<Unit filename="devices/thrusters/thruster.h" />
 		<Unit filename="font_load.cpp" />
 		<Unit filename="init_graphics.cpp" />
 		<Unit filename="init_universe.cpp" />

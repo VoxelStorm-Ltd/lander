@@ -17,6 +17,7 @@
 #include "mapper_system.h"
 #include "memory.h"
 #include "display_converter_analogue_digital.h"
+#include "thruster.h"
 
 universe extern root;
 astronaut extern *player;
@@ -187,6 +188,17 @@ void init_universe() {
   controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
   controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
+
+  thruster *engine_main = new thruster;
+  engine_main->attach(playership);
+  engine_main->attach_hull();
+  engine_main->set_position(0.0, -1.5, 0.0);
+  memory *throttle = new memory;
+  throttle->attach(playership);
+  throttle->attach_panel(controlpanel);
+  throttle->set_position(0.1, 0.1, 0.0);
+  throttle->set_memory_value(0.5);
+  engine_main->connect(0, throttle, 0);
 
   altimeter *test_altimeter = new altimeter;
   sensor_pressure *test_pressuresensor = new sensor_pressure;

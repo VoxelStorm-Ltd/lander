@@ -53,8 +53,9 @@ void mainloop() {   /// the main rendering loop
   unsigned int frames_last_second = 0;
 
   //double deltatime = 5.0;
+  double deltatime = 1.0;
+  //double deltatime = 1.0 / 10.0;
   //double deltatime = 1.0 / 160.0;
-  double deltatime = 1.0 / 10.0;
   for(root.time = 0.0; keeprunning; root.time += deltatime) {
     // update the orbits for the orbital bodies in the current system
     for(auto const &it : root.currentsystem->bodies) {

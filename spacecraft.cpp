@@ -11,6 +11,7 @@
 #include "astronaut.h"
 #include "instrumentpanel.h"
 #include "dustcloud.h"
+#include "thruster.h"
 
 extern universe root;
 
@@ -85,7 +86,7 @@ double spacecraft::get_mass() {
   } else {
     // no mass assigned, make a guess for a lander type vessel, 1 to 3x the mass of the apollo 11
     random_reset();
-    return get_random_double(15000000.0, 45000000.0);  // averaging 650 tons +- 50%
+    return get_random_double(15000.0, 45000.0);  // averaging 30 tons +- 50%
   }
 }
 
@@ -135,6 +136,32 @@ device *spacecraft::pick_hull(Vector3d const &origin, Vector3d const &pickvector
   return nullptr;
 }
 
+Vector3d spacecraft::get_acceleration(Vector3d const &thisposition,
+                                      Vector3d const &thisvelocity __attribute__((__unused__)),
+                                      double time __attribute__((__unused__))) {
+  /// placeholder acceleration due to gravity
+  Vector3d acceleration;
+  // iterate through every sufficiently significant body
+  for(auto *it : root.currentsystem->bodies) {
+    if(it == this) {
+      // don't calculate gravitational effect of ourselves
+      continue;
+    }
+    acceleration += it->get_gravity_accel_v3(thisposition);
+  }
+  // add propulsion effects
+  Vector3d thrust;
+  for(auto *it : thrusters) {
+    // add individual contribution of each engine
+    thrust += it->get_thrust();
+    // TODO: rotation
+  }
+  thrust.rotate(rotation);
+  acceleration += thrust / get_mass();
+  //std::cout << "DEBUG: thrust = " << thrust << "N, mass = " << get_mass() << "kg, accel = " << thrust.length() / get_mass() << "m/s^2" << std::endl;
+  return acceleration;
+}
+
 void spacecraft::update_state(double time, double deltatime) {
   /// update all relevant state information
   // the default integrator for position and velocity
@@ -147,6 +174,17 @@ void spacecraft::update_state(double time, double deltatime) {
   //temperature_hull =
   //temperature_cabin =
   // TODO
+
+  // update cabin atmospheric situation
+  // TODO
+
+  // update our connected devices, if appropriate
+  for(auto const &it : devices_hull) {
+    it->update_if_time();
+  }
+  //for(auto const &it : devices_cabin) {
+  //  it->update_if_time();
+  //}
 
   // check collisions
   for(auto const &it : root.currentsystem->bodies) {

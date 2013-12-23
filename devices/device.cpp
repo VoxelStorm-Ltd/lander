@@ -38,7 +38,7 @@ std::string device::get_name() {
   /// Return the name of this device
   // virtual placeholder
   std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
-  return "Device";
+  return "device";
 }
 
 std::string device::get_manufacturer() {

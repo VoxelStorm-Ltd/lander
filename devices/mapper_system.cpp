@@ -14,7 +14,7 @@ mapper_system::mapper_system()
     framebuffer(0),
     //scale(0.00001),           // earth scale
     scale(0.000000002),       // solar system scale
-    rotation_x(-90.0),
+    rotation_x(-0.2),
     rotation_y(0.0),
     trail_ref(nullptr) {
   /// Default constructor
