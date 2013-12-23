@@ -5,18 +5,18 @@
 
 oculusstorm::oculusstorm()
   : enabled(false),
-    manager(nullptr),
-    device(nullptr),
-    sensor(nullptr),
-    sensorfusion(nullptr),
-    infoloaded(false),
     viewport_width(640),
     viewport_height(800),
     ipd(6.4),
     ipd_half(3.2),
     aspectratio(1280 / (2 * 800)),
     nearplane(10),
-    farplane(100000) {
+    farplane(100000),
+    manager(nullptr),
+    device(nullptr),
+    sensor(nullptr),
+    sensorfusion(nullptr),
+    infoloaded(false) {
   /// Default constructor
   // oculus rift initialisation
   std::cout << "Oculus: Initialising Oculus Rift..." << std::endl;
