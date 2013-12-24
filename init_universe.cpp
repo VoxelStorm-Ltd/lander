@@ -277,8 +277,8 @@ void init_universe() {
   mem_planetref->attach(playership);
   mem_planetref->attach_panel(controlpanel);
   mem_planetref->set_position(1.1, 0.05, 0.0);
-  mem_planetref->set_memory_value(4.0);                   // earth = 4
-  mainmapper->connect(3, mem_planetref, 0);               // hook it up to the trails reference frame input
+  mem_planetref->set_memory_value(4.0);                 // earth = 4
+  mainmapper->connect(3, mem_planetref, 0);             // hook it up to the trails reference frame input
 
   display_digital *staticmonitor1 = new display_digital;
   staticmonitor1->attach(playership);

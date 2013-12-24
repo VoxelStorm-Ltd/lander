@@ -7,7 +7,10 @@
 
 extern FTFont *fontconsole;          // global font definitions
 
-instrumentpanel::instrumentpanel() {
+instrumentpanel::instrumentpanel()
+  : vessel(nullptr),
+    pickpoint_show(false),
+    pickeddevice(nullptr) {
   /// Default constructor
 }
 
@@ -146,31 +149,78 @@ void instrumentpanel::render() {
       }
     }
   }
-  glPopAttrib();
 
-  // DEBUG ONLY: font testing
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glDisable(GL_LIGHTING);
-  glDisable(GL_DEPTH_TEST);
-  for(auto const &it : devices) {
-    glPushMatrix();
+  // show a cursor if there's one to show
+  double edge_left, edge_right, edge_bottom, edge_top;
+  if(pickpoint_show) {
+    if(pickeddevice) {
+      Vector3d thispos  = pickeddevice->get_position();
+      Vector3d thissize = pickeddevice->get_size();
+      edge_left   = thispos.x              - 0.005;
+      edge_right  = thispos.x + thissize.x + 0.005;
+      edge_bottom = thispos.y              - 0.005;
+      edge_top    = thispos.y + thissize.y + 0.005;
+    } else {
+      edge_left   = pickpoint.x - 0.02;
+      edge_right  = pickpoint.x + 0.02;
+      edge_bottom = pickpoint.y - 0.02;
+      edge_top    = pickpoint.y + 0.02;
 
-    glTranslated(it->get_position().x,
-                 it->get_position().y,
-                 it->get_position().z + it->get_size().z);
+      // clamp the edges
+      if(edge_left < 0.0) {
+        edge_left = 0.0;
+      } else if(edge_right > size.x) {
+        edge_right = size.x;
+      }
+      if(edge_bottom < 0.0) {
+        edge_bottom = 0.0;
+      } else if(edge_top > size.y) {
+        edge_top = size.y;
+      }
+    }
+    glBegin(GL_LINES);
+    glVertex3d(edge_left        , edge_bottom + 0.01, 0.01);    // bottom left
+    glVertex3d(edge_left        , edge_bottom       , 0.01);
+    glVertex3d(edge_left        , edge_bottom       , 0.01);
+    glVertex3d(edge_left  + 0.01, edge_bottom       , 0.01);
 
-    glScaled(0.00035277777, 0.00035277777, 0.00035277777);   // 1m / (72dpi * 39.3700787in) = 0.00035277777
+    glVertex3d(edge_right - 0.01, edge_bottom       , 0.01);    // bottom right
+    glVertex3d(edge_right       , edge_bottom       , 0.01);
+    glVertex3d(edge_right       , edge_bottom       , 0.01);
+    glVertex3d(edge_right       , edge_bottom + 0.01, 0.01);
 
-    glColor4d(1.0, 1.0, 1.0, 0.75);
-    //glColor4d(1.0, 0.0, 0.0, 1.0);
-    std::stringstream ss;
-    ss << it->get_manufacturer() << " " << it->get_model();
+    glVertex3d(edge_right       , edge_top    - 0.01, 0.01);    // top right
+    glVertex3d(edge_right       , edge_top          , 0.01);
+    glVertex3d(edge_right       , edge_top          , 0.01);
+    glVertex3d(edge_right - 0.01, edge_top          , 0.01);
 
-    ///fontconsole->Render(ss.str().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
-
-    glPopMatrix();
+    glVertex3d(edge_left  + 0.01, edge_top          , 0.01);    // top left
+    glVertex3d(edge_left        , edge_top          , 0.01);
+    glVertex3d(edge_left        , edge_top          , 0.01);
+    glVertex3d(edge_left        , edge_top    - 0.01, 0.01);
+    glEnd();
   }
+
   glPopAttrib();
+
+  //// DEBUG ONLY: font testing
+  //glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //glDisable(GL_LIGHTING);
+  //glDisable(GL_DEPTH_TEST);
+  //for(auto const &it : devices) {
+  //  glPushMatrix();
+  //  glTranslated(it->get_position().x,
+  //               it->get_position().y,
+  //               it->get_position().z + it->get_size().z);
+  //  glScaled(0.00035277777, 0.00035277777, 0.00035277777);   // 1m / (72dpi * 39.3700787in) = 0.00035277777
+  //  glColor4d(1.0, 1.0, 1.0, 0.75);
+  //  //glColor4d(1.0, 0.0, 0.0, 1.0);
+  //  std::stringstream ss;
+  //  ss << it->get_manufacturer() << " " << it->get_model();
+  //  fontconsole->Render(ss.str().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+  //  glPopMatrix();
+  //}
+  //glPopAttrib();
 
   glPopMatrix();
 }
@@ -183,39 +233,43 @@ device *instrumentpanel::pick(Vector3d const &origin, Vector3d const &pickvector
   local_vect.rotate(rotation);
   offset.rotate(rotation.conjugate_copy());
 
-  Vector2d pickpos;
-  pickpos.x = offset.x + (offset.z / local_vect.z * -local_vect.x);
-  pickpos.y = offset.y + (offset.z / local_vect.z *  local_vect.y);
+  pickpoint.x = offset.x + (offset.z / local_vect.z * -local_vect.x);
+  pickpoint.y = offset.y + (offset.z / local_vect.z *  local_vect.y);
 
   // edge clamping
-  //if(pickpos.x < 0.0) {
-  //  pickpos.x = 0.0;
-  //} else if(pickpos.x > it->size.x - picktestdevice->get_size().x) {
-  //  pickpos.x = it->size.x - picktestdevice->get_size().x;
+  //if(pickpoint.x < 0.0) {
+  //  pickpoint.x = 0.0;
+  //} else if(pickpoint.x > it->size.x - picktestdevice->get_size().x) {
+  //  pickpoint.x = it->size.x - picktestdevice->get_size().x;
   //}
-  //if(pickpos.y < 0.0) {
-  //  pickpos.y = 0.0;
-  //} else if(pickpos.y > it->size.y - picktestdevice->get_size().y) {
-  //  pickpos.y = it->size.y - picktestdevice->get_size().y;
+  //if(pickpoint.y < 0.0) {
+  //  pickpoint.y = 0.0;
+  //} else if(pickpoint.y > it->size.y - picktestdevice->get_size().y) {
+  //  pickpoint.y = it->size.y - picktestdevice->get_size().y;
   //}
 
   // check against the panel's bounding rectangle
-  if(pickpos.x < 0.0 ||
-     pickpos.y < 0.0 ||
-     pickpos.x > size.x ||
-     pickpos.y > size.y) {
+  if(pickpoint.x < 0.0 ||
+     pickpoint.y < 0.0 ||
+     pickpoint.x > size.x ||
+     pickpoint.y > size.y) {
+    // don't show a cursor
+    pickpoint_show = false;
     return nullptr;
   }
-  //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
 
   // we're looking at this panel, so iterate through its devices
   for(auto const &it : devices) {
-    if(it->pick(Vector2d(pickpos.x, pickpos.y))) {
+    if(it->pick(Vector2d(pickpoint.x, pickpoint.y))) {
       // we've found our device
       //std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
+      pickeddevice = it;
       return it;
     }
   }
-  // nothing found
+
+  // nothing found, show the cursor
+  pickpoint_show = true;
+  //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
   return nullptr;
 }

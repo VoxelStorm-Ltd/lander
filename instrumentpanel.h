@@ -18,6 +18,10 @@ public:
 
   spacecraft *vessel;                     // what ship it's attached to
 
+  bool pickpoint_show;                    // whether to show cursor
+  Vector2d pickpoint;                     // cursor
+  device *pickeddevice;                   // what device we've selected
+
   instrumentpanel();
   ~instrumentpanel();
 

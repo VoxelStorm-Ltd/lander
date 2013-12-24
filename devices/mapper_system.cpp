@@ -58,7 +58,10 @@ mapper_system::mapper_system()
 
   GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
   if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-    std::cout << "framebuffer fucked: " << status;
+    std::cout << "ERROR: framebuffer fucked: " << status;
+  }
+  if(!display_image) {
+    std::cout << "ERROR: display_image got nothing from OpenGL" << std::endl;
   }
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }

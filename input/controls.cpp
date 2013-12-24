@@ -6,9 +6,6 @@
 
 extern astronaut *player;
 
-// DEBUG ONLY:
-extern memory *throttle;
-
 void pollcontrols(GLFWwindow *thiswindow) {
   double const angle = 1.0;
 
@@ -36,6 +33,7 @@ void pollcontrols(GLFWwindow *thiswindow) {
       //movevector *= player->rotation;                           // fastest
       movevector.rotate(player->rotation);                      // same effect but clearer
       player->position += movevector;
+      player->pick();                                           // update our pick point
     }
   }
 
