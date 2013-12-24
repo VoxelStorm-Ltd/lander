@@ -849,6 +849,7 @@
 			<Add directory="devices/instruments" />
 			<Add directory="devices/external" />
 			<Add directory="devices/thrusters" />
+			<Add directory="devices/operators" />
 		</Compiler>
 		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Alg.h" />
@@ -1134,6 +1135,8 @@
 		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/memory.cpp" />
 		<Unit filename="devices/memory.h" />
+		<Unit filename="devices/operators/operator_mul.cpp" />
+		<Unit filename="devices/operators/operator_mul.h" />
 		<Unit filename="devices/thrusters/thruster.cpp" />
 		<Unit filename="devices/thrusters/thruster.h" />
 		<Unit filename="font_load.cpp" />
