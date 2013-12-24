@@ -159,6 +159,18 @@ Operator devices
   xor
   string append (text)
 
+  Example zoom control design:
+                          mapper
+                        zoom value
+                            |
+                  memory (zoom setting)
+                          |    |
+                          |    |
+                          mul   |
+                        /   \__/
+          button (zoom in)
+            /       \
+    memory [1.0]   memory [0.5]
 
 Orbital elements:
   line 1
