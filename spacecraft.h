@@ -13,6 +13,7 @@ class spacecraft : public physicsbody {
 private:
   double temperature_hull;                // temperatures in kelvin
   double temperature_cabin;
+  Vector3d acceleration_last;             // total of the last calculated thrust acceleration
 
 public:
   std::list<device*> devices;             // all devices on-board

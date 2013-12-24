@@ -151,23 +151,13 @@ Vector3d spacecraft::get_acceleration(Vector3d const &thisposition,
     acceleration += it->get_gravity_accel_v3(thisposition);
   }
   // add propulsion effects
-  Vector3d thrust;
-  for(auto *it : thrusters) {
-    // add individual contribution of each engine
-    thrust += it->get_thrust();
-    // TODO: rotation
-  }
-  thrust.rotate(rotation);
-  acceleration += thrust / get_mass();
+  acceleration += acceleration_last;
   //std::cout << "DEBUG: thrust = " << thrust << "N, mass = " << get_mass() << "kg, accel = " << thrust.length() / get_mass() << "m/s^2" << std::endl;
   return acceleration;
 }
 
 void spacecraft::update_state(double time, double deltatime) {
   /// update all relevant state information
-  // the default integrator for position and velocity
-  integrate(position, velocity, time, deltatime);
-
   // update temperatures
   // search local star system for planets and check for atmospheric interaction
   // search local star system for suns and calculate their cumulative radiation
@@ -186,6 +176,16 @@ void spacecraft::update_state(double time, double deltatime) {
   //for(auto const &it : devices_cabin) {
   //  it->update_if_time();
   //}
+
+  // add propulsion effects
+  Vector3d thrust;
+  for(auto *it : thrusters) {
+    // add individual contribution of each engine
+    thrust += it->get_thrust();
+    // TODO: rotation
+  }
+  thrust.rotate(rotation);
+  acceleration_last = thrust / get_mass();
 
   // check collisions
   for(auto const &it : root.currentsystem->bodies) {
@@ -215,7 +215,13 @@ void spacecraft::update_state(double time, double deltatime) {
         return;
       }
     }
+
+    // check atmospheric effects
+    // TODO
   }
+
+  // the default integrator for position and velocity
+  integrate(position, velocity, time, deltatime);
 }
 
 void spacecraft::destroy() {
