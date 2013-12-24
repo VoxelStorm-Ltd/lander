@@ -24,14 +24,14 @@ oculusstorm::oculusstorm()
   try {
     manager = *OVR::DeviceManager::Create();
   } catch(std::exception &e) {
-    std::cout << "Oculus: exception while creating device manager: " << e.what() << std::endl;
+    std::cout << "Oculus: Exception while creating device manager: " << e.what() << std::endl;
   }
   try {
     device = *manager->EnumerateDevices<OVR::HMDDevice>().CreateDevice();
   } catch(std::exception &e) {
-    std::cout << "Oculus: exception while creating hmd device: " << e.what() << std::endl;
+    std::cout << "Oculus: Exception while creating hmd device: " << e.what() << std::endl;
   }
-  if(!device) {
+  if(device) {
     std::cout << "Oculus: Device found" << std::endl;
     infoloaded = device->GetDeviceInfo(&hmdinfo);
     sensor = *device->GetSensor();
@@ -52,23 +52,25 @@ oculusstorm::oculusstorm()
   sensorfusion.SetGravityEnabled(true);  // gravity correction
 
   if(infoloaded) {
-    std::cout << " DisplayDeviceName: "      << hmdinfo.DisplayDeviceName << std::endl;
-    std::cout << " ProductName: "            << hmdinfo.ProductName << std::endl;
-    std::cout << " Manufacturer: "           << hmdinfo.Manufacturer << std::endl;
-    std::cout << " Version: "                << hmdinfo.Version << std::endl;
-    std::cout << " HResolution: "            << hmdinfo.HResolution << std::endl;
-    std::cout << " VResolution: "            << hmdinfo.VResolution << std::endl;
-    std::cout << " HScreenSize: "            << hmdinfo.HScreenSize << std::endl;
-    std::cout << " VScreenSize: "            << hmdinfo.VScreenSize << std::endl;
-    std::cout << " VScreenCenter: "          << hmdinfo.VScreenCenter << std::endl;
-    std::cout << " EyeToScreenDistance: "    << hmdinfo.EyeToScreenDistance << std::endl;
-    std::cout << " LensSeparationDistance: " << hmdinfo.LensSeparationDistance << std::endl;
-    std::cout << " InterpupillaryDistance: " << hmdinfo.InterpupillaryDistance << std::endl;
-    std::cout << " DistortionK[0]: "         << hmdinfo.DistortionK[0] << std::endl;
-    std::cout << " DistortionK[1]: "         << hmdinfo.DistortionK[1] << std::endl;
-    std::cout << " DistortionK[2]: "         << hmdinfo.DistortionK[2] << std::endl;
-    std::cout << "--------------------------" << std::endl;
+    std::cout << "Oculus: Could not load device info" << std::endl;
+    return;
   }
+  std::cout << " DisplayDeviceName: "      << hmdinfo.DisplayDeviceName << std::endl;
+  std::cout << " ProductName: "            << hmdinfo.ProductName << std::endl;
+  std::cout << " Manufacturer: "           << hmdinfo.Manufacturer << std::endl;
+  std::cout << " Version: "                << hmdinfo.Version << std::endl;
+  std::cout << " HResolution: "            << hmdinfo.HResolution << std::endl;
+  std::cout << " VResolution: "            << hmdinfo.VResolution << std::endl;
+  std::cout << " HScreenSize: "            << hmdinfo.HScreenSize << std::endl;
+  std::cout << " VScreenSize: "            << hmdinfo.VScreenSize << std::endl;
+  std::cout << " VScreenCenter: "          << hmdinfo.VScreenCenter << std::endl;
+  std::cout << " EyeToScreenDistance: "    << hmdinfo.EyeToScreenDistance << std::endl;
+  std::cout << " LensSeparationDistance: " << hmdinfo.LensSeparationDistance << std::endl;
+  std::cout << " InterpupillaryDistance: " << hmdinfo.InterpupillaryDistance << std::endl;
+  std::cout << " DistortionK[0]: "         << hmdinfo.DistortionK[0] << std::endl;
+  std::cout << " DistortionK[1]: "         << hmdinfo.DistortionK[1] << std::endl;
+  std::cout << " DistortionK[2]: "         << hmdinfo.DistortionK[2] << std::endl;
+  std::cout << "--------------------------" << std::endl;
 
   // cache some important stuff
   viewport_width  = hmdinfo.HResolution / 2;
