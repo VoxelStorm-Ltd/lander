@@ -560,7 +560,6 @@ void device::render() {
   glPopMatrix();
 }
 
-
 bool device::pick(Vector2d pickpos) {
   /// Return true if we're picking this by panel coords - 2D version
   Vector3d const thissize = get_size();

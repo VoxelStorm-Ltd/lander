@@ -1122,6 +1122,8 @@
 		<Unit filename="devices/instruments/display_small.h" />
 		<Unit filename="devices/instruments/instrument.cpp" />
 		<Unit filename="devices/instruments/instrument.h" />
+		<Unit filename="devices/instruments/led_green.cpp" />
+		<Unit filename="devices/instruments/led_green.h" />
 		<Unit filename="devices/instruments/switch_onoff.cpp" />
 		<Unit filename="devices/instruments/switch_onoff.h" />
 		<Unit filename="devices/mapper_system.cpp" />

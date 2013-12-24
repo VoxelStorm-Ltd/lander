@@ -26,7 +26,8 @@ private:
     double fade;
   };
   unsigned int static constexpr trailperiod = 2;    // draw a dash in this many frames
-  double static constexpr trailfade = 0.999;        // how much the trails fade every tick
+  //double static constexpr trailfade = 0.999;        // how much the trails fade every tick
+  double static constexpr trailfade = 0.9995;       // how much the trails fade every tick
   unsigned int trailcounter = trailperiod;
 
   std::deque<trailtype> trails;

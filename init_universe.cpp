@@ -19,6 +19,7 @@
 #include "display_converter_analogue_digital.h"
 #include "thruster.h"
 #include "switch_onoff.h"
+#include "led_green.h"
 
 extern universe root;
 extern astronaut *player;
@@ -199,6 +200,11 @@ void init_universe() {
   throttle->attach_panel(controlpanel);
   throttle->set_position(1.0, 0.5, 0.0);
   engine_main->connect(0, throttle, 0);
+  led_green *engine_light = new led_green;
+  engine_light->attach(playership);
+  engine_light->attach_panel(controlpanel);
+  engine_light->set_position(0.98, 0.5, 0.0);
+  engine_light->connect(0, engine_main, 0);     // input to throttle value output of engine
 
   altimeter *test_altimeter = new altimeter;
   sensor_pressure *test_pressuresensor = new sensor_pressure;
