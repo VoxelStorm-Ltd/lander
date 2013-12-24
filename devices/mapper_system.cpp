@@ -68,6 +68,7 @@ mapper_system::mapper_system()
 
 mapper_system::~mapper_system() {
   /// Default destructor
+  glDeleteTextures(1, &display_image);
 }
 
 std::string mapper_system::get_name() {
@@ -318,7 +319,7 @@ void mapper_system::refresh() {
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
 
   // generate mipmaps - only use this if we're actually using a mipmap
-  glBindTextureEXT(GL_TEXTURE_2D, display_image);
+  glBindTexture(GL_TEXTURE_2D, display_image);
   glGenerateMipmapEXT(GL_TEXTURE_2D);
   glBindTextureEXT(GL_TEXTURE_2D, 0);
 }

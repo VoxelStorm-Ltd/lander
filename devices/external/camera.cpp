@@ -54,6 +54,7 @@ camera::camera()
 
 camera::~camera() {
   /// Default destructor
+  glDeleteTextures(1, &display_image);
 }
 
 

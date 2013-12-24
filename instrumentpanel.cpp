@@ -269,6 +269,7 @@ device *instrumentpanel::pick(Vector3d const &origin, Vector3d const &pickvector
   }
 
   // nothing found, show the cursor
+  pickeddevice = nullptr;
   pickpoint_show = true;
   //std::cout << "DEBUG: picking panel " << itd->get_name() << std::endl;
   return nullptr;
