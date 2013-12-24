@@ -50,37 +50,12 @@ Vector3d thruster::get_size() {
   return Vector3d(1.5, 2.3, 1.5);     // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
-void thruster::attach(spacecraft *to_vessel) {
-  /// Attach this device to the specified ship
-  if(!to_vessel) {
-    std::cout << "ERROR: tried to attach " << get_name() << " to null vessel." << std::endl;
-    return;
-  }
-  vessel = to_vessel;
-  vessel->devices.push_back(this);
-}
-
 bool thruster::attach_hull() {
   /// Attempt to attach this device to the hull, return success status
   vessel->devices_hull.push_back(this);
   vessel->thrusters.push_back(this);
   status = statustype::ON_HULL;
   return true;
-}
-
-void thruster::remove() {
-  /// Remove this device from whatever ship it's attached to
-  /// Note: not safe to be called in an iteration of instruments or devices!
-  if(!vessel) {
-    std::cout << "ERROR: tried to remove " << get_name() << " which is already not attached to anything." << std::endl;
-    return;
-  }
-  // detach it from whatever part of the ship it's connected to
-  remove_hull();
-  // remove it from the list of the vessel's devices
-  vessel->devices.remove(this);
-  disconnect_all();
-  vessel = nullptr;     // this must obviously come last
 }
 
 void thruster::remove_hull() {
