@@ -240,12 +240,14 @@ void mapper_system::refresh() {
       vel *= 0.0;
     }
 
-    // line to centre of system
-    glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
-    glBegin(GL_LINES);
-    glVertex3d(0.0, 0.0, 0.0);
-    glVertex3dv(point);
-    glEnd();
+    // line to centre of reference object
+    if(trail_ref) {
+      glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
+      glBegin(GL_LINES);
+      glVertex3dv(trail_ref->position);
+      glVertex3dv(point);
+      glEnd();
+    }
 
     // velocity vector
     glColor4dv(Vector4d(0.4, 0.6, 0.4, 1.0));

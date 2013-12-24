@@ -1114,6 +1114,8 @@
 		<Unit filename="devices/external/sensor_pressure.h" />
 		<Unit filename="devices/instruments/altimeter.cpp" />
 		<Unit filename="devices/instruments/altimeter.h" />
+		<Unit filename="devices/instruments/button_momentary.cpp" />
+		<Unit filename="devices/instruments/button_momentary.h" />
 		<Unit filename="devices/instruments/display.cpp" />
 		<Unit filename="devices/instruments/display.h" />
 		<Unit filename="devices/instruments/display_digital.cpp" />
@@ -1126,6 +1128,8 @@
 		<Unit filename="devices/instruments/led_green.h" />
 		<Unit filename="devices/instruments/switch_onoff.cpp" />
 		<Unit filename="devices/instruments/switch_onoff.h" />
+		<Unit filename="devices/instruments/telltale.cpp" />
+		<Unit filename="devices/instruments/telltale.h" />
 		<Unit filename="devices/mapper_system.cpp" />
 		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/memory.cpp" />

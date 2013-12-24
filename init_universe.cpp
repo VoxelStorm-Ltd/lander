@@ -19,7 +19,9 @@
 #include "display_converter_analogue_digital.h"
 #include "thruster.h"
 #include "switch_onoff.h"
+#include "button_momentary.h"
 #include "led_green.h"
+#include "telltale.h"
 
 extern universe root;
 extern astronaut *player;
@@ -205,6 +207,11 @@ void init_universe() {
   engine_light->attach_panel(controlpanel);
   engine_light->set_position(0.98, 0.5, 0.0);
   engine_light->connect(0, engine_main, 0);     // input to throttle value output of engine
+  telltale *engine_telltale = new telltale;
+  engine_telltale->attach(playership);
+  engine_telltale->attach_panel(controlpanel);
+  engine_telltale->set_position(0.98, 0.53, 0.0);
+  engine_telltale->connect(0, engine_main, 0);     // input to throttle value output of engine
 
   altimeter *test_altimeter = new altimeter;
   sensor_pressure *test_pressuresensor = new sensor_pressure;
