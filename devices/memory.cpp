@@ -1,7 +1,11 @@
 #include "memory.h"
 
+//bool memory::loop_safe = true;
+
 memory::memory()
-  : memory_value(0.0) {
+  : memory_value(0.0),
+    memory_image(0.0),
+    loop_safe(true) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
   random_reset();
@@ -134,26 +138,41 @@ std::string memory::get_port_out_description(unsigned int port __attribute__((__
 
 double memory::get_port_out_data(unsigned int port __attribute__((__unused__))) {
   /// Query the value data on the specified out port
+  if(loop_safe) {
+    update();
+  }
   return memory_value;
 }
 
 std::string memory::get_port_out_text(unsigned int port __attribute__((__unused__))) {
   /// Query the text data on the specified out port
+  if(loop_safe) {
+    update();
+  }
   return memory_text;
 }
 
 GLuint memory::get_port_out_video_analogue(unsigned int port __attribute__((__unused__))) {
   /// Query the analogue video data on the specified out port
+  if(loop_safe) {
+    update();
+  }
   return memory_image;
 }
 
 GLuint memory::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
   /// Query the digital video data on the specified out port
+  if(loop_safe) {
+    update();
+  }
   return memory_image;
 }
 
 void memory::get_port_out_sound(unsigned int port __attribute__((__unused__))) {
   /// Query the audio data on the specified out port
+  if(loop_safe) {
+    update();
+  }
   // TODO
 }
 
@@ -163,9 +182,11 @@ void memory::update() {
     // not connected - don't change any values
     return;
   }
+  loop_safe = false;
   memory_value = ports_in[0].target->get_port_out_data(ports_in[0].target_port);
   memory_text  = ports_in[0].target->get_port_out_text(ports_in[0].target_port);
-  // todo: sort out image and sound recordings
+  // TODO: sort out image and sound recordings
+  loop_safe = true;
 }
 
 void memory::set_memory_value(double newvalue) {

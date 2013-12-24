@@ -11,6 +11,8 @@ private:
   GLuint memory_image;
   std::string memory_text;
 
+  bool loop_safe;          // to detect circular references and stick with cached values
+
 public:
   memory();
   ~memory();
