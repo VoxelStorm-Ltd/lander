@@ -321,7 +321,7 @@ void mapper_system::refresh() {
   // generate mipmaps - only use this if we're actually using a mipmap
   glBindTexture(GL_TEXTURE_2D, display_image);
   glGenerateMipmapEXT(GL_TEXTURE_2D);
-  glBindTextureEXT(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void mapper_system::update() {

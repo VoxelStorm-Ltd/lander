@@ -57,7 +57,6 @@ camera::~camera() {
   glDeleteTextures(1, &display_image);
 }
 
-
 std::string camera::get_name() {
   /// Return the name of this device
   return "digital video camera";
