@@ -94,7 +94,7 @@ void init_universe() {
   luna->set_radius(1738140.0);                             // 1738.14km
   luna->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
   luna->parent = earth;
-  luna->orbit.semimajor_axis     = 384399000.0;
+  luna->orbit.semimajor_axis = 384399000.0;
   solarsystem->bodies.push_back(luna);
 
   auto *mars = new planet;
@@ -106,6 +106,24 @@ void init_universe() {
   mars->orbit.semimajor_axis = 227939100000.0;
   solarsystem->bodies.push_back(mars);
 
+  auto *phobos = new moon;
+  phobos->set_name("Phobos");
+  phobos->set_designation("Mars I");
+  phobos->set_mass(10659000000000000.0);                   // 1.0659 * 10^16 kg
+  phobos->set_radius(11266.7);                             // 11.2667km
+  phobos->parent = mars;
+  phobos->orbit.semimajor_axis = 9376000.0;
+  solarsystem->bodies.push_back(phobos);
+
+  auto *deimos = new moon;
+  deimos->set_name("Deimos");
+  deimos->set_designation("Mars II");
+  deimos->set_mass(1476200000000000.0);                    // 1.4762 * 10^15 kg
+  deimos->set_radius(6200);                                // 6.2km
+  deimos->parent = mars;
+  deimos->orbit.semimajor_axis = 23463200.0;
+  solarsystem->bodies.push_back(deimos);
+
   auto *jupiter = new planet;
   jupiter->set_name("Jupiter");
   jupiter->set_designation("J");
@@ -114,6 +132,42 @@ void init_universe() {
   jupiter->parent = sun;
   jupiter->orbit.semimajor_axis = 778547200000.0;
   solarsystem->bodies.push_back(jupiter);
+
+  auto *io = new moon;
+  io->set_name("Io");
+  io->set_designation("Jupiter I");
+  io->set_mass(89319000000000000000000.0);                // 8.9319 * 10^22 kg
+  io->set_radius(1821300.0);                              // 1,821.3km
+  io->parent = jupiter;
+  io->orbit.semimajor_axis = 421700000.0;
+  solarsystem->bodies.push_back(io);
+
+  auto *europa = new moon;
+  europa->set_name("Europa");
+  europa->set_designation("Jupiter II");
+  europa->set_mass(47998000000000000000000.0);            // 4.7998 * 10^22 kg
+  europa->set_radius(1560800.0);                          // 1,560.8km
+  europa->parent = jupiter;
+  europa->orbit.semimajor_axis = 670900000.0;
+  solarsystem->bodies.push_back(europa);
+
+  auto *ganymede = new moon;
+  ganymede->set_name("Ganymede");
+  ganymede->set_designation("Jupiter III");
+  ganymede->set_mass(148190000000000000000000.0);         // 1.4819 * 10^23 kg
+  ganymede->set_radius(2634100.0);                        // 2,634.1km
+  ganymede->parent = jupiter;
+  ganymede->orbit.semimajor_axis = 1070400000.0;
+  solarsystem->bodies.push_back(ganymede);
+
+  auto *callisto = new moon;
+  callisto->set_name("Callisto");
+  callisto->set_designation("Jupiter IV");
+  callisto->set_mass(107593800000000000000000.0);         // 1.4819 * 10^23 kg
+  callisto->set_radius(2410300.0);                        // 2,634.1km
+  callisto->parent = jupiter;
+  callisto->orbit.semimajor_axis = 1882700000.0;
+  solarsystem->bodies.push_back(callisto);
 
   auto *saturn = new planet;
   saturn->set_name("Saturn");
@@ -303,7 +357,6 @@ void init_universe() {
   crashtester->position = earth->position + Vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
   crashtester->velocity = earth->velocity + Vector3d(-20000.0, 1000.0, 0.0);
   crashtester->rotation *= Quatd::fromAxisRot(Vector3d(0.0, 0.0, 1.0), 90.0);
-
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
