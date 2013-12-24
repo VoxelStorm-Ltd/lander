@@ -33,7 +33,7 @@ double button_momentary::get_mass() {
 
 Vector3d button_momentary::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.02, 0.02, 0.006);
+  return Vector3d(0.02, 0.02, 0.008);
 }
 
 unsigned int button_momentary::get_port_in_count() {
@@ -245,5 +245,6 @@ void button_momentary::render() {
 
 void button_momentary::activate() {
   /// The time has come to... push the button
-  pushed = true;
+  //pushed = true;
+  pushed = !pushed;     // allow un-pushing unread buttons
 }
