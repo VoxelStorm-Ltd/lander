@@ -237,7 +237,9 @@ void init_universe() {
   solarsystem->bodies.push_back(playership);
   player->enter_ship(playership);
   playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0);    // ~= ISS altitude
+  //playership->position = europa->position + Vector3d(europa->get_radius() + 10000000, 0.0, 0.0);
   playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
+  //playership->velocity = europa->velocity + Vector3d(0.0, 0.0, 10000.0);
   playership->rotation *= Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), 90.0);
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
@@ -332,6 +334,7 @@ void init_universe() {
   mem_planetref->attach_panel(controlpanel);
   mem_planetref->set_position(1.1, 0.05, 0.0);
   mem_planetref->set_memory_value(4.0);                 // earth = 4
+  //mem_planetref->set_memory_value(11.0);                 // europa = 4
   mainmapper->connect(3, mem_planetref, 0);             // hook it up to the trails reference frame input
 
   display_digital *staticmonitor1 = new display_digital;

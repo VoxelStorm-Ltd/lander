@@ -7,7 +7,9 @@
 
 extern universe root;
 
-Vector2i const mapper_system::windowsize = Vector2i(256, 256);
+//Vector2i const mapper_system::windowsize = Vector2i(256, 256);
+//Vector2i const mapper_system::windowsize = Vector2i(512, 512);
+Vector2i const mapper_system::windowsize = Vector2i(1024, 1024);
 
 mapper_system::mapper_system()
   : display_image(0),
