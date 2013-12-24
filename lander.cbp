@@ -1101,6 +1101,8 @@
 		<Unit filename="astronomical_entities/whitedwarf.h" />
 		<Unit filename="body.cpp" />
 		<Unit filename="body.h" />
+		<Unit filename="devices/attitude_cmg.cpp" />
+		<Unit filename="devices/attitude_cmg.h" />
 		<Unit filename="devices/device.cpp" />
 		<Unit filename="devices/device.h" />
 		<Unit filename="devices/display_converter_analogue_digital.cpp" />
