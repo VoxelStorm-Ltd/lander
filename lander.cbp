@@ -1135,6 +1135,8 @@
 		<Unit filename="devices/mapper_system.h" />
 		<Unit filename="devices/memory.cpp" />
 		<Unit filename="devices/memory.h" />
+		<Unit filename="devices/operators/operator_base.cpp" />
+		<Unit filename="devices/operators/operator_base.h" />
 		<Unit filename="devices/operators/operator_mul.cpp" />
 		<Unit filename="devices/operators/operator_mul.h" />
 		<Unit filename="devices/thrusters/thruster.cpp" />
