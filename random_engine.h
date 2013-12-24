@@ -31,7 +31,7 @@ protected:
   static uint32_t lastseed;   // incremented every time a new child object is created
 
 public:
-  ~random_engine();
+  virtual ~random_engine();
 
   // reset the generator to seed
   void random_reset();

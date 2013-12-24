@@ -14,16 +14,16 @@ private:
 
 public:
   thruster();
-  ~thruster();
+  virtual ~thruster();
 
   Vector3d thrust;
 
   // specialisations
-  virtual std::string  get_name();
-  virtual std::string  get_model();
-  virtual std::string  get_description();
-  virtual double       get_mass();
-  virtual Vector3d     get_size();
+  virtual std::string get_name();
+  virtual std::string get_model();
+  virtual std::string get_description();
+  virtual double      get_mass();
+  virtual Vector3d    get_size();
   void attach(spacecraft *to_vessel);
   bool attach_hull();
   void remove();

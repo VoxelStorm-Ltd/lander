@@ -11,7 +11,7 @@ class instrument : public device {
 protected:                              // prevent this class being instantiated directly
   instrument();
 public:
-  ~instrument();
+  virtual ~instrument();
 
   bool attach_cabin(instrumentpanel *to_panel);
   bool attach_hull();

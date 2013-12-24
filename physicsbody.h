@@ -13,7 +13,7 @@ class physicsbody : public body, public integrator_rungekutta4 {
 protected:
   physicsbody();                     // prevent this class being instantiated directly
 public:
-  ~physicsbody();
+  virtual ~physicsbody();
 
   virtual Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
   virtual void update_state(double t, double dt);

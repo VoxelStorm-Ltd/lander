@@ -5,9 +5,10 @@
 #include "vmath.h"
 
 class integrator_euler : public integrator {
+protected:
+  integrator_euler();                               // this base class is not to be instantiated
 public:
-  integrator_euler();
-  ~integrator_euler();
+  virtual ~integrator_euler();
 
   void integrate(Vector3d &position, Vector3d &velocity, double time, double deltatime);
 };

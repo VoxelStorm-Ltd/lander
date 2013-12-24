@@ -8,7 +8,7 @@ class operator_base : public device {
 protected:                              // prevent this class being instantiated directly
   operator_base();
 public:
-  ~operator_base();
+  virtual ~operator_base();
 
   std::string  get_manufacturer();
   Vector3d     get_size();

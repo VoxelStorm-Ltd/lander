@@ -8,7 +8,7 @@ class device_external : public device {
 protected:
   device_external();                     // prevent this class being instantiated directly
 public:
-  ~device_external();
+  virtual ~device_external();
 
   bool attach_panel(instrumentpanel *to_panel);
   bool attach_cabin();

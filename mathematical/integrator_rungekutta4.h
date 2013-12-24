@@ -4,9 +4,10 @@
 #include "integrator.h"
 
 class integrator_rungekutta4 : public integrator {
+protected:
+  integrator_rungekutta4();                               // this base class is not to be instantiated
 public:
-  integrator_rungekutta4();
-  ~integrator_rungekutta4();
+  virtual ~integrator_rungekutta4();
 
   void integrate(Vector3d &position, Vector3d &velocity, double time, double deltatime);
 private:

@@ -16,7 +16,7 @@ public:
   //double atmos_exopause;
 
   planet();
-  ~planet();
+  virtual ~planet();
 
   // getters and setters
   virtual double get_mass();

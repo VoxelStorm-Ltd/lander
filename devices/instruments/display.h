@@ -12,7 +12,7 @@ protected:
 
 public:
   display();
-  ~display();
+  virtual ~display();
 
   virtual std::string get_name();
   virtual std::string get_model();

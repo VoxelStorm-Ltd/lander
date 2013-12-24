@@ -40,15 +40,15 @@ public:
   // physics specialisations
   Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
 
-  virtual void update_state(double time, double deltatime);
-  virtual void destroy();
+  void update_state(double time, double deltatime);
+  void destroy();
 
   // rendering
-  virtual void render_diagram(double scale, bool labels = false);
-  virtual void render_visible();
-  virtual void render_radio();
-  virtual void render_infrared();
-  virtual void render_ultraviolet();
+  void render_diagram(double scale, bool labels = false);
+  void render_visible();
+  void render_radio();
+  void render_infrared();
+  void render_ultraviolet();
   void render_cabin();
 };
 

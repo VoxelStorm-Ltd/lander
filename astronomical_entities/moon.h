@@ -7,7 +7,7 @@ class moon : public planet {
   /// A natural satellite of another planet
 public:
   moon();
-  ~moon();
+  virtual ~moon();
 
   // getters and setters
   virtual double get_mass();

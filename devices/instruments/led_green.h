@@ -19,7 +19,7 @@ public:
   std::string  get_port_in_description(unsigned int port);
   bool         get_port_in_required(   unsigned int port);
 
-  virtual void render();
+  void render();
 };
 
 #endif // LED_GREEN_H_INCLUDED

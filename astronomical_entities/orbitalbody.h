@@ -37,7 +37,7 @@ public:
   body *parent;                     // what its orbit is around
 
   orbitalbody();
-  ~orbitalbody();
+  virtual ~orbitalbody();
 
   // getters and setters
   virtual std::string get_description();

@@ -9,7 +9,7 @@ public:
   double brightness;            // absolute brightness locally
 
   star();
-  ~star();
+  virtual ~star();
 
   // getters and setters
   double get_magnitude();

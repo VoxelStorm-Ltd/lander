@@ -28,7 +28,7 @@ public:
   GLuint       get_port_out_video_analogue(unsigned int port);
   void         get_port_out_sound(         unsigned int port);
 
-  virtual void render();
+  void render();
 
   void activate();
 };
