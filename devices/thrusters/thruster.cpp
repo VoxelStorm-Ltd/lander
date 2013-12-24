@@ -60,24 +60,12 @@ void thruster::attach(spacecraft *to_vessel) {
   vessel->devices.push_back(this);
 }
 
-bool thruster::attach_panel(instrumentpanel *to_panel __attribute__((__unused__))) {
-  /// Attempt to attach this device to the specified panel, return success status
-  // thrusters can't be attached to panels
-  return false;
-}
-
 bool thruster::attach_hull() {
   /// Attempt to attach this device to the hull, return success status
   vessel->devices_hull.push_back(this);
   vessel->thrusters.push_back(this);
   status = statustype::ON_HULL;
   return true;
-}
-
-bool thruster::attach_cabin() {
-  /// Attempt to attach this device to a wall of the cabin, return success status
-  // thrusters can't be attached to the cabin
-  return false;
 }
 
 void thruster::remove() {
@@ -95,12 +83,6 @@ void thruster::remove() {
   vessel = nullptr;     // this must obviously come last
 }
 
-void thruster::remove_panel() {
-  /// Remove this instrument from its panel only (leave it attached to any ship)
-  // noop
-  std::cout << "ERROR: tried to remove thruster " << get_name() << " from a panel (where it can't be mounted)." << std::endl;
-}
-
 void thruster::remove_hull() {
   /// Remove this device from the hull only (leave it attached to any ship)
   /// Note: not safe to be called in an iteration of hull devices!
@@ -112,12 +94,6 @@ void thruster::remove_hull() {
   vessel->thrusters.remove(this);
   throttle = 0.0;
   status = statustype::UNMOUNTED;
-}
-
-void thruster::remove_cabin() {
-  /// Remove this device from the cabin only (leave it attached to any ship)
-  // noop
-  std::cout << "ERROR: tried to remove thruster " << get_name() << " from the cabin (where it can't be mounted)." << std::endl;
 }
 
 unsigned int thruster::get_port_in_count() {

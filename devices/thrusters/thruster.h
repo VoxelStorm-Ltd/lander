@@ -1,9 +1,9 @@
 #ifndef THRUSTER_H_INCLUDED
 #define THRUSTER_H_INCLUDED
 
-#include "device.h"
+#include "device_external.h"
 
-class thruster : public device {
+class thruster : public device_external {
 private:
   double throttle;              // between 0 and 1
   double thrust_magnitude;
@@ -25,13 +25,9 @@ public:
   virtual double       get_mass();
   virtual Vector3d     get_size();
   void attach(spacecraft *to_vessel);
-  bool attach_panel(instrumentpanel *to_panel);
   bool attach_hull();
-  bool attach_cabin();
   void remove();
-  void remove_panel();
   void remove_hull();
-  void remove_cabin();
   unsigned int get_port_in_count();
   std::string  get_port_in_name(        unsigned int port);
   std::string  get_port_in_description( unsigned int port);

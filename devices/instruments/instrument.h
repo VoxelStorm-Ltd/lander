@@ -8,8 +8,9 @@ class instrumentpanel;
 
 class instrument : public device {
   /// A device that can only be attached to an instrument panel
-public:
+protected:                              // prevent this class being instantiated directly
   instrument();
+public:
   ~instrument();
 
   bool attach_cabin(instrumentpanel *to_panel);

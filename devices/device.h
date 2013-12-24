@@ -24,9 +24,11 @@ private:
   boost::chrono::duration<double> static const time_interval_static_digital;
 
 protected:
+  device();                             // prevent this class being instantiated directly
+
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
-  Vector3d position;                  // its location in the cabin or on the ship or on the instrument panel
-  Quatd rotation;                     // its rotation relative to the ship ro cabin or instrument panel
+  Vector3d position;                    // its location in the cabin or on the ship or on the instrument panel
+  Quatd rotation;                       // its rotation relative to the ship ro cabin or instrument panel
 
 public:
   enum class statustype : char {
@@ -49,7 +51,6 @@ public:
 
   bool functional;                      // whether it's currently working
 
-  device();
   virtual ~device();
 
   virtual std::string  get_name();

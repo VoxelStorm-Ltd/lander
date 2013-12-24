@@ -27,10 +27,10 @@ private:
   uint32_t seed;              // assigned a value from lastseed on object construction
 
 protected:
+  random_engine();            // prevent this class being instantiated directly
   static uint32_t lastseed;   // incremented every time a new child object is created
 
 public:
-  random_engine();
   ~random_engine();
 
   // reset the generator to seed

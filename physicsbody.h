@@ -10,8 +10,9 @@
 class physicsbody : public body, public integrator_rungekutta4 {
 //class physicsbody : public body, public integrator_rungekuttafehlberg54 {
   /// A body that follows integrated n-body physics
+protected:
+  physicsbody();                     // prevent this class being instantiated directly
 public:
-  physicsbody();
   ~physicsbody();
 
   virtual Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);

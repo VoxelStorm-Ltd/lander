@@ -8,6 +8,8 @@
 class body : public random_engine {
   /// An astronomical body of some sort, following basic newtonian mechanics
 protected:
+  body();                     // prevent this class being instantiated directly
+
   std::string name;
   std::string designation;
   std::string description;
@@ -26,7 +28,6 @@ public:
   Quatd rotation;             // absolute
   Quatd spin;                 // per second, absolute
 
-  body();
   virtual ~body();
 
   // getters and setters
