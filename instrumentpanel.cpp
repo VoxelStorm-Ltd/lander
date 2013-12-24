@@ -122,23 +122,25 @@ void instrumentpanel::render() {
   for(auto const &it : devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {
+        Vector3d thissize = it->get_size();
+        Vector3d port_position = it->get_position() + Vector3d((thissize.x / (it->get_port_in_count() + 1)) * (i + 1),
+                                                               0.0,
+                                                               thissize.z / 2);
         device *target = it->ports_in[i].target;
         if(target->panel == this) {            // only proceed to link other instruments on this panel
+          Vector3d targetsize = target->get_size();
+          Vector3d target_position = target->get_position() + Vector3d((targetsize.x / (target->get_port_out_count() + 1) * (it->ports_in[i].target_port + 1)),
+                                                                       targetsize.y,
+                                                                       targetsize.z / 2);
           glBegin(GL_LINES);
-          glVertex3d(it->get_position().x + it->get_size().x / 2,
-                     it->get_position().y,
-                     it->get_position().z + it->get_size().z / 2);
-          glVertex3d(target->get_position().x + target->get_size().x / 2,
-                     target->get_position().y + target->get_size().y,
-                     target->get_position().z + target->get_size().z / 2);
+          glVertex3dv(port_position);
+          glVertex3dv(target_position);
           glEnd();
         } else {
           // show all other connections as exiting down
           glBegin(GL_LINES);
-          glVertex3d(it->get_position().x + it->get_size().x / 2,
-                     it->get_position().y,
-                     it->get_position().z + it->get_size().z / 2);
-          glVertex3d(it->get_position().x + it->get_size().x / 2, 0.0, 0.0);
+          glVertex3dv(port_position);
+          glVertex3d(port_position.x, 0.0, 0.0);
           glEnd();
         }
       }
