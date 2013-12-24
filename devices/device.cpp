@@ -471,7 +471,7 @@ void device::update_if_time() {
 }
 
 void device::render() {
-  /// Show this instrument on the control panel
+  /// Show this device on the instrument panel or in the cockpit or on the hull of the ship
   // render a basic placeholder for unspecified devices
   glPushMatrix();
 

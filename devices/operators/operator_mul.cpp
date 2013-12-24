@@ -26,7 +26,7 @@ std::string operator_mul::get_model() {
 
 std::string operator_mul::get_description() {
   /// Return a detailed description of this device
-  return "A multiplication operator device.  Takes two inputs and multiplies them together.";
+  return "A multiplication operator device.  Takes two inputs and outputs the multiplied result.";
 }
 
 double operator_mul::get_mass() {

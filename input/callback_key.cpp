@@ -7,9 +7,6 @@
 bool extern keeprunning;
 GLFWwindow extern *window_main;
 
-// DEBUG ONLY:
-extern memory *mem_zoom;
-
 void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
                   int key,
                   int scancode __attribute__((unused)),
@@ -20,12 +17,8 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
     // these first key catches work in all input modes
     switch(key) {
     case GLFW_KEY_EQUAL:
-      mem_zoom->set_memory_value(mem_zoom->get_port_out_data(0) * 2.0);
-      std::cout << "DEBUG: memory holds " << mem_zoom->get_port_out_data(0) << std::endl;
       break;
     case GLFW_KEY_MINUS:
-      mem_zoom->set_memory_value(mem_zoom->get_port_out_data(0) / 2.0);
-      std::cout << "DEBUG: memory holds " << mem_zoom->get_port_out_data(0) << std::endl;
       break;
     case GLFW_KEY_O:
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
