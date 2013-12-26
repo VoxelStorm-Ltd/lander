@@ -174,26 +174,10 @@ void astronaut::render_firstperson() {
       // use the rift's view setup
       oculus->nearplane = 0.1;
       oculus->farplane = 20.0;
-      // left eye
-      oculus->setup_left();
-      glMultMatrixf(oculus->getmatrix().inverse());
-      glTranslated(0.0, -1.7, 0.0);                     // eye height
-      glMultMatrixd(rotation.transform().inverse());    // body rotation
-      glTranslated(-position.x,                         // position
-                   -position.y,
-                   -position.z);
-      // draw cabin view of the current ship
+      // draw cabin view of the current ship twice
+      setup_render_oculus_left();
       vessel_in->render_cabin();
-
-      // right eye
-      oculus->setup_right();
-      glMultMatrixf(oculus->getmatrix().inverse());
-      glTranslated(0.0, -1.7, 0.0);                     // eye height
-      glMultMatrixd(rotation.transform().inverse());    // body rotation
-      glTranslated(-position.x,                         // position
-                   -position.y,
-                   -position.z);
-      // draw cabin view of the current ship
+      setup_render_oculus_right();
       vessel_in->render_cabin();
     } else {
       setup_render_perspective(0.1, 20.0);
@@ -212,9 +196,55 @@ void astronaut::render_firstperson() {
   case statetype::INACTIVE:
   case statetype::DEAD:
     // pearly gates
-    // TODO
-    break;
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, windowsize.x, 0, windowsize.y, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+
+    glColor4d(1.0, 1.0, 1.0, 1.0);
+    std::string const s = "DEAD";
+    double const l = font_title_huge->Advance(s.c_str(), s.length());
+    font_title_huge->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), windowsize.y / 2), FTPoint(), FTGL::RENDER_FRONT);
+
+    // TODO: scores and other interesting things
+
+    glPopAttrib();
+    return;
   }
+
+  // draw HUD
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0, windowsize.x, 0, windowsize.y, -1, 1);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_LIGHTING);
+  //glEnable(GL_BLEND);
+  //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  //Spacesuit status
+  //Environment status
+  //Ship status
+  //Targeted device
+  if(picked_device) {
+    std::string const thisname = picked_device->get_name();
+    double const namelength = font_text->Advance(thisname.c_str(), thisname.length());
+    glColor4d(0.0, 1.0, 0.0, 0.5);
+    font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
+  } else if(picked_body) {
+    std::string const thisname = picked_body->get_name();
+    double const namelength = font_text->Advance(thisname.c_str(), thisname.length());
+    glColor4d(0.0, 1.0, 0.0, 0.5);
+    font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
+  }
+  //Menu
+  glPopAttrib();
 }
 
 void astronaut::update_fov(double new_fov) {
@@ -262,6 +292,28 @@ void astronaut::setup_render_perspective(double nearplane,
   if(rotation_head_yaw != 0.0) {
     glRotated(rotation_head_yaw, 0.0, 1.0, 0.0);
   }
+  glTranslated(0.0, -1.7, 0.0);                     // eye height
+  glMultMatrixd(rotation.transform().inverse());    // body rotation
+  glTranslated(-position.x,                         // position
+               -position.y,
+               -position.z);
+}
+
+void astronaut::setup_render_oculus_left() {
+  /// Oculus Rift perspective rendering, left eye
+  oculus->setup_left();
+  glMultMatrixf(oculus->getmatrix().inverse());
+  glTranslated(0.0, -1.7, 0.0);                     // eye height
+  glMultMatrixd(rotation.transform().inverse());    // body rotation
+  glTranslated(-position.x,                         // position
+               -position.y,
+               -position.z);
+}
+
+void astronaut::setup_render_oculus_right() {
+  /// Oculus Rift perspective rendering, right eye
+  oculus->setup_right();
+  glMultMatrixf(oculus->getmatrix().inverse());
   glTranslated(0.0, -1.7, 0.0);                     // eye height
   glMultMatrixd(rotation.transform().inverse());    // body rotation
   glTranslated(-position.x,                         // position
@@ -367,12 +419,12 @@ void astronaut::cursor_menu() {
   if(picked_device) {
     // we're looking at a device, either in a ship or outside
     std::cout << "DEBUG: requested menu for device " << picked_device->get_name() << std::endl;
-    // TODO
+    menu_target = picked_device;
     return;
   } else if(picked_body) {
     // we're looking at some sort of body - act based on what it is
     std::cout << "DEBUG: requested menu for body " << picked_body->get_name() << std::endl;
-    // TODO
+    menu_target = picked_body;
   } else {
     // we're picking nothing local - check what's here in the wider universe
     // TODO
@@ -381,5 +433,7 @@ void astronaut::cursor_menu() {
 
 void astronaut::cursor_menu_close() {
   /// Close the currently open menu if there is one, and carry out whatever function we ended on
-  // TODO
+  std::cout << "DEBUG: closed menu" << std::endl;
+  // TODO: take any action as appropriate when closing the menu
+  menu_target = nullptr;
 }
