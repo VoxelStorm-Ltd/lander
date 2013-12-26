@@ -19,6 +19,7 @@ universe root;
 astronaut *player       = nullptr;
 oculusstorm *oculus     = nullptr;          // oculus rift controller
 FTFont *font_title      = nullptr;          // global font definitions
+FTFont *font_title_huge = nullptr;
 FTFont *font_text       = nullptr;
 FTFont *font_title3d    = nullptr;
 FTFont *font_text3d     = nullptr;

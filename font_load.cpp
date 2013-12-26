@@ -1,7 +1,7 @@
 #include <boost/filesystem.hpp>
 #include <FTGL/ftgl.h>
 
-FTFont *font_load(std::string filename) {
+FTFont *font_load(std::string filename, unsigned int size = 16) {
   /// Try to load a font from the specified filename, running all checks first
   if(!(boost::filesystem::exists(filename) &&
        boost::filesystem::is_regular_file(filename))) {
@@ -17,14 +17,14 @@ FTFont *font_load(std::string filename) {
     return nullptr;
   }
   font->CharMap(ft_encoding_unicode);
-  font->FaceSize(16, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
+  font->FaceSize(size, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
   font->UseDisplayList(true);
   font->Depth(16.0);
 
   return font;
 }
 
-FTFont *font_load3d(std::string filename) {
+FTFont *font_load3d(std::string filename, unsigned int size = 16) {
   /// Try to load a font from the specified filename as a font for 3D display, running all checks first
   if(!(boost::filesystem::exists(filename) &&
        boost::filesystem::is_regular_file(filename))) {
@@ -40,7 +40,7 @@ FTFont *font_load3d(std::string filename) {
     return nullptr;
   }
   font->CharMap(ft_encoding_unicode);
-  font->FaceSize(16, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
+  font->FaceSize(size, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
   font->UseDisplayList(true);
   font->Depth(16.0);
 

@@ -491,41 +491,42 @@ void device::render() {
   //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                           // 0 to 127
 
+  Vector3d const thissize = get_size();
+
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
-  glVertex3d(0.0,          0.0,          get_size().z);
-  glVertex3d(get_size().x, 0.0,          get_size().z);
-  glVertex3d(get_size().x, get_size().y, get_size().z);
-  glVertex3d(0.0,          get_size().y, get_size().z);
+  glVertex3d(0.0,        0.0,        get_size().z);
+  glVertex3d(thissize.x, 0.0,        thissize.z);
+  glVertex3d(thissize.x, thissize.y, thissize.z);
+  glVertex3d(0.0,        thissize.y, thissize.z);
   // top
   glNormal3d(0.0, 1.0, 0.0);
-  glVertex3d(0.0,          get_size().y, 0.0);
-  glVertex3d(0.0,          get_size().y, get_size().z);
-  glVertex3d(get_size().x, get_size().y, get_size().z);
-  glVertex3d(get_size().x, get_size().y, 0.0);
+  glVertex3d(0.0,        thissize.y, 0.0);
+  glVertex3d(0.0,        thissize.y, thissize.z);
+  glVertex3d(thissize.x, thissize.y, thissize.z);
+  glVertex3d(thissize.x, thissize.y, 0.0);
   // bottom
   glNormal3d(0.0, -1.0, 0.0);
-  glVertex3d(0.0,          0.0,          0.0);
-  glVertex3d(get_size().x, 0.0,          0.0);
-  glVertex3d(get_size().x, 0.0,          get_size().z);
-  glVertex3d(0.0,          0.0,          get_size().z);
+  glVertex3d(0.0,        0.0,        0.0);
+  glVertex3d(thissize.x, 0.0,        0.0);
+  glVertex3d(thissize.x, 0.0,        thissize.z);
+  glVertex3d(0.0,        0.0,        thissize.z);
   // right
   glNormal3d(1.0, 0.0, 0.0);
-  glVertex3d(get_size().x, 0.0,          0.0);
-  glVertex3d(get_size().x, get_size().y, 0.0);
-  glVertex3d(get_size().x, get_size().y, get_size().z);
-  glVertex3d(get_size().x, 0.0,          get_size().z);
+  glVertex3d(thissize.x, 0.0,        0.0);
+  glVertex3d(thissize.x, thissize.y, 0.0);
+  glVertex3d(thissize.x, thissize.y, thissize.z);
+  glVertex3d(thissize.x, 0.0,        thissize.z);
   // left
   glNormal3d(-1.0, 0.0, 0.0);
-  glVertex3d(0.0,          0.0,          0.0);
-  glVertex3d(0.0,          0.0,          get_size().z);
-  glVertex3d(0.0,          get_size().y, get_size().z);
-  glVertex3d(0.0,          get_size().y, 0.0);
+  glVertex3d(0.0,        0.0,        0.0);
+  glVertex3d(0.0,        0.0,        thissize.z);
+  glVertex3d(0.0,        thissize.y, thissize.z);
+  glVertex3d(0.0,        thissize.y, 0.0);
   glEnd();
 
   // manufacturer / model label
-  Vector3d const thissize = get_size();
   double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
   //glEnable(GL_NORMALIZE);                   // to allow correct lighting
   glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
@@ -533,20 +534,20 @@ void device::render() {
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
-  double const modellength = font_title->Advance(get_model().c_str(), -1);
+  double const modellength = font_title3d->Advance(get_model().c_str(), -1);
   if(modellength * scale <= thissize.x + 0.004) {               // only insert if there's room to do so
     glPushMatrix();
     glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
     glScaled(scale, scale, scale);
     glTranslated(-modellength, 0.0, 0.0);    // slide it back for right-align
-    font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();
-    double const manufacturerlength = font_title->Advance(get_manufacturer().c_str(), -1);
+    double const manufacturerlength = font_title3d->Advance(get_manufacturer().c_str(), -1);
     if((modellength + manufacturerlength) * scale <= thissize.x - 0.006) {
       glPushMatrix();
       glTranslated(0.002, 0.002, thissize.z + 0.001);
       glScaled(scale, scale, scale);
-      font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+      font_title3d->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
       glPopMatrix();
     }
   } else {                                                     // otherwise scale model down to fit
@@ -554,7 +555,7 @@ void device::render() {
     glTranslated(0.001, 0.001, thissize.z + 0.001);
     double const newscale = (thissize.x - 0.002) / modellength;
     glScaled(newscale, newscale, newscale);
-    font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();
   }
   //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
