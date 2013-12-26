@@ -561,6 +561,39 @@ void device::render() {
   //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
   glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
 
+  // draw the menu if appropriate
+  // TODO: implement http://www.flipcode.com/archives/Object_To_Screen_Space.shtml
+  if(menu_target == this) {
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    //glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+
+    // undo rotation - billboard effect
+    Matrix4d modelview;
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    for(unsigned int i = 0; i != 3; ++i) {
+      for(unsigned int j = 0; j != 3; ++j) {
+        if(i == j) {
+          modelview[i * 4 + j] = 1.0;
+        } else {
+          modelview[i * 4 + j] = 0.0;
+        }
+      }
+    }
+    glLoadMatrixd(modelview);
+
+    glColor4d(0.0, 1.0, 0.0, 0.5);
+    glBegin(GL_QUADS);
+    glVertex3d((thissize.x / 2) - 0.1, (thissize.y / 2) - 0.1, thissize.z);
+    glVertex3d((thissize.x / 2) + 0.1, (thissize.y / 2) - 0.1, thissize.z);
+    glVertex3d((thissize.x / 2) + 0.1, (thissize.y / 2) + 0.1, thissize.z);
+    glVertex3d((thissize.x / 2) - 0.1, (thissize.y / 2) + 0.1, thissize.z);
+    glEnd();
+
+    glPopAttrib();
+  }
+
   glPopMatrix();
 }
 
