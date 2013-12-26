@@ -229,8 +229,11 @@ void astronaut::render_firstperson() {
   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   //Spacesuit status
+  // TODO
   //Environment status
+  // TODO
   //Ship status
+  // TODO
   //Targeted device
   if(picked_device) {
     std::string const thisname = picked_device->get_name();
@@ -244,6 +247,15 @@ void astronaut::render_firstperson() {
     font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
   }
   //Menu
+  // TODO
+  device *targetdevice = dynamic_cast<device*>(menu_target);
+  if(targetdevice) {
+    glColor4d(1.0, 1.0, 1.0, 0.8);
+    std::string const s = targetdevice->get_name();
+    double const l = font_title_huge->Advance(s.c_str(), s.length());
+    font_title_huge->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), windowsize.y / 2), FTPoint(), FTGL::RENDER_FRONT);
+  }
+
   glPopAttrib();
 }
 
