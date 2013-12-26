@@ -1,6 +1,7 @@
 #include "astronaut.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 #include "vmath.h"
 #include "oculusstorm.h"
 #include "universe.h"
@@ -11,6 +12,11 @@
 extern oculusstorm *oculus;          // oculus rift controller
 extern astronaut *player;
 extern universe root;
+extern void *menu_target;
+extern FTFont *font_title;
+extern FTFont *font_text;
+extern FTFont *font_title3d;
+extern FTFont *font_text3d;
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),

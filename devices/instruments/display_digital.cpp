@@ -3,8 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
 
-extern FTFont *font_title;          // global font definitions
-extern FTFont *font_text;
+extern FTFont *font_title3d;          // global font definitions
+extern FTFont *font_text3d;
 
 display_digital::display_digital() {
   /// Default constructor
@@ -145,13 +145,13 @@ void display_digital::render() {
   glPushMatrix();
   glTranslated(0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
-  font_title->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+  font_title3d->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
   glPushMatrix();
   glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
-  glTranslated(-font_title->Advance(get_model().c_str(), -1), 0.0, 0.0);    // slide it back for right-align
-  font_title->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+  glTranslated(-font_title3d->Advance(get_model().c_str(), -1), 0.0, 0.0);    // slide it back for right-align
+  font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
   glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
 

@@ -3,8 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
 
-extern FTFont *font_title;          // global font definitions
-extern FTFont *font_text;
+extern FTFont *font_title3d;          // global font definitions
+extern FTFont *font_text3d;
 
 telltale::telltale() {
   /// Default constructor
@@ -151,12 +151,12 @@ void telltale::render() {
     glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.0, 0.0, 1.0));
     glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
     glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
-    double const labellength = font_text->Advance(thislabel.c_str(), -1);
+    double const labellength = font_text3d->Advance(thislabel.c_str(), -1);
     double const scale = (thissize.x - 0.002) / labellength;                // automatic scaling to fit in the space
     glPushMatrix();
     glTranslated(0.001, 0.001, thissize.z + 0.001);
     glScaled(scale, scale, scale);
-    font_text->Render(thislabel.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
+    font_text3d->Render(thislabel.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();
   }
 

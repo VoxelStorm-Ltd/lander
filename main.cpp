@@ -20,6 +20,9 @@ astronaut *player       = nullptr;
 oculusstorm *oculus     = nullptr;          // oculus rift controller
 FTFont *font_title      = nullptr;          // global font definitions
 FTFont *font_text       = nullptr;
+FTFont *font_title3d    = nullptr;
+FTFont *font_text3d     = nullptr;
+void *menu_target       = nullptr;          // what object's menu we currently have open, if any
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();

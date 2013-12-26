@@ -7,8 +7,9 @@
 #include "spacecraft.h"
 #include "instrumentpanel.h"
 
-extern FTFont *font_title;          // global font definitions
-extern FTFont *font_text;
+extern FTFont *font_title3d;          // global font definitions
+extern FTFont *font_text3d;
+extern void *menu_target;
 
 Vector2i const device::screensize_static_analogue(64, 64);
 Vector2i const device::screensize_static_digital( 16, 16);

@@ -12,6 +12,8 @@ extern GLFWwindow *window_main;
 extern oculusstorm *oculus;          // oculus rift controller
 extern FTFont *font_title;           // global font definitions
 extern FTFont *font_text;
+extern FTFont *font_title3d;
+extern FTFont *font_text3d;
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
@@ -20,7 +22,9 @@ void callback_scroll(      GLFWwindow *thiswindow, double xoffset, double yoffse
 void callback_windowresize(GLFWwindow *thiswindow, int newwidth, int newheight);
 void callback_windowclose( GLFWwindow *thiswindow);
 
-FTFont *font_load(std::string filename);
+FTFont *font_load(  std::string filename);
+FTFont *font_load3d(std::string filename);
+
 
 void init_graphics(Vector2i &windowsize) {
   std::cout << "Initialising graphics..." << std::endl;
@@ -198,9 +202,11 @@ void init_graphics(Vector2i &windowsize) {
 
   // initialise fonts
   //fontconsole = font_load("resources/FuturaExt-Normal.ttf");
-  font_title = font_load("resources/Futurak.ttf");
-  font_text  = font_load("resources/FuturaExt-Normal.ttf");
-  if(!font_title || !font_text) {
+  font_title   = font_load(  "resources/Futurak.ttf");
+  font_title3d = font_load3d("resources/Futurak.ttf");
+  font_text    = font_load(  "resources/FuturaExt-Normal.ttf");
+  font_text3d  = font_load3d("resources/FuturaExt-Normal.ttf");
+  if(!font_title3d || !font_text3d) {
     std::cout << "Failed to load one or more fonts - exiting" << std::endl;
     return;
   }
