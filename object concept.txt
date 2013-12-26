@@ -258,6 +258,22 @@ Menus
     remove from instrument panel / fit to panel
 
 
-
-
+HUD
+  Spacesuit status
+    pressurised?
+    temperature
+    pressure
+    oxygen
+      O2 remaining
+      O2 rate of use
+      O2 time remaining
+  Environment status
+    external temperature
+    external pressure
+    external breathable oxygen
+    external poisonous gases
+  Ship status
+    ship power
+  Targeted device
+  Menu
 
