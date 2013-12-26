@@ -213,6 +213,8 @@ void spacecraft::update_state(double time, double deltatime) {
         destroy();
         root.make_explosion(lastposition, ke);
         return;
+      } else {
+        std::cout << "INFO: " << get_name() << " landed safely on " << it->get_name() << " at a gentle " << velocity_delta_mag << "m/s" << std::endl;
       }
     }
 
