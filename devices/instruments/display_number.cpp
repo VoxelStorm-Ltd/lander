@@ -204,8 +204,6 @@ std::string display_number::trimstring(double input) {
     numss << static_cast<int>(input);
   }
   // grab the first 9 characters only
-  std::cout << numss.str() << std::endl;
-  std::cout << "0.0000000 [reference]" << std::endl;
   std::stringstream ss;
   unsigned int outchars = 0;
   bool haddecimal = false;

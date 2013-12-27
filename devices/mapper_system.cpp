@@ -296,12 +296,14 @@ void mapper_system::refresh() {
   glBegin(GL_LINES);
   //for(auto it : trails) {
   for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
-    glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
-    //glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
+    //glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
+    glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
+    //glColor3dv(Vector3d(0.5, 1.0, 0.5).lerp(1 - it->fade, Vector3d(0.0, 0.0, 0.0)));
+    //glColor3dv(Vector3d(0.1, 0.1, 0.1).lerp(it->fade, Vector3d(0.5, 1.0, 0.5)));
     glVertex3dv(it->linestart);
     glVertex3dv(it->lineend);
     it->fade *= trailfade;
-    if(it->fade < 0.3) {
+    if(it->fade < 0.01) {
       it = trails.erase(it);
     } else {
       ++it;
@@ -368,6 +370,11 @@ void mapper_system::update() {
     }
   } else {
     trail_ref = nullptr;
+  }
+  if(trail_ref != trail_ref_last) {
+    // the trail reference has changed, so we should clear our trails
+    trails.clear();
+    trail_ref_last = trail_ref;
   }
 }
 

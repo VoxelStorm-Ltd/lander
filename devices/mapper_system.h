@@ -20,6 +20,7 @@ private:
   double rotation_x;                          // map rotation around x axis
   double rotation_y;                          // map rotation around y axis
   body *trail_ref;
+  body *trail_ref_last;                       // cached version of the pointer
 
   struct trailtype {
     Vector3d linestart;
@@ -27,8 +28,8 @@ private:
     double fade;
   };
   unsigned int static constexpr trailperiod = 2;    // draw a dash in this many frames
-  //double static constexpr trailfade = 0.999;        // how much the trails fade every tick
-  double static constexpr trailfade = 0.9995;       // how much the trails fade every tick
+  double static constexpr trailfade = 0.999;        // how much the trails fade every tick
+  //double static constexpr trailfade = 0.9995;       // how much the trails fade every tick
   unsigned int trailcounter = trailperiod;
 
   std::deque<trailtype> trails;
