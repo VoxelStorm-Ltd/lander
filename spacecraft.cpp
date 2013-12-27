@@ -61,6 +61,11 @@ std::string spacecraft::get_name() {
   }
 }
 
+std::string spacecraft::get_type() {
+  /// Return the type of object this is
+  return "spacecraft";
+}
+
 std::string spacecraft::get_designation() {
   if(designation.size() != 0) {
     return designation;

@@ -256,6 +256,7 @@ void init_universe() {
   throttle->attach_panel(controlpanel);
   throttle->set_position(1.0, 0.5, 0.0);
   engine_main->connect(0, throttle, 0);
+  throttle->bind_key(GLFW_KEY_T);
   led_green *engine_light = new led_green;
   engine_light->attach(playership);
   engine_light->attach_panel(controlpanel);
@@ -328,6 +329,8 @@ void init_universe() {
   zoom_mul->connect(1, mem_zoom, 0);                    // input 2 = last zoom value
   mem_zoom->connect(0, zoom_mul, 0);                    // zoom value updates from result
   mainmapper->connect(0, mem_zoom, 0);                  // hook it up to the zoom reference frame input
+  zoom_in->bind_key(GLFW_KEY_EQUAL);
+  zoom_out->bind_key(GLFW_KEY_MINUS);
 
   // planet ref system
   mem_planetref->attach(playership);

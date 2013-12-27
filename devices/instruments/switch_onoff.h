@@ -1,9 +1,9 @@
 #ifndef SWITCH_ONOFF_H_INCLUDED
 #define SWITCH_ONOFF_H_INCLUDED
 
-#include "instrument.h"
+#include "control.h"
 
-class switch_onoff : public instrument {
+class switch_onoff : public control {
 private:
   unsigned int setting;
 public:

@@ -1,9 +1,9 @@
 #ifndef BUTTON_MOMENTARY_H_INCLUDED
 #define BUTTON_MOMENTARY_H_INCLUDED
 
-#include "instrument.h"
+#include "control.h"
 
-class button_momentary : public instrument {
+class button_momentary : public control {
   /// A button that sends its on value only once (the first time it's queried) and then resets itself
 private:
   bool pushed;

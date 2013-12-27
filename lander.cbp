@@ -1119,6 +1119,8 @@
 		<Unit filename="devices/instruments/altimeter.h" />
 		<Unit filename="devices/instruments/button_momentary.cpp" />
 		<Unit filename="devices/instruments/button_momentary.h" />
+		<Unit filename="devices/instruments/control.cpp" />
+		<Unit filename="devices/instruments/control.h" />
 		<Unit filename="devices/instruments/display.cpp" />
 		<Unit filename="devices/instruments/display.h" />
 		<Unit filename="devices/instruments/display_digital.cpp" />

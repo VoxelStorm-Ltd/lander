@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 //#include "screenshotstorm.h"
-#include "memory.h"
+#include "control.h"
 
 bool extern keeprunning;
 GLFWwindow extern *window_main;
@@ -51,5 +51,7 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
     default:
       break;
     }
+
+    control::test_key(key);
   }
 }

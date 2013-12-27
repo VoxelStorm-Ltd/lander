@@ -237,15 +237,19 @@ void astronaut::render_firstperson() {
   // TODO
   // Targeted device
   if(picked_device) {
-    std::string const thisname = picked_device->get_name();
-    double const namelength = font_text->Advance(thisname.c_str(), thisname.length());
+    std::string s(picked_device->get_type());
+    s += ": ";
+    s += picked_device->get_name();
+    double const l = font_text->Advance(s.c_str(), s.length());
     glColor4d(0.0, 1.0, 0.0, 0.5);
-    font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
+    font_text->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
   } else if(picked_body) {
-    std::string const thisname = picked_body->get_name();
-    double const namelength = font_text->Advance(thisname.c_str(), thisname.length());
+    std::string s(picked_body->get_type());
+    s += ": ";
+    s += picked_body->get_name();
+    double const l = font_text->Advance(s.c_str(), s.length());
     glColor4d(0.0, 1.0, 0.0, 0.5);
-    font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
+    font_text->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
   }
   // Menu
   if(menu_target) {
