@@ -22,7 +22,8 @@ private:
   body *trail_ref;
 
   struct trailtype {
-    Vector3d linepoint;
+    Vector3d linestart;
+    Vector3d lineend;
     double fade;
   };
   unsigned int static constexpr trailperiod = 2;    // draw a dash in this many frames
