@@ -1,13 +1,13 @@
-#ifndef OPERATOR_MUL_H_INCLUDED
-#define OPERATOR_MUL_H_INCLUDED
+#ifndef OPERATOR_SUB_H_INCLUDED
+#define OPERATOR_SUB_H_INCLUDED
 
 #include "operator_base.h"
 
-class operator_mul : public operator_base {
-  /// Multiplication operator device.  Takes two inputs and outputs the multiplied result.
+class operator_sub : public operator_base {
+  /// subition operator device.  Takes two inputs and outputs the sum result.
 public:
-  operator_mul();
-  ~operator_mul();
+  operator_sub();
+  ~operator_sub();
 
   std::string  get_name();
   std::string  get_model();
@@ -17,4 +17,4 @@ public:
   double       get_port_out_data(       unsigned int port);
 };
 
-#endif // OPERATOR_MUL_H_INCLUDED
+#endif // OPERATOR_SUB_H_INCLUDED

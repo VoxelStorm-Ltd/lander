@@ -23,6 +23,8 @@
 #include "led_green.h"
 #include "telltale.h"
 #include "operator_mul.h"
+#include "operator_add.h"
+#include "operator_sub.h"
 
 extern universe root;
 extern astronaut *player;
@@ -279,7 +281,7 @@ void init_universe() {
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
-  memory *mem_planetref = new memory;
+  memory *mem_ref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach_panel(controlpanel);
   mainmonitor->set_position(0.45, 0.5, 0.0);
@@ -292,11 +294,11 @@ void init_universe() {
   button_momentary *zoom_in = new button_momentary;
   zoom_in->attach(playership);
   zoom_in->attach_panel(controlpanel);
-  zoom_in->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.05, -0.03, 0.0));
+  zoom_in->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.02, -0.03, 0.0));
   button_momentary *zoom_out = new button_momentary;
   zoom_out->attach(playership);
   zoom_out->attach_panel(controlpanel);
-  zoom_out->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.02, -0.03, 0.0));
+  zoom_out->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.05, -0.03, 0.0));
   memory *mem_1 = new memory;
   mem_1->attach(playership);
   mem_1->attach_panel(controlpanel);
@@ -314,7 +316,7 @@ void init_universe() {
   mem_2->set_memory_value(2.0);
   zoom_out->connect(0, mem_1, 0);                       // off value = 1
   zoom_out->connect(1, mem_05, 0);                      // on value = 1/2
-  zoom_in->connect(0, zoom_out, 0);                     // off value = zoom 1 button
+  zoom_in->connect(0, zoom_out, 0);                     // off value = zoom out button
   zoom_in->connect(1, mem_2, 0);                        // on value = 2
   memory *mem_zoom = new memory;
   mem_zoom->attach(playership);
@@ -325,7 +327,7 @@ void init_universe() {
   zoom_mul->attach(playership);
   zoom_mul->attach_panel(controlpanel);
   zoom_mul->set_position(mem_zoom->get_position() + Vector3d(0.0, 0.01, 0.0));
-  zoom_mul->connect(0, zoom_in, 0);                     // input 1 = zoom 2 button
+  zoom_mul->connect(0, zoom_in, 0);                     // input 1 = zoom in button
   zoom_mul->connect(1, mem_zoom, 0);                    // input 2 = last zoom value
   mem_zoom->connect(0, zoom_mul, 0);                    // zoom value updates from result
   mainmapper->connect(0, mem_zoom, 0);                  // hook it up to the zoom reference frame input
@@ -333,12 +335,33 @@ void init_universe() {
   zoom_out->bind_key(GLFW_KEY_MINUS);
 
   // planet ref system
-  mem_planetref->attach(playership);
-  mem_planetref->attach_panel(controlpanel);
-  mem_planetref->set_position(1.1, 0.05, 0.0);
-  mem_planetref->set_memory_value(4.0);                 // earth = 4
-  //mem_planetref->set_memory_value(11.0);                 // europa = 4
-  mainmapper->connect(3, mem_planetref, 0);             // hook it up to the trails reference frame input
+  mem_ref->attach(playership);
+  mem_ref->attach_panel(controlpanel);
+  mem_ref->set_position(zoom_mul->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_ref->set_memory_value(1.0);                 // earth = 4
+  //mem_ref->set_memory_value(11.0);                 // europa = 4
+  mainmapper->connect(3, mem_ref, 0);             // hook it up to the trails reference frame input
+  button_momentary *ref_prev = new button_momentary;
+  ref_prev->attach(playership);
+  ref_prev->attach_panel(controlpanel);
+  ref_prev->set_position(zoom_out->get_position() + Vector3d(0.0, -0.03, 0.0));
+  button_momentary *ref_next = new button_momentary;
+  ref_next->attach(playership);
+  ref_next->attach_panel(controlpanel);
+  ref_next->set_position(zoom_in->get_position() + Vector3d(0.0, -0.03, 0.0));
+  operator_add *ref_add = new operator_add;
+  ref_add->attach(playership);
+  ref_add->attach_panel(controlpanel);
+  ref_add->set_position(mem_ref->get_position() + Vector3d(0.0, 0.01, 0.0));
+  ref_add->connect(0, mem_ref, 0);                     // input 1 = last ref value
+  ref_add->connect(1, ref_next, 0);                    // input 2 = next ref button
+  operator_sub *ref_sub = new operator_sub;
+  ref_sub->attach(playership);
+  ref_sub->attach_panel(controlpanel);
+  ref_sub->set_position(ref_add->get_position() + Vector3d(0.0, 0.01, 0.0));
+  ref_sub->connect(0, ref_add, 0);                     // input 1 = result of incrementor
+  ref_sub->connect(1, ref_prev, 0);                    // input 2 = prev ref button
+  mem_ref->connect(0, ref_sub, 0);                     // ref value updates from result
 
   display_digital *staticmonitor1 = new display_digital;
   staticmonitor1->attach(playership);

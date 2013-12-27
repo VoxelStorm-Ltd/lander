@@ -24,11 +24,6 @@ std::string operator_mul::get_description() {
   return "A multiplication operator device.  Takes two inputs and outputs the multiplied result.";
 }
 
-unsigned int operator_mul::get_port_in_count() {
-  /// How many input ports it has
-  return 2;
-}
-
 std::string operator_mul::get_port_in_description(unsigned int port __attribute__((__unused__))) {
   /// Description of the input port numbered n
   std::stringstream desc;
@@ -36,7 +31,6 @@ std::string operator_mul::get_port_in_description(unsigned int port __attribute_
           "  " << get_port_in_connstatus(port);
   return desc.str();
 }
-
 
 std::string operator_mul::get_port_out_description(unsigned int port  __attribute__((__unused__))) {
   /// Description of the output port numbered n
