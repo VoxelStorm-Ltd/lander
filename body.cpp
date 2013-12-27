@@ -27,9 +27,16 @@ std::string body::get_name() {
     return randomname.str();
   }
 }
+
 void body::set_name(std::string newname) {
   name = newname;
 }
+
+std::string body::get_type() {
+  /// Return the type of object this is
+  return "astronomical body";
+}
+
 std::string body::get_designation() {
   if(designation.size() != 0) {
     return designation;
@@ -46,15 +53,19 @@ std::string body::get_designation() {
     return designation.str();
   }
 }
+
 void body::set_designation(std::string newdesignation) {
   designation = newdesignation;
 }
+
 std::string body::get_description() {
   return description;
 }
+
 void body::set_description(std::string newdescription) {
   description = newdescription;
 }
+
 double body::get_mass() {
   if(mass != 0.0) {
     return mass;
@@ -65,10 +76,12 @@ double body::get_mass() {
     return get_random_double(300000000.0, 1000000000.0);  // averaging 650 tons +- 50%
   }
 }
+
 void body::set_mass(double newmass) {
   mass = newmass;
   update_gm();
 }
+
 double body::get_radius() {
   if(radius != 0.0) {
     return radius;
@@ -82,6 +95,7 @@ double body::get_radius() {
     return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);     // radius from volume of sphere
   }
 }
+
 void body::set_radius(double newradius) {
   radius = newradius;
 }
@@ -97,6 +111,7 @@ void body::update_state(double time __attribute__((__unused__)), double deltatim
   //std::cout << "INFO: Called default update_state on " << name << std::endl;
   position += velocity * deltatime;
 }
+
 void body::update_gm() {
   // re-cache the standard gravitational parameter
   gm = (gravitational_constant * get_mass());
@@ -145,7 +160,6 @@ Vector3d body::get_collision_rel(Vector3d const &relative_coords) {
     return Vector3d(0.0, 0.0, 0.0);
   }
 }
-
 
 double body::get_gravity_accel(Vector3d const &coords) {
   /// Return the acceleration due to gravity at a point in the same reference sphere as this object

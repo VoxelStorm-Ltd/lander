@@ -19,6 +19,7 @@ public:
   virtual ~planet();
 
   // getters and setters
+  virtual std::string get_type();
   virtual double get_mass();
   virtual double get_radius();
 

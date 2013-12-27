@@ -16,6 +16,11 @@ orbitalbody::~orbitalbody() {
   /// Default destructor
 }
 
+std::string orbitalbody::get_type() {
+  /// Return the type of object this is
+  return "orbital body";
+}
+
 std::string orbitalbody::get_description() {
   /// Return the description of this body
   if(description.size() != 0) {

@@ -18,6 +18,11 @@ std::string dustcloud::get_name() {
   }
 }
 
+std::string dustcloud::get_type() {
+  /// Return the type of object this is
+  return "dust cloud";
+}
+
 std::string dustcloud::get_designation() {
   if(designation.size() != 0) {
     return designation;

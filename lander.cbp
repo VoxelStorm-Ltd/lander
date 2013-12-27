@@ -1165,6 +1165,8 @@
 		<Unit filename="mathematical/integrator_rungekutta4.h" />
 		<Unit filename="mathematical/integrator_rungekuttafehlberg54.cpp" />
 		<Unit filename="mathematical/integrator_rungekuttafehlberg54.h" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
 		<Unit filename="object concept.txt" />
 		<Unit filename="oculusstorm.cpp" />
 		<Unit filename="oculusstorm.h" />

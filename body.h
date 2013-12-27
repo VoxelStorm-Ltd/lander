@@ -4,8 +4,9 @@
 #include <string>
 #include "vmath.h"
 #include "random_engine.h"
+#include "menu.h"
 
-class body : public random_engine {
+class body : public random_engine, public menu {
   /// An astronomical body of some sort, following basic newtonian mechanics
 protected:
   body();                     // prevent this class being instantiated directly
@@ -33,6 +34,7 @@ public:
   // getters and setters
   virtual std::string get_name();
   virtual void set_name(std::string newname);
+  virtual std::string get_type();
   virtual std::string get_designation();
   virtual void set_designation(std::string newdesignation);
   virtual std::string get_description();

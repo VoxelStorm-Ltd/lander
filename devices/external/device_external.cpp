@@ -8,6 +8,11 @@ device_external::~device_external() {
   /// Default destructor
 }
 
+std::string device_external::get_type() {
+  /// Return the type of object this is
+  return "device (external)";
+}
+
 bool device_external::attach_panel(instrumentpanel *to_panel __attribute__((__unused__))) {
   /// Attempt to attach this device to an instrument panel, return success status
   // this must be mounted externally on the hull

@@ -10,6 +10,7 @@ protected:
 public:
   virtual ~device_external();
 
+  virtual std::string get_type();
   bool attach_panel(instrumentpanel *to_panel);
   bool attach_cabin();
   void remove_panel();

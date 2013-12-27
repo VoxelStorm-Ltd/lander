@@ -44,6 +44,11 @@ std::string device::get_name() {
   return "device";
 }
 
+std::string device::get_type() {
+  /// Return the type of object this is
+  return "device";
+}
+
 std::string device::get_manufacturer() {
   /// Return a manufacturer name for this device
   random_reset();

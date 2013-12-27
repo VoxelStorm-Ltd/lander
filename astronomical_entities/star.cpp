@@ -13,6 +13,16 @@ star::~star() {
   /// Default destructor
 }
 
+std::string star::get_type() {
+  /// Return the type of object this is
+  return "star";
+}
+
+double star::get_magnitude() {
+  /// Return the magnitude of this star relative to the observer
+  // TODO
+  return 1.0 / brightness;
+}
 
 //bool orbitalbody::check_within_physical_influence(double thisradius) {
 //  /// Check if we're within range for physical interaction (atmosphere / collision)

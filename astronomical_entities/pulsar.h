@@ -8,8 +8,9 @@ public:
   double period;                        // the rotational period of this pulsar
 
   pulsar();
-  ~pulsar();
+  virtual ~pulsar();
 
+  virtual std::string get_type();
   virtual std::string get_designation();
   virtual std::string get_description();
 };

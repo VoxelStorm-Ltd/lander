@@ -10,6 +10,7 @@ public:
   virtual ~moon();
 
   // getters and setters
+  virtual std::string get_type();
   virtual double get_mass();
   virtual double get_radius();
 };

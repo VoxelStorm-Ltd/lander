@@ -12,12 +12,13 @@
 extern oculusstorm *oculus;          // oculus rift controller
 extern astronaut *player;
 extern universe root;
-extern void *menu_target;
+extern menu *menu_target;
 extern FTFont *font_title;
 extern FTFont *font_title_huge;
 extern FTFont *font_text;
 extern FTFont *font_title3d;
 extern FTFont *font_text3d;
+extern unsigned int fps;
 
 astronaut::astronaut()
   : state(statetype::INACTIVE),
@@ -228,13 +229,13 @@ void astronaut::render_firstperson() {
   //glEnable(GL_BLEND);
   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  //Spacesuit status
+  // Spacesuit status
   // TODO
-  //Environment status
+  // Environment status
   // TODO
-  //Ship status
+  // Ship status
   // TODO
-  //Targeted device
+  // Targeted device
   if(picked_device) {
     std::string const thisname = picked_device->get_name();
     double const namelength = font_text->Advance(thisname.c_str(), thisname.length());
@@ -246,15 +247,32 @@ void astronaut::render_firstperson() {
     glColor4d(0.0, 1.0, 0.0, 0.5);
     font_text->Render(thisname.c_str(), thisname.length(), FTPoint((windowsize.x / 2) - (namelength / 2), 10), FTPoint(), FTGL::RENDER_FRONT);
   }
-  //Menu
-  // TODO
-  device *targetdevice = dynamic_cast<device*>(menu_target);
-  if(targetdevice) {
-    glColor4d(1.0, 1.0, 1.0, 0.8);
-    std::string const s = targetdevice->get_name();
-    double const l = font_title_huge->Advance(s.c_str(), s.length());
-    font_title_huge->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), windowsize.y / 2), FTPoint(), FTGL::RENDER_FRONT);
+  // Menu
+  if(menu_target) {
+    // try to alias it to a device
+    device *targetdevice = dynamic_cast<device*>(menu_target);
+    if(targetdevice) {
+      glColor4d(1.0, 1.0, 1.0, 1.0);
+      std::string const s = targetdevice->get_name();
+      double const l = font_text->Advance(s.c_str(), s.length());
+      font_text->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), windowsize.y / 2), FTPoint(), FTGL::RENDER_FRONT);
+    } else {
+      // it's not a device, so try to alias it to a spacecraft
+      body *targetbody = dynamic_cast<body*>(menu_target);
+      if(targetbody) {
+        glColor4d(1.0, 1.0, 1.0, 1.0);
+        std::string const s = targetbody->get_name();
+        double const l = font_text->Advance(s.c_str(), s.length());
+        font_text->Render(s.c_str(), s.length(), FTPoint((windowsize.x / 2) - (l / 2), windowsize.y / 2), FTPoint(), FTGL::RENDER_FRONT);
+      }
+    }
   }
+
+  // Debugging display
+  glColor4d(0.0, 1.0, 0.0, 0.5);
+  std::stringstream fpsss;
+  fpsss << fps << " FPS";
+  font_text->Render(fpsss.str().c_str(), -1, FTPoint(0, windowsize.y - 15), FTPoint(), FTGL::RENDER_FRONT);
 
   glPopAttrib();
 }

@@ -18,6 +18,11 @@ planet::~planet() {
   /// Default destructor
 }
 
+std::string planet::get_type() {
+  /// Return the type of object this is
+  return "planet";
+}
+
 double planet::get_mass() {
   if(mass != 0.0) {
     return mass;

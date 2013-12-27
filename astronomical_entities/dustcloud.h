@@ -10,6 +10,7 @@ public:
   ~dustcloud();
 
   std::string get_name();
+  std::string get_type();
   std::string get_designation();
   std::string get_description();
   double get_radius();

@@ -11,6 +11,11 @@ pulsar::~pulsar() {
   /// Default destructor
 }
 
+std::string pulsar::get_type() {
+  /// Return the type of object this is
+  return "pulsar";
+}
+
 std::string pulsar::get_designation() {
   if(designation.size() != 0) {
     return designation;

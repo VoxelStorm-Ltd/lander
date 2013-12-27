@@ -13,6 +13,7 @@ protected:                              // prevent this class being instantiated
 public:
   virtual ~instrument();
 
+  virtual std::string get_type();
   bool attach_cabin(instrumentpanel *to_panel);
   bool attach_hull();
 };

@@ -18,9 +18,16 @@ std::string starsystem::get_name() {
     return get_random_name_ancient();
   }
 }
+
 void starsystem::set_name(std::string newname) {
   name = newname;
 }
+
+std::string starsystem::get_type() {
+  /// Return the type of object this is
+  return "star system";
+}
+
 std::string starsystem::get_designation() {
   if(designation.size() != 0) {
     return designation;
@@ -37,9 +44,11 @@ std::string starsystem::get_designation() {
     return designation.str();
   }
 }
+
 void starsystem::set_designation(std::string newdesignation) {
   designation = newdesignation;
 }
+
 std::string starsystem::get_description() {
   if(description.size() != 0) {
     return description;
@@ -50,6 +59,7 @@ std::string starsystem::get_description() {
     return "A star system.";
   }
 }
+
 void starsystem::set_description(std::string newdescription) {
   description = newdescription;
 }

@@ -8,6 +8,10 @@ moon::~moon() {
   /// Default destructor
 }
 
+std::string moon::get_type() {
+  /// Return the type of object this is
+  return "natural satellite";
+}
 
 double moon::get_mass() {
   if(mass != 0.0) {

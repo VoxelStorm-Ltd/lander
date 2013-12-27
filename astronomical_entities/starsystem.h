@@ -17,21 +17,22 @@ private:
   std::string description;
 
 public:
-  virtual std::string get_name();
-  virtual void set_name(std::string newname);
-  virtual std::string get_designation();
-  virtual void set_designation(std::string newdesignation);
-  virtual std::string get_description();
-  virtual void set_description(std::string newdescription);
+  starsystem();
+  ~starsystem();
+
+  std::string get_name();
+  void set_name(std::string newname);
+  std::string get_type();
+  std::string get_designation();
+  void set_designation(std::string newdesignation);
+  std::string get_description();
+  void set_description(std::string newdescription);
 
   std::list<body*> bodies;            // list of stellar and planetary bodies
   star *primary;                      // the primary body of this system
 
   Vector3d position;                  // relative to the galaxy
   Vector3d velocity;                  // relative to the galaxy
-
-  starsystem();
-  ~starsystem();
 };
 
 #endif // STARSYSTEM_H_INCLUDED

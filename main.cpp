@@ -6,6 +6,7 @@
 #include <FTGL/ftgl.h>
 #include "vmath.h"
 #include "oculusstorm.h"
+#include "menu.h"
 #include "universe.h"
 #include "starsystem.h"
 #include "body.h"
@@ -17,13 +18,14 @@ bool keeprunning = true;
 GLFWwindow *window_main = nullptr;          // the main game window
 universe root;
 astronaut *player       = nullptr;
+menu *menu_target       = nullptr;          // what object's menu we currently have open, if any
 oculusstorm *oculus     = nullptr;          // oculus rift controller
 FTFont *font_title      = nullptr;          // global font definitions
 FTFont *font_title_huge = nullptr;
 FTFont *font_text       = nullptr;
 FTFont *font_title3d    = nullptr;
 FTFont *font_text3d     = nullptr;
-void *menu_target       = nullptr;          // what object's menu we currently have open, if any
+unsigned int fps = 0;                       // fps counter
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();
@@ -53,7 +55,6 @@ void init() {       /// all the one-time initialisation we need for the engine
 void mainloop() {   /// the main rendering loop
   // fps counter setup
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_fpsupdate(boost::chrono::high_resolution_clock::now());
-  unsigned int fps = 0;
   unsigned int frames_last_second = 0;
 
   //double deltatime = 5.0;
@@ -84,7 +85,7 @@ void mainloop() {   /// the main rendering loop
       fps = frames_last_second;
       frames_last_second = 0;
       time_fpsupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(1000));
-      std::cout << "FPS: " << fps << std::endl;
+      //std::cout << "FPS: " << fps << std::endl;
     } else {
       ++frames_last_second;
     }

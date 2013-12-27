@@ -40,6 +40,7 @@ public:
   virtual ~orbitalbody();
 
   // getters and setters
+  virtual std::string get_type();
   virtual std::string get_description();
   virtual bool check_within_physical_influence(double thisradius);
   virtual double get_atmos_pressure(           double thisradius);

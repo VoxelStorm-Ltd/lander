@@ -8,6 +8,8 @@ class whitedwarf : public star {
 public:
   whitedwarf();
   ~whitedwarf();
+
+  std::string get_type();
 };
 
 #endif // WHITEDWARF_H_INCLUDED

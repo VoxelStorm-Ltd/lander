@@ -7,3 +7,8 @@ blackhole::blackhole() {
 blackhole::~blackhole() {
   /// Default destructor
 }
+
+std::string blackhole::get_type() {
+  /// Return the type of object this is
+  return "black hole";
+}

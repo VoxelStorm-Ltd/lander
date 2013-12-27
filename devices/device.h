@@ -8,11 +8,12 @@
 #include <GLFW/glfw3.h>
 #include "vmath.h"
 #include "random_engine.h"
+#include "menu.h"
 
 class spacecraft;
 class instrumentpanel;
 
-class device : public random_engine {
+class device : public random_engine, public menu {
 private:
   Vector2i static const screensize_static_analogue;    // screen size for tv type static generation
   Vector2i static const screensize_static_digital;     // screen size for digital noise type static
@@ -54,6 +55,7 @@ public:
   virtual ~device();
 
   virtual std::string  get_name();
+  virtual std::string  get_type();
   virtual std::string  get_manufacturer();
   virtual std::string  get_model();
   virtual std::string  get_description();

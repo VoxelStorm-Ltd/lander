@@ -8,3 +8,8 @@ whitedwarf::whitedwarf() {
 whitedwarf::~whitedwarf() {
   /// Default destructor
 }
+
+std::string whitedwarf::get_type() {
+  /// Return the type of object this is
+  return "white dwarf";
+}

@@ -5,10 +5,11 @@
 
 class neutronstar : public star {
 public:
-  virtual std::string get_description();
-
   neutronstar();
-  ~neutronstar();
+  virtual ~neutronstar();
+
+  virtual std::string get_type();
+  virtual std::string get_description();
 };
 
 #endif // NEUTRONSTAR_H_INCLUDED
