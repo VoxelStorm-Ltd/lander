@@ -11,7 +11,7 @@ operator_sub::~operator_sub() {
 
 std::string operator_sub::get_name() {
   /// Return a name for this device
-  return "subtracter";
+  return "subtractor";
 }
 
 std::string operator_sub::get_model() {

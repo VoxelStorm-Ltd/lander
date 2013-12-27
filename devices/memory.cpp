@@ -106,7 +106,7 @@ std::string memory::get_port_in_name(unsigned int port __attribute__((__unused__
   return "input value";
 }
 
-std::string memory::get_port_in_description(unsigned int port __attribute__((__unused__))) {
+std::string memory::get_port_in_description(unsigned int port) {
   /// Description of the input port numbered n
   std::stringstream desc;
   desc << "An input value to remember.  Will retain value in memory after disconnection."

@@ -25,6 +25,7 @@ FTFont *font_title_huge = nullptr;
 FTFont *font_text       = nullptr;
 FTFont *font_title3d    = nullptr;
 FTFont *font_text3d     = nullptr;
+FTFont *font_7segment3d = nullptr;
 unsigned int fps = 0;                       // fps counter
 
 void init_graphics(Vector2i &windowsize);

@@ -24,7 +24,7 @@ std::string operator_add::get_description() {
   return "An addition operator device.  Takes two inputs and outputs the sum.";
 }
 
-std::string operator_add::get_port_in_description(unsigned int port __attribute__((__unused__))) {
+std::string operator_add::get_port_in_description(unsigned int port) {
   /// Description of the input port numbered n
   std::stringstream desc;
   desc << "Input value to add."

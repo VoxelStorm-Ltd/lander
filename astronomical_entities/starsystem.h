@@ -21,12 +21,12 @@ public:
   ~starsystem();
 
   std::string get_name();
-  void set_name(std::string newname);
+  void set_name(std::string const &newname);
   std::string get_type();
   std::string get_designation();
-  void set_designation(std::string newdesignation);
+  void set_designation(std::string const &newdesignation);
   std::string get_description();
-  void set_description(std::string newdescription);
+  void set_description(std::string const &newdescription);
 
   std::list<body*> bodies;            // list of stellar and planetary bodies
   star *primary;                      // the primary body of this system

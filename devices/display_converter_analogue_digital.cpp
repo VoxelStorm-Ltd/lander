@@ -47,22 +47,15 @@ unsigned int display_converter_analogue_digital::get_port_in_count() {
 
 std::string display_converter_analogue_digital::get_port_in_name(unsigned int port __attribute__((__unused__))) {
   /// Name of the input port numbered n
-  switch(port) {
-  case 0:
-    return "analogue video in";
-  default:
-    return "";
-  }
+  return "analogue video in";
 }
 
-std::string display_converter_analogue_digital::get_port_in_description(unsigned int port __attribute__((__unused__))) {
+std::string display_converter_analogue_digital::get_port_in_description(unsigned int port) {
   /// Description of the input port numbered n
-  switch(port) {
-  case 0:
-    return "An analogue video or still image signal.";
-  default:
-    return "";
-  }
+  std::stringstream desc;
+  desc << "An analogue video or still image signal."
+          "  " << get_port_in_connstatus(port);
+  return desc.str();
 }
 
 bool display_converter_analogue_digital::get_port_in_required(unsigned int port __attribute__((__unused__))) {
@@ -77,22 +70,12 @@ unsigned int display_converter_analogue_digital::get_port_out_count() {
 
 std::string display_converter_analogue_digital::get_port_out_name(unsigned int port __attribute__((__unused__))) {
   /// Name of the output port numbered n
-  switch(port) {
-  case 0:
-    return "digital video out";
-  default:
-    return "";
-  }
+  return "digital video out";
 }
 
 std::string display_converter_analogue_digital::get_port_out_description(unsigned int port __attribute__((__unused__))) {
   /// Description of the output port numbered n
-  switch(port) {
-  case 0:
-    return "A digital video signal.";
-  default:
-    return "";
-  }
+  return "A digital video signal.";
 }
 
 GLuint display_converter_analogue_digital::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {

@@ -28,7 +28,7 @@ std::string body::get_name() {
   }
 }
 
-void body::set_name(std::string newname) {
+void body::set_name(std::string const &newname) {
   name = newname;
 }
 
@@ -54,7 +54,7 @@ std::string body::get_designation() {
   }
 }
 
-void body::set_designation(std::string newdesignation) {
+void body::set_designation(std::string const &newdesignation) {
   designation = newdesignation;
 }
 
@@ -62,7 +62,7 @@ std::string body::get_description() {
   return description;
 }
 
-void body::set_description(std::string newdescription) {
+void body::set_description(std::string const &newdescription) {
   description = newdescription;
 }
 

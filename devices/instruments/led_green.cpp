@@ -45,7 +45,7 @@ std::string led_green::get_port_in_name(unsigned int port __attribute__((__unuse
   return "input value";
 }
 
-std::string led_green::get_port_in_description(unsigned int port __attribute__((__unused__))) {
+std::string led_green::get_port_in_description(unsigned int port) {
   /// Description of the input port numbered n
   std::stringstream desc;
   desc << "Input data value.  Will light up if the input is any value greater than 0."
@@ -70,8 +70,8 @@ void led_green::render() {
   Vector3d thissize = get_size();
 
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
   if(ports_in[0].target && ports_in[0].target->get_port_out_data(ports_in[0].target_port) > 0.0) {
     glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(0.0, 0.8, 0.0, 1.0));
   } else {

@@ -25,6 +25,7 @@
 #include "operator_mul.h"
 #include "operator_add.h"
 #include "operator_sub.h"
+#include "display_number.h"
 
 extern universe root;
 extern astronaut *player;
@@ -326,20 +327,24 @@ void init_universe() {
   operator_mul *zoom_mul = new operator_mul;
   zoom_mul->attach(playership);
   zoom_mul->attach_panel(controlpanel);
-  zoom_mul->set_position(mem_zoom->get_position() + Vector3d(0.0, 0.01, 0.0));
+  zoom_mul->set_position(mem_1->get_position() + Vector3d(0.03, 0.00, 0.0));
   zoom_mul->connect(0, zoom_in, 0);                     // input 1 = zoom in button
   zoom_mul->connect(1, mem_zoom, 0);                    // input 2 = last zoom value
   mem_zoom->connect(0, zoom_mul, 0);                    // zoom value updates from result
   mainmapper->connect(0, mem_zoom, 0);                  // hook it up to the zoom reference frame input
   zoom_in->bind_key(GLFW_KEY_EQUAL);
   zoom_out->bind_key(GLFW_KEY_MINUS);
+  display_number *zoom_disp = new display_number;
+  zoom_disp->attach(playership);
+  zoom_disp->attach_panel(controlpanel);
+  zoom_disp->set_position(zoom_out->get_position() + Vector3d(-0.105, 0.0, 0.0));
+  zoom_disp->connect(0, mem_zoom, 0);
 
   // planet ref system
   mem_ref->attach(playership);
   mem_ref->attach_panel(controlpanel);
-  mem_ref->set_position(zoom_mul->get_position() + Vector3d(0.0, 0.01, 0.0));
-  mem_ref->set_memory_value(1.0);                 // earth = 4
-  //mem_ref->set_memory_value(11.0);                 // europa = 4
+  mem_ref->set_position(mem_zoom->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_ref->set_memory_value(4.0);                 // earth = 4
   mainmapper->connect(3, mem_ref, 0);             // hook it up to the trails reference frame input
   button_momentary *ref_prev = new button_momentary;
   ref_prev->attach(playership);
@@ -352,16 +357,21 @@ void init_universe() {
   operator_add *ref_add = new operator_add;
   ref_add->attach(playership);
   ref_add->attach_panel(controlpanel);
-  ref_add->set_position(mem_ref->get_position() + Vector3d(0.0, 0.01, 0.0));
+  ref_add->set_position(zoom_mul->get_position() + Vector3d(0.0, 0.015, 0.0));
   ref_add->connect(0, mem_ref, 0);                     // input 1 = last ref value
   ref_add->connect(1, ref_next, 0);                    // input 2 = next ref button
   operator_sub *ref_sub = new operator_sub;
   ref_sub->attach(playership);
   ref_sub->attach_panel(controlpanel);
-  ref_sub->set_position(ref_add->get_position() + Vector3d(0.0, 0.01, 0.0));
+  ref_sub->set_position(ref_add->get_position() + Vector3d(0.0, 0.015, 0.0));
   ref_sub->connect(0, ref_add, 0);                     // input 1 = result of incrementor
   ref_sub->connect(1, ref_prev, 0);                    // input 2 = prev ref button
   mem_ref->connect(0, ref_sub, 0);                     // ref value updates from result
+  display_number *ref_disp = new display_number;
+  ref_disp->attach(playership);
+  ref_disp->attach_panel(controlpanel);
+  ref_disp->set_position(ref_prev->get_position() + Vector3d(-0.105, 0.0, 0.0));
+  ref_disp->connect(0, mem_ref, 0);
 
   display_digital *staticmonitor1 = new display_digital;
   staticmonitor1->attach(playership);

@@ -99,8 +99,8 @@ void telltale::render() {
   Vector3d thissize = get_size();
 
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           20.0);                           // 0 to 127
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
   if(ports_in[0].target && ports_in[0].target->get_port_out_data(ports_in[0].target_port) > 0.0) {
     glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(0.0, 0.8, 0.0, 1.0));
   } else {
@@ -147,14 +147,14 @@ void telltale::render() {
     thislabel = "ON";
   }
   if(!thislabel.empty()) {    // don't call the draw routine if there's a blank string
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));   // all 0 so we don't worry about scaling normals
     glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.0, 0.0, 1.0));
     glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-    glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+    glMaterialf(GL_FRONT,  GL_SHININESS,           0.0);                           // 0 to 127
     double const labellength = font_text3d->Advance(thislabel.c_str(), -1);
     double const scale = (thissize.x - 0.002) / labellength;                // automatic scaling to fit in the space
     glPushMatrix();
-    glTranslated(0.001, 0.001, thissize.z + 0.001);
+    glTranslated(0.001, 0.001, thissize.z + 0.0001);
     glScaled(scale, scale, scale);
     font_text3d->Render(thislabel.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();

@@ -19,7 +19,7 @@ std::string starsystem::get_name() {
   }
 }
 
-void starsystem::set_name(std::string newname) {
+void starsystem::set_name(std::string const &newname) {
   name = newname;
 }
 
@@ -45,7 +45,7 @@ std::string starsystem::get_designation() {
   }
 }
 
-void starsystem::set_designation(std::string newdesignation) {
+void starsystem::set_designation(std::string const &newdesignation) {
   designation = newdesignation;
 }
 
@@ -60,6 +60,6 @@ std::string starsystem::get_description() {
   }
 }
 
-void starsystem::set_description(std::string newdescription) {
+void starsystem::set_description(std::string const &newdescription) {
   description = newdescription;
 }

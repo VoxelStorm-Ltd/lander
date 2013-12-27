@@ -33,12 +33,12 @@ public:
 
   // getters and setters
   virtual std::string get_name();
-  virtual void set_name(std::string newname);
+  virtual void set_name(std::string const &newname);
   virtual std::string get_type();
   virtual std::string get_designation();
-  virtual void set_designation(std::string newdesignation);
+  virtual void set_designation(std::string const &newdesignation);
   virtual std::string get_description();
-  virtual void set_description(std::string newdescription);
+  virtual void set_description(std::string const &newdescription);
   virtual double get_mass();
   virtual void set_mass(double newmass);
   virtual double get_radius();
