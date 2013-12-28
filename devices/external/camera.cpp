@@ -45,7 +45,7 @@ camera::camera()
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
 
   // create a framebuffer
-  glGenFramebuffers(1, &framebuffer);
+  glGenFramebuffersEXT(1, &framebuffer);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
   glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
                             GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
@@ -70,7 +70,9 @@ camera::camera()
 
 camera::~camera() {
   /// Default destructor
-  glDeleteTextures(1, &display_image);
+  glDeleteTextures(        1, &display_image);
+  glDeleteRenderbuffersEXT(1, &depthbuffer);
+  glDeleteFramebuffersEXT( 1, &framebuffer);
 }
 
 std::string camera::get_name() {
