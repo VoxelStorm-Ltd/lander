@@ -14,6 +14,18 @@ universe::~universe() {
 
 void universe::render() {
   /// Render whatever needs to be rendered
+
+  for(auto &it : starsystems) {
+    if(it = currentsystem) {
+      it->render();
+    } else {
+      // TODO: move this to the right bit of the sky and make sure near/far planes make sense
+      if(it->primary) {
+        it->primary->render_visible();
+      }
+    }
+  }
+  // TODO: galaxies and nebulae and other decorations
 }
 
 void universe::make_explosion(Vector3d coords, double energy) {

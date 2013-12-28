@@ -16,6 +16,12 @@ private:
   double zoom;                                // zoom multiplier
   double rotation_x;                          // map rotation around x axis
   double rotation_y;                          // map rotation around y axis
+  double fov_angle;                           // cached field of view, degrees
+  double fov_ratio;                           // updated by update_fov_ratio() from degrees
+  double aspect_ratio;                        // updated by update_aspect_ratio() from windowsize
+
+  double nearplane;
+  double farplane;
 
 public:
   camera();
@@ -37,6 +43,8 @@ public:
 
   void update();
   void update_if_time();
+  void update_fov(double fov = 90);
+  void update_fov_ratio();
   void refresh();
   //void render();
 };

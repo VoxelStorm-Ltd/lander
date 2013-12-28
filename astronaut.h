@@ -61,7 +61,7 @@ public:
   void update_fov_ratio();
   void update_window(Vector2i newwindowsize);
   void update_aspect_ratio();
-  void setup_render_perspective( double nearplane = 0.1, double farplane = 20.0);
+  void setup_render_perspective(double nearplane = 0.1, double farplane = 20.0);
   void setup_render_oculus_left();
   void setup_render_oculus_right();
 

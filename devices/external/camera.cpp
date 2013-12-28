@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "spacecraft.h"
 
 Vector2i const camera::windowsize = Vector2i(256, 256);
 
@@ -7,9 +8,16 @@ camera::camera()
     framebuffer(0),
     zoom(1.0),
     rotation_x(0.0),
-    rotation_y(0.0) {
+    rotation_y(0.0),
+    nearplane(0.5),
+    fov_angle(90.0),
+    fov_ratio(1.0),
+    aspect_ratio(windowsize.x / windowsize.y),
+    farplane(1406000000000) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+
+  update_fov(90.0);
 
   // create a blank texture
   glGenTextures(1, &display_image);
@@ -27,6 +35,8 @@ camera::camera()
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
+  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
+  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                        // automatically generate mipmaps - doesn't work for FBO
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
@@ -47,7 +57,10 @@ camera::camera()
 
   GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
   if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
-    std::cout << "framebuffer fucked: " << status;
+    std::cout << "ERROR: framebuffer fucked: " << status;
+  }
+  if(!display_image) {
+    std::cout << "ERROR: display_image got nothing from OpenGL" << std::endl;
   }
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
@@ -148,22 +161,12 @@ unsigned int camera::get_port_out_count() {
 
 std::string camera::get_port_out_name(unsigned int port __attribute__((__unused__))) {
   /// Name of the output port numbered n
-  switch(port) {
-  case 0:
-    return "digital video out";
-  default:
-    return "";
-  }
+  return "digital video out";
 }
 
 std::string camera::get_port_out_description(unsigned int port __attribute__((__unused__))) {
   /// Description of the output port numbered n
-  switch(port) {
-  case 0:
-    return "A digital video signal.";
-  default:
-    return "";
-  }
+  return "A digital video signal.";
 }
 
 GLuint camera::get_port_out_video_digital(unsigned int port __attribute__((__unused__))) {
@@ -171,7 +174,6 @@ GLuint camera::get_port_out_video_digital(unsigned int port __attribute__((__unu
   update_if_time();
   return display_image;
 }
-
 
 void camera::update() {
   /// Update the output states and respond to changes in input
@@ -194,13 +196,75 @@ void camera::update() {
 
 void camera::update_if_time() {
   /// Run the update function only if it's time for an update, and reset the update clock
-  boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
-  if(time_now >= time_nextupdate) {
+  // Testing only! :
+  ///boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
+  ///if(time_now >= time_nextupdate) {
     refresh();
-    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(45));  // 22fps
-  }
+  ///  time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(45));  // 22fps
+  ///}
+}
+
+void camera::update_fov(double new_fov) {
+  fov_angle = new_fov;
+  update_fov_ratio();
+}
+
+void camera::update_fov_ratio() {
+  /// Helper function to calculate field of view ratio from a field of view angle
+  // fov_ratio = 1.0;
+  fov_ratio = tan(fov_angle / 360.0 * M_PI);
+  //std::cout << "New FOV ratio: " << fov_ratio << std::endl;
 }
 
 void camera::refresh() {
   /// Render from this camera's perspective and update the texture
+  // cache the old viewport
+  Vector4i oldviewport;
+  glGetIntegerv(GL_VIEWPORT, oldviewport);
+  glViewport(0, 0, windowsize.x, windowsize.y);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
+
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  glFrustum(nearplane * -fov_ratio,
+            nearplane *  fov_ratio,
+            nearplane * -fov_ratio * aspect_ratio,
+            nearplane *  fov_ratio * aspect_ratio,
+            nearplane, farplane);
+  // TODO: cache this matrix in a separate update function called on windowresize only, and load it here
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
+
+  glMultMatrixd(rotation.transform());
+  glTranslated(-position.x,                             // position relative to vessel
+               -position.y,
+               -position.z);
+  /// Note: this will segfault if asked to update when not on a vessel.  Cheaper not to check
+  glMultMatrixd(vessel->rotation.transform());          // body rotation
+  glTranslated(-vessel->position.x,                     // position relative to star system
+               -vessel->position.y,
+               -vessel->position.z);
+
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  root->render();   // render the universe
+
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
+  //glPopAttrib();
+
+  // release the framebuffer
+  glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
+
+  // generate mipmaps - only use this if we're actually using a mipmap
+  glBindTexture(GL_TEXTURE_2D, display_image);
+  glGenerateMipmapEXT(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }

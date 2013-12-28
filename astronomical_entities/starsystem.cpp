@@ -63,3 +63,10 @@ std::string starsystem::get_description() {
 void starsystem::set_description(std::string const &newdescription) {
   description = newdescription;
 }
+
+void starsystem::render_visible() {
+  /// Render everything that's in this star system
+  for(auto &it : bodies) {
+    it->render_visible();
+  }
+}

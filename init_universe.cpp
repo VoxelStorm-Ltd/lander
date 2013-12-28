@@ -26,6 +26,7 @@
 #include "operator_add.h"
 #include "operator_sub.h"
 #include "display_number.h"
+#include "camera.h"
 
 extern universe root;
 extern astronaut *player;
@@ -279,6 +280,11 @@ void init_universe() {
   test_pressuresensor->attach(playership);
   test_pressuresensor->attach_hull();
   test_altimeter->connect(0, test_pressuresensor, 0);
+  display_number *pressure_disp = new display_number;
+  pressure_disp->attach(playership);
+  pressure_disp->attach_panel(controlpanel);
+  pressure_disp->set_position(test_altimeter->get_position() + Vector3d(0.0, -0.03, 0.0));
+  pressure_disp->connect(0, test_pressuresensor, 0);
 
   display *mainmonitor = new display;
   mapper_system *mainmapper = new mapper_system;
@@ -389,6 +395,12 @@ void init_universe() {
   converter1->set_position(1.2, 0.38, 0.0);
   converter1->connect(0, mainmapper, 0);
   staticmonitor1->connect(0, converter1, 0);
+
+  camera *cam1 = new camera;
+  cam1->attach(playership);
+  cam1->attach_hull();
+  cam1->set_position(Vector3d(0.0, 0.0, 2.0));
+  staticmonitor1->connect(0, cam1, 0);
 
   spacecraft *crashtester = new spacecraft;
   crashtester->set_name("Crash Tester");

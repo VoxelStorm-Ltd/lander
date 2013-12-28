@@ -17,6 +17,12 @@ private:
   std::string description;
 
 public:
+  std::list<body*> bodies;            // list of stellar and planetary bodies
+  star *primary;                      // the primary body of this system
+
+  Vector3d position;                  // relative to the galaxy
+  Vector3d velocity;                  // relative to the galaxy
+
   starsystem();
   ~starsystem();
 
@@ -28,11 +34,7 @@ public:
   std::string get_description();
   void set_description(std::string const &newdescription);
 
-  std::list<body*> bodies;            // list of stellar and planetary bodies
-  star *primary;                      // the primary body of this system
-
-  Vector3d position;                  // relative to the galaxy
-  Vector3d velocity;                  // relative to the galaxy
+  void render_visible();
 };
 
 #endif // STARSYSTEM_H_INCLUDED
