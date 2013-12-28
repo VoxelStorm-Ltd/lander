@@ -246,8 +246,8 @@ void mapper_system::refresh() {
     //  vel *= 0.0;
     //}
 
-    // line to centre of reference object
-    if(trail_ref) {
+    // line to centre of reference object, only from our ship
+    if(trail_ref && it == vessel) {
       glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
       glBegin(GL_LINES);
       glVertex3dv(trail_ref->position);
