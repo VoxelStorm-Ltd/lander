@@ -1149,6 +1149,8 @@
 		<Unit filename="devices/operators/operator_mul.h" />
 		<Unit filename="devices/operators/operator_sub.cpp" />
 		<Unit filename="devices/operators/operator_sub.h" />
+		<Unit filename="devices/terminal.cpp" />
+		<Unit filename="devices/terminal.h" />
 		<Unit filename="devices/thrusters/thruster.cpp" />
 		<Unit filename="devices/thrusters/thruster.h" />
 		<Unit filename="font_load.cpp" />
