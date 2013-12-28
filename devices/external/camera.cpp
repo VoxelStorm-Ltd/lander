@@ -1,5 +1,8 @@
 #include "camera.h"
+#include "universe.h"
 #include "spacecraft.h"
+
+extern universe root;
 
 Vector2i const camera::windowsize = Vector2i(256, 256);
 
@@ -251,7 +254,7 @@ void camera::refresh() {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  root->render();   // render the universe
+  root.render_visible();   // render the universe in the visible spectrum
 
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();

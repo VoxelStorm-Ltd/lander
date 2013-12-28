@@ -1,4 +1,5 @@
 #include "starsystem.h"
+#include "body.h"
 
 starsystem::starsystem() {
   /// Default constructor

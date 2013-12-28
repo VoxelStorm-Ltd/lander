@@ -23,7 +23,7 @@ public:
   universe();
   ~universe();
 
-  void render();
+  void render_visible();
 
   void make_explosion(Vector3d coords, double energy);
   void destroy_range( Vector3d coords, double range);

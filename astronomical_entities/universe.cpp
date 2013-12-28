@@ -1,5 +1,6 @@
 #include "universe.h"
 #include "starsystem.h"
+#include "star.h"
 #include "astronaut.h"
 #include "spacecraft.h"
 #include "device.h"
@@ -12,12 +13,12 @@ universe::~universe() {
   /// Default destructor
 }
 
-void universe::render() {
+void universe::render_visible() {
   /// Render whatever needs to be rendered
 
   for(auto &it : starsystems) {
     if(it = currentsystem) {
-      it->render();
+      it->render_visible();
     } else {
       // TODO: move this to the right bit of the sky and make sure near/far planes make sense
       if(it->primary) {
