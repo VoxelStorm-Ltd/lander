@@ -244,7 +244,7 @@ void planet::render_diagram(double scale, bool labels) {
 }
 void planet::render_visible() {
   /// Render in the visible spectrum
-  std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
+  // TODO
 }
 void planet::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection

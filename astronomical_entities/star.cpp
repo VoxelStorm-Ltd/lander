@@ -184,7 +184,7 @@ void star::render_diagram(double scale, bool labels) {
 }
 void star::render_visible() {
   /// Render in the visible spectrum
-  std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
+  // TODO
 }
 void star::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection

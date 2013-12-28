@@ -147,7 +147,7 @@ void astronaut::render_diagram(double scale, bool labels) {
 
 void astronaut::render_visible() {
   /// Render in the visible spectrum
-  std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
+  // TODO
 }
 
 void astronaut::render_radio() {

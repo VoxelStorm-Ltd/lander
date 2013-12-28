@@ -287,7 +287,7 @@ void body::render_diagram(double scale, bool labels) {
 
 void body::render_visible() {
   /// Render in the visible spectrum
-  std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
+  // TODO
 }
 
 void body::render_radio() {
