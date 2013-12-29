@@ -1,6 +1,7 @@
 #include "planet.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "vmath.h"
 
 planet::planet()
   : atmos_molarmass(       0.0),
@@ -279,52 +280,130 @@ void planet::render_visible() {
   glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
   glBegin(GL_TRIANGLES);
 
-  random_reset();     // TESTING ONLY
-
   // 5 faces around point 0
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[0]); glVertex3dv(points[11]); glVertex3dv(points[5]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[0]); glVertex3dv(points[5 ]); glVertex3dv(points[1]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[0]); glVertex3dv(points[1 ]); glVertex3dv(points[7]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[0]); glVertex3dv(points[7 ]); glVertex3dv(points[10]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[0]); glVertex3dv(points[10]); glVertex3dv(points[11]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
   // 5 adjacent faces
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[1 ]); glVertex3dv(points[5 ]); glVertex3dv(points[9]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[5 ]); glVertex3dv(points[11]); glVertex3dv(points[4]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[11]); glVertex3dv(points[10]); glVertex3dv(points[2]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[10]); glVertex3dv(points[7 ]); glVertex3dv(points[6]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[7 ]); glVertex3dv(points[1 ]); glVertex3dv(points[8]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
   // 5 faces around point 3
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[3]); glVertex3dv(points[9]); glVertex3dv(points[4]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[3]); glVertex3dv(points[4]); glVertex3dv(points[2]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[3]); glVertex3dv(points[2]); glVertex3dv(points[6]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[3]); glVertex3dv(points[6]); glVertex3dv(points[8]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[3]); glVertex3dv(points[8]); glVertex3dv(points[9]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
   // 5 adjacent faces
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[4]); glVertex3dv(points[9]); glVertex3dv(points[5 ]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[2]); glVertex3dv(points[4]); glVertex3dv(points[11]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[6]); glVertex3dv(points[2]); glVertex3dv(points[10]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[8]); glVertex3dv(points[6]); glVertex3dv(points[7 ]);
-  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
-  glVertex3dv(points[9]); glVertex3dv(points[8]); glVertex3dv(points[1 ]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
   glEnd();
 
   // restore rotation

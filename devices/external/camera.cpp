@@ -12,11 +12,13 @@ camera::camera()
     zoom(1.0),
     rotation_x(90.0),
     rotation_y(0.0),
-    nearplane(0.5),
     fov_angle(90.0),
     fov_ratio(1.0),
     aspect_ratio(windowsize.x / windowsize.y),
-    farplane(1406000000000) {
+    //nearplane(0.5),
+    nearplane(1000.0),
+    //farplane(1406000000000) {
+    farplane(140600000000) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
 
@@ -243,22 +245,32 @@ void camera::refresh() {
   glPushMatrix();
   glLoadIdentity();
 
-  //glMultMatrixd(rotation.transform());
-  //glMultMatrixd(rotation.invert_copy().transform());
   glRotated(rotation_x, 1.0, 0.0, 0.0);
   glRotated(rotation_y, 0.0, 1.0, 0.0);
   glTranslated(-position.x,                             // position relative to vessel
                -position.y,
                -position.z);
   /// Note: this will segfault if asked to update when not on a vessel.  Cheaper not to check
-  //glMultMatrixd(vessel->rotation.transform());          // body rotation
   glMultMatrixd(vessel->rotation.invert_copy().transform());          // body rotation
   glTranslated(-vessel->position.x,                     // position relative to star system
                -vessel->position.y,
                -vessel->position.z);
 
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.0, 1.0)); // make sure global ambient is off
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHT1);
+  glDisable(GL_LIGHT2);
+  glDisable(GL_LIGHT3);
+  glDisable(GL_LIGHT4);
+  glDisable(GL_LIGHT5);
+  glDisable(GL_LIGHT6);
+  glDisable(GL_LIGHT7);
 
   root.render_visible();   // render the universe in the visible spectrum
 
@@ -266,7 +278,7 @@ void camera::refresh() {
   glPopMatrix();
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
-  //glPopAttrib();
+  glPopAttrib();
 
   // release the framebuffer
   glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
