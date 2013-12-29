@@ -73,18 +73,13 @@ void starsystem::render_visible() {
   for(auto &it : bodies) {    // set up light sources first
     if(static_cast<star*>(it) == primary) {       // placeholder
       glEnable(GL_LIGHT0);
-      //glLightfv(GL_LIGHT0, GL_DIFFUSE,  Vector4f(1.0, 0.0, 0.0, 1.0));
-      //glLightfv(GL_LIGHT0, GL_AMBIENT,  Vector4f(0.0, 0.0, 0.5, 1.0));
-      //glLightfv(GL_LIGHT0, GL_SPECULAR, Vector4f(0.0, 1.0, 0.0, 1.0));
-
       glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
       glLightfv(GL_LIGHT0, GL_AMBIENT,               Vector4f(0.0, 0.0, 0.0, 1.0));
       glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
-      //glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 1.95, -1.95, 1.0));
-      glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 0.0, 1.0, 0.0));
+      glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(it->position.x, it->position.y, it->position.z, 1.0));
       glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, 0.0, 1.0));
       glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.0);                              // accepts 0-128
-      glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                             // width of angle of spotlight, 180 = all-round
+      glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                            // width of angle of spotlight, 180 = all-round
       glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);                              // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
       glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0001);
       glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);
