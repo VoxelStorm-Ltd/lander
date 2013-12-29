@@ -220,7 +220,7 @@ void mapper_system::refresh() {
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  glOrtho(0.0, windowsize.x, windowsize.y, 0.0, -1406000000000.0 * scale, 1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
+  glOrtho(0.0, windowsize.x, windowsize.y, 0.0, 1406000000000.0 * scale, -1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
   glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
   glScaled(scale, scale, scale);                                  // zoom
   glMatrixMode(GL_MODELVIEW);
