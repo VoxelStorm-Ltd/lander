@@ -2,9 +2,22 @@
 #define PLANET_H_INCLUDED
 
 #include "orbitalbody.h"
+#include "corner.h"
+#include "region.h"
 
 class planet : public orbitalbody {
   /// An astronomical object large enough to be rounded by its own gravity but not to undergo fusion
+private:
+  double regionwidth_linear;
+  double regionwidth_curved;
+
+  unsigned int region_subdivisions;
+  double chunkwidth_linear;
+  double chunkwidth_curved;
+
+  corner corners[12];
+  region regions[20];
+
 public:
   double atmos_molarmass;               // average molar mass of the atmosphere
   double atmos_pressure_base;           // pressure at sea level or equivalent
@@ -26,6 +39,9 @@ public:
   virtual bool check_within_physical_influence_rel(double thisradius);
   virtual double get_atmos_pressure(           double thisradius);
   virtual double get_atmos_temperature(        double thisradius);
+
+  // update
+  virtual void update_model();
 
   // render
   virtual void render_diagram(double scale, bool labels = false);

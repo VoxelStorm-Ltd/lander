@@ -851,6 +851,7 @@
 			<Add directory="devices/thrusters" />
 			<Add directory="devices/operators" />
 			<Add directory="devices/computers" />
+			<Add directory="astronomical_entities/geo" />
 		</Compiler>
 		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Alg.h" />
@@ -1082,6 +1083,12 @@
 		<Unit filename="astronomical_entities/blackhole.h" />
 		<Unit filename="astronomical_entities/dustcloud.cpp" />
 		<Unit filename="astronomical_entities/dustcloud.h" />
+		<Unit filename="astronomical_entities/geo/chunk.cpp" />
+		<Unit filename="astronomical_entities/geo/chunk.h" />
+		<Unit filename="astronomical_entities/geo/corner.cpp" />
+		<Unit filename="astronomical_entities/geo/corner.h" />
+		<Unit filename="astronomical_entities/geo/region.cpp" />
+		<Unit filename="astronomical_entities/geo/region.h" />
 		<Unit filename="astronomical_entities/moon.cpp" />
 		<Unit filename="astronomical_entities/moon.h" />
 		<Unit filename="astronomical_entities/neutronstar.cpp" />

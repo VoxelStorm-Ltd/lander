@@ -71,6 +71,8 @@ void orbitalbody::update_state(double time, double deltatime) {
   position = parent->position + orbitposition;
   velocity = (position - oldposition) / deltatime;
   //std::cout << "Pos: " << position << " vel " << velocity << std::endl;
+
+  rotation = rotation * (spin * deltatime);
 }
 
 double orbitalbody::get_mean_anomaly(double time) {

@@ -51,6 +51,7 @@ public:
   // update
   virtual void update_state(double time, double deltatime);
   void update_gm();
+  virtual void update_model();
 
   // render
   virtual void render_diagram(double scale, bool labels = false);

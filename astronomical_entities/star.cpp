@@ -184,16 +184,182 @@ void star::render_diagram(double scale, bool labels) {
 }
 void star::render_visible() {
   /// Render in the visible spectrum
-  // TODO
+  glPushMatrix();
+  // move into position
+  glTranslated(position.x, position.y, position.z);
+
+  Vector3d const thiscolour = get_colour();
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialf( GL_FRONT, GL_SHININESS,           0.0);                           // 0 to 127
+
+  double const thisradius = get_radius() / 2;
+
+  double const r = 1.0 * thisradius;
+  double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
+
+  std::vector<Vector3d> points;
+
+  points.push_back(Vector3d(-r,  t,  0));
+  points.push_back(Vector3d( r,  t,  0));
+  points.push_back(Vector3d(-r, -t,  0));
+  points.push_back(Vector3d( r, -t,  0));
+
+  points.push_back(Vector3d( 0, -r,  t));
+  points.push_back(Vector3d( 0,  r,  t));
+  points.push_back(Vector3d( 0, -r, -t));
+  points.push_back(Vector3d( 0,  r, -t));
+
+  points.push_back(Vector3d( t,  0, -r));
+  points.push_back(Vector3d( t,  0,  r));
+  points.push_back(Vector3d(-t,  0, -r));
+  points.push_back(Vector3d(-t,  0,  r));
+
+  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
+  glBegin(GL_TRIANGLES);
+
+  // 5 faces around point 0
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[0].normalise_copy());
+  glVertex3dv(points[0]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  // 5 adjacent faces
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  // 5 faces around point 3
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[3].normalise_copy());
+  glVertex3dv(points[3]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  // 5 adjacent faces
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[5].normalise_copy());
+  glVertex3dv(points[5]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[4].normalise_copy());
+  glVertex3dv(points[4]);
+  glNormal3dv(points[11].normalise_copy());
+  glVertex3dv(points[11]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[2].normalise_copy());
+  glVertex3dv(points[2]);
+  glNormal3dv(points[10].normalise_copy());
+  glVertex3dv(points[10]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[6].normalise_copy());
+  glVertex3dv(points[6]);
+  glNormal3dv(points[7].normalise_copy());
+  glVertex3dv(points[7]);
+  glNormal3dv(points[9].normalise_copy());
+  glVertex3dv(points[9]);
+  glNormal3dv(points[8].normalise_copy());
+  glVertex3dv(points[8]);
+  glNormal3dv(points[1].normalise_copy());
+  glVertex3dv(points[1]);
+  glEnd();
+
+  // restore rotation
+  glPopMatrix();
 }
+
 void star::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void star::render_infrared() {
   /// Render in the infrared spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void star::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;

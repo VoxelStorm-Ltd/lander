@@ -13,6 +13,32 @@ planet::planet()
     atmos_thermopause(     0.0) {
     //atmos_exopause(        0.0) {
   /// Default constructor
+  double const thisradius = get_radius();
+  double const r = 1.0 * thisradius;
+  double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
+  std::cout << "Radius " << get_name() << " = " << r << std::endl;
+  // geometry reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
+	regions[0 ].set_corners(&corners[0 ], &corners[11], &corners[5 ]);     // 5 faces around point 0
+	regions[1 ].set_corners(&corners[0 ], &corners[5 ], &corners[1 ]);
+	regions[2 ].set_corners(&corners[0 ], &corners[1 ], &corners[7 ]);
+	regions[3 ].set_corners(&corners[0 ], &corners[7 ], &corners[10]);
+	regions[4 ].set_corners(&corners[0 ], &corners[10], &corners[11]);
+	regions[5 ].set_corners(&corners[1 ], &corners[5 ], &corners[9 ]);    	// 5 adjacent faces
+	regions[6 ].set_corners(&corners[5 ], &corners[11], &corners[4 ]);
+	regions[7 ].set_corners(&corners[11], &corners[10], &corners[2 ]);
+	regions[8 ].set_corners(&corners[10], &corners[7 ], &corners[6 ]);
+	regions[9 ].set_corners(&corners[7 ], &corners[1 ], &corners[8 ]);
+	regions[10].set_corners(&corners[3 ], &corners[9 ], &corners[4 ]);      // 5 faces around point 3
+	regions[11].set_corners(&corners[3 ], &corners[4 ], &corners[2 ]);
+	regions[12].set_corners(&corners[3 ], &corners[2 ], &corners[6 ]);
+	regions[13].set_corners(&corners[3 ], &corners[6 ], &corners[8 ]);
+	regions[14].set_corners(&corners[3 ], &corners[8 ], &corners[9 ]);
+	regions[15].set_corners(&corners[4 ], &corners[9 ], &corners[5 ]);      // 5 adjacent faces
+	regions[16].set_corners(&corners[2 ], &corners[4 ], &corners[11]);
+	regions[17].set_corners(&corners[6 ], &corners[2 ], &corners[10]);
+	regions[18].set_corners(&corners[8 ], &corners[6 ], &corners[7 ]);
+	regions[19].set_corners(&corners[9 ], &corners[8 ], &corners[1 ]);
+  update_model();
 }
 
 planet::~planet() {
@@ -188,6 +214,34 @@ function Compute() {
 }
 */
 
+void planet::update_model() {
+  /// Reposition the region corners based on radius, etc
+  double const thisradius = get_radius();
+  regionwidth_linear = thisradius / 0.95105651629;      // sin(72deg)
+  regionwidth_curved = regionwidth_linear * 1.107;      // geodesic great circle - http://www.wolframalpha.com/input/?i=asin%28%281+%2F+sin%2872deg%29+%2F+2%29+%2F+1%29+*+2+*+1
+  region_subdivisions = 10;
+  chunkwidth_linear = regionwidth_linear / region_subdivisions;
+  chunkwidth_curved = regionwidth_curved / region_subdivisions;
+
+  //double const r = 1.0 * thisradius;
+  double const r = 1.0 * thisradius / 2.0;
+  //double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
+  double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius / 2.0;
+  // geometry reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
+  corners[0 ].set_coords(-r,  t,  0);   // z plane
+  corners[1 ].set_coords( r,  t,  0);
+  corners[2 ].set_coords(-r, -t,  0);
+  corners[3 ].set_coords( r, -t,  0);
+  corners[4 ].set_coords( 0, -r,  t);   // x plane
+  corners[5 ].set_coords( 0,  r,  t);
+  corners[6 ].set_coords( 0, -r, -t);
+  corners[7 ].set_coords( 0,  r, -t);
+  corners[8 ].set_coords( t,  0, -r);   // y plane
+  corners[9 ].set_coords( t,  0,  r);
+  corners[10].set_coords(-t,  0, -r);
+  corners[11].set_coords(-t,  0,  r);
+}
+
 void planet::render_diagram(double scale, bool labels) {
   /// Render in the orthographic diagram view
   glPushMatrix();
@@ -249,162 +303,30 @@ void planet::render_visible() {
   glPushMatrix();
   // move into position
   glTranslated(position.x, position.y, position.z);
+  // rotate
+  glMultMatrixd(rotation.transform());
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           20.0);                           // 0 to 127
-
-  double const thisradius = get_radius() / 2;
-
-  double const r = 1.0 * thisradius;
-  double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
-
-  std::vector<Vector3d> points;
-
-  points.push_back(Vector3d(-r,  t,  0));
-  points.push_back(Vector3d( r,  t,  0));
-  points.push_back(Vector3d(-r, -t,  0));
-  points.push_back(Vector3d( r, -t,  0));
-
-  points.push_back(Vector3d( 0, -r,  t));
-  points.push_back(Vector3d( 0,  r,  t));
-  points.push_back(Vector3d( 0, -r, -t));
-  points.push_back(Vector3d( 0,  r, -t));
-
-  points.push_back(Vector3d( t,  0, -r));
-  points.push_back(Vector3d( t,  0,  r));
-  points.push_back(Vector3d(-t,  0, -r));
-  points.push_back(Vector3d(-t,  0,  r));
-
-  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
-  glBegin(GL_TRIANGLES);
-
-  // 5 faces around point 0
-  glNormal3dv(points[0].normalise_copy());
-  glVertex3dv(points[0]);
-  glNormal3dv(points[11].normalise_copy());
-  glVertex3dv(points[11]);
-  glNormal3dv(points[5].normalise_copy());
-  glVertex3dv(points[5]);
-  glNormal3dv(points[0].normalise_copy());
-  glVertex3dv(points[0]);
-  glNormal3dv(points[5].normalise_copy());
-  glVertex3dv(points[5]);
-  glNormal3dv(points[1].normalise_copy());
-  glVertex3dv(points[1]);
-  glNormal3dv(points[0].normalise_copy());
-  glVertex3dv(points[0]);
-  glNormal3dv(points[1].normalise_copy());
-  glVertex3dv(points[1]);
-  glNormal3dv(points[7].normalise_copy());
-  glVertex3dv(points[7]);
-  glNormal3dv(points[0].normalise_copy());
-  glVertex3dv(points[0]);
-  glNormal3dv(points[7].normalise_copy());
-  glVertex3dv(points[7]);
-  glNormal3dv(points[10].normalise_copy());
-  glVertex3dv(points[10]);
-  glNormal3dv(points[0].normalise_copy());
-  glVertex3dv(points[0]);
-  glNormal3dv(points[10].normalise_copy());
-  glVertex3dv(points[10]);
-  glNormal3dv(points[11].normalise_copy());
-  glVertex3dv(points[11]);
-  // 5 adjacent faces
-  glNormal3dv(points[1].normalise_copy());
-  glVertex3dv(points[1]);
-  glNormal3dv(points[5].normalise_copy());
-  glVertex3dv(points[5]);
-  glNormal3dv(points[9].normalise_copy());
-  glVertex3dv(points[9]);
-  glNormal3dv(points[5].normalise_copy());
-  glVertex3dv(points[5]);
-  glNormal3dv(points[11].normalise_copy());
-  glVertex3dv(points[11]);
-  glNormal3dv(points[4].normalise_copy());
-  glVertex3dv(points[4]);
-  glNormal3dv(points[11].normalise_copy());
-  glVertex3dv(points[11]);
-  glNormal3dv(points[10].normalise_copy());
-  glVertex3dv(points[10]);
-  glNormal3dv(points[2].normalise_copy());
-  glVertex3dv(points[2]);
-  glNormal3dv(points[10].normalise_copy());
-  glVertex3dv(points[10]);
-  glNormal3dv(points[7].normalise_copy());
-  glVertex3dv(points[7]);
-  glNormal3dv(points[6].normalise_copy());
-  glVertex3dv(points[6]);
-  glNormal3dv(points[7].normalise_copy());
-  glVertex3dv(points[7]);
-  glNormal3dv(points[1].normalise_copy());
-  glVertex3dv(points[1]);
-  glNormal3dv(points[8].normalise_copy());
-  glVertex3dv(points[8]);
-  // 5 faces around point 3
-  glNormal3dv(points[3].normalise_copy());
-  glVertex3dv(points[3]);
-  glNormal3dv(points[9].normalise_copy());
-  glVertex3dv(points[9]);
-  glNormal3dv(points[4].normalise_copy());
-  glVertex3dv(points[4]);
-  glNormal3dv(points[3].normalise_copy());
-  glVertex3dv(points[3]);
-  glNormal3dv(points[4].normalise_copy());
-  glVertex3dv(points[4]);
-  glNormal3dv(points[2].normalise_copy());
-  glVertex3dv(points[2]);
-  glNormal3dv(points[3].normalise_copy());
-  glVertex3dv(points[3]);
-  glNormal3dv(points[2].normalise_copy());
-  glVertex3dv(points[2]);
-  glNormal3dv(points[6].normalise_copy());
-  glVertex3dv(points[6]);
-  glNormal3dv(points[3].normalise_copy());
-  glVertex3dv(points[3]);
-  glNormal3dv(points[6].normalise_copy());
-  glVertex3dv(points[6]);
-  glNormal3dv(points[8].normalise_copy());
-  glVertex3dv(points[8]);
-  glNormal3dv(points[3].normalise_copy());
-  glVertex3dv(points[3]);
-  glNormal3dv(points[8].normalise_copy());
-  glVertex3dv(points[8]);
-  glNormal3dv(points[9].normalise_copy());
-  glVertex3dv(points[9]);
-  // 5 adjacent faces
-  glNormal3dv(points[4].normalise_copy());
-  glVertex3dv(points[4]);
-  glNormal3dv(points[9].normalise_copy());
-  glVertex3dv(points[9]);
-  glNormal3dv(points[5].normalise_copy());
-  glVertex3dv(points[5]);
-  glNormal3dv(points[2].normalise_copy());
-  glVertex3dv(points[2]);
-  glNormal3dv(points[4].normalise_copy());
-  glVertex3dv(points[4]);
-  glNormal3dv(points[11].normalise_copy());
-  glVertex3dv(points[11]);
-  glNormal3dv(points[6].normalise_copy());
-  glVertex3dv(points[6]);
-  glNormal3dv(points[2].normalise_copy());
-  glVertex3dv(points[2]);
-  glNormal3dv(points[10].normalise_copy());
-  glVertex3dv(points[10]);
-  glNormal3dv(points[8].normalise_copy());
-  glVertex3dv(points[8]);
-  glNormal3dv(points[6].normalise_copy());
-  glVertex3dv(points[6]);
-  glNormal3dv(points[7].normalise_copy());
-  glVertex3dv(points[7]);
-  glNormal3dv(points[9].normalise_copy());
-  glVertex3dv(points[9]);
-  glNormal3dv(points[8].normalise_copy());
-  glVertex3dv(points[8]);
-  glNormal3dv(points[1].normalise_copy());
-  glVertex3dv(points[1]);
-  glEnd();
+  // manually unrolled render loop:
+  regions[0 ].render();
+  regions[1 ].render();
+  regions[2 ].render();
+  regions[3 ].render();
+  regions[4 ].render();
+  regions[5 ].render();
+  regions[6 ].render();
+  regions[7 ].render();
+  regions[8 ].render();
+  regions[9 ].render();
+  regions[10].render();
+  regions[11].render();
+  regions[12].render();
+  regions[13].render();
+  regions[14].render();
+  regions[15].render();
+  regions[16].render();
+  regions[17].render();
+  regions[18].render();
+  regions[19].render();
 
   // restore rotation
   glPopMatrix();

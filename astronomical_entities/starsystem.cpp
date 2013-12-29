@@ -72,7 +72,7 @@ void starsystem::render_visible() {
   /// Render everything that's in this star system
   for(auto &it : bodies) {    // set up light sources first
     if(static_cast<star*>(it) == primary) {       // placeholder
-      glEnable(GL_LIGHT0);
+      glEnable( GL_LIGHT0);
       glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
       glLightfv(GL_LIGHT0, GL_AMBIENT,               Vector4f(0.0, 0.0, 0.0, 1.0));
       glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));

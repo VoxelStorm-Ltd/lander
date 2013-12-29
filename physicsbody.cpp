@@ -37,4 +37,5 @@ void physicsbody::update_state(double time, double deltatime) {
   //std::cout << "DEBUG: called update_state on physicsbody " << name << std::endl;
   integrate(position, velocity, time, deltatime);
   //std::cout << "DEBUG: physics_step after:  pos " << position << " vel " << velocity << std::endl;
+  rotation = rotation * (spin * deltatime);
 }

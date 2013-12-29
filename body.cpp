@@ -17,7 +17,7 @@ body::~body() {
 }
 
 std::string body::get_name() {
-  if(name.size() != 0) {
+  if(!name.empty()) {
     return name;
   } else {
     // random asteroid type name, as in http://en.wikipedia.org/wiki/List_of_minor_planets:_1%E2%80%931000
@@ -98,6 +98,7 @@ double body::get_radius() {
 
 void body::set_radius(double newradius) {
   radius = newradius;
+  update_model();
 }
 
 double body::get_kinetic_energy() {
@@ -110,11 +111,17 @@ void body::update_state(double time __attribute__((__unused__)), double deltatim
   // by default bodies just maintain momentum
   //std::cout << "INFO: Called default update_state on " << name << std::endl;
   position += velocity * deltatime;
+  rotation = rotation * (spin * deltatime);
 }
 
 void body::update_gm() {
-  // re-cache the standard gravitational parameter
+  /// Re-cache the standard gravitational parameter
   gm = (gravitational_constant * get_mass());
+}
+
+void body::update_model() {
+  /// Make any necessary updates to the display model
+  // nothing to be done by default
 }
 
 bool body::check_within_physical_influence(Vector3d const &absolute_coords) {
