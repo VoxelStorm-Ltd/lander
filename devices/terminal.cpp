@@ -1,6 +1,13 @@
 #include "terminal.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <FTGL/ftgl.h>
 
-Vector2i const terminal::windowsize = Vector2i(256, 256);
+// TODO: load a monospace computery font
+extern FTFont *font_monospace_small;
+
+Vector2<unsigned int> const terminal::windowsize      = Vector2i(512, 512);
+Vector2<unsigned int> const terminal::windowsize_text = Vector2i(80,  48);
 
 terminal::terminal() {
   /// Default constructor
@@ -12,18 +19,10 @@ terminal::terminal() {
   glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
   // texture parameters
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);    // average between two mipmap levels on nearest neighbour texture pixel
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);    // when texture area is small, bilinear filter the closest mipmap
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);     // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                  // nearest neighbour filtering
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                  // nearest-neighbour on closeup views to show the pixel squares
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
-  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
-  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                        // automatically generate mipmaps - doesn't work for FBO
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   4);                            // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);                            // maximum mipmap level
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
@@ -77,12 +76,12 @@ std::string terminal::get_description() {
 
 double terminal::get_mass() {
   /// Return the weight of the device, in kilograms
-  return 5.0;
+  return 1.0;
 }
 
 Vector3d terminal::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.20, 0.1, 0.1);
+  return Vector3d(0.10, 0.10, 0.06);
 }
 
 unsigned int terminal::get_port_in_count() {
@@ -176,12 +175,27 @@ std::string terminal::get_port_out_text(unsigned int port) {
   if(port == 1) {
     // TODO
     return "";
+  } else {
+    return "";
   }
 }
 
 void terminal::update() {
   /// Update the output states and respond to changes in input
-  // TODO
+  if(!ports_in[0].target) {
+    return;
+  }
+  std::string s = ports_in[0].target->get_port_out_text(ports_in[0].target_port);
+  if(s.empty()) {
+    return;         // we ignore blank strings
+  }
+  // break lines
+  do {
+    buffer.push_back(s.substr(0, windowsize_text.x));
+    if(buffer.size() > windowsize_text.y) {
+      buffer.pop_front();
+    }
+  } while(s.length() > windowsize_text.x && (s = s.substr(windowsize_text.x, std::string::npos), true));
 }
 
 void terminal::update_if_time() {
@@ -196,5 +210,47 @@ void terminal::update_if_time() {
 
 void terminal::refresh() {
   /// Re-draw the texture
-  // TODO
+  // cache the old viewport
+  Vector4i oldviewport;
+  glGetIntegerv(GL_VIEWPORT, oldviewport);
+  glViewport(0, 0, windowsize.x, windowsize.y);
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
+
+  glPushAttrib(GL_ALL_ATTRIB_BITS);                       // save state - see http://opengl.czweb.org/ch14/462-465.html
+  glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  //glOrtho(0.0, windowsize.x, windowsize.y, 0.0, 0.0, 1.0);
+  glOrtho(0.0, windowsize.x, 0.0, windowsize.y, 0.0, 1.0);
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
+
+
+  glColor4d(0.2, 1.0, 0.2, 1.0);
+  double linepos = windowsize.y - margin_bottom - lineheight;
+  for(auto const &line : buffer) {
+    font_monospace_small->Render(line.c_str(), line.length(), FTPoint(margin_left, linepos), FTPoint(), FTGL::RENDER_FRONT);
+    linepos -= lineheight;
+  }
+
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
+  glPopAttrib();
+
+  // release the framebuffer
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);                                  // unbind the framebuffer
+  glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);   // restore the viewport
+
+  // generate mipmaps - only use this if we're actually using a mipmap
+  glBindTexture(GL_TEXTURE_2D, display_image);
+  glGenerateMipmapEXT(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }

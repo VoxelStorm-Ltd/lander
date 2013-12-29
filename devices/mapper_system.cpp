@@ -214,8 +214,6 @@ void mapper_system::refresh() {
 
   glPushAttrib(GL_LIGHTING_BIT);                          // save state - see http://opengl.czweb.org/ch14/462-465.html
   glDisable(GL_LIGHTING);
-  //glClearColor(0.2, 0.3, 0.2, 1.0);
-  //glClearColor(0.2, 0.2, 0.2, 1.0);
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -237,7 +235,7 @@ void mapper_system::refresh() {
                -vessel->position.z);
 
   // bodies
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  glColor4d(1.0, 1.0, 1.0, 1.0);
   for(auto const &it : root.currentsystem->bodies) {
     Vector3d point  = it->position;
     Vector3d vel    = it->velocity;
@@ -250,7 +248,7 @@ void mapper_system::refresh() {
 
     // line to centre of reference object, only from our ship
     if(trail_ref && it == vessel) {
-      glColor4dv(Vector4d(0.2, 0.4, 0.2, 1.0));
+      glColor4d(0.2, 0.4, 0.2, 1.0);
       glBegin(GL_LINES);
       glVertex3dv(trail_ref->position);
       glVertex3dv(point);
@@ -275,7 +273,7 @@ void mapper_system::refresh() {
       if(trail_ref) {
         if(it != trail_ref) {     // don't add trails for the (still) reference body
           trail.linestart = (point - trail_ref->position) - ((vel - trail_ref->velocity) * 10);
-          trail.lineend   = point - trail_ref->position;
+          trail.lineend   =  point - trail_ref->position;
         }
       } else {
         trail.linestart = point - vel;
@@ -326,8 +324,8 @@ void mapper_system::refresh() {
   glPopAttrib();
 
   // release the framebuffer
-  glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);                                  // unbind the framebuffer
+  glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);   // restore the viewport
 
   // generate mipmaps - only use this if we're actually using a mipmap
   glBindTexture(GL_TEXTURE_2D, display_image);

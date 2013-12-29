@@ -16,6 +16,7 @@ extern FTFont *font_text;
 extern FTFont *font_title3d;
 extern FTFont *font_text3d;
 extern FTFont *font_7segment3d;
+extern FTFont *font_monospace_small;
 
 void callback_mousepos(    GLFWwindow *thiswindow, double x, double y);
 void callback_mousebutton( GLFWwindow *thiswindow, int button, int action, int mods);
@@ -204,13 +205,22 @@ void init_graphics(Vector2i &windowsize) {
 
   // initialise fonts
   //fontconsole = font_load("resources/FuturaExt-Normal.ttf");
-  font_title      = font_load(  "resources/Futurak.ttf");
-  font_title3d    = font_load3d("resources/Futurak.ttf");
-  font_title_huge = font_load3d("resources/Futurak.ttf", 100);
-  font_text       = font_load(  "resources/FuturaExt-Normal.ttf");
-  font_text3d     = font_load3d("resources/FuturaExt-Normal.ttf");
-  font_7segment3d = font_load3d("resources/7-Segment-Display-Extended.ttf");
-  if(!font_title || !font_title_huge || !font_text || !font_title3d || !font_text3d) {
+  font_title           = font_load(  "resources/Futurak.ttf");
+  font_title3d         = font_load3d("resources/Futurak.ttf");
+  font_title_huge      = font_load3d("resources/Futurak.ttf", 100);
+  font_text            = font_load(  "resources/FuturaExt-Normal.ttf");
+  font_text3d          = font_load3d("resources/FuturaExt-Normal.ttf");
+  font_7segment3d      = font_load3d("resources/7-Segment-Display-Extended.ttf");
+  font_monospace_small = font_load(  "resources/FSEX300.ttf", 12);
+  //font_monospace_small = font_load(  "resources/Perfect DOS VGA 437.ttf", 12);
+  //font_monospace_small = font_load(  "resources/5by7.ttf", 12);
+  if(!font_title ||
+     !font_title_huge ||
+     !font_text ||
+     !font_title3d ||
+     !font_text3d ||
+     !font_7segment3d ||
+     !font_monospace_small) {
     std::cout << "Failed to load one or more fonts - exiting" << std::endl;
     exit(EXIT_FAILURE);
   }

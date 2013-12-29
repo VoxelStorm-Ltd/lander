@@ -1,14 +1,22 @@
 #ifndef TERMINAL_H_INCLUDED
 #define TERMINAL_H_INCLUDED
 
+#include <deque>
+#include <string>
 #include "device.h"
 
 class terminal : public device {
   /// TTY style serial terminal, reading text from a text device and outputting to display
 private:
-  Vector2i static const windowsize;
+  Vector2<unsigned int> static const windowsize;
+  Vector2<unsigned int> static const windowsize_text;    // rows and columns
+  double static constexpr lineheight = 10.0;
+  double static constexpr margin_bottom = 16.0;
+  double static constexpr margin_left   = 16.0;
   GLuint display_image;
   GLuint framebuffer;
+
+  std::deque<std::string> buffer;
 
 public:
   terminal();

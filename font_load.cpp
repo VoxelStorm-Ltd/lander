@@ -8,10 +8,10 @@ FTFont *font_load(std::string const &filename, unsigned int size = 16) {
     std::cout << "ERROR: font_load: no such file as " << filename << std::endl;
     return nullptr;
   }
+  //FTFont *font = new FTBitmapFont(filename.c_str());
+  //FTFont *font = new FTPixmapFont(filename.c_str());
   //FTFont *font = new FTTextureFont(filename.c_str());
   FTFont *font = new FTBufferFont(filename.c_str());
-  //FTFont *font = new FTPolygonFont(filename.c_str());
-  //FTFont *font = new FTExtrudeFont(filename.c_str());
   if(!font) {
     std::cout << "ERROR: font_load: could not load font from file " << filename << std::endl;
     return nullptr;
@@ -19,7 +19,6 @@ FTFont *font_load(std::string const &filename, unsigned int size = 16) {
   font->CharMap(ft_encoding_unicode);
   font->FaceSize(size, 72);  // points, display resolution: 10, 72 = 10PPEm, ignored for anything other than a buffer font
   font->UseDisplayList(true);
-  font->Depth(16.0);
 
   return font;
 }
@@ -31,8 +30,6 @@ FTFont *font_load3d(std::string const &filename, unsigned int size = 16) {
     std::cout << "ERROR: font_load: no such file as " << filename << std::endl;
     return nullptr;
   }
-  //FTFont *font = new FTTextureFont(filename.c_str());
-  //FTFont *font = new FTBufferFont(filename.c_str());
   FTFont *font = new FTPolygonFont(filename.c_str());
   //FTFont *font = new FTExtrudeFont(filename.c_str());
   if(!font) {

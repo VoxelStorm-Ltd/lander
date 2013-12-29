@@ -850,6 +850,7 @@
 			<Add directory="devices/external" />
 			<Add directory="devices/thrusters" />
 			<Add directory="devices/operators" />
+			<Add directory="devices/computers" />
 		</Compiler>
 		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
 		<Unit filename="OVR/Kernel/OVR_Alg.h" />
@@ -1103,6 +1104,8 @@
 		<Unit filename="body.h" />
 		<Unit filename="devices/attitude_cmg.cpp" />
 		<Unit filename="devices/attitude_cmg.h" />
+		<Unit filename="devices/computers/computer_mission.cpp" />
+		<Unit filename="devices/computers/computer_mission.h" />
 		<Unit filename="devices/device.cpp" />
 		<Unit filename="devices/device.h" />
 		<Unit filename="devices/display_converter_analogue_digital.cpp" />

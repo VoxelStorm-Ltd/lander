@@ -40,7 +40,6 @@ device::~device() {
 std::string device::get_name() {
   /// Return the name of this device
   // virtual placeholder
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "device";
 }
 
@@ -58,14 +57,12 @@ std::string device::get_manufacturer() {
 std::string device::get_model() {
   /// Return a model name for this device
   // virtual placeholder
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "DEV0001a";
 }
 
 std::string device::get_description() {
   /// Return a detailed description of this device
   // virtual placeholder
-  std::cout << "WARNING: virtual function " << __PRETTY_FUNCTION__ << " called without specialisation - this should never happen." << std::endl;
   return "A device of some sort.  It doesn't appear to do anything.";
 }
 

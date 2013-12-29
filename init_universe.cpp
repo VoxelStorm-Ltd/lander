@@ -27,6 +27,8 @@
 #include "operator_sub.h"
 #include "display_number.h"
 #include "camera.h"
+#include "terminal.h"
+#include "computer_mission.h"
 
 extern universe root;
 extern astronaut *player;
@@ -276,7 +278,7 @@ void init_universe() {
   sensor_pressure *test_pressuresensor = new sensor_pressure;
   test_altimeter->attach(playership);
   test_altimeter->attach_panel(controlpanel);
-  test_altimeter->set_position(0.1, 0.84, 0.0);
+  test_altimeter->set_position(0.02, 0.84, 0.0);
   test_pressuresensor->attach(playership);
   test_pressuresensor->attach_hull();
   test_altimeter->connect(0, test_pressuresensor, 0);
@@ -291,7 +293,7 @@ void init_universe() {
   memory *mem_ref = new memory;
   mainmonitor->attach(playership);
   mainmonitor->attach_panel(controlpanel);
-  mainmonitor->set_position(0.45, 0.5, 0.0);
+  mainmonitor->set_position(0.55, 0.5, 0.0);
   mainmapper->attach(playership);
   mainmapper->attach_panel(controlpanel);
   mainmapper->set_position(mainmonitor->get_position() + Vector3d(0.0, -(mainmapper->get_size().y + 0.02), 0.0));
@@ -379,28 +381,44 @@ void init_universe() {
   ref_disp->set_position(ref_prev->get_position() + Vector3d(-0.105, 0.0, 0.0));
   ref_disp->connect(0, mem_ref, 0);
 
-  display_digital *staticmonitor1 = new display_digital;
-  staticmonitor1->attach(playership);
-  staticmonitor1->attach_panel(controlpanel);
-  staticmonitor1->set_position(1.05, 0.5, 0.0);
-  display_small *staticmonitor2 = new display_small;
-  staticmonitor2->attach(playership);
-  staticmonitor2->attach_panel(controlpanel);
-  staticmonitor2->set_position(0.3, 0.84, 0.0);
-  staticmonitor2->connect(0, test_pressuresensor, 0);             // noise source
+  display_digital *monitor_digital = new display_digital;
+  monitor_digital->attach(playership);
+  monitor_digital->attach_panel(controlpanel);
+  monitor_digital->set_position(1.05, 0.5, 0.0);
+  display_small *monitor_small = new display_small;
+  monitor_small->attach(playership);
+  monitor_small->attach_panel(controlpanel);
+  monitor_small->set_position(test_altimeter->get_position() + Vector3d(0.0, -0.2, 0.0));
+  monitor_small->connect(0, test_pressuresensor, 0);             // noise source
 
   display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
   converter1->attach(playership);
   converter1->attach_panel(controlpanel);
   converter1->set_position(1.2, 0.38, 0.0);
   converter1->connect(0, mainmapper, 0);
-  staticmonitor1->connect(0, converter1, 0);
+  monitor_digital->connect(0, converter1, 0);
 
   camera *cam1 = new camera;
   cam1->attach(playership);
   cam1->attach_hull();
   cam1->set_position(Vector3d(0.0, 0.0, 2.0));
-  staticmonitor1->connect(0, cam1, 0);
+  monitor_digital->connect(0, cam1, 0);
+
+  display *monitor_computer = new display;
+  monitor_computer->attach(playership);
+  monitor_computer->attach_panel(controlpanel);
+  monitor_computer->set_position(0.15, 0.5, 0.0);
+  terminal *tty = new terminal;
+  tty->attach(playership);
+  tty->attach_panel(controlpanel);
+  tty->set_position(monitor_computer->get_position() + Vector3d(0.0, -(tty->get_size().y + 0.02), 0.0));
+  monitor_computer->connect(0, tty, 0);
+  computer_mission *computer = new computer_mission;
+  computer->attach(playership);
+  computer->attach_panel(controlpanel);
+  computer->set_position(tty->get_position() + Vector3d(0.0, -(computer->get_size().y + 0.02), 0.0));
+  tty->connect(0, computer, 0);
+  computer->connect(0, tty, 1);
 
   spacecraft *crashtester = new spacecraft;
   crashtester->set_name("Crash Tester");

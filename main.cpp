@@ -15,18 +15,19 @@
 
 // globals
 bool keeprunning = true;
-GLFWwindow *window_main = nullptr;          // the main game window
+GLFWwindow *window_main      = nullptr;          // the main game window
 universe root;
-astronaut *player       = nullptr;
-menu *menu_target       = nullptr;          // what object's menu we currently have open, if any
-oculusstorm *oculus     = nullptr;          // oculus rift controller
-FTFont *font_title      = nullptr;          // global font definitions
-FTFont *font_title_huge = nullptr;
-FTFont *font_text       = nullptr;
-FTFont *font_title3d    = nullptr;
-FTFont *font_text3d     = nullptr;
-FTFont *font_7segment3d = nullptr;
-unsigned int fps = 0;                       // fps counter
+astronaut *player            = nullptr;
+menu *menu_target            = nullptr;          // what object's menu we currently have open, if any
+oculusstorm *oculus          = nullptr;          // oculus rift controller
+FTFont *font_title           = nullptr;          // global font definitions
+FTFont *font_title_huge      = nullptr;
+FTFont *font_text            = nullptr;
+FTFont *font_title3d         = nullptr;
+FTFont *font_text3d          = nullptr;
+FTFont *font_7segment3d      = nullptr;
+FTFont *font_monospace_small = nullptr;
+unsigned int fps = 0;                            // fps counter
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();
