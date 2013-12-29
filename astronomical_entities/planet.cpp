@@ -242,18 +242,105 @@ void planet::render_diagram(double scale, bool labels) {
   // restore rotation
   glPopMatrix();
 }
+
 void planet::render_visible() {
   /// Render in the visible spectrum
-  // TODO
+  glPushMatrix();
+  // move into position
+  glTranslated(position.x, position.y, position.z);
+
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialf(GL_FRONT,  GL_SHININESS,           20.0);                           // 0 to 127
+
+  double const thisradius = get_radius() / 2;
+
+  double const r = 1.0 * thisradius;
+  double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
+
+  std::vector<Vector3d> points;
+
+  points.push_back(Vector3d(-r,  t,  0));
+  points.push_back(Vector3d( r,  t,  0));
+  points.push_back(Vector3d(-r, -t,  0));
+  points.push_back(Vector3d( r, -t,  0));
+
+  points.push_back(Vector3d( 0, -r,  t));
+  points.push_back(Vector3d( 0,  r,  t));
+  points.push_back(Vector3d( 0, -r, -t));
+  points.push_back(Vector3d( 0,  r, -t));
+
+  points.push_back(Vector3d( t,  0, -r));
+  points.push_back(Vector3d( t,  0,  r));
+  points.push_back(Vector3d(-t,  0, -r));
+  points.push_back(Vector3d(-t,  0,  r));
+
+  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
+  glBegin(GL_TRIANGLES);
+
+  random_reset();     // TESTING ONLY
+
+  // 5 faces around point 0
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[0]); glVertex3dv(points[11]); glVertex3dv(points[5]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[0]); glVertex3dv(points[5 ]); glVertex3dv(points[1]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[0]); glVertex3dv(points[1 ]); glVertex3dv(points[7]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[0]); glVertex3dv(points[7 ]); glVertex3dv(points[10]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[0]); glVertex3dv(points[10]); glVertex3dv(points[11]);
+  // 5 adjacent faces
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[1 ]); glVertex3dv(points[5 ]); glVertex3dv(points[9]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[5 ]); glVertex3dv(points[11]); glVertex3dv(points[4]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[11]); glVertex3dv(points[10]); glVertex3dv(points[2]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[10]); glVertex3dv(points[7 ]); glVertex3dv(points[6]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[7 ]); glVertex3dv(points[1 ]); glVertex3dv(points[8]);
+  // 5 faces around point 3
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[3]); glVertex3dv(points[9]); glVertex3dv(points[4]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[3]); glVertex3dv(points[4]); glVertex3dv(points[2]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[3]); glVertex3dv(points[2]); glVertex3dv(points[6]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[3]); glVertex3dv(points[6]); glVertex3dv(points[8]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[3]); glVertex3dv(points[8]); glVertex3dv(points[9]);
+  // 5 adjacent faces
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[4]); glVertex3dv(points[9]); glVertex3dv(points[5 ]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[2]); glVertex3dv(points[4]); glVertex3dv(points[11]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[6]); glVertex3dv(points[2]); glVertex3dv(points[10]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[8]); glVertex3dv(points[6]); glVertex3dv(points[7 ]);
+  glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), get_random_double(0.0, 1.0), 1.0));
+  glVertex3dv(points[9]); glVertex3dv(points[8]); glVertex3dv(points[1 ]);
+  glEnd();
+
+  // restore rotation
+  glPopMatrix();
 }
+
 void planet::render_radio() {
   /// Render in the radio spectrum, i.e. radar reflection
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void planet::render_infrared() {
   /// Render in the infrared spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;
 }
+
 void planet::render_ultraviolet() {
   /// Render in the ultraviolet spectrum
   std::cout << "DEBUG: " << __PRETTY_FUNCTION__ << " not yet implemented" << std::endl;

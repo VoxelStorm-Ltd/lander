@@ -105,7 +105,6 @@ std::string computer_mission::get_port_out_text(unsigned int port) {
     if(!buffer.empty()) {
       std::string const lastline = buffer.front();
       buffer.pop();
-      std::cout << "Buffer contains " << buffer.size() << " elements" << std::endl;
       return lastline;
     } else {
       return "";

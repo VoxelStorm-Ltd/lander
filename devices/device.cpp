@@ -498,7 +498,7 @@ void device::render() {
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
-  glVertex3d(0.0,        0.0,        get_size().z);
+  glVertex3d(0.0,        0.0,        thissize.z);
   glVertex3d(thissize.x, 0.0,        thissize.z);
   glVertex3d(thissize.x, thissize.y, thissize.z);
   glVertex3d(0.0,        thissize.y, thissize.z);

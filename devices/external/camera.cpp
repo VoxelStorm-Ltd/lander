@@ -10,7 +10,7 @@ camera::camera()
   : display_image(0),
     framebuffer(0),
     zoom(1.0),
-    rotation_x(0.0),
+    rotation_x(90.0),
     rotation_y(0.0),
     nearplane(0.5),
     fov_angle(90.0),
@@ -243,12 +243,16 @@ void camera::refresh() {
   glPushMatrix();
   glLoadIdentity();
 
-  glMultMatrixd(rotation.transform());
+  //glMultMatrixd(rotation.transform());
+  //glMultMatrixd(rotation.invert_copy().transform());
+  glRotated(rotation_x, 1.0, 0.0, 0.0);
+  glRotated(rotation_y, 0.0, 1.0, 0.0);
   glTranslated(-position.x,                             // position relative to vessel
                -position.y,
                -position.z);
   /// Note: this will segfault if asked to update when not on a vessel.  Cheaper not to check
-  glMultMatrixd(vessel->rotation.transform());          // body rotation
+  //glMultMatrixd(vessel->rotation.transform());          // body rotation
+  glMultMatrixd(vessel->rotation.invert_copy().transform());          // body rotation
   glTranslated(-vessel->position.x,                     // position relative to star system
                -vessel->position.y,
                -vessel->position.z);
