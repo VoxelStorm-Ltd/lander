@@ -8,6 +8,7 @@ memory::memory()
     loop_safe(true) {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  update_vbo();                             // every device with a custom size needs this
   random_reset();
   // set up initial values for outputs
   std::stringstream ss;

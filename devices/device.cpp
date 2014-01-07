@@ -21,13 +21,21 @@ boost::chrono::duration<double> const device::time_interval_static_analogue(boos
 boost::chrono::duration<double> const device::time_interval_static_digital( boost::chrono::milliseconds(500));
 
 device::device()
-  : time_nextupdate(boost::chrono::high_resolution_clock::now()),
+  : vao(0),
+    vbo_v(0),
+    vbo_n(0),
+    ibo(0),
+    time_nextupdate(boost::chrono::high_resolution_clock::now()),
     status(statustype::UNMOUNTED),
     vessel(nullptr),
     panel(nullptr),
     functional(true) {
   /// Default constructor
   rotation = Quatd(1.0, 0.0, 0.0, 0.0);       // null rotation quaternion
+  glGenBuffers(1, &vbo_v);
+  glGenBuffers(1, &vbo_n);
+  glGenBuffers(1, &ibo);
+  update_vbo();
 }
 
 device::~device() {
@@ -475,6 +483,96 @@ void device::update_if_time() {
   }
 }
 
+void device::update_vbo() {
+  /// Update the vertex buffer object for this device
+  Vector3d const thissize = get_size();
+
+  GLdouble vbodata_vertex[] = {
+    // front
+    0.0,        0.0,        thissize.z,
+    thissize.x, 0.0,        thissize.z,
+    thissize.x, thissize.y, thissize.z,
+    0.0,        thissize.y, thissize.z,
+    // top
+    0.0,        thissize.y, 0.0,
+    0.0,        thissize.y, thissize.z,
+    thissize.x, thissize.y, thissize.z,
+    thissize.x, thissize.y, 0.0,
+    // bottom
+    0.0,        0.0,        0.0,
+    thissize.x, 0.0,        0.0,
+    thissize.x, 0.0,        thissize.z,
+    0.0,        0.0,        thissize.z,
+    // right
+    thissize.x, 0.0,        0.0,
+    thissize.x, thissize.y, 0.0,
+    thissize.x, thissize.y, thissize.z,
+    thissize.x, 0.0,        thissize.z,
+    // left
+    0.0,        0.0,        0.0,
+    0.0,        0.0,        thissize.z,
+    0.0,        thissize.y, thissize.z,
+    0.0,        thissize.y, 0.0,
+  };
+  GLdouble vbodata_normal[] = {
+    // front
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+    // top
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0,
+    // bottom
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    0.0, -1.0, 0.0,
+    // right
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    // left
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+    -1.0, 0.0, 0.0,
+  };
+  GLuint ibodata[] = {
+     0,  1,  2,  3,     // front
+     4,  5,  6,  7,     // top
+     8,  9,  10, 11,    // bottom
+     12, 13, 14, 15,    // right
+     16, 17, 18, 19,    // left
+  };
+
+
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vbodata_vertex), vbodata_vertex, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vbodata_normal), vbodata_normal, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ibodata), ibodata, GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  /*
+  glBindVertexArray(vao);             // set up the VAO's state
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
+  glVertexPointer(3, GL_DOUBLE, 0, 0);
+  glEnableClientState(GL_NORMAL_ARRAY);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
+  glNormalPointer(GL_DOUBLE, 0, 0);
+  glBindVertexArray(0);
+  */
+}
+
 void device::render() {
   /// Show this device on the instrument panel or in the cockpit or on the hull of the ship
   // render a basic placeholder for unspecified devices
@@ -493,40 +591,21 @@ void device::render() {
   //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                           // 0 to 127
 
-  Vector3d const thissize = get_size();
+  // render the vbo
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
+  glVertexPointer(3, GL_DOUBLE, 0, 0);
+  glEnableClientState(GL_NORMAL_ARRAY);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
+  glNormalPointer(GL_DOUBLE, 0, 0);
 
-  glBegin(GL_QUADS);
-  // front
-  glNormal3d(0.0, 0.0, 1.0);
-  glVertex3d(0.0,        0.0,        thissize.z);
-  glVertex3d(thissize.x, 0.0,        thissize.z);
-  glVertex3d(thissize.x, thissize.y, thissize.z);
-  glVertex3d(0.0,        thissize.y, thissize.z);
-  // top
-  glNormal3d(0.0, 1.0, 0.0);
-  glVertex3d(0.0,        thissize.y, 0.0);
-  glVertex3d(0.0,        thissize.y, thissize.z);
-  glVertex3d(thissize.x, thissize.y, thissize.z);
-  glVertex3d(thissize.x, thissize.y, 0.0);
-  // bottom
-  glNormal3d(0.0, -1.0, 0.0);
-  glVertex3d(0.0,        0.0,        0.0);
-  glVertex3d(thissize.x, 0.0,        0.0);
-  glVertex3d(thissize.x, 0.0,        thissize.z);
-  glVertex3d(0.0,        0.0,        thissize.z);
-  // right
-  glNormal3d(1.0, 0.0, 0.0);
-  glVertex3d(thissize.x, 0.0,        0.0);
-  glVertex3d(thissize.x, thissize.y, 0.0);
-  glVertex3d(thissize.x, thissize.y, thissize.z);
-  glVertex3d(thissize.x, 0.0,        thissize.z);
-  // left
-  glNormal3d(-1.0, 0.0, 0.0);
-  glVertex3d(0.0,        0.0,        0.0);
-  glVertex3d(0.0,        0.0,        thissize.z);
-  glVertex3d(0.0,        thissize.y, thissize.z);
-  glVertex3d(0.0,        thissize.y, 0.0);
-  glEnd();
+  glDrawElements(GL_QUADS, 5 * 4, GL_UNSIGNED_INT, 0);    // draw 5 quads (4 points each)
+
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_NORMAL_ARRAY);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   // manufacturer / model label
   double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
@@ -536,6 +615,7 @@ void device::render() {
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  Vector3d const thissize = get_size();
   double const modellength = font_title3d->Advance(get_model().c_str(), -1);
   if(modellength * scale <= thissize.x + 0.004) {               // only insert if there's room to do so
     glPushMatrix();
