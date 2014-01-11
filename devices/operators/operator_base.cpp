@@ -2,6 +2,7 @@
 
 operator_base::operator_base() {
   /// Default constructor
+  update_vbo();                             // every device with a custom size needs this
 }
 
 operator_base::~operator_base() {

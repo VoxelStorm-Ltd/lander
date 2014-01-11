@@ -25,11 +25,15 @@ private:
   boost::chrono::duration<double> static const time_interval_static_digital;
 
 protected:
-  device();                             // prevent this class being instantiated directly
-
+  GLuint vao;                           // vertex array object
+  GLuint vbo_v;                         // vertex buffer object for vertices
+  GLuint vbo_n;                         // vertex buffer object for normals
+  GLuint ibo;                           // index buffer object
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
   Vector3d position;                    // its location in the cabin or on the ship or on the instrument panel
   Quatd rotation;                       // its rotation relative to the ship ro cabin or instrument panel
+
+  device();                             // prevent this class being instantiated directly
 
 public:
   enum class statustype : char {
@@ -99,6 +103,7 @@ public:
 
   virtual void update();
   virtual void update_if_time();
+  virtual void update_vbo();
   virtual void render();
   virtual bool pick(Vector2d pickpos);
   virtual bool pick(Vector3d pickpos);

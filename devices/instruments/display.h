@@ -8,6 +8,10 @@
 class display : public instrument {
   /// General display device that takes a video signal and displays 2D imagery
 protected:
+  GLuint vbo_screen_v;                // vertex buffer object for vertices
+  GLuint vbo_screen_n;                // vertex buffer object for normals
+  GLuint vbo_screen_t;                // vertex buffer object for texture coords
+  GLuint ibo_screen;                  // index buffer object
   GLuint display_image;               // cached reference to the texture we use
 
 public:
@@ -25,6 +29,7 @@ public:
   virtual Vector3d    get_size();
 
   virtual void update();
+  virtual void update_vbo();
   virtual void render();
 };
 

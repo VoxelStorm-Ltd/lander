@@ -3,6 +3,7 @@
 computer_mission::computer_mission() {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  update_vbo();                             // every device with a custom size needs this
 
   boot();                                   // run bootup sequence
 }

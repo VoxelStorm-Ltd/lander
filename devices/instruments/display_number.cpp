@@ -142,7 +142,8 @@ void display_number::render() {
   // text display
   glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.2, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
   glPushMatrix();
   glTranslated(0.001, 0.0045, thissize.z + 0.0001);
@@ -154,8 +155,7 @@ void display_number::render() {
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
   font_7segment3d->Render(displaycontent.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
-  glDisable(GL_RESCALE_NORMAL);
-
+  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
   glPopMatrix();
 }
 

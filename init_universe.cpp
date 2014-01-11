@@ -75,8 +75,8 @@ void init_universe() {
   earth->set_designation("E");
   earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
   earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
-  //earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
-  //earth->velocity.x = 29800.0;                              // 29800 m/s
+  earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
+  earth->velocity.x = 29800.0;                              // 29800 m/s
   double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
   earth->parent = sun;

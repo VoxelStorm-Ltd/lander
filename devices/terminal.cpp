@@ -12,6 +12,7 @@ Vector2<unsigned int> const terminal::windowsize_text = Vector2i(80,  48);
 terminal::terminal() {
   /// Default constructor
   ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  update_vbo();                             // every device with a custom size needs this
 
   // create a blank texture
   glGenTextures(1, &display_image);
