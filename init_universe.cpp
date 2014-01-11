@@ -17,6 +17,7 @@
 #include "mapper_system.h"
 #include "memory.h"
 #include "display_converter_analogue_digital.h"
+#include "display_converter_digital_analogue.h"
 #include "thruster.h"
 #include "switch_onoff.h"
 #include "button_momentary.h"
@@ -403,6 +404,17 @@ void init_universe() {
   cam1->attach_hull();
   cam1->set_position(Vector3d(0.0, 0.0, 2.0));
   monitor_digital->connect(0, cam1, 0);
+
+  display *monitor_cam = new display;
+  monitor_cam->attach(playership);
+  monitor_cam->attach_panel(controlpanel);
+  monitor_cam->set_position(monitor_digital->get_position() + Vector3d(monitor_digital->get_size().x, 0.0, 0.0));
+  display_converter_digital_analogue *converter2 = new display_converter_digital_analogue;
+  converter2->attach(playership);
+  converter2->attach_panel(controlpanel);
+  converter2->set_position(monitor_cam->get_position() + Vector3d(0.0, -0.20, 0.0));
+  converter2->connect(0, cam1, 0);
+  monitor_cam->connect(0, converter2, 0);
 
   display *monitor_computer = new display;
   monitor_computer->attach(playership);

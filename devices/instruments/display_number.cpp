@@ -140,20 +140,21 @@ void display_number::render() {
   glEnd();
 
   // text display
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
+  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.2, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
   glPushMatrix();
-  glTranslated(0.001, 0.003, thissize.z + 0.0001);
+  glTranslated(0.001, 0.0045, thissize.z + 0.0001);
   glScaled(displayscale, displayscale, displayscale);
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
   //font_7segment3d->Render("8.8.8.8.8.8.8.8.", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);   // draw the background fill
   font_7segment3d->Render("8,8,8,8,8,8,8,8,", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);   // draw the background fill
-  glTranslated(0.0, 0.0, 0.1);
+  glTranslated(0.0, 0.0, 1.0);
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
   font_7segment3d->Render(displaycontent.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
+  glDisable(GL_RESCALE_NORMAL);
 
   glPopMatrix();
 }

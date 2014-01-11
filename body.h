@@ -55,7 +55,7 @@ public:
 
   // render
   virtual void render_diagram(double scale, bool labels = false);
-  virtual void render_visible();
+  virtual void render_visible(unsigned int depth = 0);
   virtual void render_radio();
   virtual void render_infrared();
   virtual void render_ultraviolet();

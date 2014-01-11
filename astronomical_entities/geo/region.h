@@ -2,31 +2,27 @@
 #define REGION_H_INCLUDED
 
 #include <vector>
+#include "vmath.h"
 
 class corner;
-class chunk;
 
 class region {
-  /** Region triangles are subdivided into chunk triangles
-   **     _ Z
-   **     /|       Horizontal chunk coordinates are in pairs, following the lower
-   **    /\        and left axes, at a 60 degree angle to each other.  Extracting
-   **   /\/\       Cartesian coordinates requires conversion from this scheme.
-   **  /\/\/\
-   ** *-------> X
-   **/
+  /// Region triangles are subdivided into triangular quadtrees
+  /// See https://docs.google.com/drawings/d/1ud3-i8Ua4CfPrwwuEnJJ4xYh_KOTPT-oA6x1aeoe1o0/edit
 public:
   corner *parent_corners[3];
+  Vector3d normal;
 
-  std::vector<std::vector<corner>> corners;
-  std::vector<std::vector<chunk>>  chunks;
+  corner *inner_corners[3];
+  region *regions[4];
 
   region();
   ~region();
 
   void set_corners(corner *corner1, corner *corner2, corner *corner3);
-
-  void render();
+  void subdivide(unsigned int depth = 0);
+  void update();
+  void render_visible(unsigned int depth = 0);
 };
 
 #endif // REGION_H_INCLUDED

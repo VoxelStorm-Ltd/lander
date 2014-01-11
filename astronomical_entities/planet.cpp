@@ -16,7 +16,6 @@ planet::planet()
   double const thisradius = get_radius();
   double const r = 1.0 * thisradius;
   double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
-  std::cout << "Radius " << get_name() << " = " << r << std::endl;
   // geometry reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
 	regions[0 ].set_corners(&corners[0 ], &corners[11], &corners[5 ]);     // 5 faces around point 0
 	regions[1 ].set_corners(&corners[0 ], &corners[5 ], &corners[1 ]);
@@ -240,6 +239,10 @@ void planet::update_model() {
   corners[9 ].set_coords( t,  0,  r);
   corners[10].set_coords(-t,  0, -r);
   corners[11].set_coords(-t,  0,  r);
+  for(unsigned int i = 0; i != 20; ++i) {
+    regions[i].subdivide(4);
+    regions[i].update();                 // needs to be called after moving corners
+  }
 }
 
 void planet::render_diagram(double scale, bool labels) {
@@ -298,7 +301,7 @@ void planet::render_diagram(double scale, bool labels) {
   glPopMatrix();
 }
 
-void planet::render_visible() {
+void planet::render_visible(unsigned int depth) {
   /// Render in the visible spectrum
   glPushMatrix();
   // move into position
@@ -306,27 +309,64 @@ void planet::render_visible() {
   // rotate
   glMultMatrixd(rotation.transform());
 
-  // manually unrolled render loop:
-  regions[0 ].render();
-  regions[1 ].render();
-  regions[2 ].render();
-  regions[3 ].render();
-  regions[4 ].render();
-  regions[5 ].render();
-  regions[6 ].render();
-  regions[7 ].render();
-  regions[8 ].render();
-  regions[9 ].render();
-  regions[10].render();
-  regions[11].render();
-  regions[12].render();
-  regions[13].render();
-  regions[14].render();
-  regions[15].render();
-  regions[16].render();
-  regions[17].render();
-  regions[18].render();
-  regions[19].render();
+  if(depth == 0) {                                    // render only a point
+    glBegin(GL_POINTS);
+    glVertex3d(0.0, 0.0, 0.0);
+    glEnd();
+  } else if(depth == 1) {                             // billboarded circle
+    // undo rotation - billboard effect
+    Matrix4d modelview;
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    for(unsigned int i = 0; i != 3; ++i) {
+      for(unsigned int j = 0; j != 3; ++j) {
+        if(i == j) {
+          modelview[i * 4 + j] = 1.0;
+        } else {
+          modelview[i * 4 + j] = 0.0;
+        }
+      }
+    }
+    // set the modelview matrix with no rotations and scaling
+    glLoadMatrixd(modelview);
+    double thisradius = get_radius();
+    double const circlestep = M_PI / 32.0;
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 1.0, 1.0));
+    glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                           // 0 to 127
+
+    glBegin(GL_TRIANGLE_FAN);
+    glNormal3d(0.0, 0.0, 1.0);
+    glVertex3d(0.0, 0.0, 0.0);
+    for(double angle = 0.0; angle < (M_PI * 2.0) + circlestep; angle += circlestep) {
+      glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
+    }
+    glEnd();
+  } else {                                        // render individual regions
+    // manually unrolled render loop:
+    regions[0 ].render_visible(depth);
+    regions[1 ].render_visible(depth);
+    regions[2 ].render_visible(depth);
+    regions[3 ].render_visible(depth);
+    regions[4 ].render_visible(depth);
+    regions[5 ].render_visible(depth);
+    regions[6 ].render_visible(depth);
+    regions[7 ].render_visible(depth);
+    regions[8 ].render_visible(depth);
+    regions[9 ].render_visible(depth);
+    regions[10].render_visible(depth);
+    regions[11].render_visible(depth);
+    regions[12].render_visible(depth);
+    regions[13].render_visible(depth);
+    regions[14].render_visible(depth);
+    regions[15].render_visible(depth);
+    regions[16].render_visible(depth);
+    regions[17].render_visible(depth);
+    regions[18].render_visible(depth);
+    regions[19].render_visible(depth);
+    // TODO: check normals for visibility before trying to render: dot product > 0 = facing away
+  }
 
   // restore rotation
   glPopMatrix();

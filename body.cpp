@@ -292,7 +292,7 @@ void body::render_diagram(double scale, bool labels) {
   glPopMatrix();                            // restore position & rotation
 }
 
-void body::render_visible() {
+void body::render_visible(unsigned int depth) {
   /// Render in the visible spectrum
   // TODO
 }
