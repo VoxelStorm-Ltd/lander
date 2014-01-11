@@ -34,7 +34,7 @@ public:
   OVR::Ptr<OVR::DeviceManager>    manager;
   OVR::Ptr<OVR::HMDDevice>		    device;
   OVR::Ptr<OVR::SensorDevice>     sensor;
-  OVR::SensorFusion		            sensorfusion;
+  OVR::SensorFusion		            *sensorfusion;
   OVR::HMDInfo			              hmdinfo;
   bool			                      infoloaded;
   OVR::Util::Render::StereoConfig stereoconfig;

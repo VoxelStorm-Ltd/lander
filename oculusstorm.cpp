@@ -43,13 +43,19 @@ oculusstorm::oculusstorm()
     std::cout << "Oculus: Sensor not found" << std::endl;
     return;
   }
+
   std::cout << "Oculus: Sensor found" << std::endl;
-  sensorfusion.AttachToSensor(sensor);
+  //sensorfusion.AttachToSensor(sensor);
+  sensorfusion = new OVR::SensorFusion(sensor);
+  if(!sensorfusion) {
+    std::cout << "Oculus: failed to initialise sensorfusion" << std::endl;
+    return;
+  }
   enabled = true;
 
   // setup:
-  sensorfusion.EnableMotionTracking();   // make sure motion tracking is enabled
-  sensorfusion.SetGravityEnabled(true);  // gravity correction
+  sensorfusion->EnableMotionTracking();     // make sure motion tracking is enabled
+  sensorfusion->SetGravityEnabled(true);    // gravity correction
 
   if(infoloaded) {
     std::cout << "Oculus: Could not load device info" << std::endl;
@@ -125,8 +131,8 @@ oculusstorm::~oculusstorm() {
 
 void oculusstorm::dumpinfo() {
   /// Dump current data to stdout
-  OVR::Vector3f acceleration = sensorfusion.GetAcceleration();
-  OVR::Quatf orientation     = sensorfusion.GetOrientation();
+  OVR::Vector3f acceleration = sensorfusion->GetAcceleration();
+  OVR::Quatf orientation     = sensorfusion->GetOrientation();
   //OVR::Quatf orientation     = sensorfusion.GetPredictedOrientation(0.01);
 
   float yaw, pitch, roll;
@@ -142,7 +148,7 @@ void oculusstorm::dumpinfo() {
 
 Quatf oculusstorm::getquat() {
   /// Fetch the rotation quaternion
-  OVR::Quatf const orientation = sensorfusion.GetOrientation();
+  OVR::Quatf const orientation = sensorfusion->GetOrientation();
   // translate from OVR quat to vmath quat (w + Xi + Yj + Zk)
   return Quatf(orientation.w, orientation.x, orientation.y, orientation.z);
 }
