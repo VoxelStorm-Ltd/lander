@@ -7,7 +7,7 @@
   #define PLATFORM_WINDOWS
 #elif defined __APPLE__ || defined macintosh || defined Macintosh
   #define PLATFORM_MACOS
-#elif defined __linux__ || defined linux || defined __linux || defined __gnu_linux__ || defined	__FreeBSD_kernel__ || defined __GNU__ || defined __unix__ || defined __unix || defined __OpenBSD__ || defined BSD || defined __NetBSD__ || defined __FreeBSD__
+#elif defined __linux__ || defined linux || defined __linux || defined __gnu_linux__ || defined __FreeBSD_kernel__ || defined __GNU__ || defined __unix__ || defined __unix || defined __OpenBSD__ || defined BSD || defined __NetBSD__ || defined __FreeBSD__
   #define PLATFORM_LINUX
 #endif
 
