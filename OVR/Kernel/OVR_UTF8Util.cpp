@@ -369,8 +369,8 @@ UPInt OVR_STDCALL DecodeString(wchar_t *pbuff, const char* putf8str, SPInt bytes
 // you.
 
 
-#include "base/utility.h"
-#include <stdio.h>
+//#include "base/utility.h"
+//#include <stdio.h>
 
 
 bool    check_equal(const char* utf8_in, const UInt32* ucs_in)

@@ -1,7 +1,7 @@
 #include "body.h"
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "vmath.h"
+//#include "vmath.h"
 
 body::body()
   : mass(0.0),

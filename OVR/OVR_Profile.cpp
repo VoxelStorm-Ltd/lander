@@ -22,13 +22,13 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_Profile.h"
 #include "OVR_JSON.h"
-#include "Kernel/OVR_Types.h"
-#include "Kernel/OVR_SysFile.h"
-#include "Kernel/OVR_Allocator.h"
-#include "Kernel/OVR_Array.h"
+//#include "Kernel/OVR_Types.h"
+//#include "Kernel/OVR_SysFile.h"
+//#include "Kernel/OVR_Allocator.h"
+//#include "Kernel/OVR_Array.h"
 
 #ifdef OVR_OS_WIN32
-#include <shlobj.h>
+//#include <shlobj.h>
 #else
 #include <dirent.h>
 #include <sys/stat.h>

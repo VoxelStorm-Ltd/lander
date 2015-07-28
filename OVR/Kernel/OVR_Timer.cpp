@@ -16,7 +16,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 #include "OVR_Timer.h"
 
 #if defined (OVR_OS_WIN32)
-#include <windows.h>
+//#include <windows.h>
 
 #else
 #include <sys/time.h>

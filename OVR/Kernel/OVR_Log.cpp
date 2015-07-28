@@ -15,13 +15,13 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_Log.h"
 #include "OVR_Std.h"
-#include <stdarg.h>
-#include <stdio.h>
+//#include <stdarg.h>
+//#include <stdio.h>
 
 #if defined(OVR_OS_WIN32)
-#include <windows.h>
+//#include <windows.h>
 #elif defined(OVR_OS_ANDROID)
-#include <android/log.h>
+//#include <android/log.h>
 #endif
 
 namespace OVR {

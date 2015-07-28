@@ -16,11 +16,11 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #define  GFILE_CXX
 
-#include "OVR_Types.h"
-#include "OVR_Log.h"
+//#include "OVR_Types.h"
+//#include "OVR_Log.h"
 
 // Standard C library (Captain Obvious guarantees!)
-#include <stdio.h>
+//#include <stdio.h>
 #ifndef OVR_OS_WINCE
 #include <sys/stat.h>
 #endif
@@ -50,7 +50,7 @@ static int SFerror ()
 };
 
 #ifdef OVR_OS_WIN32
-#include <windows.h>
+//#include <windows.h>
 // A simple helper class to disable/enable system error mode, if necessary
 // Disabling happens conditionally only if a drive name is involved
 class SysErrorModeDisabler

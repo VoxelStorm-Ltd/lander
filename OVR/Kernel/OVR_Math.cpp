@@ -15,7 +15,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_Math.h"
 
-#include <float.h>
+//#include <float.h>
 
 namespace OVR {
 

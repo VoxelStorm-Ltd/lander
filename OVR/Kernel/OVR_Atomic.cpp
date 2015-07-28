@@ -15,13 +15,13 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 ************************************************************************************/
 
-#include "OVR_Atomic.h"
+//#include "OVR_Atomic.h"
 
 #ifdef OVR_ENABLE_THREADS
 
 // Include Windows 8-Metro compatible Synchronization API
 #if defined(OVR_OS_WIN32) && defined(NTDDI_WIN8) && (NTDDI_VERSION >= NTDDI_WIN8)
-#include <synchapi.h>
+//#include <synchapi.h>
 #endif
 
 

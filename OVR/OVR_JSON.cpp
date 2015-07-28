@@ -38,13 +38,13 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 ************************************************************************************/
 
-#include <string.h>
-#include <stdio.h>
+//#include <string.h>
+//#include <stdio.h>
 #include <math.h>
-#include <stdlib.h>
-#include <float.h>
-#include <limits.h>
-#include <ctype.h>
+//#include <stdlib.h>
+//#include <float.h>
+//#include <limits.h>
+//#include <ctype.h>
 #include "OVR_JSON.h"
 #include "Kernel/OVR_SysFile.h"
 #include "Kernel/OVR_Log.h"

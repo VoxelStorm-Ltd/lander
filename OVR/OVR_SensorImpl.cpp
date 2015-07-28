@@ -17,7 +17,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 // HMDDeviceDesc can be created/updated through Sensor carrying DisplayInfo.
 
-#include "Kernel/OVR_Timer.h"
+//#include "Kernel/OVR_Timer.h"
 
 namespace OVR {
     

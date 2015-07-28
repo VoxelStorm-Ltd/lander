@@ -13,12 +13,12 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 *************************************************************************************/
 
-#include "OVR_DeviceImpl.h"
-#include "Kernel/OVR_Atomic.h"
-#include "Kernel/OVR_Log.h"
-#include "Kernel/OVR_System.h"
+//#include "OVR_DeviceImpl.h"
+//#include "Kernel/OVR_Atomic.h"
+//#include "Kernel/OVR_Log.h"
+//#include "Kernel/OVR_System.h"
 
-#include "OVR_DeviceImpl.h"
+//#include "OVR_DeviceImpl.h"
 #include "OVR_SensorImpl.h"
 #include "OVR_Profile.h"
 
