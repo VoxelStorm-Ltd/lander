@@ -68,7 +68,7 @@ Vector3d star::temperature_to_colour(double temperature) {
   // calculate red
   if(temperature <= 66.0) {
     if(temperature <= 10.0) {
-      result.r = (temperature - 7.98) / (2.02 * 255);       // Draper point
+      result.r = ((temperature - 7.98) / 2.02) * 255;       // Draper point
       if(result.r < 0.0) {
         result.r = 0.0;
       }
