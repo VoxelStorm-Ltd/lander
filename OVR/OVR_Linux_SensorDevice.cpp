@@ -15,7 +15,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 //#include "OVR_OSX_HMDDevice.h"
 #include "OVR_SensorImpl.h"
-#include "OVR_DeviceImpl.h"
+//#include "OVR_DeviceImpl.h"
 
 namespace OVR { namespace OSX {
 

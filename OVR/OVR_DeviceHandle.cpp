@@ -13,7 +13,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 *************************************************************************************/
 
-#include "OVR_DeviceHandle.h"
+//#include "OVR_DeviceHandle.h"
 
 #include "OVR_DeviceImpl.h"
 

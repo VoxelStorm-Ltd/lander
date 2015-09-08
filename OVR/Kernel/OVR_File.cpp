@@ -17,7 +17,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 #define  GFILE_CXX
 
 // Standard C library (Captain Obvious guarantees!)
-#include <stdio.h>
+//#include <stdio.h>
 
 #include "OVR_File.h"
 

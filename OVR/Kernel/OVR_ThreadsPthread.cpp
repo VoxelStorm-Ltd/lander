@@ -4,23 +4,23 @@
 
 #ifdef OVR_ENABLE_THREADS
 
-#include "OVR_Timer.h"
+//#include "OVR_Timer.h"
 #include "OVR_Log.h"
 
-#include <pthread.h>
-#include <time.h>
+//#include <pthread.h>
+//#include <time.h>
 
 #ifdef OVR_OS_PS3
-#include <sys/sys_time.h>
-#include <sys/timer.h>
-#include <sys/synchronization.h>
+//#include <sys/sys_time.h>
+//#include <sys/timer.h>
+//#include <sys/synchronization.h>
 #define sleep(x) sys_timer_sleep(x)
 #define usleep(x) sys_timer_usleep(x)
 using std::timespec;
 #else
 #include <unistd.h>
 #include <sys/time.h>
-#include <errno.h>
+//#include <errno.h>
 #endif
 
 namespace OVR {
@@ -628,7 +628,7 @@ static const char* mapsched_policy(int policy)
     int max_prior = sched_get_priority_max(policy);
     int min_prior = sched_get_priority_min(policy);
     printf(" !!!! policy: %s, priority: %d, max priority: %d, min priority: %d\n", mapsched_policy(policy), sparam.sched_priority, max_prior, min_prior);
-#include <stdio.h>
+//#include <stdio.h>
 */
 // ***** Thread management
 

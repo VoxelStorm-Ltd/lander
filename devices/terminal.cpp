@@ -1,6 +1,6 @@
 #include "terminal.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GL/glew.h>
+//#include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
 
 // TODO: load a monospace computery font

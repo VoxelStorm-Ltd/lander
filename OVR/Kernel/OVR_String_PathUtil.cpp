@@ -14,7 +14,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 ************************************************************************************/
 
 #include "OVR_String.h"
-#include "OVR_UTF8Util.h"
+//#include "OVR_UTF8Util.h"
 
 namespace OVR {
 

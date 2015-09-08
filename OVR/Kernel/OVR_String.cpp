@@ -16,8 +16,8 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_String.h"
 
-#include <stdlib.h>
-#include <ctype.h>
+//#include <stdlib.h>
+//#include <ctype.h>
 
 #ifdef OVR_OS_QNX
 # include <strings.h>

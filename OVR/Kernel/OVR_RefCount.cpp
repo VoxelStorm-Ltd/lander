@@ -15,7 +15,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_RefCount.h"
 #include "OVR_Atomic.h"
-#include "OVR_Log.h"
+//#include "OVR_Log.h"
 
 namespace OVR {
 

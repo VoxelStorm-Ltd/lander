@@ -15,11 +15,11 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 #include "OVR_Linux_HMDDevice.h"
 
-#include "OVR_Linux_DeviceManager.h"
+//#include "OVR_Linux_DeviceManager.h"
 
-#include "OVR_Profile.h"
+//#include "OVR_Profile.h"
 
-#include <X11/Xlib.h>
+//#include <X11/Xlib.h>
 #include <X11/extensions/Xinerama.h>
 
 namespace OVR { namespace Linux {

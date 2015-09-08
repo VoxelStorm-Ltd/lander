@@ -14,7 +14,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 *************************************************************************************/
 
 #include "OVR_SensorFusion.h"
-#include "Kernel/OVR_Log.h"
+//#include "Kernel/OVR_Log.h"
 #include "Kernel/OVR_System.h"
 #include "OVR_JSON.h"
 #include "OVR_Profile.h"
