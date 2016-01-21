@@ -16,7 +16,7 @@ void integrator_rungekuttafehlberg54::integrate(Vector3d &thisposition,
   /// also see http://people.sc.fsu.edu/~jburkardt/cpp_src/rkf45/rkf45.html
   double const finaltime = time + deltatime;
 
-  // void rk45(float f(float, float), float* t, float* x, float deltatime, float* epsilon)
+  // void rk45(float f(float, float), float *t, float *x, float deltatime, float *epsilon)
   Vector3d const temp1 = get_acceleration(thisposition,
                                           thisvelocity,                   finaltime) * deltatime;
   Vector3d const temp2 = get_acceleration(thisposition + temp1 * c21,
