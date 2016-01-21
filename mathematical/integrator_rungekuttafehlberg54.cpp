@@ -43,9 +43,9 @@ void integrator_rungekuttafehlberg54::integrate(Vector3d &thisposition,
   Vector3d x4 = thisposition + (temp1 * a1) + (temp3 * a3) + (temp4 * a4) + (temp5 * a5);
   Vector3d dx = (temp1 * b1) + (temp3 * b3) + (temp4 * b4) + (temp5 * b5) + (temp6 * b6);
   // calculate the error in 3 dimensions
-  Vector3d epsilon(fabs(thisposition.x - x4.x),
-                   fabs(thisposition.y - x4.y),
-                   fabs(thisposition.z - x4.z));
+  Vector3d epsilon(std::fabs(thisposition.x - x4.x),
+                   std::fabs(thisposition.y - x4.y),
+                   std::fabs(thisposition.z - x4.z));
 
   thisposition += dx;
   /// NOT COMPLETE - needs to get velocity term properly
