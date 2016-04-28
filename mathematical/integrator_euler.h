@@ -6,7 +6,7 @@
 
 class integrator_euler : public integrator {
 protected:
-  integrator_euler();                               // this base class is not to be instantiated
+  integrator_euler();                                                           // this base class is not to be instantiated
 public:
   virtual ~integrator_euler();
 

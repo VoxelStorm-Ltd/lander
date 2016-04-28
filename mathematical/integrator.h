@@ -5,11 +5,11 @@
 
 class integrator {
 protected:
-  integrator();                               // this base class is not to be instantiated
+  integrator();                                                                 // this base class is not to be instantiated
 public:
   struct integrator_derivative {
-    Vector3d dx;                              // derivative of position: velocity
-    Vector3d dv;                              // derivative of velocity: acceleration
+    Vector3d dx;                                                                // derivative of position: velocity
+    Vector3d dv;                                                                // derivative of velocity: acceleration
   };
 
   virtual ~integrator();

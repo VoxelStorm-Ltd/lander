@@ -5,7 +5,7 @@
 
 class integrator_rungekuttafehlberg54 : public integrator {
 protected:
-  integrator_rungekuttafehlberg54();                               // this base class is not to be instantiated
+  integrator_rungekuttafehlberg54();                                            // this base class is not to be instantiated
 public:
   virtual ~integrator_rungekuttafehlberg54();
 
