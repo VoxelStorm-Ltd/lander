@@ -309,6 +309,7 @@
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fno-pie" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -407,6 +408,7 @@
 					<Add option="-fno-pie" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 				</Compiler>
 				<Linker>
 					<Add option="-flto" />
@@ -461,6 +463,7 @@
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
 					<Add option="-fno-pie" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -486,6 +489,8 @@
 					<Add library="Xinerama" />
 					<Add library="lib/linux64/libz.a" />
 					<Add library="dl" />
+					<Add library="png" />
+					<Add library="Xcursor" />
 				</Linker>
 			</Target>
 			<Target title="Linux64_Release">
@@ -563,6 +568,7 @@
 					<Add option="-fno-pie" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
+					<Add option="-D_GLIBCXX_USE_CXX11_ABI=0" />
 				</Compiler>
 				<Linker>
 					<Add option="-flto" />
