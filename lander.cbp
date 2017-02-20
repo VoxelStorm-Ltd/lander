@@ -295,24 +295,27 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-m64" />
+					<Add option="-Og" />
 					<Add option="-g" />
 					<Add option="-std=gnu++1y" />
-					<Add option="-Og" />
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add option="-m64" />
 					<Add option="-mmmx" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
+					<Add option="-fno-pie" />
 				</Compiler>
 				<Linker>
-					<Add option="-static" />
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-no-pie" />
 					<Add library="lib/linux32/libboost_system-gcc48-mt-sd-1_53.a" />
 					<Add library="lib/linux32/libboost_chrono-gcc48-mt-sd-1_53.a" />
 					<Add library="lib/linux32/libGLEW.a" />
@@ -336,14 +339,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
+					<Add option="-flto" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-m64" />
 					<Add option="-std=gnu++1y" />
 					<Add option="-Ofast" />
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add option="-m64" />
 					<Add option="-mmmx" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
@@ -386,7 +390,6 @@
 					<Add option="-freorder-blocks-and-partition" />
 					<Add option="-fbranch-target-load-optimize" />
 					<Add option="-fuse-linker-plugin" />
-					<Add option="-flto" />
 					<Add option="-fno-math-errno" />
 					<Add option="-funsafe-math-optimizations" />
 					<Add option="-fassociative-math" />
@@ -401,18 +404,21 @@
 					<Add option="--param large-function-growth=2000" />
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
+					<Add option="-fno-pie" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
 				</Compiler>
 				<Linker>
+					<Add option="-flto" />
 					<Add option="-s" />
-					<Add option="-static" />
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-no-pie" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-lgcov" />
 					<Add option="-fuse-linker-plugin" />
-					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
 					<Add library="lib/linux32/libboost_system-gcc48-mt-s-1_53.a" />
 					<Add library="lib/linux32/libboost_chrono-gcc48-mt-s-1_53.a" />
@@ -441,23 +447,26 @@
 				<Compiler>
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-m64" />
+					<Add option="-Og" />
 					<Add option="-g" />
 					<Add option="-std=gnu++1y" />
-					<Add option="-Og" />
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add option="-m64" />
 					<Add option="-mmmx" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
 					<Add option="-m3dnow" />
 					<Add option="-fexceptions" />
 					<Add option="-Wno-unused-local-typedefs" />
+					<Add option="-fno-pie" />
 				</Compiler>
 				<Linker>
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-m64" />
+					<Add option="-no-pie" />
 					<Add library="lib/linux64/libboost_chrono-gcc48-mt-sd-1_54.a" />
 					<Add library="lib/linux64/libboost_system-gcc48-mt-sd-1_54.a" />
 					<Add library="lib/linux64/libboost_filesystem-gcc48-mt-sd-1_54.a" />
@@ -469,7 +478,6 @@
 					<Add library="GL" />
 					<Add library="lib/linux64/libfreetype.a" />
 					<Add library="Xt" />
-					<Add library="Xm" />
 					<Add library="Xi" />
 					<Add library="X11" />
 					<Add library="Xxf86vm" />
@@ -477,6 +485,7 @@
 					<Add library="udev" />
 					<Add library="Xinerama" />
 					<Add library="lib/linux64/libz.a" />
+					<Add library="dl" />
 				</Linker>
 			</Target>
 			<Target title="Linux64_Release">
@@ -486,14 +495,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
+					<Add option="-flto" />
 					<Add option="-Wextra" />
 					<Add option="-Wall" />
+					<Add option="-m64" />
 					<Add option="-std=gnu++1y" />
 					<Add option="-Ofast" />
 					<Add option="-static" />
 					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
-					<Add option="-m64" />
 					<Add option="-mmmx" />
 					<Add option="-msse" />
 					<Add option="-msse2" />
@@ -536,7 +546,6 @@
 					<Add option="-freorder-blocks-and-partition" />
 					<Add option="-fbranch-target-load-optimize" />
 					<Add option="-fuse-linker-plugin" />
-					<Add option="-flto" />
 					<Add option="-fno-math-errno" />
 					<Add option="-funsafe-math-optimizations" />
 					<Add option="-fassociative-math" />
@@ -551,18 +560,21 @@
 					<Add option="--param large-function-growth=2000" />
 					<Add option="--param large-unit-insns=20000" />
 					<Add option="--param inline-unit-growth=200" />
+					<Add option="-fno-pie" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DBOOST_DISABLE_ASSERTS" />
 				</Compiler>
 				<Linker>
+					<Add option="-flto" />
 					<Add option="-s" />
-					<Add option="-static" />
-					<Add option="-static-libgcc" />
 					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-no-pie" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-lgcov" />
 					<Add option="-fuse-linker-plugin" />
-					<Add option="-flto" />
 					<Add option="-funsafe-math-optimizations" />
 					<Add library="lib/linux64/libboost_system-gcc48-mt-s-1_53.a" />
 					<Add library="lib/linux64/libboost_chrono-gcc48-mt-s-1_53.a" />
