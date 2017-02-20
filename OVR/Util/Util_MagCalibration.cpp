@@ -27,8 +27,8 @@ void MagCalibration::BeginAutoCalibration(SensorFusion& sf)
     // reset the statistics
     MinMagValues = Vector3f(10000.0f,10000.0f,10000.0f);
     MaxMagValues = Vector3f(-10000.0f,-10000.0f,-10000.0f);
-	MinQuatValues = Quatf(1.0f,1.0f,1.0f,1.0f);
-	MaxQuatValues = Quatf(0.0f,0.0f,0.0f,0.0f);
+  MinQuatValues = Quatf(1.0f,1.0f,1.0f,1.0f);
+  MaxQuatValues = Quatf(0.0f,0.0f,0.0f,0.0f);
 }
 
 unsigned MagCalibration::UpdateAutoCalibration(SensorFusion& sf)
@@ -42,11 +42,11 @@ unsigned MagCalibration::UpdateAutoCalibration(SensorFusion& sf)
     InsertIfAcceptable(q, m);
 
     if ((SampleCount == 4) && (Stat == Mag_AutoCalibrating))
-	{
-		//LogText("Magnetometer Output Spread: %f %f %f\n",MagSpread.x,MagSpread.y,MagSpread.z);
-		//LogText("Quaternion Spread: %f %f %f %f\n",QuatSpread.x,QuatSpread.y,QuatSpread.z,QuatSpread.w);
+  {
+    //LogText("Magnetometer Output Spread: %f %f %f\n",MagSpread.x,MagSpread.y,MagSpread.z);
+    //LogText("Quaternion Spread: %f %f %f %f\n",QuatSpread.x,QuatSpread.y,QuatSpread.z,QuatSpread.w);
         SetCalibration(sf);
-	}
+  }
 
     return Stat;
 
@@ -93,39 +93,39 @@ bool MagCalibration::IsAcceptableSample(const Quatf& q, const Vector3f& m)
 
 bool MagCalibration::InsertIfAcceptable(const Quatf& q, const Vector3f& m)
 {
-	// Update some statistics
-	if (m.x < MinMagValues.x)
-		MinMagValues.x = m.x;
-	if (m.y < MinMagValues.y)
-		MinMagValues.y = m.y;
-	if (m.z < MinMagValues.z)
-		MinMagValues.z = m.z;
-	if (m.x > MaxMagValues.x)
-		MaxMagValues.x = m.x;
-	if (m.y > MaxMagValues.y)
-		MaxMagValues.y = m.y;
-	if (m.z > MaxMagValues.z)
-		MaxMagValues.z = m.z;
-	if (q.x < MinQuatValues.x)
-		MinQuatValues.x = q.x;
-	if (q.y < MinQuatValues.y)
-		MinQuatValues.y = q.y;
-	if (q.z < MinQuatValues.z)
-		MinQuatValues.z = q.z;
-	if (q.w < MinQuatValues.w)
-		MinQuatValues.w = q.w;
-	if (q.x > MaxQuatValues.x)
-		MaxQuatValues.x = q.x;
-	if (q.y > MaxQuatValues.y)
-		MaxQuatValues.y = q.y;
-	if (q.z > MaxQuatValues.z)
-		MaxQuatValues.z = q.z;
-	if (q.w > MaxQuatValues.w)
-		MaxQuatValues.w = q.w;
-	MagSpread = MaxMagValues - MinMagValues;
-	QuatSpread = MaxQuatValues - MinQuatValues;
+  // Update some statistics
+  if (m.x < MinMagValues.x)
+    MinMagValues.x = m.x;
+  if (m.y < MinMagValues.y)
+    MinMagValues.y = m.y;
+  if (m.z < MinMagValues.z)
+    MinMagValues.z = m.z;
+  if (m.x > MaxMagValues.x)
+    MaxMagValues.x = m.x;
+  if (m.y > MaxMagValues.y)
+    MaxMagValues.y = m.y;
+  if (m.z > MaxMagValues.z)
+    MaxMagValues.z = m.z;
+  if (q.x < MinQuatValues.x)
+    MinQuatValues.x = q.x;
+  if (q.y < MinQuatValues.y)
+    MinQuatValues.y = q.y;
+  if (q.z < MinQuatValues.z)
+    MinQuatValues.z = q.z;
+  if (q.w < MinQuatValues.w)
+    MinQuatValues.w = q.w;
+  if (q.x > MaxQuatValues.x)
+    MaxQuatValues.x = q.x;
+  if (q.y > MaxQuatValues.y)
+    MaxQuatValues.y = q.y;
+  if (q.z > MaxQuatValues.z)
+    MaxQuatValues.z = q.z;
+  if (q.w > MaxQuatValues.w)
+    MaxQuatValues.w = q.w;
+  MagSpread = MaxMagValues - MinMagValues;
+  QuatSpread = MaxQuatValues - MinQuatValues;
 
-	if (IsAcceptableSample(q, m))
+  if (IsAcceptableSample(q, m))
     {
         MagSamples[SampleCount] = m;
         QuatSamples[SampleCount] = q;

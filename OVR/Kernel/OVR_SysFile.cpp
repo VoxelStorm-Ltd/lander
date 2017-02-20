@@ -91,7 +91,7 @@ bool SysFile::Open(const String& path, int flags, int mode)
         pFile = *new UnopenedFile;
         return 0;
     }
-    //pFile = *OVR_NEW DelegatedFile(pFile); // MA Testing
+    //pFile = *OVR_NEW DelegatedFile(pFile);                                      // MA Testing
     if (flags & Open_Buffered)
         pFile = *new BufferedFile(pFile);
     return 1;
@@ -122,4 +122,4 @@ bool SysFile::Close()
     return 0;
 }
 
-} // OVR
+}                                                                               // OVR

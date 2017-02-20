@@ -567,5 +567,5 @@ const char* OVR_CDECL GetShortFilename(const char* purl)
     return purl;
 }
 
-} // OVR
+}                                                                               // OVR
 

@@ -151,7 +151,7 @@ protected:
 };
 
 
-}} // namespace OVR::Win32
+}}                                                                              // namespace OVR::Win32
 
 #endif // OVR_Win32_HMDDevice_h
 

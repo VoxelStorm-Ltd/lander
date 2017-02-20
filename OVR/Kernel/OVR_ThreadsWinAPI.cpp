@@ -945,10 +945,10 @@ void Thread::SetThreadName( const char* name )
 #if !defined(OVR_BUILD_SHIPPING) || defined(OVR_BUILD_PROFILING)
     // Looks ugly, but it is the recommended way to name a thread.
     typedef struct tagTHREADNAME_INFO {
-        DWORD dwType;     // Must be 0x1000
-        LPCSTR szName;    // Pointer to name (in user address space)
-        DWORD dwThreadID; // Thread ID (-1 for caller thread)
-        DWORD dwFlags;    // Reserved for future use; must be zero
+        DWORD dwType;                                                           // Must be 0x1000
+        LPCSTR szName;                                                          // Pointer to name (in user address space)
+        DWORD dwThreadID;                                                       // Thread ID (-1 for caller thread)
+        DWORD dwFlags;                                                          // Reserved for future use; must be zero
     } THREADNAME_INFO;
 
     THREADNAME_INFO info;
@@ -991,7 +991,7 @@ ThreadId GetCurrentThreadId()
     return (ThreadId)::GetCurrentThreadId();
 }
 
-} // OVR
+}                                                                               // OVR
 
 #endif
 

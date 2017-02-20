@@ -9,7 +9,7 @@ extern FTFont *font_7segment3d;
 
 display_number::display_number() {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 }
 
 display_number::~display_number() {
@@ -81,7 +81,7 @@ void display_number::update_if_time() {
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
   if(time_now >= time_nextupdate) {
     update();
-    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(250));   // 4Hz
+    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(250)); // 4Hz
   }
 }
 
@@ -100,12 +100,12 @@ void display_number::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   //glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
   //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  //glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
+  //glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
@@ -140,22 +140,22 @@ void display_number::render() {
   glEnd();
 
   // text display
-  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
+  glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   glPushMatrix();
   glTranslated(0.001, 0.0045, thissize.z + 0.0001);
   glScaled(displayscale, displayscale, displayscale);
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  //font_7segment3d->Render("8.8.8.8.8.8.8.8.", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);   // draw the background fill
-  font_7segment3d->Render("8,8,8,8,8,8,8,8,", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);   // draw the background fill
+  //font_7segment3d->Render("8.8.8.8.8.8.8.8.", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT); // draw the background fill
+  font_7segment3d->Render("8,8,8,8,8,8,8,8,", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT); // draw the background fill
   glTranslated(0.0, 0.0, 1.0);
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
   font_7segment3d->Render(displaycontent.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
-  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);                                                 // enable needed to allow correct lighting, disable for speed
   glPopMatrix();
 }
 
@@ -165,7 +165,7 @@ std::string display_number::trimstring(std::string const &oldstring) {
   std::stringstream ss;
   // iterate through every char and deal appropriately, C style for speed
   unsigned int outchars = 0;
-  for(char const &c : oldstring) {            // <3 <3 <3 C++11
+  for(char const &c : oldstring) {                                              // <3 <3 <3 C++11
     if(c == ' ' ||
        c == '-' ||
        c == '_' ||
@@ -185,10 +185,10 @@ std::string display_number::trimstring(std::string const &oldstring) {
       break;
     }
   }
-  //std::string outstring(8 - outchars, ' ');   // front filler
+  //std::string outstring(8 - outchars, ' ');                                     // front filler
   //outstring += ss.str();
   //return outstring;
-  ss << std::string(8 - outchars, ' ');     // back filler
+  ss << std::string(8 - outchars, ' ');                                         // back filler
   return ss.str();
 }
 
@@ -208,7 +208,7 @@ std::string display_number::trimstring(double input) {
   std::stringstream ss;
   unsigned int outchars = 0;
   bool haddecimal = false;
-  for(char const &c : numss.str()) {            // <3 <3 <3 C++11
+  for(char const &c : numss.str()) {                                            // <3 <3 <3 C++11
     if(c == '.') {
       haddecimal = true;
     } else {
@@ -227,10 +227,10 @@ std::string display_number::trimstring(double input) {
       }
     }
   }
-  //std::string outstring((outchars < 8) ? 8 - outchars : 0, ' ');   // front filler
-  std::string outstring(8 - outchars, ' ');   // front filler - less safe version but should be ok as long as above stays the same
+  //std::string outstring((outchars < 8) ? 8 - outchars : 0, ' ');                // front filler
+  std::string outstring(8 - outchars, ' ');                                     // front filler - less safe version but should be ok as long as above stays the same
   outstring += ss.str();
   return outstring;
-  //ss << std::string(8 - outchars, ' ');     // back filler
+  //ss << std::string(8 - outchars, ' ');                                         // back filler
   //return ss.str();
 }

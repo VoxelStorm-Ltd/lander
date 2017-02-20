@@ -6,15 +6,15 @@
 class device_external : public device {
   /// A device that can only be attached to the hull on an eva
 protected:
-  device_external();                     // prevent this class being instantiated directly
+  device_external();                                                            // prevent this class being instantiated directly
 public:
   virtual ~device_external();
 
-  virtual std::string get_type();
-  bool attach_panel(instrumentpanel *to_panel);
-  bool attach_cabin();
-  void remove_panel();
-  void remove_cabin();
+  virtual std::string get_type() override final;
+  bool attach_panel(instrumentpanel *to_panel) override final;
+  bool attach_cabin() override final;
+  void remove_panel() override final;
+  void remove_cabin() override final;
 };
 
 #endif // DEVICE_EXTERNAL_H_INCLUDED

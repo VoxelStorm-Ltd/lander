@@ -7,7 +7,7 @@
 #include "spacecraft.h"
 #include "instrumentpanel.h"
 
-extern FTFont *font_title3d;          // global font definitions
+extern FTFont *font_title3d;                                                    // global font definitions
 extern FTFont *font_text3d;
 extern void *menu_target;
 
@@ -31,7 +31,7 @@ device::device()
     panel(nullptr),
     functional(true) {
   /// Default constructor
-  rotation = Quatd(1.0, 0.0, 0.0, 0.0);       // null rotation quaternion
+  rotation = Quatd(1.0, 0.0, 0.0, 0.0);                                         // null rotation quaternion
   glGenBuffers(1, &vbo_v);
   glGenBuffers(1, &vbo_n);
   glGenBuffers(1, &ibo);
@@ -80,7 +80,7 @@ double device::get_mass() {
   return 1.0;
 }
 
-Vector3d device::get_position() {
+Vector3d const &device::get_position() {
   /// Return a position for this object in the ship or on the panel
   return position;
 }
@@ -90,7 +90,7 @@ Vector3d device::get_size() {
   return Vector3d(0.2, 0.2, 0.2);
 }
 
-Quatd device::get_rotation() {
+Quatd const &device::get_rotation() {
   /// Return the rotation quaternion of this object - hardcoded
   return rotation;
 }
@@ -221,39 +221,39 @@ GLuint device::generate_static_analogue() {
       // we haven't allocated a texture, so do so now
       glGenTextures(1, &image_static_analogue);
       glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, image_static_analogue);        // bind the texture
+      glBindTexture(GL_TEXTURE_2D, image_static_analogue);                      // bind the texture
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_analogue.x, screensize_static_analogue.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
+      glBindTexture(GL_TEXTURE_2D, 0);                                          // release the texture
     }
 
     // this gets called if someone connects an analogue video display to a non-video output
-    glBindTexture(GL_TEXTURE_2D, image_static_analogue);            // bind the screen texture
+    glBindTexture(GL_TEXTURE_2D, image_static_analogue);                        // bind the screen texture
     // analogue tv style banded white noise:
     GLubyte temp_buffer[screensize_static_analogue.x][screensize_static_analogue.y][3];
     for(int x = 0; x != screensize_static_analogue.x; ++x) {
       double const band = get_random_double(0.5, 1.0);
       for(int y = 0; y != screensize_static_analogue.y; ++y) {
         unsigned char const value = get_random_int(63, 255) * band;
-        temp_buffer[x][y][0] = value;                             // uniform b&w noise
+        temp_buffer[x][y][0] = value;                                           // uniform b&w noise
         temp_buffer[x][y][1] = value;
         temp_buffer[x][y][2] = value;
-        //temp_buffer[x][y][0] = value + get_random_int(-25, 25);   // pale colour noise
+        //temp_buffer[x][y][0] = value + get_random_int(-25, 25);                 // pale colour noise
         //temp_buffer[x][y][1] = value + get_random_int(-25, 25);
         //temp_buffer[x][y][2] = value + get_random_int(-25, 25);
       }
     }
-    glTexImage2D(GL_TEXTURE_2D,                             // target
-                 0,                                         // mipmap level
-                 GL_RGB,                                    // internalFormat
-                 screensize_static_analogue.x,              // dimensions
+    glTexImage2D(GL_TEXTURE_2D,                                                 // target
+                 0,                                                             // mipmap level
+                 GL_RGB,                                                        // internalFormat
+                 screensize_static_analogue.x,                                  // dimensions
                  screensize_static_analogue.y,
-                 0,                                         // border
-                 GL_RGB,                                    // format
-                 GL_UNSIGNED_BYTE,                          // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
-                 &temp_buffer);                             // buffer or NULL to leave undefined
-    glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
+                 0,                                                             // border
+                 GL_RGB,                                                        // format
+                 GL_UNSIGNED_BYTE,                                              // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
+                 &temp_buffer);                                                 // buffer or NULL to leave undefined
+    glBindTexture(GL_TEXTURE_2D, 0);                                            // release the screen texture
   }
   return image_static_analogue;
 }
@@ -270,14 +270,14 @@ GLuint device::generate_static_digital() {
       // we haven't allocated a texture, so do so now
       glGenTextures(1, &image_static_digital);
       glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, image_static_digital);        // bind the texture
+      glBindTexture(GL_TEXTURE_2D, image_static_digital);                       // bind the texture
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screensize_static_digital.x, screensize_static_digital.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                // nearest neighbour filtering for square pixel effect
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);        // nearest neighbour filtering for square pixel effect
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      glBindTexture(GL_TEXTURE_2D, 0);                    // release the texture
+      glBindTexture(GL_TEXTURE_2D, 0);                                          // release the texture
     }
 
-    glBindTexture(GL_TEXTURE_2D, image_static_digital);            // bind the screen texture
+    glBindTexture(GL_TEXTURE_2D, image_static_digital);                         // bind the screen texture
     // digital tv style strips of junk
     GLubyte temp_buffer[screensize_static_digital.x * screensize_static_digital.y][3];
     Vector3d newcolour(get_random_int(0, 255),
@@ -294,16 +294,16 @@ GLuint device::generate_static_digital() {
       temp_buffer[i][1] = newcolour.g + get_random_int(-10, 10);
       temp_buffer[i][2] = newcolour.b + get_random_int(-10, 10);
     }
-    glTexImage2D(GL_TEXTURE_2D,                             // target
-                 0,                                         // mipmap level
-                 GL_RGB,                                    // internalFormat
-                 screensize_static_digital.x,               // dimensions
+    glTexImage2D(GL_TEXTURE_2D,                                                 // target
+                 0,                                                             // mipmap level
+                 GL_RGB,                                                        // internalFormat
+                 screensize_static_digital.x,                                   // dimensions
                  screensize_static_digital.y,
-                 0,                                         // border
-                 GL_RGB,                                    // format
-                 GL_UNSIGNED_BYTE,                          // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
-                 &temp_buffer);                             // buffer or NULL to leave undefined
-    glBindTexture(GL_TEXTURE_2D, 0);                        // release the screen texture
+                 0,                                                             // border
+                 GL_RGB,                                                        // format
+                 GL_UNSIGNED_BYTE,                                              // type of pixel data (GLubyte), see http://www.opengl.org/sdk/docs/man/xhtml/glTexImage2D.xml
+                 &temp_buffer);                                                 // buffer or NULL to leave undefined
+    glBindTexture(GL_TEXTURE_2D, 0);                                            // release the screen texture
   }
   return image_static_digital;
 }
@@ -333,7 +333,7 @@ bool device::attach_panel(instrumentpanel *to_panel) {
   panel = to_panel;
   panel->devices.push_back(this);
   // TODO: find an available position for it on the panel
-  set_rotation(Quatd(1.0, 0.0, 0.0, 0.0));       // null rotation quaternion
+  set_rotation(Quatd(1.0, 0.0, 0.0, 0.0));                                      // null rotation quaternion
   status = statustype::ON_PANEL;
   return true;
 }
@@ -374,7 +374,7 @@ void device::remove() {
   // remove it from the list of the vessel's devices
   vessel->devices.remove(this);
   disconnect_all();
-  vessel = nullptr;     // this must obviously come last
+  vessel = nullptr;                                                             // this must obviously come last
 }
 
 void device::remove_panel() {
@@ -390,7 +390,7 @@ void device::remove_panel() {
     return;
   }
   panel->devices.remove(this);
-  panel = nullptr;     // this must obviously come last
+  panel = nullptr;                                                              // this must obviously come last
   status = statustype::UNMOUNTED;
 }
 
@@ -457,7 +457,7 @@ void device::disconnect_all() {
   // make sure there are no dangling connections from other devices to this
   for(auto const &it : vessel->devices) {
     if(!it || it == this) {
-      continue;         // don't check for connection to ourself
+      continue;                                                                 // don't check for connection to ourself
     }
     unsigned int numports = it->get_port_in_count();
     for(unsigned int i = 0; i != numports; ++i) {
@@ -542,11 +542,11 @@ void device::update_vbo() {
     -1.0, 0.0, 0.0,
   };
   GLuint ibodata[] = {
-     0,  1,  2,  3,     // front
-     4,  5,  6,  7,     // top
-     8,  9,  10, 11,    // bottom
-     12, 13, 14, 15,    // right
-     16, 17, 18, 19,    // left
+     0,  1,  2,  3,                                                             // front
+     4,  5,  6,  7,                                                             // top
+     8,  9,  10, 11,                                                            // bottom
+     12, 13, 14, 15,                                                            // right
+     16, 17, 18, 19,                                                            // left
   };
 
 
@@ -585,11 +585,11 @@ void device::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(1.6, 1.1, 0.2, 1.0));
   //glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(2.0, 1.9, 1.7, 1.0));
   //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                           // 0 to 127
+  //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                  // 0 to 127
 
   // render the vbo
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -600,7 +600,7 @@ void device::render() {
   glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
   glNormalPointer(GL_DOUBLE, 0, 0);
 
-  glDrawElements(GL_QUADS, 5 * 4, GL_UNSIGNED_INT, 0);    // draw 5 quads (4 points each)
+  glDrawElements(GL_QUADS, 5 * 4, GL_UNSIGNED_INT, 0);                          // draw 5 quads (4 points each)
 
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
@@ -608,20 +608,20 @@ void device::render() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   // manufacturer / model label
-  double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
-  //glEnable(GL_NORMALIZE);                   // to allow correct lighting
-  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
+  double const scale = 0.00035277777;                                           // 1m / (72dpi * 39.3700787in) = 0.00035277777
+  //glEnable(GL_NORMALIZE);                                                       // to allow correct lighting
+  glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   Vector3d const thissize = get_size();
   double const modellength = font_title3d->Advance(get_model().c_str(), -1);
-  if(modellength * scale <= thissize.x + 0.004) {               // only insert if there's room to do so
+  if(modellength * scale <= thissize.x + 0.004) {                               // only insert if there's room to do so
     glPushMatrix();
     glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
     glScaled(scale, scale, scale);
-    glTranslated(-modellength, 0.0, 0.0);    // slide it back for right-align
+    glTranslated(-modellength, 0.0, 0.0);                                       // slide it back for right-align
     font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();
     double const manufacturerlength = font_title3d->Advance(get_manufacturer().c_str(), -1);
@@ -632,7 +632,7 @@ void device::render() {
       font_title3d->Render(get_manufacturer().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
       glPopMatrix();
     }
-  } else {                                                     // otherwise scale model down to fit
+  } else {                                                                      // otherwise scale model down to fit
     glPushMatrix();
     glTranslated(0.001, 0.001, thissize.z + 0.001);
     double const newscale = (thissize.x - 0.002) / modellength;
@@ -640,8 +640,8 @@ void device::render() {
     font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
     glPopMatrix();
   }
-  //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
-  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
+  //glDisable(GL_NORMALIZE);                                                      // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);                                                 // enable needed to allow correct lighting, disable for speed
 
   // draw the menu if appropriate
   // TODO: implement http://www.flipcode.com/archives/Object_To_Screen_Space.shtml

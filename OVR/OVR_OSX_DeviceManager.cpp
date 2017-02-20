@@ -307,7 +307,7 @@ void DeviceManagerThread::Shutdown()
     CFRunLoopWakeUp(RunLoop);
 }
     
-} // namespace OSX
+}                                                                               // namespace OSX
 
 
 //-------------------------------------------------------------------------------------
@@ -346,4 +346,4 @@ DeviceManager* DeviceManager::Create()
     return manager.GetPtr();
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR

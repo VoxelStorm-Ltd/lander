@@ -112,7 +112,7 @@ protected:
 #ifdef OVR_FILE_VERIFY_SEEK_ERRORS
     UByte*      pFileTestBuffer;
     unsigned    FileTestLength;
-    unsigned    TestPos; // File pointer position during tests.
+    unsigned    TestPos;                                                        // File pointer position during tests.
 #endif
 
 public:
@@ -580,4 +580,4 @@ bool    SysFile::GetFileStat(FileStat* pfileStat, const String& path)
     return true;
 }
 
-} // Scaleform
+}                                                                               // Scaleform

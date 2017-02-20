@@ -327,7 +327,7 @@ bool DeviceManagerImpl::Initialize(DeviceBase* parent)
 {
     OVR_UNUSED(parent);
     if (!pCreateDesc || !pCreateDesc->pLock)
-		return false;
+    return false;
 
     pProfileManager = *ProfileManager::Create();
 
@@ -341,7 +341,7 @@ void DeviceManagerImpl::Shutdown()
     while(!Devices.IsEmpty())
     {     
         DeviceCreateDesc* devDesc = Devices.GetFirst();
-        OVR_ASSERT(!devDesc->pDevice); // Manager shouldn't be dying while Device exists.
+        OVR_ASSERT(!devDesc->pDevice);                                          // Manager shouldn't be dying while Device exists.
         devDesc->Enumerated = false;
         devDesc->RemoveNode();
         devDesc->pNext = devDesc->pPrev = 0;
@@ -786,5 +786,5 @@ bool  HMDDevice::IsDisconnected() const
 }
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 

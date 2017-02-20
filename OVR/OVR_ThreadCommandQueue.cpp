@@ -34,9 +34,9 @@ class CircularBuffer
 
     UByte*  pBuffer;
     UPInt   Size;
-    UPInt   Tail;   // Byte offset of next item to be popped.
-    UPInt   Head;   // Byte offset of where next push will take place.
-    UPInt   End;    // When Head < Tail, this is used instead of Size.    
+    UPInt   Tail;                                                               // Byte offset of next item to be popped.
+    UPInt   Head;                                                               // Byte offset of where next push will take place.
+    UPInt   End;                                                                // When Head < Tail, this is used instead of Size.    
 
     inline UPInt roundUpSize(UPInt size)
     { return (size + AlignMask) & ~(UPInt)AlignMask; }
@@ -249,7 +249,7 @@ bool ThreadCommandQueueImpl::PushCommand(const ThreadCommand& command)
     // Repeat  writing command into buffer until it is available.    
     do {
 
-        { // Lock Scope
+        {                                                                       // Lock Scope
             Lock::Locker lock(&QueueLock);
 
             if (queueAvailableEvent)
@@ -278,7 +278,7 @@ bool ThreadCommandQueueImpl::PushCommand(const ThreadCommand& command)
 
             queueAvailableEvent = AllocNotifyEvent_NTS();
             BlockedProducers.PushBack(queueAvailableEvent);
-        } // Lock Scope
+        }                                                                       // Lock Scope
 
         queueAvailableEvent->Wait();
 
@@ -367,4 +367,4 @@ bool ThreadCommandQueue::IsExiting() const
 }
 
 
-} // namespace OVR
+}                                                                               // namespace OVR

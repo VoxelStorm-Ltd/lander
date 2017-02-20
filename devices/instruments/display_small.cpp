@@ -2,7 +2,7 @@
 
 display_small::display_small() {
   /// Default constructor
-  update_vbo();                             // anything with a custom model needs this
+  update_vbo();                                                                 // anything with a custom model needs this
 }
 
 display_small::~display_small() {

@@ -33,8 +33,8 @@ class SensorFilter
     };
 
 private:
-    int         LastIdx;                    // The index of the last element that was added to the array
-    int         Size;                       // The window size (number of elements)
+    int         LastIdx;                                                        // The index of the last element that was added to the array
+    int         Size;                                                           // The window size (number of elements)
     Vector3f    Elements[MaxFilterSize]; 
 
 public:
@@ -68,11 +68,11 @@ public:
     // Get element i.  0 is the most recent, 1 is one step ago, 2 is two steps ago, ...
     Vector3f GetPrev(int i) const
     {
-		OVR_ASSERT(i >= 0); // 
+    OVR_ASSERT(i >= 0);                                                         // 
         int idx = (LastIdx - i);
-        if (idx < 0) // Fix the wraparound case
+        if (idx < 0)                                                            // Fix the wraparound case
             idx += Size;
-		OVR_ASSERT(idx >= 0); // Multiple wraparounds not allowed
+    OVR_ASSERT(idx >= 0);                                                       // Multiple wraparounds not allowed
         return Elements[idx];
     };
 
@@ -80,7 +80,7 @@ public:
     Vector3f Total() const;
     Vector3f Mean() const;
     Vector3f Median() const;
-    Vector3f Variance() const; // The diagonal of covariance matrix
+    Vector3f Variance() const;                                                  // The diagonal of covariance matrix
     Matrix4f Covariance() const;
     Vector3f PearsonCoefficient() const;
 

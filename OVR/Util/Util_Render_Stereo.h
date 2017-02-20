@@ -110,7 +110,7 @@ public:
     float   XCenterOffset, YCenterOffset;
     float   Scale;
 
-    float   ChromaticAberration[4]; // Additional per-channel scaling is applied after distortion:
+    float   ChromaticAberration[4];                                             // Additional per-channel scaling is applied after distortion:
                                     // Index [0] - Red channel constant coefficient.
                                     // Index [1] - Red channel r^2 coefficient.
                                     // Index [2] - Blue channel constant coefficient.
@@ -127,12 +127,12 @@ class StereoEyeParams
 {
 public:
     StereoEye                Eye;
-    Viewport                 VP;               // Viewport that we are rendering to        
+    Viewport                 VP;                                                // Viewport that we are rendering to        
     const DistortionConfig*  pDistortion;
 
-    Matrix4f                 ViewAdjust;       // Translation to be applied to view matrix.
-    Matrix4f                 Projection;       // Projection matrix used with this eye.
-    Matrix4f                 OrthoProjection;  // Orthographic projection used with this eye.
+    Matrix4f                 ViewAdjust;                                        // Translation to be applied to view matrix.
+    Matrix4f                 Projection;                                        // Projection matrix used with this eye.
+    Matrix4f                 OrthoProjection;                                   // Orthographic projection used with this eye.
 
     void Init(StereoEye eye, const Viewport &vp, float vofs,
               const Matrix4f& proj, const Matrix4f& orthoProj,
@@ -268,20 +268,20 @@ private:
 
     StereoMode         Mode;
     float              InterpupillaryDistance;
-    float              AspectMultiplier;               // Multiplied into aspect ratio to change it.
+    float              AspectMultiplier;                                        // Multiplied into aspect ratio to change it.
     HMDInfo            HMD;
     DistortionConfig   Distortion;
-    float              DistortionFitX, DistortionFitY; // In [-1,1] half-screen viewport units.
-    Viewport           FullView;                       // Entire window viewport.
+    float              DistortionFitX, DistortionFitY;                          // In [-1,1] half-screen viewport units.
+    Viewport           FullView;                                                // Entire window viewport.
 
-    float              Area2DFov;                      // FOV range mapping to [-1, 1] 2D area.
+    float              Area2DFov;                                               // FOV range mapping to [-1, 1] 2D area.
  
     // *** Computed State
  
-    bool               DirtyFlag;   // Set when any if the modifiable state changed.
-    bool               IPDOverride; // True after SetIPD was called.    
-    float              YFov;        // Vertical FOV.
-    float              Aspect;      // Aspect ratio: (w/h)*AspectMultiplier.
+    bool               DirtyFlag;                                               // Set when any if the modifiable state changed.
+    bool               IPDOverride;                                             // True after SetIPD was called.    
+    float              YFov;                                                    // Vertical FOV.
+    float              Aspect;                                                  // Aspect ratio: (w/h)*AspectMultiplier.
     float              ProjectionCenterOffset;
     StereoEyeParams    EyeRenderParams[2];
 
@@ -295,6 +295,6 @@ private:
 };
 
 
-}}}  // OVR::Util::Render
+}}}                                                                             // OVR::Util::Render
 
 #endif

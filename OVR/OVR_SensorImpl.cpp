@@ -32,8 +32,8 @@ enum {
     Sensor_OldVendorId  = 0x0483,
     Sensor_OldProductId = 0x5750,
 
-    Sensor_DefaultReportRate = 500, // Hz
-    Sensor_MaxReportRate     = 1000 // Hz
+    Sensor_DefaultReportRate = 500,                                             // Hz
+    Sensor_MaxReportRate     = 1000                                             // Hz
 };
 
 // Reported data is little-endian now
@@ -94,24 +94,24 @@ struct TrackerSample
 
 struct TrackerSensors
 {
-    UByte	SampleCount;
-    UInt16	Timestamp;
-    UInt16	LastCommandID;
-    SInt16	Temperature;
+    UByte  SampleCount;
+    UInt16  Timestamp;
+    UInt16  LastCommandID;
+    SInt16  Temperature;
 
     TrackerSample Samples[3];
 
-    SInt16	MagX, MagY, MagZ;
+    SInt16  MagX, MagY, MagZ;
 
     TrackerMessageType Decode(const UByte* buffer, int size)
     {
         if (size < 62)
             return TrackerMessage_SizeError;
 
-        SampleCount		= buffer[1];
-        Timestamp		= DecodeUInt16(buffer + 2);
-        LastCommandID	= DecodeUInt16(buffer + 4);
-        Temperature		= DecodeSInt16(buffer + 6);
+        SampleCount    = buffer[1];
+        Timestamp    = DecodeUInt16(buffer + 2);
+        LastCommandID  = DecodeUInt16(buffer + 4);
+        Temperature    = DecodeSInt16(buffer + 6);
         
         //if (SampleCount > 2)        
         //    OVR_DEBUG_LOG_TEXT(("TackerSensor::Decode SampleCount=%d\n", SampleCount));        
@@ -265,7 +265,7 @@ struct SensorConfigImpl
     // Flag values for Flags.
     enum {
         Flag_RawMode            = 0x01,
-        Flag_CallibrationTest   = 0x02, // Internal test mode
+        Flag_CallibrationTest   = 0x02,                                         // Internal test mode
         Flag_UseCallibration    = 0x04,
         Flag_AutoCallibration   = 0x08,
         Flag_MotionKeepAlive    = 0x10,
@@ -484,7 +484,7 @@ bool SensorDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
 SensorDeviceImpl::SensorDeviceImpl(SensorDeviceCreateDesc* createDesc)
     : OVR::HIDDeviceImpl<OVR::SensorDevice>(createDesc, 0),
       Coordinates(SensorDevice::Coord_Sensor),
-      HWCoordinates(SensorDevice::Coord_HMD), // HW reports HMD coordinates by default.
+      HWCoordinates(SensorDevice::Coord_HMD),                                   // HW reports HMD coordinates by default.
       NextKeepAliveTicks(0),
       MaxValidRange(SensorRangeImpl::GetMaxSensorRange())
 {
@@ -590,7 +590,7 @@ UInt64 SensorDeviceImpl::OnTicks(UInt64 ticksMks)
         // OnTicks is called from background thread so we don't need to add this to the command queue.
         GetInternalDevice()->SetFeatureReport(skeepAlive.Buffer, SensorKeepAliveImpl::PacketSize);
 
-		// Emit keep-alive every few seconds.
+    // Emit keep-alive every few seconds.
         NextKeepAliveTicks = ticksMks + keepAliveDelta;
     }
     return NextKeepAliveTicks - ticksMks;
@@ -695,7 +695,7 @@ unsigned SensorDeviceImpl::GetReportRate() const
         scfg.Unpack();
         return Sensor_MaxReportRate / (scfg.PacketInterval + 1);
     }
-    return 0; // error
+    return 0;                                                                   // error
 }
 
 Void SensorDeviceImpl::setReportRate(unsigned rateHz)
@@ -877,6 +877,6 @@ void SensorDeviceImpl::onTrackerMessage(TrackerMessage* message)
     }
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 

@@ -1,7 +1,8 @@
 #include "planet.h"
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 planet::planet()
   : atmos_molarmass(       0.0),
@@ -17,26 +18,26 @@ planet::planet()
   double const r = 1.0 * thisradius;
   double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
   // geometry reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
-	regions[0 ].set_corners(&corners[0 ], &corners[11], &corners[5 ]);     // 5 faces around point 0
-	regions[1 ].set_corners(&corners[0 ], &corners[5 ], &corners[1 ]);
-	regions[2 ].set_corners(&corners[0 ], &corners[1 ], &corners[7 ]);
-	regions[3 ].set_corners(&corners[0 ], &corners[7 ], &corners[10]);
-	regions[4 ].set_corners(&corners[0 ], &corners[10], &corners[11]);
-	regions[5 ].set_corners(&corners[1 ], &corners[5 ], &corners[9 ]);    	// 5 adjacent faces
-	regions[6 ].set_corners(&corners[5 ], &corners[11], &corners[4 ]);
-	regions[7 ].set_corners(&corners[11], &corners[10], &corners[2 ]);
-	regions[8 ].set_corners(&corners[10], &corners[7 ], &corners[6 ]);
-	regions[9 ].set_corners(&corners[7 ], &corners[1 ], &corners[8 ]);
-	regions[10].set_corners(&corners[3 ], &corners[9 ], &corners[4 ]);      // 5 faces around point 3
-	regions[11].set_corners(&corners[3 ], &corners[4 ], &corners[2 ]);
-	regions[12].set_corners(&corners[3 ], &corners[2 ], &corners[6 ]);
-	regions[13].set_corners(&corners[3 ], &corners[6 ], &corners[8 ]);
-	regions[14].set_corners(&corners[3 ], &corners[8 ], &corners[9 ]);
-	regions[15].set_corners(&corners[4 ], &corners[9 ], &corners[5 ]);      // 5 adjacent faces
-	regions[16].set_corners(&corners[2 ], &corners[4 ], &corners[11]);
-	regions[17].set_corners(&corners[6 ], &corners[2 ], &corners[10]);
-	regions[18].set_corners(&corners[8 ], &corners[6 ], &corners[7 ]);
-	regions[19].set_corners(&corners[9 ], &corners[8 ], &corners[1 ]);
+  regions[0 ].set_corners(&corners[0 ], &corners[11], &corners[5 ]);            // 5 faces around point 0
+  regions[1 ].set_corners(&corners[0 ], &corners[5 ], &corners[1 ]);
+  regions[2 ].set_corners(&corners[0 ], &corners[1 ], &corners[7 ]);
+  regions[3 ].set_corners(&corners[0 ], &corners[7 ], &corners[10]);
+  regions[4 ].set_corners(&corners[0 ], &corners[10], &corners[11]);
+  regions[5 ].set_corners(&corners[1 ], &corners[5 ], &corners[9 ]);            // 5 adjacent faces
+  regions[6 ].set_corners(&corners[5 ], &corners[11], &corners[4 ]);
+  regions[7 ].set_corners(&corners[11], &corners[10], &corners[2 ]);
+  regions[8 ].set_corners(&corners[10], &corners[7 ], &corners[6 ]);
+  regions[9 ].set_corners(&corners[7 ], &corners[1 ], &corners[8 ]);
+  regions[10].set_corners(&corners[3 ], &corners[9 ], &corners[4 ]);            // 5 faces around point 3
+  regions[11].set_corners(&corners[3 ], &corners[4 ], &corners[2 ]);
+  regions[12].set_corners(&corners[3 ], &corners[2 ], &corners[6 ]);
+  regions[13].set_corners(&corners[3 ], &corners[6 ], &corners[8 ]);
+  regions[14].set_corners(&corners[3 ], &corners[8 ], &corners[9 ]);
+  regions[15].set_corners(&corners[4 ], &corners[9 ], &corners[5 ]);            // 5 adjacent faces
+  regions[16].set_corners(&corners[2 ], &corners[4 ], &corners[11]);
+  regions[17].set_corners(&corners[6 ], &corners[2 ], &corners[10]);
+  regions[18].set_corners(&corners[8 ], &corners[6 ], &corners[7 ]);
+  regions[19].set_corners(&corners[9 ], &corners[8 ], &corners[1 ]);
   update_model();
 }
 
@@ -56,7 +57,7 @@ double planet::get_mass() {
     // no mass assigned, take a potshot at one - in the terrestrial planetary scale
     // range by solar system standards: http://en.wikipedia.org/wiki/Planetary_mass
     random_reset();
-    return get_random_double(300000000000000000000000.0, 2000000000000000000000000000.0);  // from mercury to jupiter
+    return get_random_double(300000000000000000000000.0, 2000000000000000000000000000.0); // from mercury to jupiter
   }
 }
 double planet::get_radius() {
@@ -66,9 +67,9 @@ double planet::get_radius() {
     // make up a radius for this based on what's likely for the mass
     // get a random density for the range
     random_reset();
-    double const density = get_random_double(620.0, 5430.0);    // from saturn to mercury
+    double const density = get_random_double(620.0, 5430.0);                    // from saturn to mercury
     double const volume = get_mass() * (1.0 / density);
-    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);       // radius from volume of sphere
+    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);                       // radius from volume of sphere
   }
 }
 
@@ -216,8 +217,8 @@ function Compute() {
 void planet::update_model() {
   /// Reposition the region corners based on radius, etc
   double const thisradius = get_radius();
-  regionwidth_linear = thisradius / 0.95105651629;      // sin(72deg)
-  regionwidth_curved = regionwidth_linear * 1.107;      // geodesic great circle - http://www.wolframalpha.com/input/?i=asin%28%281+%2F+sin%2872deg%29+%2F+2%29+%2F+1%29+*+2+*+1
+  regionwidth_linear = thisradius / 0.95105651629;                              // sin(72deg)
+  regionwidth_curved = regionwidth_linear * 1.107;                              // geodesic great circle - http://www.wolframalpha.com/input/?i=asin%28%281+%2F+sin%2872deg%29+%2F+2%29+%2F+1%29+*+2+*+1
   region_subdivisions = 10;
   chunkwidth_linear = regionwidth_linear / region_subdivisions;
   chunkwidth_curved = regionwidth_curved / region_subdivisions;
@@ -227,21 +228,21 @@ void planet::update_model() {
   //double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
   double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius / 2.0;
   // geometry reference: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
-  corners[0 ].set_coords(-r,  t,  0);   // z plane
+  corners[0 ].set_coords(-r,  t,  0);                                           // z plane
   corners[1 ].set_coords( r,  t,  0);
   corners[2 ].set_coords(-r, -t,  0);
   corners[3 ].set_coords( r, -t,  0);
-  corners[4 ].set_coords( 0, -r,  t);   // x plane
+  corners[4 ].set_coords( 0, -r,  t);                                           // x plane
   corners[5 ].set_coords( 0,  r,  t);
   corners[6 ].set_coords( 0, -r, -t);
   corners[7 ].set_coords( 0,  r, -t);
-  corners[8 ].set_coords( t,  0, -r);   // y plane
+  corners[8 ].set_coords( t,  0, -r);                                           // y plane
   corners[9 ].set_coords( t,  0,  r);
   corners[10].set_coords(-t,  0, -r);
   corners[11].set_coords(-t,  0,  r);
   for(unsigned int i = 0; i != 20; ++i) {
     regions[i].subdivide(4);
-    regions[i].update();                 // needs to be called after moving corners
+    regions[i].update();                                                        // needs to be called after moving corners
   }
 }
 
@@ -309,11 +310,11 @@ void planet::render_visible(unsigned int depth) {
   // rotate
   glMultMatrixd(rotation.transform());
 
-  if(depth == 0) {                                    // render only a point
+  if(depth == 0) {                                                              // render only a point
     glBegin(GL_POINTS);
     glVertex3d(0.0, 0.0, 0.0);
     glEnd();
-  } else if(depth == 1) {                             // billboarded circle
+  } else if(depth == 1) {                                                       // billboarded circle
     // undo rotation - billboard effect
     Matrix4d modelview;
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
@@ -334,7 +335,7 @@ void planet::render_visible(unsigned int depth) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
     glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
     glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 1.0, 1.0));
-    glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                           // 0 to 127
+    glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                       // 0 to 127
 
     glBegin(GL_TRIANGLE_FAN);
     glNormal3d(0.0, 0.0, 1.0);
@@ -343,7 +344,7 @@ void planet::render_visible(unsigned int depth) {
       glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
     }
     glEnd();
-  } else {                                        // render individual regions
+  } else {                                                                      // render individual regions
     // manually unrolled render loop:
     regions[0 ].render_visible(depth);
     regions[1 ].render_visible(depth);

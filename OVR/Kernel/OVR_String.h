@@ -90,9 +90,9 @@ protected:
     // Heap type of the string is encoded in the lower bits.
     enum HeapType
     {
-        HT_Global   = 0,    // Heap is global.
-        HT_Local    = 1,    // SF::String_loc: Heap is determined based on string's address.
-        HT_Dynamic  = 2,    // SF::String_temp: Heap is stored as a part of the class.
+        HT_Global   = 0,                                                        // Heap is global.
+        HT_Local    = 1,                                                        // SF::String_loc: Heap is determined based on string's address.
+        HT_Dynamic  = 2,                                                        // SF::String_temp: Heap is stored as a part of the class.
         HT_Mask     = 3
     };
 
@@ -255,13 +255,13 @@ public:
     bool    HasExtension() const    { return HasExtension(ToCStr()); }
     bool    HasProtocol() const     { return HasProtocol(ToCStr()); }
 
-    String  GetProtocol() const;    // Returns protocol, if any, with trailing '://'.
-    String  GetPath() const;        // Returns path with trailing '/'.
-    String  GetFilename() const;    // Returns filename, including extension.
-    String  GetExtension() const;   // Returns extension with a dot.
+    String  GetProtocol() const;                                                // Returns protocol, if any, with trailing '://'.
+    String  GetPath() const;                                                    // Returns path with trailing '/'.
+    String  GetFilename() const;                                                // Returns filename, including extension.
+    String  GetExtension() const;                                               // Returns extension with a dot.
 
-    void    StripProtocol();        // Strips front protocol, if any, from the string.
-    void    StripExtension();       // Strips off trailing extension.
+    void    StripProtocol();                                                    // Strips front protocol, if any, from the string.
+    void    StripExtension();                                                   // Strips off trailing extension.
     
 
     // Operators
@@ -640,6 +640,6 @@ protected:
     UPInt       Size;
 };
 
-} // OVR
+}                                                                               // OVR
 
 #endif

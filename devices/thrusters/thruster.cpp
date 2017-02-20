@@ -1,5 +1,5 @@
 #include "thruster.h"
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "spacecraft.h"
 
 thruster::thruster()
@@ -7,10 +7,10 @@ thruster::thruster()
     thrust_magnitude(0.0),
     flowrate_fuel(0.0),
     flowrate_oxi(0.0),
-    temperature(290.0),   // ~16C
-    pressure(101325.0) {  // 1Atm
+    temperature(290.0),                                                         // ~16C
+    pressure(101325.0) {                                                        // 1Atm
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 
   // rotate it to point down by default
   //rotation *= Quatd::fromEulerAngles(90.0, 0.0, 0.0);
@@ -42,12 +42,12 @@ std::string thruster::get_description() {
 
 double thruster::get_mass() {
   /// Return the weight of the device, in kilograms
-  return 180.0;                       // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
+  return 180.0;                                                                 // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
 Vector3d thruster::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(1.5, 2.3, 1.5);     // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
+  return Vector3d(1.5, 2.3, 1.5);                                               // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
 bool thruster::attach_hull() {
@@ -175,10 +175,10 @@ double thruster::get_port_out_data(unsigned int port) {
 
 double thruster::get_thrust_max() {
   /// Return the max thrust of this type of engine
-  return 50000.0;                 // based roughly on https://en.wikipedia.org/wiki/Descent_Propulsion_System
+  return 50000.0;                                                               // based roughly on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
-Vector3d thruster::get_thrust() {
+Vector3d const &thruster::get_thrust() {
   return thrust;
 }
 double thruster::get_thrust_magnitude() {
@@ -230,11 +230,11 @@ void thruster::update_temperature() {
   // based on https://en.wikipedia.org/wiki/TR-201, assuming 3369.15K optimal, see https://en.wikipedia.org/wiki/Liquid_rocket_propellants
   // re. effect of throttling on temperature and pressure: http://forum.nasaspaceflight.com/index.php?topic=23620.0
   if(throttle != 0.0) {
-    temperature = (3369.15 - 50) + (throttle * 100);   // allow ~100C either side of ideal
+    temperature = (3369.15 - 50) + (throttle * 100);                            // allow ~100C either side of ideal
   } else {
-    //temperature = 33;       // approximate solar system vacuum temperature minimum (~= minimum of surface of Pluto)
-    //temperature *= 0.98;    // gradual smooth cooling
-    temperature = (temperature * 0.75) + (vessel->get_temperature_hull() * 0.25);    // gradual smooth cooling to hull temp
+    //temperature = 33;                                                           // approximate solar system vacuum temperature minimum (~= minimum of surface of Pluto)
+    //temperature *= 0.98;                                                        // gradual smooth cooling
+    temperature = (temperature * 0.75) + (vessel->get_temperature_hull() * 0.25); // gradual smooth cooling to hull temp
   }
 }
 
@@ -247,7 +247,7 @@ void thruster::update_pressure() {
   } else {
     targetpressure = 0.0;
   }
-  pressure = (pressure * 0.75) + (targetpressure * 0.25);   // gradual smooth pressure changes
+  pressure = (pressure * 0.75) + (targetpressure * 0.25);                       // gradual smooth pressure changes
 }
 
 void thruster::update_throttle(double newthrottle) {
@@ -281,6 +281,6 @@ void thruster::update_if_time() {
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> const time_now(boost::chrono::high_resolution_clock::now());
   if(time_now >= time_nextupdate) {
     update();
-    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(250));  // 4 updates per second
+    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(250)); // 4 updates per second
   }
 }

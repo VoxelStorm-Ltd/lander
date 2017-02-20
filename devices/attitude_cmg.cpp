@@ -4,8 +4,8 @@
 
 attitude_cmg::attitude_cmg() {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  update_vbo();                             // every device with a custom size needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
+  update_vbo();                                                                 // every device with a custom size needs this
 }
 
 attitude_cmg::~attitude_cmg() {
@@ -38,12 +38,12 @@ std::string attitude_cmg::get_description() {
 
 double attitude_cmg::get_mass() {
   /// Return the weight of the device, in kilograms
-  return 272.155;                     // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
+  return 272.155;                                                               // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
 }
 
 Vector3d attitude_cmg::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(1.3716, 1.2192, 1.143);     // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
+  return Vector3d(1.3716, 1.2192, 1.143);                                       // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
 }
 
 

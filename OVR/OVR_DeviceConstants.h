@@ -30,9 +30,9 @@ enum DeviceType
     Device_HMD              = 2,
     Device_Sensor           = 3,
     Device_LatencyTester    = 4,
-    Device_All              = 0xFF // Set for enumeration only, to enumerate all device types.
+    Device_All              = 0xFF                                              // Set for enumeration only, to enumerate all device types.
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

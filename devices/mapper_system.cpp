@@ -14,45 +14,45 @@ Vector2i const mapper_system::windowsize = Vector2i(512, 512);
 mapper_system::mapper_system()
   : display_image(0),
     framebuffer(0),
-    //scale(0.00001),           // earth scale
-    scale(0.000000002),       // solar system scale
+    //scale(0.00001),                                                             // earth scale
+    scale(0.000000002),                                                         // solar system scale
     rotation_x(-90.0),
     rotation_y(0.0),
     trail_ref(nullptr) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  update_vbo();                             // every device with a custom size needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
+  update_vbo();                                                                 // every device with a custom size needs this
 
   // create a blank texture
   glGenTextures(1, &display_image);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
   // texture parameters
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);    // average between two mipmap levels on nearest neighbour texture pixel
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);    // when texture area is small, bilinear filter the closest mipmap
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);     // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                  // nearest neighbour filtering
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR); // average between two mipmap levels on nearest neighbour texture pixel
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST); // when texture area is small, bilinear filter the closest mipmap
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);            // nearest neighbour filtering
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                  // nearest-neighbour on closeup views to show the pixel squares
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
-  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
-  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                        // automatically generate mipmaps - doesn't work for FBO
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);            // nearest-neighbour on closeup views to show the pixel squares
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);             // when texture area is large, bilinear filter the original
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                      // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                      // maximum mipmap level
+  //glGenerateMipmapEXT(GL_TEXTURE_2D);                                           // only if we're using mipmaps
+  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                  // automatically generate mipmaps - doesn't work for FBO
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+  glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // create a framebuffer
   glGenFramebuffersEXT(1, &framebuffer);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
-                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
-                            GL_TEXTURE_2D,            // texture target / cubemap face
-                            display_image,            // texture
-                            0);                       // level
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,                                 // target
+                            GL_COLOR_ATTACHMENT0_EXT,                           // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,                                      // texture target / cubemap face
+                            display_image,                                      // texture
+                            0);                                                 // level
   // add a depth buffer
   glGenRenderbuffersEXT(1, &depthbuffer);
   glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
@@ -211,9 +211,9 @@ void mapper_system::refresh() {
   Vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen
 
-  glPushAttrib(GL_LIGHTING_BIT);                          // save state - see http://opengl.czweb.org/ch14/462-465.html
+  glPushAttrib(GL_LIGHTING_BIT);                                                // save state - see http://opengl.czweb.org/ch14/462-465.html
   glDisable(GL_LIGHTING);
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -221,14 +221,14 @@ void mapper_system::refresh() {
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  glOrtho(0.0, windowsize.x, windowsize.y, 0.0, 1406000000000.0 * scale, -1406000000000.0 * scale);   // heliopause ~= 1.406 * 10^13
-  glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);   // centre on the screen
-  glScaled(scale, scale, scale);                                  // zoom
+  glOrtho(0.0, windowsize.x, windowsize.y, 0.0, 1406000000000.0 * scale, -1406000000000.0 * scale); // heliopause ~= 1.406 * 10^13
+  glTranslated(centreoffset.x, centreoffset.y, centreoffset.z);                 // centre on the screen
+  glScaled(scale, scale, scale);                                                // zoom
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadIdentity();
   // translate and rotate us to the camera's viewpoint
-  glRotated(rotation_x, 1.0, 0.0, 0.0);                           // rotate the map in 3D
+  glRotated(rotation_x, 1.0, 0.0, 0.0);                                         // rotate the map in 3D
   glRotated(rotation_y, 0.0, 1.0, 0.0);
 
   glTranslated(-vessel->position.x,
@@ -238,8 +238,8 @@ void mapper_system::refresh() {
   // bodies
   glColor4d(1.0, 1.0, 1.0, 1.0);
   for(auto const &it : root.currentsystem->bodies) {
-    Vector3d point  = it->position;
-    Vector3d vel    = it->velocity;
+    Vector3d const &point  = it->position;
+    Vector3d const &vel    = it->velocity;
     //if(vel.length() > 0.0) {
     //  vel.normalise();
     //  vel *= 2000.0;
@@ -272,7 +272,7 @@ void mapper_system::refresh() {
       // every period add a trail point
       trailtype trail;
       if(trail_ref) {
-        if(it != trail_ref) {     // don't add trails for the (still) reference body
+        if(it != trail_ref) {                                                   // don't add trails for the (still) reference body
           trail.linestart = (point - trail_ref->position) - ((vel - trail_ref->velocity) * 10);
           trail.lineend   =  point - trail_ref->position;
         }
@@ -340,8 +340,8 @@ void mapper_system::update() {
   if(ports_in[0].target) {
     scale = ports_in[0].target->get_port_out_data(ports_in[0].target_port);
   } else {
-    scale = 0.00001;           // earth scale
-    //scale = 0.000000002;       // solar system scale
+    scale = 0.00001;                                                            // earth scale
+    //scale = 0.000000002;                                                        // solar system scale
   }
   // update the rotation
   if(ports_in[1].target) {
@@ -385,6 +385,6 @@ void mapper_system::update_if_time() {
   if(time_now >= time_nextupdate) {
     update();
     refresh();
-    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(50));  // 20fps
+    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(50)); // 20fps
   }
 }

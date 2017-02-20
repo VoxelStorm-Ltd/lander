@@ -1,15 +1,15 @@
 #include "body.h"
+#include <iostream>
 //#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-//#include "vmath.h"
 
 body::body()
   : mass(0.0),
     radius(0.0),
     gm(0.0) {
   /// Default constructor
-  //rotation = spin = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);   // null rotation quaternion
-  rotation = spin = Quatd(1.0, 0.0, 0.0, 0.0);   // null rotation quaternion
+  //rotation = spin = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);           // null rotation quaternion
+  rotation = spin = Quatd(1.0, 0.0, 0.0, 0.0);                                  // null rotation quaternion
 }
 
 body::~body() {
@@ -21,7 +21,7 @@ std::string body::get_name() {
     return name;
   } else {
     // random asteroid type name, as in http://en.wikipedia.org/wiki/List_of_minor_planets:_1%E2%80%931000
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream randomname;
     randomname << get_random_uint(10, 118161) << " " << get_random_name_ancient();
     return randomname.str();
@@ -43,13 +43,13 @@ std::string body::get_designation() {
   } else {
     // generate a random astronomical designation in the standard style "2003 VB12"
     // see http://en.wikipedia.org/wiki/Provisional_designation_in_astronomy
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream designation;
-    designation << get_random_uint(1926, 2059)      // year
+    designation << get_random_uint(1926, 2059)                                  // year
                 << " "
-                << get_random_char_alpha_upper()    // month (allow Z since we're lazy)
-                << get_random_char_alpha_upper()    // order of discovery letter
-                << get_random_uint(1, 530);         // order of discovery number
+                << get_random_char_alpha_upper()                                // month (allow Z since we're lazy)
+                << get_random_char_alpha_upper()                                // order of discovery letter
+                << get_random_uint(1, 530);                                     // order of discovery number
     return designation.str();
   }
 }
@@ -73,7 +73,7 @@ double body::get_mass() {
     // no mass assigned, take a potshot at one - in the small 100m planetesimal / asteroid scale
     // 100m asteroid weighs about 657640030kg?
     random_reset();
-    return get_random_double(300000000.0, 1000000000.0);  // averaging 650 tons +- 50%
+    return get_random_double(300000000.0, 1000000000.0);                        // averaging 650 tons +- 50%
   }
 }
 
@@ -92,7 +92,7 @@ double body::get_radius() {
     // asteroid density = mass / volume ~= 157.83
     // inverse = 0.00633
     double const volume = get_mass() * 0.00633;
-    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);     // radius from volume of sphere
+    return pow(volume / ((4.0 / 3.0) * M_PI), 1.0 / 3.0);                       // radius from volume of sphere
   }
 }
 
@@ -289,7 +289,7 @@ void body::render_diagram(double scale, bool labels) {
   }
   glEnd();
 
-  glPopMatrix();                            // restore position & rotation
+  glPopMatrix();                                                                // restore position & rotation
 }
 
 void body::render_visible(unsigned int depth) {

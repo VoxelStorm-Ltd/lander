@@ -170,5 +170,5 @@ bool DeviceHandle::enumerateNext(const DeviceEnumerationArgs& args)
     return true;
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR
 

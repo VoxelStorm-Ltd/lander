@@ -106,6 +106,6 @@ private:
     Array<Notifier*>        TicksNotifiers;
 };
 
-}} // namespace Linux::OVR
+}}                                                                              // namespace Linux::OVR
 
 #endif // OVR_Linux_DeviceManager_h

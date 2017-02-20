@@ -70,7 +70,7 @@ StereoConfig::StereoConfig(StereoMode mode, const Viewport& vp)
 {
     // And default distortion for it.
     Distortion.SetCoefficients(1.0f, 0.22f, 0.24f);
-    Distortion.Scale = 1.0f; // Will be computed later.
+    Distortion.Scale = 1.0f;                                                    // Will be computed later.
 
     // Fit left of the image.
     DistortionFitX = -1.0f;
@@ -295,7 +295,7 @@ void StereoConfig::updateEyeParams()
 
             EyeRenderParams[0].Init(StereoEye_Left,
                 Viewport(FullView.x, FullView.y, FullView.w/2, FullView.h),
-                         +InterpupillaryDistance * 0.5f,  // World view shift.                       
+                         +InterpupillaryDistance * 0.5f,                        // World view shift.                       
                          projLeft, OrthoCenter * Matrix4f::Translation(OrthoPixelOffset, 0, 0),
                          &Distortion);
             EyeRenderParams[1].Init(StereoEye_Right,
@@ -310,5 +310,5 @@ void StereoConfig::updateEyeParams()
 }
 
 
-}}}  // OVR::Util::Render
+}}}                                                                             // OVR::Util::Render
 

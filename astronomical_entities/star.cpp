@@ -1,4 +1,5 @@
 #include "star.h"
+#include <iostream>
 //#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -47,7 +48,7 @@ double star::get_magnitude() {
 double star::get_temperature() {
   /// Surface temperature in kelvin
   // placeholder
-  return 5778.0;    // surface of the sun
+  return 5778.0;                                                                // surface of the sun
 }
 
 Vector3d star::get_colour() {
@@ -68,7 +69,7 @@ Vector3d star::temperature_to_colour(double temperature) {
   // calculate red
   if(temperature <= 66.0) {
     if(temperature <= 10.0) {
-      result.r = ((temperature - 7.98) / 2.02) * 255;       // Draper point
+      result.r = ((temperature - 7.98) / 2.02) * 255;                           // Draper point
       if(result.r < 0.0) {
         result.r = 0.0;
       }
@@ -193,7 +194,7 @@ void star::render_visible() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
-  glMaterialf( GL_FRONT, GL_SHININESS,           0.0);                           // 0 to 127
+  glMaterialf( GL_FRONT, GL_SHININESS,           0.0);                          // 0 to 127
 
   double const thisradius = get_radius() / 2;
 

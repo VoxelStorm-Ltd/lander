@@ -43,27 +43,27 @@ public:
         MinQuatDistanceSq = MinQuatDistance * MinQuatDistance;
         MinMagValues = Vector3f(10000.0f,10000.0f,10000.0f);
         MaxMagValues = Vector3f(-10000.0f,-10000.0f,-10000.0f);
-		MinQuatValues = Quatf(1.0f,1.0f,1.0f,1.0f);
-		MaxQuatValues = Quatf(0.0f,0.0f,0.0f,0.0f);
-		}
+    MinQuatValues = Quatf(1.0f,1.0f,1.0f,1.0f);
+    MaxQuatValues = Quatf(0.0f,0.0f,0.0f,0.0f);
+    }
 
     // Methods that are useful for either auto or manual calibration
     bool     IsUnitialized() const       { return Stat == Mag_Uninitialized; }
     bool     IsCalibrated() const        { return Stat == Mag_Calibrated; }
     int      NumberOfSamples() const     { return SampleCount; }
     int      RequiredSampleCount() const { return 4; }
-	void     AbortCalibration()
-	{
+  void     AbortCalibration()
+  {
         Stat = Mag_Uninitialized;
         SampleCount = 0;
-	}
+  }
 
     void     ClearCalibration(SensorFusion& sf) 
     {
         Stat = Mag_Uninitialized;
         SampleCount = 0;
         sf.ClearMagCalibration();
-	};
+  };
   
     // Methods for automatic magnetometer calibration
     void     BeginAutoCalibration(SensorFusion& sf);
@@ -119,13 +119,13 @@ private:
     float    MinQuatDistance;
     float    MinMagDistanceSq;
     float    MinQuatDistanceSq;
-	// For gathering statistics during calibration
-	Vector3f    MinMagValues;
-	Vector3f    MaxMagValues;
-	Vector3f    MagSpread;
-	Quatf		MinQuatValues;
-	Quatf		MaxQuatValues;
-	Quatf       QuatSpread;
+  // For gathering statistics during calibration
+  Vector3f    MinMagValues;
+  Vector3f    MaxMagValues;
+  Vector3f    MagSpread;
+  Quatf    MinQuatValues;
+  Quatf    MaxQuatValues;
+  Quatf       QuatSpread;
 
     unsigned SampleCount;
     Vector3f MagSamples[4];

@@ -109,8 +109,8 @@ public:
     // predicted orientation.
     float       GetPredictionDelta() const                  { return PredictionDT; }
     void        SetPrediction(float dt, bool enable = true) { PredictionDT = dt; EnablePrediction = enable; }
-    void		SetPredictionEnabled(bool enable = true)    { EnablePrediction = enable; }
-    bool		IsPredictionEnabled()                       { return EnablePrediction; }
+    void    SetPredictionEnabled(bool enable = true)    { EnablePrediction = enable; }
+    bool    IsPredictionEnabled()                       { return EnablePrediction; }
 
 
     // *** Accelerometer/Gravity Correction Control
@@ -147,7 +147,7 @@ public:
     void        SetMagCalibration(const Matrix4f& m)
     {
         MagCalibrationMatrix = m;
-        time(&MagCalibrationTime);   // time stamp the calibration
+        time(&MagCalibrationTime);                                              // time stamp the calibration
         MagCalibrated = true;
     }
 
@@ -209,7 +209,7 @@ private:
     // Default to current HMD orientation
     void        setMagReference()  { setMagReference(Q, RawMag); }
 
-	  class BodyFrameHandler : public MessageHandler
+    class BodyFrameHandler : public MessageHandler
     {
         SensorFusion* pFusion;
     public:
@@ -223,14 +223,14 @@ private:
     SensorInfo        CachedSensorInfo;
 
     Quatf             Q;
-	  Quatf			        QUncorrected;
+    Quatf              QUncorrected;
     Vector3f          A;
     Vector3f          AngV;
     Vector3f          CalMag;
     Vector3f          RawMag;
     unsigned int      Stage;
-	  float             RunningTime;
-	  float             DeltaT;
+    float             RunningTime;
+    float             DeltaT;
     BodyFrameHandler  Handler;
     MessageHandler*   pDelegate;
     float             Gain;
@@ -266,12 +266,12 @@ private:
     float             YawErrorAngle;
     int               YawErrorCount;
     bool              YawCorrectionInProgress;
-    bool			        YawCorrectionActivated;
+    bool              YawCorrectionActivated;
 
     bool              MotionTrackingEnabled;
 };
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

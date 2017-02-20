@@ -184,7 +184,7 @@ typedef void* ThreadId;
 
 
 class Thread : public RefCountBase<Thread>
-{ // NOTE: Waitable must be the first base since it implements RefCountImpl.    
+{                                                                               // NOTE: Waitable must be the first base since it implements RefCountImpl.    
 
 public:
 
@@ -227,12 +227,12 @@ public:
                      int proc = -1, ThreadState state = NotRunning, ThreadPriority prior = NormalPriority)
                      : threadFunction(func), userHandle(hand), stackSize(ssize), 
                        processor(proc), initialState(state), priority(prior) {}
-        ThreadFn       threadFunction;   // Thread function
-        void*          userHandle;       // User handle passes to a thread
-        UPInt          stackSize;        // Thread stack size
-        int            processor;        // Thread hardware processor
-        ThreadState    initialState;     // 
-        ThreadPriority priority;         // Thread priority
+        ThreadFn       threadFunction;                                          // Thread function
+        void*          userHandle;                                              // User handle passes to a thread
+        UPInt          stackSize;                                               // Thread stack size
+        int            processor;                                               // Thread hardware processor
+        ThreadState    initialState;                                            // 
+        ThreadPriority priority;                                                // Thread priority
     };
 
     // *** Constructors
@@ -390,7 +390,7 @@ protected:
 ThreadId GetCurrentThreadId();
 
 
-} // OVR
+}                                                                               // OVR
 
 #endif // OVR_ENABLE_THREADS
 #endif // OVR_Threads_h

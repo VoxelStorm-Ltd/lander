@@ -158,9 +158,9 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
     c = **putf8Buffer;
     (*putf8Buffer)++;
     if (c == 0)
-        return 0;   // End of buffer.
+        return 0;                                                               // End of buffer.
     
-    if ((c & 0x80) == 0) return (UInt32) c; // Conventional 7-bit ASCII.
+    if ((c & 0x80) == 0) return (UInt32) c;                                     // Conventional 7-bit ASCII.
     
     // Multi-byte sequences.
     if ((c & 0xE0) == 0xC0)
@@ -168,7 +168,7 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
         // Two-byte sequence.
         FIRST_BYTE(0x1F, 6);
         NEXT_BYTE(0);
-        if (uc < 0x80) return INVALID_CHAR;  // overlong
+        if (uc < 0x80) return INVALID_CHAR;                                     // overlong
         return uc;
     }
     else if ((c & 0xF0) == 0xE0)
@@ -177,7 +177,7 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
         FIRST_BYTE(0x0F, 12);
         NEXT_BYTE(6);
         NEXT_BYTE(0);
-        if (uc < 0x800) return INVALID_CHAR; // overlong
+        if (uc < 0x800) return INVALID_CHAR;                                    // overlong
         // Not valid ISO 10646, but Flash requires these to work
         // see AS3 test e15_5_3_2_3 for String.fromCharCode().charCodeAt(0)
         // if (uc >= 0x0D800 && uc <= 0x0DFFF) return INVALID_CHAR;
@@ -191,7 +191,7 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
         NEXT_BYTE(12);
         NEXT_BYTE(6);
         NEXT_BYTE(0);
-        if (uc < 0x010000) return INVALID_CHAR;  // overlong
+        if (uc < 0x010000) return INVALID_CHAR;                                 // overlong
         return uc;
     }
     else if ((c & 0xFC) == 0xF8)
@@ -202,7 +202,7 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
         NEXT_BYTE(12);
         NEXT_BYTE(6);
         NEXT_BYTE(0);
-        if (uc < 0x0200000) return INVALID_CHAR; // overlong
+        if (uc < 0x0200000) return INVALID_CHAR;                                // overlong
         return uc;
     }
     else if ((c & 0xFE) == 0xFC)
@@ -214,7 +214,7 @@ UInt32 OVR_STDCALL DecodeNextChar_Advance0(const char** putf8Buffer)
         NEXT_BYTE(12);
         NEXT_BYTE(6);
         NEXT_BYTE(0);
-        if (uc < 0x04000000) return INVALID_CHAR;    // overlong
+        if (uc < 0x04000000) return INVALID_CHAR;                               // overlong
         return uc;
     }
     else
@@ -470,7 +470,7 @@ int main(int argc, const char* argv[])
             }
             
             // Read lines from the file, encode/decode them, and highlight discrepancies.
-            const int LINE_SIZE = 200;  // max line size
+            const int LINE_SIZE = 200;                                          // max line size
             char    line_buffer_utf8[LINE_SIZE];
             char    reencoded_utf8[6 * LINE_SIZE];
             UInt32  line_buffer_ucs[LINE_SIZE];
@@ -488,7 +488,7 @@ int main(int argc, const char* argv[])
                 if (c == '\n' || byte_counter >= LINE_SIZE - 2)
                 {
                     // End of line.  Process the line.
-                    line_buffer_utf8[byte_counter++] = 0;   // terminate.
+                    line_buffer_utf8[byte_counter++] = 0;                       // terminate.
                     
                     // Decode into UCS.
                     const char* p = line_buffer_utf8;
@@ -541,5 +541,5 @@ int main(int argc, const char* argv[])
 
 #endif // UTF8_UNIT_TEST
 
-}} // namespace UTF8Util::OVR
+}}                                                                              // namespace UTF8Util::OVR
 

@@ -62,7 +62,7 @@ struct ListNode
     // Inserts the argument linked list node after us in the list.
     void    InsertNodeAfter(T* p)
     {
-        p->pPrev          = pNext->pPrev; // this
+        p->pPrev          = pNext->pPrev;                                       // this
         p->pNext          = pNext;
         pNext->pPrev      = p;
         pNext             = p;
@@ -70,7 +70,7 @@ struct ListNode
     // Inserts the argument linked list node before us in the list.
     void    InsertNodeBefore(T* p)
     {
-        p->pNext          = pNext->pPrev; // this
+        p->pNext          = pNext->pPrev;                                       // this
         p->pPrev          = pPrev;
         pPrev->pNext      = p;
         pPrev             = p;
@@ -320,6 +320,6 @@ void FreeListElements(List& list, Allocator& allocator)
     list.Clear();
 }
 
-} // OVR
+}                                                                               // OVR
 
 #endif

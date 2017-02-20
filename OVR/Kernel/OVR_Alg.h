@@ -944,10 +944,10 @@ namespace ByteUtil {
     #error "OVR_BYTE_ORDER must be defined to OVR_LITTLE_ENDIAN or OVR_BIG_ENDIAN"
 #endif
 
-} // namespace ByteUtil
+}                                                                               // namespace ByteUtil
 
 
 
-}} // OVR::Alg
+}}                                                                              // OVR::Alg
 
 #endif

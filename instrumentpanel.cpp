@@ -5,7 +5,7 @@
 #include <spacecraft.h>
 #include <instrument.h>
 
-extern FTFont *fontconsole;          // global font definitions
+extern FTFont *fontconsole;                                                     // global font definitions
 
 instrumentpanel::instrumentpanel()
   : vessel(nullptr),
@@ -44,14 +44,14 @@ void instrumentpanel::remove() {
   }
   // remove it from the list of the vessel's panels
   vessel->panels.remove(this);
-  vessel = nullptr;     // this must obviously come last
+  vessel = nullptr;                                                             // this must obviously come last
 }
 
 void instrumentpanel::destroy() {
   /// Destroy this panel and everything attached to it
   /// Note: this cannot be safely called inside an iterator of panels!
   std::cout << "Instrument panel is destroyed." << std::endl;
-  //remove();            // remove this panel
+  //remove();                                                                     // remove this panel
   delete this;
 }
 
@@ -68,7 +68,7 @@ void instrumentpanel::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.5, 0.5, 0.5, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.5, 0.5, 0.5, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBegin(GL_QUADS);
   // front
@@ -130,7 +130,7 @@ void instrumentpanel::render() {
                                                                0.0,
                                                                thissize.z / 2);
         device *target = it->ports_in[i].target;
-        if(target->panel == this) {            // only proceed to link other instruments on this panel
+        if(target->panel == this) {                                             // only proceed to link other instruments on this panel
           Vector3d targetsize = target->get_size();
           Vector3d target_position = target->get_position() + Vector3d((targetsize.x / (target->get_port_out_count() + 1) * (it->ports_in[i].target_port + 1)),
                                                                        targetsize.y,
@@ -154,8 +154,8 @@ void instrumentpanel::render() {
   double edge_left, edge_right, edge_bottom, edge_top;
   if(pickpoint_show) {
     if(pickeddevice) {
-      Vector3d thispos  = pickeddevice->get_position();
-      Vector3d thissize = pickeddevice->get_size();
+      Vector3d const &thispos  = pickeddevice->get_position();
+      Vector3d const &thissize = pickeddevice->get_size();
       edge_left   = thispos.x              - 0.005;
       edge_right  = thispos.x + thissize.x + 0.005;
       edge_bottom = thispos.y              - 0.005;
@@ -179,22 +179,22 @@ void instrumentpanel::render() {
       }
     }
     glBegin(GL_LINES);
-    glVertex3d(edge_left        , edge_bottom + 0.01, 0.01);    // bottom left
+    glVertex3d(edge_left        , edge_bottom + 0.01, 0.01);                    // bottom left
     glVertex3d(edge_left        , edge_bottom       , 0.01);
     glVertex3d(edge_left        , edge_bottom       , 0.01);
     glVertex3d(edge_left  + 0.01, edge_bottom       , 0.01);
 
-    glVertex3d(edge_right - 0.01, edge_bottom       , 0.01);    // bottom right
+    glVertex3d(edge_right - 0.01, edge_bottom       , 0.01);                    // bottom right
     glVertex3d(edge_right       , edge_bottom       , 0.01);
     glVertex3d(edge_right       , edge_bottom       , 0.01);
     glVertex3d(edge_right       , edge_bottom + 0.01, 0.01);
 
-    glVertex3d(edge_right       , edge_top    - 0.01, 0.01);    // top right
+    glVertex3d(edge_right       , edge_top    - 0.01, 0.01);                    // top right
     glVertex3d(edge_right       , edge_top          , 0.01);
     glVertex3d(edge_right       , edge_top          , 0.01);
     glVertex3d(edge_right - 0.01, edge_top          , 0.01);
 
-    glVertex3d(edge_left  + 0.01, edge_top          , 0.01);    // top left
+    glVertex3d(edge_left  + 0.01, edge_top          , 0.01);                    // top left
     glVertex3d(edge_left        , edge_top          , 0.01);
     glVertex3d(edge_left        , edge_top          , 0.01);
     glVertex3d(edge_left        , edge_top    - 0.01, 0.01);

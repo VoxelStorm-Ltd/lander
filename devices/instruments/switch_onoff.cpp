@@ -3,7 +3,7 @@
 switch_onoff::switch_onoff()
   : setting(0) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 }
 
 switch_onoff::~switch_onoff() {
@@ -187,7 +187,7 @@ void switch_onoff::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
@@ -221,13 +221,13 @@ void switch_onoff::render() {
   glVertex3d(0.0,        thissize.y, 0.0);
 
   // switch arm
-  glNormal3d(0.0, -0.70710678118 * normal_flip, -0.70710678118 * normal_flip);        // 45 degrees ~= 1/sqrt(2)
-  glVertex3d(             switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z);    // bottom surface
+  glNormal3d(0.0, -0.70710678118 * normal_flip, -0.70710678118 * normal_flip);  // 45 degrees ~= 1/sqrt(2)
+  glVertex3d(             switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z); // bottom surface
   glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z);
   glVertex3d(thissize.x - switch_arm_inset, switch_tip_y            , switch_tip_z);
   glVertex3d(             switch_arm_inset, switch_tip_y            , switch_tip_z);
-  glNormal3d(0.0,  0.70710678118 * normal_flip,  0.70710678118 * normal_flip);        // 45 degrees ~= 1/sqrt(2)
-  glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z);    // top surface
+  glNormal3d(0.0,  0.70710678118 * normal_flip,  0.70710678118 * normal_flip);  // 45 degrees ~= 1/sqrt(2)
+  glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z); // top surface
   glVertex3d(             switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z);
   glVertex3d(             switch_arm_inset, switch_tip_y            , switch_tip_z);
   glVertex3d(thissize.x - switch_arm_inset, switch_tip_y            , switch_tip_z);
@@ -240,11 +240,11 @@ void switch_onoff::render() {
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);
   glBegin(GL_TRIANGLES);
   glNormal3d(-1.0, 0.0, 0.0);
-  glVertex3d(             switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z);    // left edge
+  glVertex3d(             switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z); // left edge
   glVertex3d(             switch_arm_inset, switch_tip_y            , switch_tip_z);
   glVertex3d(             switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z);
   glNormal3d( 1.0, 0.0, 0.0);
-  glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z);    // right edge
+  glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 + 0.002, thissize.z); // right edge
   glVertex3d(thissize.x - switch_arm_inset, switch_tip_y            , switch_tip_z);
   glVertex3d(thissize.x - switch_arm_inset, thissize.y / 2.0 - 0.002, thissize.z);
   glEnd();

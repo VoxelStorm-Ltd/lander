@@ -43,4 +43,4 @@ extern const UByte LowerBitTable[256] =
 };
 
 
-}} // OVE::Alg
+}}                                                                              // OVE::Alg

@@ -3,7 +3,7 @@
 button_momentary::button_momentary()
   : pushed(false) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 }
 
 button_momentary::~button_momentary() {
@@ -206,7 +206,7 @@ void button_momentary::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glBegin(GL_QUADS);
   // front
   glNormal3d(0.0, 0.0, 1.0);
@@ -246,5 +246,5 @@ void button_momentary::render() {
 void button_momentary::activate() {
   /// The time has come to... push the button
   //pushed = true;
-  pushed = !pushed;     // allow un-pushing unread buttons
+  pushed = !pushed;                                                             // allow un-pushing unread buttons
 }

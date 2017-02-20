@@ -144,8 +144,8 @@ bool HMDDeviceCreateDesc::UpdateMatchedCandidate(const DeviceCreateDesc& other,
         DesktopX          = s2.DesktopX;
         DesktopY          = s2.DesktopY;
 
-		// ScreenSize and Resolution are NOT assigned here, since they may have
-		// come from a sensor DisplayInfo (which has precedence over HDMI).
+    // ScreenSize and Resolution are NOT assigned here, since they may have
+    // come from a sensor DisplayInfo (which has precedence over HDMI).
 
         if (newDeviceFlag) *newDeviceFlag = true;
     }
@@ -257,7 +257,7 @@ void HMDDeviceFactory::EnumerateDevices(EnumerateVisitor& visitor)
             if (strstr(ddm.DeviceID, "RTD2205") ||
                 strstr(ddm.DeviceID, "CVT0003") ||
                 strstr(ddm.DeviceID, "MST0030") ||
-                strstr(ddm.DeviceID, "OVR00") ) // Part of Oculus EDID.
+                strstr(ddm.DeviceID, "OVR00") )                                 // Part of Oculus EDID.
             {
                 String deviceId(ddm.DeviceID);
                 String displayDeviceName(ddm.DeviceName);
@@ -276,7 +276,7 @@ void HMDDeviceFactory::EnumerateDevices(EnumerateVisitor& visitor)
                     info.cbSize = sizeof(MONITORINFOEX);
                     GetMonitorInfo(monitors.Monitors[m], &info);
                     if (_tcsstr(ddm.DeviceName, info.szDevice) == ddm.DeviceName)
-                    {   // If the device name starts with the monitor name
+                    {                                                           // If the device name starts with the monitor name
                         // then we found the matching DISPLAY_DEVICE and MONITORINFO
                         // so we can gather the monitor coordinates
                         mx = info.rcMonitor.left;
@@ -289,22 +289,22 @@ void HMDDeviceFactory::EnumerateDevices(EnumerateVisitor& visitor)
 
                 HMDDeviceCreateDesc hmdCreateDesc(this, deviceId, displayDeviceName);
 
-				if (strstr(ddm.DeviceID, "OVR0002"))
-				{
-					hmdCreateDesc.SetScreenParameters(mx, my, 1920, 1080, 0.12096f, 0.06804f);
-				}
-				else
-				{
-					if (hmdCreateDesc.Is7Inch())
-					{
-						// Physical dimension of SLA screen.
-						hmdCreateDesc.SetScreenParameters(mx, my, mwidth, mheight, 0.14976f, 0.0936f);
-					}
-					else
-					{
-						hmdCreateDesc.SetScreenParameters(mx, my, mwidth, mheight, 0.12096f, 0.0756f);
-					}
-				}
+        if (strstr(ddm.DeviceID, "OVR0002"))
+        {
+          hmdCreateDesc.SetScreenParameters(mx, my, 1920, 1080, 0.12096f, 0.06804f);
+        }
+        else
+        {
+          if (hmdCreateDesc.Is7Inch())
+          {
+            // Physical dimension of SLA screen.
+            hmdCreateDesc.SetScreenParameters(mx, my, mwidth, mheight, 0.14976f, 0.0936f);
+          }
+          else
+          {
+            hmdCreateDesc.SetScreenParameters(mx, my, mwidth, mheight, 0.12096f, 0.0756f);
+          }
+        }
 
 
                 OVR_DEBUG_LOG_TEXT(("DeviceManager - HMD Found %s - %s\n",
@@ -365,7 +365,7 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
 
     OVR_strcpy(info->ProductName,  DeviceInfo::MaxNameLength,
                is7Inch ? "Oculus Rift DK1" :
-			   ((HResolution >= 1920) ? "Oculus Rift DK HD" : "Oculus Rift DK1-Prototype") );
+         ((HResolution >= 1920) ? "Oculus Rift DK HD" : "Oculus Rift DK1-Prototype") );
     OVR_strcpy(info->Manufacturer, DeviceInfo::MaxNameLength, "Oculus VR");
     info->Type    = Device_HMD;
     info->Version = 0;
@@ -382,7 +382,7 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
         hmdInfo->HScreenSize            = HScreenSize;
         hmdInfo->VScreenSize            = VScreenSize;
         hmdInfo->VScreenCenter          = VScreenSize * 0.5f;
-        hmdInfo->InterpupillaryDistance = 0.064f;  // Default IPD; should be configurable.
+        hmdInfo->InterpupillaryDistance = 0.064f;                               // Default IPD; should be configurable.
         hmdInfo->LensSeparationDistance = 0.0635f;
 
         // Obtain IPD from profile.
@@ -400,7 +400,7 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
         }
         else
         {
-			if (is7Inch)
+      if (is7Inch)
             {
                 // 7" screen.
                 hmdInfo->DistortionK[0]      = 1.0f;
@@ -414,16 +414,16 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
                 hmdInfo->DistortionK[1]      = 0.18f;
                 hmdInfo->DistortionK[2]      = 0.115f;
 
-				if (HResolution == 1920)
-					hmdInfo->EyeToScreenDistance = 0.040f;
-				else
-					hmdInfo->EyeToScreenDistance = 0.0387f;
+        if (HResolution == 1920)
+          hmdInfo->EyeToScreenDistance = 0.040f;
+        else
+          hmdInfo->EyeToScreenDistance = 0.0387f;
             }
 
-			hmdInfo->ChromaAbCorrection[0] = 0.996f;
-			hmdInfo->ChromaAbCorrection[1] = -0.004f;
-			hmdInfo->ChromaAbCorrection[2] = 1.014f;
-			hmdInfo->ChromaAbCorrection[3] = 0.0f;
+      hmdInfo->ChromaAbCorrection[0] = 0.996f;
+      hmdInfo->ChromaAbCorrection[1] = -0.004f;
+      hmdInfo->ChromaAbCorrection[2] = 1.014f;
+      hmdInfo->ChromaAbCorrection[3] = 0.0f;
         }
 
         OVR_strcpy(hmdInfo->DisplayDeviceName, sizeof(hmdInfo->DisplayDeviceName),
@@ -498,6 +498,6 @@ OVR::SensorDevice* HMDDevice::GetSensor()
     return sensor;
 }
 
-}} // namespace OVR::Win32
+}}                                                                              // namespace OVR::Win32
 
 

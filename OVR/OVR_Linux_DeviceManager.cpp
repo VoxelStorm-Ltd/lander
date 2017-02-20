@@ -228,7 +228,7 @@ int DeviceManagerThread::Run()
                         {
                             if (FdNotifiers[i])
                                 FdNotifiers[i]->OnEvent(i, PollFds[i].fd);
-                            else if (i == 0) // command
+                            else if (i == 0)                                    // command
                             {
                                 char dummy[128];
                                 read(PollFds[i].fd, dummy, 128);
@@ -274,7 +274,7 @@ bool DeviceManagerThread::RemoveTicksNotifier(Notifier* notify)
     return false;
 }
 
-} // namespace Linux
+}                                                                               // namespace Linux
 
 
 //-------------------------------------------------------------------------------------
@@ -315,5 +315,5 @@ DeviceManager* DeviceManager::Create()
 }
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 

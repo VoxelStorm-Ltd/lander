@@ -51,8 +51,8 @@ protected:
     List<JSON>      Children;
 
 public:
-    JSONItemType    Type;       // Type of this JSON node.
-    String          Name;       // Name part of the {Name, Value} pair in a parent object.
+    JSONItemType    Type;                                                       // Type of this JSON node.
+    String          Name;                                                       // Name part of the {Name, Value} pair in a parent object.
     String          Value;
     double          dValue;
 

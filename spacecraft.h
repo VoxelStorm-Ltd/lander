@@ -11,18 +11,18 @@ class thruster;
 
 class spacecraft : public physicsbody {
 private:
-  double temperature_hull;                // temperatures in kelvin
+  double temperature_hull;                                                      // temperatures in kelvin
   double temperature_cabin;
-  Vector3d acceleration_last;             // total of the last calculated thrust acceleration
+  Vector3d acceleration_last;                                                   // total of the last calculated thrust acceleration
 
 public:
-  std::list<device*> devices;             // all devices on-board
-  std::list<device*> devices_hull;        // subset of devices out on the hull
-  std::list<device*> devices_cabin;       // subset of devices mounted inside the cabin
+  std::list<device*> devices;                                                   // all devices on-board
+  std::list<device*> devices_hull;                                              // subset of devices out on the hull
+  std::list<device*> devices_cabin;                                             // subset of devices mounted inside the cabin
 
-  std::list<thruster*> thrusters;         // subset of devices that are thrusters or engines
-  std::list<instrumentpanel*> panels;     // instrument panels in the cabin
-  std::list<astronaut*> occupants;        // who's on board
+  std::list<thruster*> thrusters;                                               // subset of devices that are thrusters or engines
+  std::list<instrumentpanel*> panels;                                           // instrument panels in the cabin
+  std::list<astronaut*> occupants;                                              // who's on board
 
   spacecraft();
   ~spacecraft();

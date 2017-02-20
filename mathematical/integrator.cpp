@@ -1,5 +1,5 @@
 #include "integrator.h"
-//#include <iostream>
+#include <iostream>
 
 integrator::integrator() {
   /// Default constructor

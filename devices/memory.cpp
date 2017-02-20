@@ -7,8 +7,8 @@ memory::memory()
     memory_image(0.0),
     loop_safe(true) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  update_vbo();                             // every device with a custom size needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
+  update_vbo();                                                                 // every device with a custom size needs this
   random_reset();
   // set up initial values for outputs
   std::stringstream ss;
@@ -89,12 +89,12 @@ std::string memory::get_description() {
 
 double memory::get_mass() {
   /// Return the weight of the device, in kilograms
-  return 0.0085;    // 8.5g
+  return 0.0085;                                                                // 8.5g
 }
 
 Vector3d memory::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.02, 0.005, 0.04);    // thumbstick shape...ish
+  return Vector3d(0.02, 0.005, 0.04);                                           // thumbstick shape...ish
 }
 
 unsigned int memory::get_port_in_count() {

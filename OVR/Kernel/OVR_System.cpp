@@ -66,5 +66,5 @@ bool System::IsInitialized()
     return Allocator::GetInstance() != 0;
 }
 
-} // OVR
+}                                                                               // OVR
 

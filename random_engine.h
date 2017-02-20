@@ -24,11 +24,11 @@ private:
   static unsigned int const corporations_max;
   static unsigned int const colours_max;
 
-  uint32_t seed;              // assigned a value from lastseed on object construction
+  uint32_t seed;                                                                // assigned a value from lastseed on object construction
 
 protected:
-  random_engine();            // prevent this class being instantiated directly
-  static uint32_t lastseed;   // incremented every time a new child object is created
+  random_engine();                                                              // prevent this class being instantiated directly
+  static uint32_t lastseed;                                                     // incremented every time a new child object is created
 
 public:
   virtual ~random_engine();

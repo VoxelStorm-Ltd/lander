@@ -83,7 +83,7 @@ String GetBaseOVRPath(bool create_dir)
 
 #ifndef __MINGW32__
     if (create_dir)
-    {   // Create the Oculus directory if it doesn't exist
+    {                                                                           // Create the Oculus directory if it doesn't exist
         WCHAR wpath[128];
         OVR::UTF8Util::DecodeString(wpath, path.ToCStr());
 
@@ -103,7 +103,7 @@ String GetBaseOVRPath(bool create_dir)
     path += "/Library/Preferences/Oculus";
 
     if (create_dir)
-    {   // Create the Oculus directory if it doesn't exist
+    {                                                                           // Create the Oculus directory if it doesn't exist
         DIR* dir = opendir(path);
         if (dir == NULL)
         {
@@ -123,7 +123,7 @@ String GetBaseOVRPath(bool create_dir)
     path += "/.config/Oculus";
 
     if (create_dir)
-    {   // Create the Oculus directory if it doesn't exist
+    {                                                                           // Create the Oculus directory if it doesn't exist
         DIR* dir = opendir(path);
         if (dir == NULL)
         {
@@ -224,7 +224,7 @@ void ProfileManager::LoadCache(ProfileType device)
     JSON* item2 = root->GetNextItem(item1);
 
     if (OVR_strcmp(item0->Name, "Oculus Profile Version") == 0)
-    {   // In the future I may need to check versioning to determine parse method
+    {                                                                           // In the future I may need to check versioning to determine parse method
     }
     else
     {
@@ -253,7 +253,7 @@ void ProfileManager::LoadCache(ProfileType device)
         }
         else
         {
-            return;   // invalid field
+            return;                                                             // invalid field
         }
 
         const char*   deviceName  = 0;
@@ -270,7 +270,7 @@ void ProfileManager::LoadCache(ProfileType device)
                     profile->ParseProperty(item->Name, item->Value);
                 }
                 else
-                {   // Search for the matching device to get device specific fields
+                {                                                               // Search for the matching device to get device specific fields
                     if (!deviceFound && OVR_strcmp(item->Name, deviceName) == 0)
                     {
                         deviceFound = true;
@@ -441,7 +441,7 @@ Profile* ProfileManager::LoadProfile(ProfileType device, const char* user)
     for (unsigned int i=0; i<ProfileCache.GetSize(); i++)
     {
         if (OVR_strcmp(user, ProfileCache[i]->Name) == 0)
-        {   // Found the requested user profile
+        {                                                                       // Found the requested user profile
             Profile* profile = ProfileCache[i];
             return profile->Clone();
         }
@@ -504,7 +504,7 @@ bool ProfileManager::Save(const Profile* profile)
     Lock::Locker lockScope(&ProfileLock);
 
     if (OVR_strcmp(profile->Name, "default") == 0)
-        return false;  // don't save a default profile
+        return false;                                                           // don't save a default profile
 
     // TODO: I should also verify that this profile type matches the current cache
     if (CacheDevice == Profile_Unknown)
@@ -548,7 +548,7 @@ bool ProfileManager::Delete(const Profile* profile)
     Lock::Locker lockScope(&ProfileLock);
 
     if (OVR_strcmp(profile->Name, "default") == 0)
-        return false;  // don't delete a default profile
+        return false;                                                           // don't delete a default profile
 
     if (CacheDevice == Profile_Unknown)
         LoadCache(profile->Type);
@@ -579,7 +579,7 @@ Profile::Profile(ProfileType device, const char* name)
 {
     Type         = device;
     Gender       = Gender_Unspecified;
-    PlayerHeight = 1.778f;    // 5'10" inch man
+    PlayerHeight = 1.778f;                                                      // 5'10" inch man
     IPD          = 0.064f;
     OVR_strcpy(Name, MaxNameLen, name);
 }
@@ -693,4 +693,4 @@ Profile* RiftDK1Profile::Clone() const
     return profile;
 }
 
-}  // OVR
+}                                                                               // OVR

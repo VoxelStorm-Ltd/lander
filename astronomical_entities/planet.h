@@ -19,10 +19,10 @@ private:
   region regions[20];
 
 public:
-  double atmos_molarmass;               // average molar mass of the atmosphere
-  double atmos_pressure_base;           // pressure at sea level or equivalent
-  double atmos_temperature_base;        // temperature at sea level or equivalent
-  //double atmos_tropopause;             // top radius of various layers of atmopause
+  double atmos_molarmass;                                                       // average molar mass of the atmosphere
+  double atmos_pressure_base;                                                   // pressure at sea level or equivalent
+  double atmos_temperature_base;                                                // temperature at sea level or equivalent
+  //double atmos_tropopause;                                                      // top radius of various layers of atmopause
   //double atmos_stratopause;
   //double atmos_mesopause;
   double atmos_thermopause;

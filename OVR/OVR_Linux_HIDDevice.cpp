@@ -54,8 +54,8 @@ bool HIDDeviceManager::initializeManager()
         return false;
     }
 
-    udev_monitor_filter_add_match_subsystem_devtype(HIDMonitor, "hidraw", NULL);  // filter for hidraw only
-	
+    udev_monitor_filter_add_match_subsystem_devtype(HIDMonitor, "hidraw", NULL); // filter for hidraw only
+  
     int err = udev_monitor_enable_receiving(HIDMonitor);
     if (err)
     {
@@ -63,7 +63,7 @@ bool HIDDeviceManager::initializeManager()
         HIDMonitor = NULL;
         return false;
     }
-	
+  
     // Get the file descriptor (fd) for the monitor.  
     HIDMonHandle = udev_monitor_get_fd(HIDMonitor);
     if (HIDMonHandle < 0)
@@ -115,7 +115,7 @@ void HIDDeviceManager::Shutdown()
         HIDMonitor = NULL;
     }
 
-    udev_unref(UdevInstance);  // release the library
+    udev_unref(UdevInstance);                                                   // release the library
     
     LogText("OVR::Linux::HIDDeviceManager - shutting down.\n");
 }
@@ -147,7 +147,7 @@ bool HIDDeviceManager::getIntProperty(udev_device* device,
                                       SInt32* pResult)
 {
     const char* str = udev_device_get_sysattr_value(device, propertyName);
-	if (str)
+  if (str)
     {
         *pResult = strtol(str, NULL, 16);
         return true;
@@ -183,11 +183,11 @@ bool HIDDeviceManager::getStringProperty(udev_device* device,
 {
     // Get the attribute in UTF8
     const char* str = udev_device_get_sysattr_value(device, propertyName);
-	if (str)
-    {   // Copy the string into the return value
-		*pResult = String(str);
+  if (str)
+    {                                                                           // Copy the string into the return value
+    *pResult = String(str);
         return true;
-	}
+  }
     else
     {
         return false;
@@ -203,7 +203,7 @@ bool HIDDeviceManager::Enumerate(HIDEnumerateVisitor* enumVisitor)
         return false;
     }
 
-	// Get a list of hid devices
+  // Get a list of hid devices
     udev_enumerate* devices = udev_enumerate_new(UdevInstance);
     udev_enumerate_add_match_subsystem(devices, "hidraw");
     udev_enumerate_scan_devices(devices);
@@ -215,7 +215,7 @@ bool HIDDeviceManager::Enumerate(HIDEnumerateVisitor* enumVisitor)
     {
         // Get the device file name
         const char* sysfs_path = udev_list_entry_get_name(entry);
-        udev_device* hid;  // The device's HID udev node.
+        udev_device* hid;                                                       // The device's HID udev node.
         hid = udev_device_new_from_syspath(UdevInstance, sysfs_path);
         const char* dev_path = udev_device_get_devnode(hid);
 
@@ -242,7 +242,7 @@ bool HIDDeviceManager::Enumerate(HIDEnumerateVisitor* enumVisitor)
                     existingDevice->Enumerated = true;
                 }
                 else
-                {   // open the device temporarily for startup communication
+                {                                                               // open the device temporarily for startup communication
                     int device_handle = open(dev_path, O_RDWR);
                     if (device_handle >= 0)
                     {
@@ -250,7 +250,7 @@ bool HIDDeviceManager::Enumerate(HIDEnumerateVisitor* enumVisitor)
                         Linux::HIDDevice device(this, device_handle);
                         enumVisitor->Visit(device, devDesc);
 
-                        close(device_handle);  // close the file handle
+                        close(device_handle);                                   // close the file handle
                     }
                 }
             }
@@ -260,7 +260,7 @@ bool HIDDeviceManager::Enumerate(HIDEnumerateVisitor* enumVisitor)
         }
     }
 
-	// Free the enumerator and udev objects
+  // Free the enumerator and udev objects
     udev_enumerate_unref(devices);
 
     return true;
@@ -323,12 +323,12 @@ bool HIDDeviceManager::GetDescriptorFromPath(const char* dev_path, HIDDeviceDesc
     {
         // Get the device file name
         const char* sysfs_path = udev_list_entry_get_name(entry);
-        udev_device* hid;  // The device's HID udev node.
+        udev_device* hid;                                                       // The device's HID udev node.
         hid = udev_device_new_from_syspath(UdevInstance, sysfs_path);
         const char* path = udev_device_get_devnode(hid);
 
         if (OVR_strcmp(dev_path, path) == 0)
-        {   // Found the device so lets collect the device descriptor
+        {                                                                       // Found the device so lets collect the device descriptor
 
             // Get the USB device
             hid = udev_device_get_parent_with_subsystem_devtype(hid, "usb", "usb_device");
@@ -581,7 +581,7 @@ void HIDDevice::HIDShutdown()
     HIDManager->DevManager->pThread->RemoveTicksNotifier(this);
     HIDManager->RemoveNotificationDevice(this);
     
-    if (DeviceHandle >= 0) // Device may already have been closed if unplugged.
+    if (DeviceHandle >= 0)                                                      // Device may already have been closed if unplugged.
     {
         closeDevice(false);
     }
@@ -597,7 +597,7 @@ void HIDDevice::closeDevice(bool wasUnplugged)
 
     HIDManager->DevManager->pThread->RemoveSelectFd(this, DeviceHandle);
 
-    close(DeviceHandle);  // close the file handle
+    close(DeviceHandle);                                                        // close the file handle
     DeviceHandle = -1;
         
     LogText("OVR::Linux::HIDDevice - HID Device Closed '%s'\n", DevDesc.Path.ToCStr());
@@ -627,7 +627,7 @@ bool HIDDevice::SetFeatureReport(UByte* data, UInt32 length)
     }
 
     int r = ioctl(DeviceHandle, HIDIOCSFEATURE(length), data);
-	return (r >= 0);
+  return (r >= 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -636,7 +636,7 @@ bool HIDDevice::GetFeatureReport(UByte* data, UInt32 length)
     if (DeviceHandle < 0)
         return false;
 
-	int r = ioctl(DeviceHandle, HIDIOCGFEATURE(length), data);
+  int r = ioctl(DeviceHandle, HIDIOCGFEATURE(length), data);
     return (r >= 0);
 }
 
@@ -665,7 +665,7 @@ void HIDDevice::OnEvent(int i, int fd)
         }
     }
     else
-    {   // Close the device on read error.
+    {                                                                           // Close the device on read error.
         closeDeviceOnIOError();
     }
 }
@@ -761,7 +761,7 @@ HIDDeviceManager* HIDDeviceManager::CreateInternal(Linux::DeviceManager* devMana
     return manager.GetPtr();
 }
     
-} // namespace Linux
+}                                                                               // namespace Linux
 
 //-------------------------------------------------------------------------------------
 // ***** Creation
@@ -796,4 +796,4 @@ HIDDeviceManager* HIDDeviceManager::Create()
     return manager.GetPtr();
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR

@@ -139,7 +139,7 @@ template <class T>
 OVR_FORCE_INLINE void Destruct(T *pobj)
 {
     pobj->~T();
-    OVR_UNUSED1(pobj); // Fix incorrect 'unused variable' MSVC warning.
+    OVR_UNUSED1(pobj);                                                          // Fix incorrect 'unused variable' MSVC warning.
 }
 
 template <class T>
@@ -324,7 +324,7 @@ public:
 };
 
 
-} // OVR
+}                                                                               // OVR
 
 
 // Redefine operator 'new' if necessary.

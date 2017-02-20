@@ -30,7 +30,7 @@ namespace OVR {
 
 // Declared externally
 class Profile;
-class ProfileManager; // << Should be renamed for consistency
+class ProfileManager;                                                           // << Should be renamed for consistency
 
 // Forward declarations
 class SensorDevice;
@@ -146,7 +146,7 @@ public:
 protected:
     DeviceInfo(DeviceType type) : InfoClassType(type), Type(type), Version(0)
     { ProductName[0] = Manufacturer[0] = 0; }
-    void operator = (const DeviceInfo&) { OVR_ASSERT(0); } // Assignment not allowed.
+    void operator = (const DeviceInfo&) { OVR_ASSERT(0); }                      // Assignment not allowed.
 };
 
 
@@ -484,7 +484,7 @@ public:
     char        SerialNumber[20];
 
 private:
-    void operator = (const SensorInfo&) { OVR_ASSERT(0); } // Assignment not allowed.
+    void operator = (const SensorInfo&) { OVR_ASSERT(0); }                      // Assignment not allowed.
 };
 
 
@@ -573,8 +573,8 @@ struct LatencyTestDisplay
     {
     }
 
-    UByte       Mode;       // The display mode that we wish to select.
-    UInt32      Value;      // The value to display.
+    UByte       Mode;                                                           // The display mode that we wish to select.
+    UInt32      Value;                                                          // The value to display.
 };
 
 //-------------------------------------------------------------------------------------
@@ -614,6 +614,6 @@ public:
     virtual DeviceBase* GetDevice() { return this; }
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

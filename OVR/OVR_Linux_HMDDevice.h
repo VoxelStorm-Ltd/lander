@@ -150,7 +150,7 @@ protected:
 };
 
 
-}} // namespace OVR::Linux
+}}                                                                              // namespace OVR::Linux
 
 #endif // OVR_Linux_HMDDevice_h
 

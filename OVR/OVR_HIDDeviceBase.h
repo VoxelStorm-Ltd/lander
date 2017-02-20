@@ -35,6 +35,6 @@ public:
     virtual bool GetFeatureReport(UByte* data, UInt32 length) = 0;
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

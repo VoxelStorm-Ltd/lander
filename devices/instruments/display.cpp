@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
 
-extern FTFont *font_title3d;          // global font definitions
+extern FTFont *font_title3d;                                                    // global font definitions
 extern FTFont *font_text3d;
 
 display::display()
@@ -13,12 +13,12 @@ display::display()
     ibo_screen(0),
     display_image(0) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
   glGenBuffers(1, &vbo_screen_v);
   glGenBuffers(1, &vbo_screen_n);
   glGenBuffers(1, &vbo_screen_t);
   glGenBuffers(1, &ibo_screen);
-  update_vbo();                             // anything with a custom model needs this
+  update_vbo();                                                                 // anything with a custom model needs this
 }
 
 display::~display() {
@@ -162,11 +162,11 @@ void display::update_vbo() {
     -1.0, 0.0, 0.0,
   };
   GLuint ibodata[] = {
-     0,  1,  2,  3,     // front
-     4,  5,  6,  7,     // top
-     8,  9,  10, 11,    // bottom
-     12, 13, 14, 15,    // right
-     16, 17, 18, 19,    // left
+     0,  1,  2,  3,                                                             // front
+     4,  5,  6,  7,                                                             // top
+     8,  9,  10, 11,                                                            // bottom
+     12, 13, 14, 15,                                                            // right
+     16, 17, 18, 19,                                                            // left
   };
   glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vbodata_vertex), vbodata_vertex, GL_STATIC_DRAW);
@@ -344,7 +344,7 @@ void display::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
   glEnableClientState(GL_VERTEX_ARRAY);
@@ -354,7 +354,7 @@ void display::render() {
   glBindBuffer(GL_ARRAY_BUFFER, vbo_n);
   glNormalPointer(GL_DOUBLE, 0, 0);
 
-  glDrawElements(GL_QUADS, 5 * 4, GL_UNSIGNED_INT, 0);    // draw 5 quads (4 points each)
+  glDrawElements(GL_QUADS, 5 * 4, GL_UNSIGNED_INT, 0);                          // draw 5 quads (4 points each)
 
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
@@ -367,10 +367,10 @@ void display::render() {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 0.8, 1.0, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.05, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                         // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
 
-  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);     // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
+  glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_ADD);                       // emissive style glow effect - see http://www.opengl.org/sdk/docs/man2/xhtml/glTexEnv.xml
 
   // draw the screen vbo
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_screen);
@@ -384,24 +384,24 @@ void display::render() {
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_t);
   glTexCoordPointer(2, GL_DOUBLE, 0, 0);
 
-  glDrawElements(GL_QUADS, sizeof(ibo_screen), GL_UNSIGNED_INT, 0);    // draw ??? quads, 4 vertices each
+  glDrawElements(GL_QUADS, sizeof(ibo_screen), GL_UNSIGNED_INT, 0);             // draw ??? quads, 4 vertices each
 
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+  glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // manufacturer / model label
   Vector3d const thissize = get_size();
-  double const scale = 0.00035277777;       // 1m / (72dpi * 39.3700787in) = 0.00035277777
-  //glEnable(GL_NORMALIZE);                   // to allow correct lighting
-  glEnable(GL_RESCALE_NORMAL);              // to allow correct lighting (faster than GL_NORMALIZE)
+  double const scale = 0.00035277777;                                           // 1m / (72dpi * 39.3700787in) = 0.00035277777
+  //glEnable(GL_NORMALIZE);                                                       // to allow correct lighting
+  glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
   glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glPushMatrix();
   glTranslated(0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
@@ -410,11 +410,11 @@ void display::render() {
   glPushMatrix();
   glTranslated(thissize.x - 0.002, 0.002, thissize.z + 0.001);
   glScaled(scale, scale, scale);
-  glTranslated(-font_title3d->Advance(get_model().c_str(), -1), 0.0, 0.0);    // slide it back for right-align
+  glTranslated(-font_title3d->Advance(get_model().c_str(), -1), 0.0, 0.0);      // slide it back for right-align
   font_title3d->Render(get_model().c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
-  //glDisable(GL_NORMALIZE);                  // enable needed to allow correct lighting, disable for speed
-  glDisable(GL_RESCALE_NORMAL);             // enable needed to allow correct lighting, disable for speed
+  //glDisable(GL_NORMALIZE);                                                      // enable needed to allow correct lighting, disable for speed
+  glDisable(GL_RESCALE_NORMAL);                                                 // enable needed to allow correct lighting, disable for speed
 
   glPopMatrix();
 }

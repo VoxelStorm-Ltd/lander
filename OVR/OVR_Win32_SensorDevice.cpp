@@ -21,7 +21,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 namespace OVR { namespace Win32 {
 
-} // namespace Win32
+}                                                                               // namespace Win32
 
 //-------------------------------------------------------------------------------------
 void SensorDeviceImpl::EnumerateHMDFromSensorDisplayInfo
@@ -42,6 +42,6 @@ void SensorDeviceImpl::EnumerateHMDFromSensorDisplayInfo
     visitor.Visit(hmdCreateDesc);
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 

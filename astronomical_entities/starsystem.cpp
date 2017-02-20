@@ -17,7 +17,7 @@ std::string starsystem::get_name() {
     return name;
   } else {
     // random star name
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream randomname;
     return get_random_name_ancient();
   }
@@ -39,12 +39,12 @@ std::string starsystem::get_designation() {
     // generate a random catalogue designation by some catalogue style i.e.
     // HE1327-2326 or R136a1 or Westerlund 1 BKS AS or W1-26
     // see http://en.wikipedia.org/wiki/Star_catalogue#Full-sky_catalogues
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream designation;
-    designation << get_random_char_alpha_upper()    // cluster
-                << get_random_uint(1, 5000)         // cluster number
+    designation << get_random_char_alpha_upper()                                // cluster
+                << get_random_uint(1, 5000)                                     // cluster number
                 << "-"
-                << get_random_uint(1, 200);         // discovery number?
+                << get_random_uint(1, 200);                                     // discovery number?
     return designation.str();
   }
 }
@@ -70,8 +70,8 @@ void starsystem::set_description(std::string const &newdescription) {
 
 void starsystem::render_visible() {
   /// Render everything that's in this star system
-  for(auto &it : bodies) {    // set up light sources first
-    if(static_cast<star*>(it) == primary) {       // placeholder
+  for(auto &it : bodies) {                                                      // set up light sources first
+    if(static_cast<star*>(it) == primary) {                                     // placeholder
       glEnable( GL_LIGHT0);
       glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
       glLightfv(GL_LIGHT0, GL_AMBIENT,               Vector4f(0.0, 0.0, 0.0, 1.0));
@@ -80,9 +80,9 @@ void starsystem::render_visible() {
       glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 0.0, 0.0, 1.0));
       //glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 0.0, 1.0, 0.0));
       glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, 0.0, 1.0));
-      glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.0);                              // accepts 0-128
-      glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                             // width of angle of spotlight, 180 = all-round
-      glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0);                              // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
+      glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.0);                      // accepts 0-128
+      glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                    // width of angle of spotlight, 180 = all-round
+      glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0);                      // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
       glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0);
       glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0);
       glEnable( GL_LIGHT0);
@@ -94,15 +94,15 @@ void starsystem::render_visible() {
       //glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
       //glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 0.0, -1.0, 0.0));
       //glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, 0.0, -1.0));
-      //glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.0);                              // accepts 0-128
-      //glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                            // width of angle of spotlight, 180 = all-round
-      //glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0);                              // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
+      //glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         0.0);                      // accepts 0-128
+      //glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           180.0);                    // width of angle of spotlight, 180 = all-round
+      //glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0);                      // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
       //glLightf( GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0);
       //glLightf( GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0);
       //glEnable( GL_LIGHT0);
     }
   }
-  for(auto &it : bodies) {    // iterate through all bodies and render them
+  for(auto &it : bodies) {                                                      // iterate through all bodies and render them
     it->render_visible(2);
   }
 }

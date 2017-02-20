@@ -1,7 +1,7 @@
 #ifndef INTEGRATOR_H_INCLUDED
 #define INTEGRATOR_H_INCLUDED
 
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 class integrator {
 protected:

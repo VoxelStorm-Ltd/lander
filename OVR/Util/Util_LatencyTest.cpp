@@ -24,7 +24,7 @@ static const UInt32     TIME_TO_WAIT_FOR_SETTLE_PRE_CALIBRATION = 16*10;
 static const UInt32     TIME_TO_WAIT_FOR_SETTLE_POST_CALIBRATION = 16*10;
 static const UInt32     TIME_TO_WAIT_FOR_SETTLE_POST_MEASUREMENT = 16*5;
 static const UInt32     TIME_TO_WAIT_FOR_SETTLE_POST_MEASUREMENT_RANDOMNESS = 16*5;
-static const UInt32     DEFAULT_NUMBER_OF_SAMPLES = 10;                 // For both color 1->2 and color 2->1 transitions.
+static const UInt32     DEFAULT_NUMBER_OF_SAMPLES = 10;                         // For both color 1->2 and color 2->1 transitions.
 static const UInt32     INITIAL_SAMPLES_TO_IGNORE = 4;
 static const UInt32     TIMEOUT_WAITING_FOR_TEST_STARTED = 1000;
 static const UInt32     TIMEOUT_WAITING_FOR_COLOR_DETECTED = 4000;
@@ -83,7 +83,7 @@ bool LatencyTest::SetDevice(LatencyTestDevice* device)
             Device->SetMessageHandler(&Handler);
 
             // Set trigger threshold.
-            LatencyTestConfiguration configuration(SENSOR_DETECT_THRESHOLD, false);     // No samples streaming.
+            LatencyTestConfiguration configuration(SENSOR_DETECT_THRESHOLD, false); // No samples streaming.
             Device->SetConfiguration(configuration, true);
 
             // Set display to intial (3 dashes).
@@ -373,15 +373,15 @@ bool LatencyTest::DisplayScreenColor(Color& colorToDisplay)
     return true;
 }
 
-const char*	LatencyTest::GetResultsString()
+const char*  LatencyTest::GetResultsString()
 {
-	if (!ResultsString.IsEmpty() && ReturnedResultString != ResultsString.ToCStr())
-	{
-		ReturnedResultString = ResultsString;
-		return ReturnedResultString.ToCStr();
-	}
+  if (!ResultsString.IsEmpty() && ReturnedResultString != ResultsString.ToCStr())
+  {
+    ReturnedResultString = ResultsString;
+    return ReturnedResultString.ToCStr();
+  }
     
-	return NULL;
+  return NULL;
 }
 
 bool LatencyTest::areResultsComplete()
@@ -550,7 +550,7 @@ void LatencyTest::updateForTimeouts()
     }
     OldTime = newTime;
 
-    elapsedMilliS = Alg::Min(elapsedMilliS, (UInt32) 100);   // Clamp at 100mS in case we're not being called very often.
+    elapsedMilliS = Alg::Min(elapsedMilliS, (UInt32) 100);                      // Clamp at 100mS in case we're not being called very often.
 
 
     if (ActiveTimerMilliS == 0)
@@ -568,4 +568,4 @@ void LatencyTest::updateForTimeouts()
     ActiveTimerMilliS -= elapsedMilliS;
 }
 
-}} // namespace OVR::Util
+}}                                                                              // namespace OVR::Util

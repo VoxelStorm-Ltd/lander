@@ -142,7 +142,7 @@ public:
     static void Destruct(T* p)
     {
         p->~T();
-        OVR_UNUSED(p); // Suppress silly MSVC warning
+        OVR_UNUSED(p);                                                          // Suppress silly MSVC warning
     }
 
     static void DestructArray(T* p, UPInt count)
@@ -215,7 +215,7 @@ public:
     static void Destruct(T* p)
     {
         p->~T();
-        OVR_UNUSED(p); // Suppress silly MSVC warning
+        OVR_UNUSED(p);                                                          // Suppress silly MSVC warning
     }
 
     static void DestructArray(T* p, UPInt count)
@@ -250,7 +250,7 @@ template<class T> struct ContainerAllocator     : ContainerAllocatorBase, Constr
 template<class T> struct ContainerAllocator_CPP : ContainerAllocatorBase, ConstructorCPP<T> {};
 
 
-} // OVR
+}                                                                               // OVR
 
 
 #endif

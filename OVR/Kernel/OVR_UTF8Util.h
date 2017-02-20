@@ -83,6 +83,6 @@ inline UInt32 DecodeNextChar(const char** putf8Buffer)
 }
 
 
-}} // OVR::UTF8Util
+}}                                                                              // OVR::UTF8Util
 
 #endif

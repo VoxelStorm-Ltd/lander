@@ -2,7 +2,7 @@
 #define INSTRUMENTPANEL_H_INCLUDED
 
 #include <list>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 class device;
 class spacecraft;
@@ -10,17 +10,17 @@ class spacecraft;
 class instrumentpanel {
   /// A physical surface that instruments can be attached to
 public:
-  std::list<device*> devices;             // devices attached to this panel
+  std::list<device*> devices;                                                   // devices attached to this panel
 
-  Vector3d position;                      // its location relative to cabin origin, in metres
-  Vector3d size;                          // how much physical space it takes up, in metres
-  Quatd rotation;                         // its rotation relative to the cabin
+  Vector3d position;                                                            // its location relative to cabin origin, in metres
+  Vector3d size;                                                                // how much physical space it takes up, in metres
+  Quatd rotation;                                                               // its rotation relative to the cabin
 
-  spacecraft *vessel;                     // what ship it's attached to
+  spacecraft *vessel;                                                           // what ship it's attached to
 
-  bool pickpoint_show;                    // whether to show cursor
-  Vector2d pickpoint;                     // cursor
-  device *pickeddevice;                   // what device we've selected
+  bool pickpoint_show;                                                          // whether to show cursor
+  Vector2d pickpoint;                                                           // cursor
+  device *pickeddevice;                                                         // what device we've selected
 
   instrumentpanel();
   ~instrumentpanel();

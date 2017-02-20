@@ -38,7 +38,7 @@ const float Math<float>::RadToDegreeFactor = 360.0f / Math<float>::TwoPi;
 const float Math<float>::DegreeToRadFactor = Math<float>::TwoPi / 360.0f;
 
 const float Math<float>::Tolerance = 0.00001f;
-const float Math<float>::SingularityRadius = 0.0000001f; // Use for Gimbal lock numerical problems
+const float Math<float>::SingularityRadius = 0.0000001f;                        // Use for Gimbal lock numerical problems
 
 
 // Double-precision Math constants class.
@@ -55,7 +55,7 @@ const double Math<double>::RadToDegreeFactor = 360.0 / Math<double>::TwoPi;
 const double Math<double>::DegreeToRadFactor = Math<double>::TwoPi / 360.0;
 
 const double Math<double>::Tolerance = 0.00001;
-const double Math<double>::SingularityRadius = 0.000000000001; // Use for Gimbal lock numerical problems
+const double Math<double>::SingularityRadius = 0.000000000001;                  // Use for Gimbal lock numerical problems
 
 
 
@@ -65,8 +65,8 @@ const double Math<double>::SingularityRadius = 0.000000000001; // Use for Gimbal
 
 Matrix4f Matrix4f::LookAtRH(const Vector3f& eye, const Vector3f& at, const Vector3f& up)
 {
-    Vector3f z = (eye - at).Normalized();  // Forward
-    Vector3f x = up.Cross(z).Normalized(); // Right
+    Vector3f z = (eye - at).Normalized();                                       // Forward
+    Vector3f x = up.Cross(z).Normalized();                                      // Right
     Vector3f y = z.Cross(x);
 
     Matrix4f m(x.x,  x.y,  x.z,  -(x * eye),
@@ -78,8 +78,8 @@ Matrix4f Matrix4f::LookAtRH(const Vector3f& eye, const Vector3f& at, const Vecto
 
 Matrix4f Matrix4f::LookAtLH(const Vector3f& eye, const Vector3f& at, const Vector3f& up)
 {
-    Vector3f z = (at - eye).Normalized();  // Forward
-    Vector3f x = up.Cross(z).Normalized(); // Right
+    Vector3f z = (at - eye).Normalized();                                       // Forward
+    Vector3f x = up.Cross(z).Normalized();                                      // Right
     Vector3f y = z.Cross(x);
 
     Matrix4f m(x.x,  x.y,  x.z,  -(x * eye),

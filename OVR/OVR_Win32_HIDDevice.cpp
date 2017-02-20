@@ -343,7 +343,7 @@ bool HIDDevice::openDevice()
     if (Device == INVALID_HANDLE_VALUE)
     {
         OVR_DEBUG_LOG(("Failed 'CreateHIDFile' while opening device, error = 0x%X.", 
-			::GetLastError()));
+      ::GetLastError()));
         Device = 0;
         return false;
     }
@@ -500,7 +500,7 @@ bool HIDDevice::GetFeatureReport(UByte* data, UInt32 length)
     if (!ReadRequested)
         return false;
 
-	return HIDManager->HidD_GetFeature(Device, data, (ULONG) length) != FALSE;
+  return HIDManager->HidD_GetFeature(Device, data, (ULONG) length) != FALSE;
 }
 
 void HIDDevice::OnOverlappedEvent(HANDLE hevent)
@@ -526,8 +526,8 @@ UInt64 HIDDevice::OnTicks(UInt64 ticksMks)
 }
 
 bool HIDDevice::OnDeviceMessage(DeviceMessageType messageType, 
-								const String& devicePath,
-								bool* error)
+                const String& devicePath,
+                bool* error)
 {
 
     // Is this the correct device?
@@ -542,7 +542,7 @@ bool HIDDevice::OnDeviceMessage(DeviceMessageType messageType,
         if (!openDevice())
         {
             LogError("OVR::Win32::HIDDevice - Failed to reopen a device '%s' that was re-added.\n", devicePath.ToCStr());
-			*error = true;
+      *error = true;
             return true;
         }
 
@@ -559,7 +559,7 @@ bool HIDDevice::OnDeviceMessage(DeviceMessageType messageType,
     }
     else
     {
-        OVR_ASSERT(0);		
+        OVR_ASSERT(0);    
     }
 
     if (Handler)
@@ -567,7 +567,7 @@ bool HIDDevice::OnDeviceMessage(DeviceMessageType messageType,
         Handler->OnDeviceMessage(handlerMessageType);
     }
 
-	*error = false;
+  *error = false;
     return true;
 }
 
@@ -599,7 +599,7 @@ HIDDeviceManager* HIDDeviceManager::CreateInternal(Win32::DeviceManager* devMana
     return manager.GetPtr();
 }
 
-} // namespace Win32
+}                                                                               // namespace Win32
 
 //-------------------------------------------------------------------------------------
 // ***** Creation
@@ -634,4 +634,4 @@ HIDDeviceManager* HIDDeviceManager::Create()
     return manager.GetPtr();
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR

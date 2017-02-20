@@ -513,6 +513,6 @@ private:
 // Find trailing short filename in a path.
 const char* OVR_CDECL GetShortFilename(const char* purl);
 
-} // OVR
+}                                                                               // OVR
 
 #endif

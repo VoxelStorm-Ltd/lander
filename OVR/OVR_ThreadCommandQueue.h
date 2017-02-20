@@ -80,7 +80,7 @@ public:
     
     UInt16       Size;
     bool         WaitFlag; 
-    bool         ExitFlag; // Marks the last exit command. 
+    bool         ExitFlag;                                                      // Marks the last exit command. 
     NotifyEvent* pEvent;
 
     ThreadCommand(UPInt size, bool waitFlag, bool exitFlag = false)
@@ -135,7 +135,7 @@ class ThreadCommandMF0 : public ThreadCommand
     void executeImpl() const
     {
         pRet ? (void)(*pRet = (pClass->*pFn)()) :
-	           (void)(pClass->*pFn)();
+             (void)(pClass->*pFn)();
     }
 
 public:    
@@ -162,7 +162,7 @@ class ThreadCommandMF1 : public ThreadCommand
     void executeImpl() const
     {
       pRet ? (void)(*pRet = (pClass->*pFn)(AVal0)) :
-	         (void)(pClass->*pFn)(AVal0);
+           (void)(pClass->*pFn)(AVal0);
     }
 
 public:    
@@ -189,7 +189,7 @@ class ThreadCommandMF2 : public ThreadCommand
     void executeImpl() const
     {
         pRet ? (void)(*pRet = (pClass->*pFn)(AVal0, AVal1)) :
-	           (void)(pClass->*pFn)(AVal0, AVal1);
+             (void)(pClass->*pFn)(AVal0, AVal1);
     }
 
 public:    

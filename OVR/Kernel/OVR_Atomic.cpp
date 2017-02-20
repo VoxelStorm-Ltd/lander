@@ -77,6 +77,6 @@ Lock::~Lock()
 
 #endif
 
-} // OVR
+}                                                                               // OVR
 
 #endif // OVR_ENABLE_THREADS

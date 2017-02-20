@@ -84,7 +84,7 @@ public:
     DeviceBase*     GetDevice() const  { return pDevice; }
 
 private:
-    Lock*           pLock;   // Cached global handler lock.
+    Lock*           pLock;                                                      // Cached global handler lock.
     DeviceBase*     pDevice;
     MessageHandler* pHandler;
 };
@@ -118,7 +118,7 @@ public:
 
 class DeviceCreateDesc : public ListNode<DeviceCreateDesc>, public NewOverrideBase
 {    
-    void operator = (const DeviceCreateDesc&) { } // Assign not supported; suppress MSVC warning.
+    void operator = (const DeviceCreateDesc&) { }                               // Assign not supported; suppress MSVC warning.
 public:
     DeviceCreateDesc(DeviceFactory* factory, DeviceType type)
         : pFactory(factory), Type(type), pLock(0), HandleCount(0), pDevice(0), Enumerated(true)
@@ -241,7 +241,7 @@ public:
     {
     }
 
-	// Convenience method to avoid manager access typecasts.
+  // Convenience method to avoid manager access typecasts.
     DeviceManagerImpl*  GetManagerImpl() const      { return pCreateDesc->pLock->pManager; }
 
     // Inline to avoid warnings.
@@ -427,6 +427,6 @@ protected:
 };
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

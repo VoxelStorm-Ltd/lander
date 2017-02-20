@@ -9,12 +9,12 @@ public:
   operator_and();
   ~operator_and();
 
-  std::string  get_name();
-  std::string  get_model();
-  std::string  get_description();
-  std::string  get_port_in_description( unsigned int port);
-  std::string  get_port_out_description(unsigned int port);
-  double       get_port_out_data(       unsigned int port);
+  std::string  get_name() override final;
+  std::string  get_model() override final;
+  std::string  get_description() override final;
+  std::string  get_port_in_description( unsigned int port) override final;
+  std::string  get_port_out_description(unsigned int port) override final;
+  double       get_port_out_data(       unsigned int port) override final;
 };
 
 #endif // OPERATOR_AND_INCLUDED

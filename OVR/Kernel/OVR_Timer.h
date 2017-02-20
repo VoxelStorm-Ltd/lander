@@ -31,8 +31,8 @@ class Timer
 {
 public:
     enum {
-        MsPerSecond     = 1000, // Milliseconds in one second.
-        MksPerMs        = 1000, // Microseconds in one millisecond.
+        MsPerSecond     = 1000,                                                 // Milliseconds in one second.
+        MksPerMs        = 1000,                                                 // Microseconds in one millisecond.
         MksPerSecond    = MsPerSecond * MksPerMs
     };
 
@@ -95,6 +95,6 @@ private:
 };
 
 
-} // Scaleform::Timer
+}                                                                               // Scaleform::Timer
 
 #endif

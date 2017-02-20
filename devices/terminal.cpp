@@ -11,31 +11,31 @@ Vector2<unsigned int> const terminal::windowsize_text = Vector2i(80,  48);
 
 terminal::terminal() {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
-  update_vbo();                             // every device with a custom size needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
+  update_vbo();                                                                 // every device with a custom size needs this
 
   // create a blank texture
   glGenTextures(1, &display_image);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
   // texture parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);     // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                  // nearest-neighbour on closeup views to show the pixel squares
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   4);                            // maximum mipmap level
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);                            // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);            // nearest-neighbour on closeup views to show the pixel squares
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   4);                      // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);                      // maximum mipmap level
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+  glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // create a framebuffer
   glGenFramebuffersEXT(1, &framebuffer);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
-                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
-                            GL_TEXTURE_2D,            // texture target / cubemap face
-                            display_image,            // texture
-                            0);                       // level
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,                                 // target
+                            GL_COLOR_ATTACHMENT0_EXT,                           // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,                                      // texture target / cubemap face
+                            display_image,                                      // texture
+                            0);                                                 // level
 
   GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
   if(status != GL_FRAMEBUFFER_COMPLETE_EXT) {
@@ -188,7 +188,7 @@ void terminal::update() {
   }
   std::string s = ports_in[0].target->get_port_out_text(ports_in[0].target_port);
   if(s.empty()) {
-    return;         // we ignore blank strings
+    return;                                                                     // we ignore blank strings
   }
   // break lines
   do {
@@ -205,7 +205,7 @@ void terminal::update_if_time() {
   if(time_now >= time_nextupdate) {
     update();
     refresh();
-    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(200));  // 5Hz
+    time_nextupdate = time_now + boost::chrono::duration<double>(boost::chrono::milliseconds(200)); // 5Hz
   }
 }
 
@@ -215,9 +215,9 @@ void terminal::refresh() {
   Vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);                       // save state - see http://opengl.czweb.org/ch14/462-465.html
+  glPushAttrib(GL_ALL_ATTRIB_BITS);                                             // save state - see http://opengl.czweb.org/ch14/462-465.html
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
   glClearColor(0.0, 0.0, 0.0, 1.0);

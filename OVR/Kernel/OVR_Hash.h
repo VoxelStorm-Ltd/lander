@@ -125,7 +125,7 @@ public:
 
     void    Clear()
     {        
-        Value.~C(); // placement delete
+        Value.~C();                                                             // placement delete
         NextInChain = -2;
     }
     // Free is only used from dtor of hash; Clear is used during regular operations:
@@ -308,7 +308,7 @@ public:
             prevIndex   = index;
             index       = e->NextInChain;
             if (index == -1)
-                return; // End of chain, item not found
+                return;                                                         // End of chain, item not found
             e = &E(index);
         }
 
@@ -585,7 +585,7 @@ public:
                 prevIndex   = index;
                 index       = e->NextInChain;
                 if (index == -1)
-                    return; // End of chain, item not found
+                    return;                                                     // End of chain, item not found
                 e = &phash->E(index);
             }
 
@@ -723,7 +723,7 @@ private:
             // Keep looking through the chain.
             index = e->NextInChain;
             if (index == (UPInt)-1)
-                break; // end of chain
+                break;                                                          // end of chain
 
             e = &E(index);
             OVR_ASSERT(!e->IsEmpty());
@@ -764,7 +764,7 @@ private:
                 // Collision.  Link into this chain.
 
                 // Move existing list head.
-                new (blankEntry) Entry(*naturalEntry);    // placement new, copy ctor
+                new (blankEntry) Entry(*naturalEntry);                          // placement new, copy ctor
 
                 // Put the new info in the natural Entry.
                 naturalEntry->Value       = key;
@@ -838,7 +838,7 @@ private:
         else
         {
             // Force newSize to be a power of two.
-            int bits = Alg::UpperBit(newSize-1) + 1; // Chop( Log2f((float)(newSize-1)) + 1);
+            int bits = Alg::UpperBit(newSize-1) + 1;                            // Chop( Log2f((float)(newSize-1)) + 1);
             OVR_ASSERT((UPInt(1) << bits) >= newSize);
             newSize = UPInt(1) << bits;
         }
@@ -1058,7 +1058,7 @@ public:
 
     void    Clear()
     {        
-        Value.~C(); // placement delete
+        Value.~C();                                                             // placement delete
         NextInChain = -2;
     }
     // Free is only used from dtor of hash; Clear is used during regular operations:
@@ -1281,7 +1281,7 @@ public:
 };
 
 
-} // OVR
+}                                                                               // OVR
 
 
 #ifdef OVR_DEFINE_NEW

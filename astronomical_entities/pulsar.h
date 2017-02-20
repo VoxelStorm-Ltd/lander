@@ -5,7 +5,7 @@
 
 class pulsar : public neutronstar {
 public:
-  double period;                        // the rotational period of this pulsar
+  double period;                                                                // the rotational period of this pulsar
 
   pulsar();
   virtual ~pulsar();

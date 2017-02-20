@@ -41,7 +41,7 @@ struct HIDP_PREPARSED_DATA;
 
 struct HIDD_ATTRIBUTES
 {
-    ULONG   Size; // = sizeof (struct _HIDD_ATTRIBUTES)
+    ULONG   Size;                                                               // = sizeof (struct _HIDD_ATTRIBUTES)
     USHORT  VendorID;
     USHORT  ProductID;
     USHORT  VersionNumber;
@@ -96,8 +96,8 @@ public:
     void HIDShutdown();
 
     // OVR::HIDDevice
-	bool SetFeatureReport(UByte* data, UInt32 length);
-	bool GetFeatureReport(UByte* data, UInt32 length);
+  bool SetFeatureReport(UByte* data, UInt32 length);
+  bool GetFeatureReport(UByte* data, UInt32 length);
 
 
     // DeviceManagerThread::Notifier
@@ -115,7 +115,7 @@ private:
 
     bool                inMinimalMode;
     HIDDeviceManager*   HIDManager;
-	HANDLE              Device;
+  HANDLE              Device;
     HIDDeviceDesc       DevDesc;
 
     OVERLAPPED          ReadOverlapped;
@@ -134,10 +134,10 @@ private:
 
 class HIDDeviceManager : public OVR::HIDDeviceManager
 {
-	friend class HIDDevice;
+  friend class HIDDevice;
 public:
 
-	HIDDeviceManager(DeviceManager* manager);
+  HIDDeviceManager(DeviceManager* manager);
     virtual ~HIDDeviceManager();
 
     virtual bool Initialize();
@@ -156,7 +156,7 @@ public:
 
 private:
 
-    DeviceManager* Manager;     // Back pointer can just be a raw pointer.
+    DeviceManager* Manager;                                                     // Back pointer can just be a raw pointer.
 
     HMODULE hHidLib;
     GUID    HidGuid;
@@ -195,6 +195,6 @@ func = (PFn_##func)::GetProcAddress(hHidLib, #func)
     bool getFullDesc(HANDLE hidDev, HIDDeviceDesc* desc) const;
 };
 
-}} // namespace OVR::Win32
+}}                                                                              // namespace OVR::Win32
 
 #endif // OVR_Win32_HIDDevice_h

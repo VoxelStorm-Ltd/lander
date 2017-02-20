@@ -6,35 +6,35 @@
 class orbitalbody : public body {
   /// A body that follows orbital physics (using pre-defined orbits)
 public:
-  struct orbittype {                // orbits are have reference plane y = 0
+  struct orbittype {                                                            // orbits are have reference plane y = 0
     union {
-      double a;                     // semi-major axis
-      double semimajor_axis;        // = (periapsis + apoapsis) / 2
+      double a;                                                                 // semi-major axis
+      double semimajor_axis;                                                    // = (periapsis + apoapsis) / 2
     };
     union {
-      double e;                     // eccentricity: 0 = circular, 1 = pendulum
+      double e;                                                                 // eccentricity: 0 = circular, 1 = pendulum
       double eccentricity;
     };
     union {
-      double i;                     // inclination (in rad)
+      double i;                                                                 // inclination (in rad)
       double inclination;
     };
     union {
-      double o;                     // omega - longitude of ascending node (in rad)
+      double o;                                                                 // omega - longitude of ascending node (in rad)
       double longitude_asc_node;
     };
     union {
-      double w;                     // omicron - argument of periapsis (in rad)
+      double w;                                                                 // omicron - argument of periapsis (in rad)
       double argument_periapsis;
     };
     union {
-      double m;                     // Mo - mean anomaly at epoch (time 0) (in rad)
+      double m;                                                                 // Mo - mean anomaly at epoch (time 0) (in rad)
       double mean_anomaly_epoch;
     };
   };
   orbittype orbit;
 
-  body *parent;                     // what its orbit is around
+  body *parent;                                                                 // what its orbit is around
 
   orbitalbody();
   virtual ~orbitalbody();

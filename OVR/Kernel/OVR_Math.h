@@ -95,13 +95,13 @@ public:
     static const float PiOver4;
     static const float E;
 
-    static const float MaxValue;          // Largest positive float Value
-    static const float MinPositiveValue;  // Smallest possible positive value
+    static const float MaxValue;                                                // Largest positive float Value
+    static const float MinPositiveValue;                                        // Smallest possible positive value
 
     static const float RadToDegreeFactor;
     static const float DegreeToRadFactor;
 
-    static const float Tolerance; //  0.00001f;
+    static const float Tolerance;                                               //  0.00001f;
     static const float SingularityRadius; //0.00000000001f for Gimbal lock numerical problems
 };
 
@@ -116,13 +116,13 @@ public:
     static const double PiOver4;
     static const double E;
 
-    static const double MaxValue;          // Largest positive double Value
-    static const double MinPositiveValue;  // Smallest possible positive value
+    static const double MaxValue;                                               // Largest positive double Value
+    static const double MinPositiveValue;                                       // Smallest possible positive value
 
     static const double RadToDegreeFactor;
     static const double DegreeToRadFactor;
 
-    static const double Tolerance; //  0.00001f;
+    static const double Tolerance;                                              //  0.00001f;
     static const double SingularityRadius; //0.00000000001 for Gimbal lock numerical problems
 };
 
@@ -492,24 +492,24 @@ public:
         OVR_COMPILER_ASSERT((A1 != A2) && (A2 != A3) && (A1 != A3));
 
         float psign = -1.0f;
-        if (((A1 + 1) % 3 == A2) && ((A2 + 1) % 3 == A3)) // Determine whether even permutation
+        if (((A1 + 1) % 3 == A2) && ((A2 + 1) % 3 == A3))                       // Determine whether even permutation
         psign = 1.0f;
         
         float pm = psign*M[A1][A3];
         if (pm < -1.0f + Math<float>::SingularityRadius)
-        { // South pole singularity
+        {                                                                       // South pole singularity
             *a = 0.0f;
             *b = -S*D*Math<float>::PiOver2;
             *c = S*D*atan2( psign*M[A2][A1], M[A2][A2] );
         }
         else if (pm > 1.0 - Math<float>::SingularityRadius)
-        { // North pole singularity
+        {                                                                       // North pole singularity
             *a = 0.0f;
             *b = S*D*Math<float>::PiOver2;
             *c = S*D*atan2( psign*M[A2][A1], M[A2][A2] );
         }
         else
-        { // Normal case (nonsingular)
+        {                                                                       // Normal case (nonsingular)
             *a = S*D*atan2( -psign*M[A2][A3], M[A3][A3] );
             *b = S*D*asin(pm);
             *c = S*D*atan2( -psign*M[A1][A2], M[A1][A1] );
@@ -533,24 +533,24 @@ public:
         int m = 3 - A1 - A2;
 
         float psign = -1.0f;
-        if ((A1 + 1) % 3 == A2) // Determine whether even permutation
+        if ((A1 + 1) % 3 == A2)                                                 // Determine whether even permutation
             psign = 1.0f;
 
         float c2 = M[A1][A1];
         if (c2 < -1.0 + Math<float>::SingularityRadius)
-        { // South pole singularity
+        {                                                                       // South pole singularity
             *a = 0.0f;
             *b = S*D*Math<float>::Pi;
             *c = S*D*atan2( -psign*M[A2][m],M[A2][A2]);
         }
         else if (c2 > 1.0 - Math<float>::SingularityRadius)
-        { // North pole singularity
+        {                                                                       // North pole singularity
             *a = 0.0f;
             *b = 0.0f;
             *c = S*D*atan2( -psign*M[A2][m],M[A2][A2]);
         }
         else
-        { // Normal case (nonsingular)
+        {                                                                       // Normal case (nonsingular)
             *a = S*D*atan2( M[A2][A1],-psign*M[m][A1]);
             *b = S*D*acos(c2);
             *c = S*D*atan2( M[A1][A2],psign*M[A1][m]);
@@ -828,13 +828,13 @@ public:
     T       Distance(const Quat& q) const
     {
         T d1 = (*this - q).Length();
-        T d2 = (*this + q).Length(); // Antipoldal point check
+        T d2 = (*this + q).Length();                                            // Antipoldal point check
         return (d1 < d2) ? d1 : d2;
     }
     T       DistanceSq(const Quat& q) const
     {
         T d1 = (*this - q).LengthSq();
-        T d2 = (*this + q).LengthSq(); // Antipoldal point check
+        T d2 = (*this + q).LengthSq();                                          // Antipoldal point check
         return (d1 < d2) ? d1 : d2;
     }
 
@@ -926,26 +926,26 @@ public:
         T s2 = psign * T(2.0) * (psign*w*Q[A2] + Q[A1]*Q[A3]);
 
         if (s2 < (T)-1.0 + Math<T>::SingularityRadius)
-        { // South pole singularity
+        {                                                                       // South pole singularity
             *a = T(0.0);
             *b = -S*D*Math<T>::PiOver2;
             *c = S*D*atan2((T)2.0*(psign*Q[A1]*Q[A2] + w*Q[A3]),
-		                   ww + Q22 - Q11 - Q33 );
+                       ww + Q22 - Q11 - Q33 );
         }
         else if (s2 > (T)1.0 - Math<T>::SingularityRadius)
-        {  // North pole singularity
+        {                                                                       // North pole singularity
             *a = (T)0.0;
             *b = S*D*Math<T>::PiOver2;
             *c = S*D*atan2((T)2.0*(psign*Q[A1]*Q[A2] + w*Q[A3]),
-		                   ww + Q22 - Q11 - Q33);
+                       ww + Q22 - Q11 - Q33);
         }
         else
         {
             *a = -S*D*atan2((T)-2.0*(w*Q[A1] - psign*Q[A2]*Q[A3]),
-		                    ww + Q33 - Q11 - Q22);
+                        ww + Q33 - Q11 - Q22);
             *b = S*D*asin(s2);
             *c = S*D*atan2((T)2.0*(w*Q[A3] - psign*Q[A1]*Q[A2]),
-		                   ww + Q11 - Q22 - Q33);
+                       ww + Q11 - Q22 - Q33);
         }      
         return;
     }
@@ -972,7 +972,7 @@ public:
     {
         OVR_COMPILER_ASSERT(A1 != A2);
 
-        T Q[3] = {x, y, z}; // Quaternion components
+        T Q[3] = {x, y, z};                                                     // Quaternion components
 
         // Determine the missing axis that was not supplied
         int m = 3 - A1 - A2;
@@ -983,33 +983,33 @@ public:
         T Qmm = Q[m]*Q[m];
 
         T psign = T(-1.0);
-        if ((A1 + 1) % 3 == A2) // Determine whether even permutation
+        if ((A1 + 1) % 3 == A2)                                                 // Determine whether even permutation
         {
             psign = (T)1.0;
         }
 
         T c2 = ww + Q11 - Q22 - Qmm;
         if (c2 < (T)-1.0 + Math<T>::SingularityRadius)
-        { // South pole singularity
+        {                                                                       // South pole singularity
             *a = (T)0.0;
             *b = S*D*Math<T>::Pi;
             *c = S*D*atan2( (T)2.0*(w*Q[A1] - psign*Q[A2]*Q[m]),
-		                    ww + Q22 - Q11 - Qmm);
+                        ww + Q22 - Q11 - Qmm);
         }
         else if (c2 > (T)1.0 - Math<T>::SingularityRadius)
-        {  // North pole singularity
+        {                                                                       // North pole singularity
             *a = (T)0.0;
             *b = (T)0.0;
             *c = S*D*atan2( (T)2.0*(w*Q[A1] - psign*Q[A2]*Q[m]),
-		                   ww + Q22 - Q11 - Qmm);
+                       ww + Q22 - Q11 - Qmm);
         }
         else
         {
             *a = S*D*atan2( psign*w*Q[m] + Q[A1]*Q[A2],
-		                   w*Q[A2] -psign*Q[A1]*Q[m]);
+                       w*Q[A2] -psign*Q[A1]*Q[m]);
             *b = S*D*acos(c2);
             *c = S*D*atan2( -psign*w*Q[m] + Q[A1]*Q[A2],
-		                   w*Q[A2] + psign*Q[A1]*Q[m]);
+                       w*Q[A2] + psign*Q[A1]*Q[m]);
         }
         return;
     }
@@ -1032,65 +1032,65 @@ template<class T>
 class Angle
 {
 public:
-	enum AngularUnits
-	{
-		Radians = 0,
-		Degrees = 1
-	};
+  enum AngularUnits
+  {
+    Radians = 0,
+    Degrees = 1
+  };
 
     Angle() : a(0) {}
     
-	// Fix the range to be between -Pi and Pi
-	Angle(T a_, AngularUnits u = Radians) : a((u == Radians) ? a_ : a_*Math<T>::DegreeToRadFactor) { FixRange(); }
+  // Fix the range to be between -Pi and Pi
+  Angle(T a_, AngularUnits u = Radians) : a((u == Radians) ? a_ : a_*Math<T>::DegreeToRadFactor) { FixRange(); }
 
-	T    Get(AngularUnits u = Radians) const       { return (u == Radians) ? a : a*Math<T>::RadToDegreeFactor; }
-	void Set(const T& x, AngularUnits u = Radians) { a = (u == Radians) ? x : x*Math<T>::DegreeToRadFactor; FixRange(); }
-	int Sign() const                               { if (a == 0) return 0; else return (a > 0) ? 1 : -1; }
-	T   Abs() const                                { return (a > 0) ? a : -a; }
+  T    Get(AngularUnits u = Radians) const       { return (u == Radians) ? a : a*Math<T>::RadToDegreeFactor; }
+  void Set(const T& x, AngularUnits u = Radians) { a = (u == Radians) ? x : x*Math<T>::DegreeToRadFactor; FixRange(); }
+  int Sign() const                               { if (a == 0) return 0; else return (a > 0) ? 1 : -1; }
+  T   Abs() const                                { return (a > 0) ? a : -a; }
 
     bool operator== (const Angle& b) const    { return a == b.a; }
     bool operator!= (const Angle& b) const    { return a != b.a; }
-//	bool operator<  (const Angle& b) const    { return a < a.b; } 
-//	bool operator>  (const Angle& b) const    { return a > a.b; } 
-//	bool operator<= (const Angle& b) const    { return a <= a.b; } 
-//	bool operator>= (const Angle& b) const    { return a >= a.b; } 
-//	bool operator= (const T& x)               { a = x; FixRange(); }
+//  bool operator<  (const Angle& b) const    { return a < a.b; } 
+//  bool operator>  (const Angle& b) const    { return a > a.b; } 
+//  bool operator<= (const Angle& b) const    { return a <= a.b; } 
+//  bool operator>= (const Angle& b) const    { return a >= a.b; } 
+//  bool operator= (const T& x)               { a = x; FixRange(); }
 
-	// These operations assume a is already between -Pi and Pi.
+  // These operations assume a is already between -Pi and Pi.
     Angle  operator+  (const Angle& b) const  { return Angle(a + b.a); }
-	Angle  operator+  (const T& x) const      { return Angle(a + x); }
-	Angle& operator+= (const Angle& b)        { a = a + b.a; FastFixRange(); return *this; }
-	Angle& operator+= (const T& x)            { a = a + x; FixRange(); return *this; }
-	Angle  operator-  (const Angle& b) const  { return Angle(a - b.a); }
-	Angle  operator-  (const T& x) const      { return Angle(a - x); }
-	Angle& operator-= (const Angle& b)        { a = a - b.a; FastFixRange(); return *this; }
-	Angle& operator-= (const T& x)            { a = a - x; FixRange(); return *this; }
-	
-	T   Distance(const Angle& b)              { T c = fabs(a - b.a); return (c <= Math<T>::Pi) ? c : Math<T>::TwoPi - c; }
+  Angle  operator+  (const T& x) const      { return Angle(a + x); }
+  Angle& operator+= (const Angle& b)        { a = a + b.a; FastFixRange(); return *this; }
+  Angle& operator+= (const T& x)            { a = a + x; FixRange(); return *this; }
+  Angle  operator-  (const Angle& b) const  { return Angle(a - b.a); }
+  Angle  operator-  (const T& x) const      { return Angle(a - x); }
+  Angle& operator-= (const Angle& b)        { a = a - b.a; FastFixRange(); return *this; }
+  Angle& operator-= (const T& x)            { a = a - x; FixRange(); return *this; }
+  
+  T   Distance(const Angle& b)              { T c = fabs(a - b.a); return (c <= Math<T>::Pi) ? c : Math<T>::TwoPi - c; }
 
 private:
 
-	// The stored angle, which should be maintained between -Pi and Pi
-	T a;
+  // The stored angle, which should be maintained between -Pi and Pi
+  T a;
 
-	// Fixes the angle range to [-Pi,Pi], but assumes no more than 2Pi away on either side 
-	inline void FastFixRange()
-	{
-		if (a < -Math<T>::Pi)
-			a += Math<T>::TwoPi;
-		else if (a > Math<T>::Pi)
-			a -= Math<T>::TwoPi;
-	}
+  // Fixes the angle range to [-Pi,Pi], but assumes no more than 2Pi away on either side 
+  inline void FastFixRange()
+  {
+    if (a < -Math<T>::Pi)
+      a += Math<T>::TwoPi;
+    else if (a > Math<T>::Pi)
+      a -= Math<T>::TwoPi;
+  }
 
-	// Fixes the angle range to [-Pi,Pi] for any given range, but slower then the fast method
-	inline void FixRange()
-	{
-		a = fmod(a,Math<T>::TwoPi);
-		if (a < -Math<T>::Pi)
-			a += Math<T>::TwoPi;
-		else if (a > Math<T>::Pi)
-			a -= Math<T>::TwoPi;
-	}
+  // Fixes the angle range to [-Pi,Pi] for any given range, but slower then the fast method
+  inline void FixRange()
+  {
+    a = fmod(a,Math<T>::TwoPi);
+    if (a < -Math<T>::Pi)
+      a += Math<T>::TwoPi;
+    else if (a > Math<T>::Pi)
+      a -= Math<T>::TwoPi;
+  }
 };
 
 
@@ -1136,10 +1136,10 @@ public:
         D = -D;
     }
 
-	bool operator==(const Plane<T>& rhs) const
-	{
-		return (this->D == rhs.D && this->N == rhs.N);
-	}
+  bool operator==(const Plane<T>& rhs) const
+  {
+    return (this->D == rhs.D && this->N == rhs.N);
+  }
 };
 
 typedef Plane<float> Planef;

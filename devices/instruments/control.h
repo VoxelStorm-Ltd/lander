@@ -18,26 +18,26 @@ private:
   static constexpr unsigned int maxjoybuttons   = 64;
 
 protected:
-  control();       // prevent this class being instantiated directly
+  control();                                                                    // prevent this class being instantiated directly
 public:
   enum class boundtype : char {
-    UNBOUND = 0,          // not bound to anything
-    KEYBOARD,             // bound to a keyboard key
-    MOUSEBUTTON,          // bound to a mouse button
-    MOUSEAXIS_X,          // bound to a mouse axis
-    MOUSEAXIS_Y,          // bound to a mouse axis
-    MOUSEWHEEL,           // bound to the mouse wheel
-    MOUSEWHEEL_X,         // bound to the mouse wheel, horizontal
-    JOYBUTTON,            // bound to a joystick button
-    JOYAXIS               // bound to a joystick axis
+    UNBOUND = 0,                                                                // not bound to anything
+    KEYBOARD,                                                                   // bound to a keyboard key
+    MOUSEBUTTON,                                                                // bound to a mouse button
+    MOUSEAXIS_X,                                                                // bound to a mouse axis
+    MOUSEAXIS_Y,                                                                // bound to a mouse axis
+    MOUSEWHEEL,                                                                 // bound to the mouse wheel
+    MOUSEWHEEL_X,                                                               // bound to the mouse wheel, horizontal
+    JOYBUTTON,                                                                  // bound to a joystick button
+    JOYAXIS                                                                     // bound to a joystick axis
   };
 
   boundtype boundto;
 
   typedef std::list<control*> boundlist;
-  static std::vector<boundlist> keys;            // control devices bound to keys
-  static std::vector<boundlist> mousebuttons;    // control devices bound to mouse buttons
-  static std::vector<boundlist> joybuttons;      // control devices bound to joystick buttons
+  static std::vector<boundlist> keys;                                           // control devices bound to keys
+  static std::vector<boundlist> mousebuttons;                                   // control devices bound to mouse buttons
+  static std::vector<boundlist> joybuttons;                                     // control devices bound to joystick buttons
 
   virtual ~control();
 

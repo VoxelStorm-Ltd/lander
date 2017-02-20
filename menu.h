@@ -6,7 +6,7 @@
 class menu {
   /// Base class for all classes that have context menus
 protected:
-  menu();                 // prevent it being instantiated directly
+  menu();                                                                       // prevent it being instantiated directly
 public:
   virtual ~menu();
 

@@ -20,40 +20,40 @@ camera::camera()
     //farplane(1406000000000) {
     farplane(140600000000) {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 
   update_fov(90.0);
 
   // create a blank texture
   glGenTextures(1, &display_image);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, display_image);        // bind the screen texture
+  glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowsize.x, windowsize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
   // texture parameters
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);    // average between two mipmap levels on nearest neighbour texture pixel
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);    // when texture area is small, bilinear filter the closest mipmap
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);     // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);                  // nearest neighbour filtering
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR); // average between two mipmap levels on nearest neighbour texture pixel
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST); // when texture area is small, bilinear filter the closest mipmap
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); // aka trilinear - nvidia recommended (see https://developer.nvidia.com/sites/default/files/akamai/gamedev/docs/opengl_rendertexture.pdf)
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);            // nearest neighbour filtering
   //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                  // nearest-neighbour on closeup views to show the pixel squares
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                   // when texture area is large, bilinear filter the original
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                            // maximum mipmap level
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                            // maximum mipmap level
-  //glGenerateMipmapEXT(GL_TEXTURE_2D);                 // only if we're using mipmaps
-  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                        // automatically generate mipmaps - doesn't work for FBO
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);            // nearest-neighbour on closeup views to show the pixel squares
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);             // when texture area is large, bilinear filter the original
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD,   2);                      // maximum mipmap level
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 2);                      // maximum mipmap level
+  //glGenerateMipmapEXT(GL_TEXTURE_2D);                                           // only if we're using mipmaps
+  //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);                  // automatically generate mipmaps - doesn't work for FBO
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glBindTexture(GL_TEXTURE_2D, 0);                    // unbind the texture
+  glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // create a framebuffer
   glGenFramebuffersEXT(1, &framebuffer);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);
-  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,       // target
-                            GL_COLOR_ATTACHMENT0_EXT, // attachment point - colour, depth, stencil or depth-stencil
-                            GL_TEXTURE_2D,            // texture target / cubemap face
-                            display_image,            // texture
-                            0);                       // level
+  glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,                                 // target
+                            GL_COLOR_ATTACHMENT0_EXT,                           // attachment point - colour, depth, stencil or depth-stencil
+                            GL_TEXTURE_2D,                                      // texture target / cubemap face
+                            display_image,                                      // texture
+                            0);                                                 // level
   // add a depth buffer
   glGenRenderbuffersEXT(1, &depthbuffer);
   glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, depthbuffer);
@@ -229,7 +229,7 @@ void camera::refresh() {
   Vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);  // bind the framebuffer for the display screen
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen
 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
@@ -247,12 +247,12 @@ void camera::refresh() {
 
   glRotated(rotation_x, 1.0, 0.0, 0.0);
   glRotated(rotation_y, 0.0, 1.0, 0.0);
-  glTranslated(-position.x,                             // position relative to vessel
+  glTranslated(-position.x,                                                     // position relative to vessel
                -position.y,
                -position.z);
   /// Note: this will segfault if asked to update when not on a vessel.  Cheaper not to check
-  glMultMatrixd(vessel->rotation.invert_copy().transform());          // body rotation
-  glTranslated(-vessel->position.x,                     // position relative to star system
+  glMultMatrixd(vessel->rotation.invert_copy().transform());                    // body rotation
+  glTranslated(-vessel->position.x,                                             // position relative to star system
                -vessel->position.y,
                -vessel->position.z);
 
@@ -261,7 +261,7 @@ void camera::refresh() {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.0, 1.0)); // make sure global ambient is off
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.0, 1.0));         // make sure global ambient is off
   glEnable(GL_LIGHTING);
   glDisable(GL_LIGHT0);
   glDisable(GL_LIGHT1);
@@ -272,7 +272,7 @@ void camera::refresh() {
   glDisable(GL_LIGHT6);
   glDisable(GL_LIGHT7);
 
-  root.render_visible();   // render the universe in the visible spectrum
+  root.render_visible();                                                        // render the universe in the visible spectrum
 
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
@@ -282,7 +282,7 @@ void camera::refresh() {
 
   // release the framebuffer
   glViewport(oldviewport[0], oldviewport[1], oldviewport[2], oldviewport[3]);
-  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);            // unbind the framebuffer
+  glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);                                  // unbind the framebuffer
 
   // generate mipmaps - only use this if we're actually using a mipmap
   glBindTexture(GL_TEXTURE_2D, display_image);

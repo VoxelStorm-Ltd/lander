@@ -62,6 +62,6 @@ public:
     static void OVR_CDECL Destroy();    
 };
 
-} // OVR
+}                                                                               // OVR
 
 #endif

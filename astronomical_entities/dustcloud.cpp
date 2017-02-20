@@ -27,7 +27,7 @@ std::string dustcloud::get_designation() {
   if(designation.size() != 0) {
     return designation;
   } else {
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream designation;
     designation <<  "DC" << get_random_uint(10000, 999999);
     return designation.str();

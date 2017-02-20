@@ -3,7 +3,7 @@
 
 #include <list>
 #include <vector>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 class astronaut;
 class starsystem;
@@ -13,10 +13,10 @@ class physicsbody;
 class universe {
   /// The global container for everything that exists
 public:
-  double time;                                            // current time
-  std::list<astronaut*> astronauts;                       // list of astronauts
-  std::vector<starsystem*> starsystems;                   // list of stars & star systems
-  //std::list<physicsbody*> physicsbodies;                  // list of physics bodies to simulate every tick
+  double time;                                                                  // current time
+  std::list<astronaut*> astronauts;                                             // list of astronauts
+  std::vector<starsystem*> starsystems;                                         // list of stars & star systems
+  //std::list<physicsbody*> physicsbodies;                                        // list of physics bodies to simulate every tick
 
   starsystem *currentsystem;
 
@@ -25,8 +25,8 @@ public:
 
   void render_visible();
 
-  void make_explosion(Vector3d coords, double energy);
-  void destroy_range( Vector3d coords, double range);
+  void make_explosion(Vector3d const &coords, double energy);
+  void destroy_range( Vector3d const &coords, double range);
 };
 
 #endif // UNIVERSE_H_INCLUDED

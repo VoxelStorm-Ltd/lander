@@ -147,14 +147,14 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 // Disable MSVC warnings
 #if defined(OVR_CC_MSVC)
-#  pragma warning(disable : 4127)    // Inconsistent dll linkage
-#  pragma warning(disable : 4530)    // Exception handling
+#  pragma warning(disable : 4127)                                               // Inconsistent dll linkage
+#  pragma warning(disable : 4530)                                               // Exception handling
 #  if (OVR_CC_MSVC<1300)
-#    pragma warning(disable : 4514)  // Unreferenced inline function has been removed
-#    pragma warning(disable : 4710)  // Function not inlined
-#    pragma warning(disable : 4714)  // _force_inline not inlined
-#    pragma warning(disable : 4786)  // Debug variable name longer than 255 chars
-#  endif // (OVR_CC_MSVC<1300)
+#    pragma warning(disable : 4514)                                             // Unreferenced inline function has been removed
+#    pragma warning(disable : 4710)                                             // Function not inlined
+#    pragma warning(disable : 4714)                                             // _force_inline not inlined
+#    pragma warning(disable : 4786)                                             // Debug variable name longer than 255 chars
+#  endif                                                                        // (OVR_CC_MSVC<1300)
 #endif // (OVR_CC_MSVC)
 
 
@@ -206,13 +206,13 @@ typedef ptrdiff_t       SPInt;
 
 #if defined(OVR_OS_WIN32)
 
-typedef char            SByte;  // 8 bit Integer (Byte)
+typedef char            SByte;                                                  // 8 bit Integer (Byte)
 typedef unsigned char   UByte;
-typedef short           SInt16; // 16 bit Integer (Word)
+typedef short           SInt16;                                                 // 16 bit Integer (Word)
 typedef unsigned short  UInt16;
-typedef long            SInt32; // 32 bit Integer
+typedef long            SInt32;                                                 // 32 bit Integer
 typedef unsigned long   UInt32;
-typedef __int64         SInt64; // 64 bit Integer (QWord)
+typedef __int64         SInt64;                                                 // 64 bit Integer (QWord)
 typedef unsigned __int64 UInt64;
 
 
@@ -262,9 +262,9 @@ namespace BaseTypes
     using OVR::SInt32;
     using OVR::UInt64;
     using OVR::SInt64;
-} // OVR::BaseTypes
+}                                                                               // OVR::BaseTypes
 
-} // OVR
+}                                                                               // OVR
 
 
 //-----------------------------------------------------------------------------------

@@ -54,7 +54,7 @@ protected:
                                                 CGDisplayChangeSummaryFlags flags,
                                                 void *userInfo);
   
-public: // data
+public:                                                                         // data
     Ptr<DeviceManagerThread> pThread;
 };
 
@@ -114,6 +114,6 @@ private:
     Array<Notifier*>    TicksNotifiers;
 };
 
-}} // namespace OSX::OVR
+}}                                                                              // namespace OSX::OVR
 
 #endif // OVR_OSX_DeviceManager_h

@@ -4,8 +4,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
-#include "vmath.h"
-#include "oculusstorm.h"
+#include "vectorstorm/vectorstorm.h"
+#include "oculusstorm/oculusstorm.h"
 #include "menu.h"
 #include "universe.h"
 #include "starsystem.h"
@@ -15,19 +15,19 @@
 
 // globals
 bool keeprunning = true;
-GLFWwindow *window_main      = nullptr;          // the main game window
+GLFWwindow *window_main      = nullptr;                                         // the main game window
 universe root;
 astronaut *player            = nullptr;
-menu *menu_target            = nullptr;          // what object's menu we currently have open, if any
-oculusstorm *oculus          = nullptr;          // oculus rift controller
-FTFont *font_title           = nullptr;          // global font definitions
+menu *menu_target            = nullptr;                                         // what object's menu we currently have open, if any
+oculusstorm *oculus          = nullptr;                                         // oculus rift controller
+FTFont *font_title           = nullptr;                                         // global font definitions
 FTFont *font_title_huge      = nullptr;
 FTFont *font_text            = nullptr;
 FTFont *font_title3d         = nullptr;
 FTFont *font_text3d          = nullptr;
 FTFont *font_7segment3d      = nullptr;
 FTFont *font_monospace_small = nullptr;
-unsigned int fps = 0;                            // fps counter
+unsigned int fps = 0;                                                           // fps counter
 
 void init_graphics(Vector2i &windowsize);
 void init_universe();
@@ -51,7 +51,7 @@ void init() {       /// all the one-time initialisation we need for the engine
   player->update_aspect_ratio();
   std::cout << "Initialisation complete." << std::endl;
   // these must be absolutely last:
-  glfwSetTime(0.0);                                                           // reset the timer for the start of the main loop
+  glfwSetTime(0.0);                                                             // reset the timer for the start of the main loop
 }
 
 void mainloop() {   /// the main rendering loop

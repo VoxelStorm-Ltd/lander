@@ -39,4 +39,4 @@ void StringBuffer::AppendFormat(const char* format, ...)
     OVR_FREE(buffer);
 }
 
-} // OVR
+}                                                                               // OVR

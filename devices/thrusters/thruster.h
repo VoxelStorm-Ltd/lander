@@ -5,7 +5,7 @@
 
 class thruster : public device_external {
 private:
-  double throttle;              // between 0 and 1
+  double throttle;                                                              // between 0 and 1
   double thrust_magnitude;
   double flowrate_fuel;
   double flowrate_oxi;
@@ -19,27 +19,27 @@ public:
   Vector3d thrust;
 
   // specialisations
-  virtual std::string get_name();
-  virtual std::string get_model();
-  virtual std::string get_description();
-  virtual double      get_mass();
-  virtual Vector3d    get_size();
-  bool attach_hull();
-  void remove_hull();
-  unsigned int get_port_in_count();
-  std::string  get_port_in_name(        unsigned int port);
-  std::string  get_port_in_description( unsigned int port);
-  bool         get_port_in_required(    unsigned int port);
-  unsigned int get_port_out_count();
-  std::string  get_port_out_name(       unsigned int port);
-  std::string  get_port_out_description(unsigned int port);
-  double       get_port_out_data(       unsigned int port);
-  virtual void update();
-  virtual void update_if_time();
+  virtual std::string get_name() override final;
+  virtual std::string get_model() override final;
+  virtual std::string get_description() override final;
+  virtual double      get_mass() override final;
+  virtual Vector3d    get_size() override final;
+  bool attach_hull() override final;
+  void remove_hull() override final;
+  unsigned int get_port_in_count() override final;
+  std::string  get_port_in_name(        unsigned int port) override final;
+  std::string  get_port_in_description( unsigned int port) override final;
+  bool         get_port_in_required(    unsigned int port) override final;
+  unsigned int get_port_out_count() override final;
+  std::string  get_port_out_name(       unsigned int port) override final;
+  std::string  get_port_out_description(unsigned int port) override final;
+  double       get_port_out_data(       unsigned int port) override final;
+  virtual void update() override final;
+  virtual void update_if_time() override final;
 
   // thruster-specific functionality
   virtual double get_thrust_max();
-  Vector3d get_thrust();
+  Vector3d const &get_thrust();
   double get_thrust_magnitude();
   double get_flowrate_fuel();
   double get_flowrate_oxi();

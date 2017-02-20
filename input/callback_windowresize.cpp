@@ -10,7 +10,7 @@ void callback_windowresize(GLFWwindow *thiswindow __attribute__((unused)), int n
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  player->render_firstperson();                   // test render while the window is being dragged
+  player->render_firstperson();                                                 // test render while the window is being dragged
   glfwSwapBuffers(thiswindow);
 
   //config->mousecentrex = (windowwidth  / 2.0);

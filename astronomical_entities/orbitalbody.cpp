@@ -42,12 +42,12 @@ bool orbitalbody::check_within_physical_influence(double thisradius) {
 
 double orbitalbody::get_atmos_pressure(double thisradius __attribute__((__unused__))) {
   /// Return the atmospheric pressure at this radius from the body
-  return 0.0;   // vacuum
+  return 0.0;                                                                   // vacuum
 }
 
 double orbitalbody::get_atmos_temperature(double thisradius __attribute__((__unused__))) {
   /// Return the atmospheric temperature at this radius from the body
-  return 0.0;   // vacuum
+  return 0.0;                                                                   // vacuum
 }
 
 void orbitalbody::update_state(double time, double deltatime) {

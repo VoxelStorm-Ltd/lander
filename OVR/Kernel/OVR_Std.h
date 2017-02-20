@@ -18,7 +18,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 #define OVR_Std_h
 
 #include "OVR_Types.h"
-#include <stdarg.h> // for va_list args
+#include <stdarg.h>                                                             // for va_list args
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -277,7 +277,7 @@ inline UPInt OVR_CDECL OVR_sprintf(char *dest, UPInt destsize, const char* forma
         OVR_ASSERT(ret != -1);
     #else
         OVR_UNUSED(destsize);
-        ret = _vsnprintf(dest, destsize - 1, format, argList); // -1 for space for the null character
+        ret = _vsnprintf(dest, destsize - 1, format, argList);                  // -1 for space for the null character
         OVR_ASSERT(ret != -1);
         dest[destsize-1] = 0;
     #endif
@@ -498,6 +498,6 @@ inline long OVR_CDECL OVR_wcstol(const wchar_t* string, wchar_t** tailptr, int r
 #endif
 }
 
-} // OVR
+}                                                                               // OVR
 
 #endif // OVR_Std_h

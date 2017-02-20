@@ -44,7 +44,7 @@ public:
     void HIDShutdown();
     
     virtual bool SetFeatureReport(UByte* data, UInt32 length);
-	virtual bool GetFeatureReport(UByte* data, UInt32 length);
+  virtual bool GetFeatureReport(UByte* data, UInt32 length);
 
     // DeviceManagerThread::Notifier
     void OnEvent(int i, int fd);
@@ -63,7 +63,7 @@ private:
 
     bool                    InMinimalMode;
     HIDDeviceManager*       HIDManager;
-    int                     DeviceHandle;     // file handle to the device
+    int                     DeviceHandle;                                       // file handle to the device
     HIDDeviceDesc           DevDesc;
     
     enum { ReadBufferSize = 96 };
@@ -80,7 +80,7 @@ private:
 
 class HIDDeviceManager : public OVR::HIDDeviceManager, public DeviceManagerThread::Notifier
 {
-	friend class HIDDevice;
+  friend class HIDDevice;
 
 public:
     HIDDeviceManager(Linux::DeviceManager* Manager);
@@ -112,13 +112,13 @@ private:
     
     DeviceManager*           DevManager;
 
-    udev*                    UdevInstance;     // a handle to the udev library instance
+    udev*                    UdevInstance;                                      // a handle to the udev library instance
     udev_monitor*            HIDMonitor;
-    int                      HIDMonHandle;     // the udev_monitor file handle
+    int                      HIDMonHandle;                                      // the udev_monitor file handle
 
     Array<HIDDevice*>        NotificationDevices;
 };
 
-}} // namespace OVR::Linux
+}}                                                                              // namespace OVR::Linux
 
 #endif // OVR_Linux_HIDDevice_h

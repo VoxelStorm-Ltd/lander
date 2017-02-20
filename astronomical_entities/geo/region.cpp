@@ -39,7 +39,7 @@ void region::subdivide(unsigned int depth) {
   inner_corners[1]->coords = parent_corners[0]->coords.lerp(0.5, parent_corners[2]->coords);
   inner_corners[2]->coords = parent_corners[1]->coords.lerp(0.5, parent_corners[2]->coords);
   // vertical offsetting
-  double radius = parent_corners[1]->coords.length();    // TODO: get this from planet
+  double radius = parent_corners[1]->coords.length();                           // TODO: get this from planet
   inner_corners[0]->coords.normalise();
   inner_corners[0]->coords *= radius;
   inner_corners[1]->coords.normalise();
@@ -49,21 +49,21 @@ void region::subdivide(unsigned int depth) {
 
   // see https://docs.google.com/drawings/d/1ud3-i8Ua4CfPrwwuEnJJ4xYh_KOTPT-oA6x1aeoe1o0/edit
   // left
-  regions[0]->set_corners(parent_corners[0],      // left corner
-                         inner_corners[0],       // lower middle
-                         inner_corners[1]);      // left middle
+  regions[0]->set_corners(parent_corners[0],                                    // left corner
+                         inner_corners[0],                                      // lower middle
+                         inner_corners[1]);                                     // left middle
   // right
-  regions[1]->set_corners(inner_corners[0],       // lower middle
-                         parent_corners[1],      // right corner
-                         inner_corners[2]);      // right middle
+  regions[1]->set_corners(inner_corners[0],                                     // lower middle
+                         parent_corners[1],                                     // right corner
+                         inner_corners[2]);                                     // right middle
   // top
-  regions[2]->set_corners(inner_corners[1],       // left middle
-                         inner_corners[2],       // right middle
-                         parent_corners[2]);     // top corner
+  regions[2]->set_corners(inner_corners[1],                                     // left middle
+                         inner_corners[2],                                      // right middle
+                         parent_corners[2]);                                    // top corner
   // middle (rotated 180)
-  regions[3]->set_corners(inner_corners[2],       // right middle
-                         inner_corners[1],       // left middle
-                         inner_corners[0]);      // lower middle
+  regions[3]->set_corners(inner_corners[2],                                     // right middle
+                         inner_corners[1],                                      // left middle
+                         inner_corners[0]);                                     // lower middle
 
   // recursively subdivide deeper if requested
   if(depth != 0) {
@@ -88,7 +88,7 @@ void region::update() {
 
 void region::render_visible(unsigned int depth) {
   /// Draw this region and all its child regions if appropriate
-  if(depth != 0 && regions[0]) {                                // LOD check placeholder
+  if(depth != 0 && regions[0]) {                                                // LOD check placeholder
     regions[0]->render_visible(depth - 1);
     regions[1]->render_visible(depth - 1);
     regions[2]->render_visible(depth - 1);
@@ -97,7 +97,7 @@ void region::render_visible(unsigned int depth) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
     glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
     glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
-    glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                           // 0 to 127
+    glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                       // 0 to 127
 
     glBegin(GL_TRIANGLES);
     glNormal3dv(normal);

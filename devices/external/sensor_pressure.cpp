@@ -1,6 +1,6 @@
 #include "sensor_pressure.h"
 #include <sstream>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "universe.h"
 #include "starsystem.h"
 #include "orbitalbody.h"

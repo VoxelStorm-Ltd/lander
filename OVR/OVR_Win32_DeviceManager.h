@@ -75,7 +75,7 @@ public:
     class Notifier
     {
     public:
-		// Called when overlapped I/O handle is signaled.
+    // Called when overlapped I/O handle is signaled.
         virtual void    OnOverlappedEvent(HANDLE hevent) { OVR_UNUSED1(hevent); }
 
         // Called when timing ticks are updated.
@@ -84,16 +84,16 @@ public:
         virtual UInt64  OnTicks(UInt64 ticksMks)
         { OVR_UNUSED1(ticksMks);  return Timer::MksPerSecond * 1000; }
 
-		enum DeviceMessageType
-		{
-			DeviceMessage_DeviceAdded     = 0,
-			DeviceMessage_DeviceRemoved   = 1,
-		};
+    enum DeviceMessageType
+    {
+      DeviceMessage_DeviceAdded     = 0,
+      DeviceMessage_DeviceRemoved   = 1,
+    };
 
-		// Called to notify device object.
-		virtual bool    OnDeviceMessage(DeviceMessageType messageType, 
-										const String& devicePath,
-										bool* error) 
+    // Called to notify device object.
+    virtual bool    OnDeviceMessage(DeviceMessageType messageType, 
+                    const String& devicePath,
+                    bool* error) 
         { OVR_UNUSED3(messageType, devicePath, error); return false; }
     };
 
@@ -107,11 +107,11 @@ public:
     bool AddTicksNotifier(Notifier* notify);
     bool RemoveTicksNotifier(Notifier* notify);
 
-	bool AddMessageNotifier(Notifier* notify);
-	bool RemoveMessageNotifier(Notifier* notify);
+  bool AddMessageNotifier(Notifier* notify);
+  bool RemoveMessageNotifier(Notifier* notify);
 
     // DeviceStatus::Notifier interface.
-	bool OnMessage(MessageType type, const String& devicePath);
+  bool OnMessage(MessageType type, const String& devicePath);
 
     void DetachDeviceManager();
 
@@ -130,17 +130,17 @@ private:
     // Ticks notifiers - used for time-dependent events such as keep-alive.
     Array<Notifier*>        TicksNotifiers;
 
-	// Message notifiers.
+  // Message notifiers.
     Array<Notifier*>        MessageNotifiers;
 
-	// Object that manages notifications originating from Windows messages.
-	Ptr<DeviceStatus>		pStatusObject;
+  // Object that manages notifications originating from Windows messages.
+  Ptr<DeviceStatus>    pStatusObject;
 
     Lock                    DevMgrLock;
     // pDeviceMgr should be accessed under DevMgrLock
-    DeviceManager*          pDeviceMgr; // back ptr, no addref. 
+    DeviceManager*          pDeviceMgr;                                         // back ptr, no addref. 
 };
 
-}} // namespace Win32::OVR
+}}                                                                              // namespace Win32::OVR
 
 #endif // OVR_Win32_DeviceManager_h

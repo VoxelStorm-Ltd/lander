@@ -94,7 +94,7 @@ public:
     virtual bool Initialize(DeviceBase* parent)
     {
         // Open HID device.
-        HIDDeviceDesc&		hidDesc = *getHIDDesc();
+        HIDDeviceDesc&    hidDesc = *getHIDDesc();
         HIDDeviceManager*   pManager = GetHIDDeviceManager();
 
 
@@ -154,7 +154,7 @@ public:
         // Push call with wait.
         bool result = false;
 
-		ThreadCommandQueue* pQueue = this->GetManagerImpl()->GetThreadQueue();
+    ThreadCommandQueue* pQueue = this->GetManagerImpl()->GetThreadQueue();
         if (!pQueue->PushCallAndWaitResult(this, &HIDDeviceImpl::setFeatureReport, &result, writeData))
             return false;
 
@@ -170,7 +170,7 @@ public:
     { 
         bool result = false;
 
-		ThreadCommandQueue* pQueue = this->GetManagerImpl()->GetThreadQueue();
+    ThreadCommandQueue* pQueue = this->GetManagerImpl()->GetThreadQueue();
         if (!pQueue->PushCallAndWaitResult(this, &HIDDeviceImpl::getFeatureReport, &result, data, length))
             return false;
 
@@ -198,6 +198,6 @@ private:
     Ptr<HIDDevice> InternalDevice;
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

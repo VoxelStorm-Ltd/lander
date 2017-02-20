@@ -116,13 +116,13 @@ public:
         Gender_Female       = 2
     };
 
-    ProfileType Type;              // The type of device profile
-    char        Name[MaxNameLen];  // The name given to this profile
+    ProfileType Type;                                                           // The type of device profile
+    char        Name[MaxNameLen];                                               // The name given to this profile
 
 protected:
-    GenderType  Gender;            // The gender of the user
-    float       PlayerHeight;      // The height of the user in meters
-    float       IPD;               // Distance between eyes in meters
+    GenderType  Gender;                                                         // The gender of the user
+    float       PlayerHeight;                                                   // The height of the user in meters
+    float       IPD;                                                            // Distance between eyes in meters
 
 public:
     // These are properties which are intrinsic to the user and affect scene setup
@@ -162,11 +162,11 @@ public:
     };
 
 protected:
-    EyeCupType  EyeCups;            // Which eye cup does the player use
-    int         LL;                 // Configuration Utility IPD setting
-    int         LR;                 // Configuration Utility IPD setting
-    int         RL;                 // Configuration Utility IPD setting
-    int         RR;                 // Configuration Utility IPD setting
+    EyeCupType  EyeCups;                                                        // Which eye cup does the player use
+    int         LL;                                                             // Configuration Utility IPD setting
+    int         LR;                                                             // Configuration Utility IPD setting
+    int         RL;                                                             // Configuration Utility IPD setting
+    int         RR;                                                             // Configuration Utility IPD setting
 
 public:
     EyeCupType          GetEyeCup() { return EyeCups; };

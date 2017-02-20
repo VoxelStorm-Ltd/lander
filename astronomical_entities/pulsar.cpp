@@ -22,14 +22,14 @@ std::string pulsar::get_designation() {
   } else {
     // generate a random astronomical designation in the standard style "2003 VB12"
     // see http://en.wikipedia.org/wiki/Provisional_designation_in_astronomy
-    random_reset();                                 // reset the generator to its seed
+    random_reset();                                                             // reset the generator to its seed
     std::stringstream designation;
     designation << "PSR "
-                << get_random_uint(1926, 2059)      // year
+                << get_random_uint(1926, 2059)                                  // year
                 << " "
-                << get_random_char_alpha_upper()    // month (allow Z since we're lazy)
-                << get_random_char_alpha_upper()    // order of discovery letter
-                << get_random_uint(1, 530);         // order of discovery number
+                << get_random_char_alpha_upper()                                // month (allow Z since we're lazy)
+                << get_random_char_alpha_upper()                                // order of discovery letter
+                << get_random_uint(1, 530);                                     // order of discovery number
     return designation.str();
   }
 }

@@ -13,12 +13,12 @@ private:
   GLuint framebuffer;
   GLuint depthbuffer;
 
-  double zoom;                                // zoom multiplier
-  double rotation_x;                          // map rotation around x axis
-  double rotation_y;                          // map rotation around y axis
-  double fov_angle;                           // cached field of view, degrees
-  double fov_ratio;                           // updated by update_fov_ratio() from degrees
-  double aspect_ratio;                        // updated by update_aspect_ratio() from windowsize
+  double zoom;                                                                  // zoom multiplier
+  double rotation_x;                                                            // map rotation around x axis
+  double rotation_y;                                                            // map rotation around y axis
+  double fov_angle;                                                             // cached field of view, degrees
+  double fov_ratio;                                                             // updated by update_fov_ratio() from degrees
+  double aspect_ratio;                                                          // updated by update_aspect_ratio() from windowsize
 
   double nearplane;
   double farplane;
@@ -27,26 +27,26 @@ public:
   camera();
   ~camera();
 
-  std::string  get_name();
-  std::string  get_model();
-  std::string  get_description();
-  double       get_mass();
-  Vector3d     get_size();
-  unsigned int get_port_in_count();
-  std::string  get_port_in_name(           unsigned int port);
-  std::string  get_port_in_description(    unsigned int port);
-  bool         get_port_in_required(       unsigned int port);
-  unsigned int get_port_out_count();
-  std::string  get_port_out_name(          unsigned int port);
-  std::string  get_port_out_description(   unsigned int port);
-  GLuint       get_port_out_video_digital( unsigned int port);
+  std::string  get_name() override final;
+  std::string  get_model() override final;
+  std::string  get_description() override final;
+  double       get_mass() override final;
+  Vector3d     get_size() override final;
+  unsigned int get_port_in_count() override final;
+  std::string  get_port_in_name(           unsigned int port) override final;
+  std::string  get_port_in_description(    unsigned int port) override final;
+  bool         get_port_in_required(       unsigned int port) override final;
+  unsigned int get_port_out_count() override final;
+  std::string  get_port_out_name(          unsigned int port) override final;
+  std::string  get_port_out_description(   unsigned int port) override final;
+  GLuint       get_port_out_video_digital( unsigned int port) override final;
 
-  void update();
-  void update_if_time();
+  void update() override final;
+  void update_if_time() override final;
   void update_fov(double fov = 90);
   void update_fov_ratio();
   void refresh();
-  //void render();
+  //void render() override final;
 };
 
 #endif // CAMERA_H_INCLUDED

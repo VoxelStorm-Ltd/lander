@@ -2,7 +2,7 @@
 
 led_green::led_green() {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 }
 
 led_green::~led_green() {
@@ -71,7 +71,7 @@ void led_green::render() {
 
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
   glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
-  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                           // 0 to 127
+  glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   if(ports_in[0].target && ports_in[0].target->get_port_out_data(ports_in[0].target_port) > 0.0) {
     glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(0.0, 0.8, 0.0, 1.0));
   } else {

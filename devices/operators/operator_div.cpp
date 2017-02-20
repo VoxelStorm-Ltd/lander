@@ -2,7 +2,7 @@
 
 operator_div::operator_div() {
   /// Default constructor
-  ports_in.resize(get_port_in_count());     // anything with input ports needs this
+  ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 }
 
 operator_div::~operator_div() {

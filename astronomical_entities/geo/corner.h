@@ -1,7 +1,7 @@
 #ifndef CORNER_H_INCLUDED
 #define CORNER_H_INCLUDED
 
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 class corner {
 public:

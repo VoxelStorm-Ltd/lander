@@ -6,7 +6,7 @@
 class star : public body {
   /// A star or stellar object large enough to be undergoing fusion
 public:
-  double brightness;            // absolute brightness locally
+  double brightness;                                                            // absolute brightness locally
 
   star();
   virtual ~star();

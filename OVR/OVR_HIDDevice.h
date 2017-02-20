@@ -36,7 +36,7 @@ struct HIDDeviceDesc
     UInt16  VersionNumber;
     UInt16  Usage;
     UInt16  UsagePage;
-    String  Path;           // Platform specific.
+    String  Path;                                                               // Platform specific.
     String  Manufacturer;
     String  Product;
     String  SerialNumber;
@@ -138,6 +138,6 @@ protected:
     HIDHandler* Handler;
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

@@ -142,8 +142,8 @@ DeviceManagerThread::DeviceManagerThread(DeviceManager* pdevMgr)
     // Must add event before starting.
     AddOverlappedEvent(0, hCommandEvent);
 
-	// Create device messages object.
-	pStatusObject = *new DeviceStatus(this);
+  // Create device messages object.
+  pStatusObject = *new DeviceStatus(this);
 }
 
 DeviceManagerThread::~DeviceManagerThread()
@@ -164,10 +164,10 @@ int DeviceManagerThread::Run()
     SetThreadName("OVR::DeviceManagerThread");
     LogText("OVR::DeviceManagerThread - running (ThreadId=0x%X).\n", GetThreadId());
   
-	if (!pStatusObject->Initialize())
-	{
-		LogText("OVR::DeviceManagerThread - failed to initialize MessageObject.\n");
-	}
+  if (!pStatusObject->Initialize())
+  {
+    LogText("OVR::DeviceManagerThread - failed to initialize MessageObject.\n");
+  }
 
     while(!IsExiting())
     {
@@ -181,7 +181,7 @@ int DeviceManagerThread::Run()
             DWORD eventIndex = 0;
             do {
                 UPInt numberOfWaitHandles = WaitHandles.GetSize();
-				Debug_WaitedObjectCount = (DWORD)numberOfWaitHandles;
+        Debug_WaitedObjectCount = (DWORD)numberOfWaitHandles;
 
                 DWORD waitMs = INFINITE;
 
@@ -200,9 +200,9 @@ int DeviceManagerThread::Run()
                     }
                 }
           
-				// Wait for event signals or window messages.
+        // Wait for event signals or window messages.
                 eventIndex = MsgWaitForMultipleObjects((DWORD)numberOfWaitHandles, &WaitHandles[0], FALSE, waitMs, QS_ALLINPUT);
-				
+        
                 if (eventIndex != WAIT_FAILED)
                 {
                     if (eventIndex == WAIT_TIMEOUT)
@@ -216,11 +216,11 @@ int DeviceManagerThread::Run()
                         // Handle [0] services commands.
                         break;
                     }
-					else if (eventIndex == WAIT_OBJECT_0 + numberOfWaitHandles)
-					{
-						// Handle Windows messages.
-						pStatusObject->ProcessMessages();
-					}
+          else if (eventIndex == WAIT_OBJECT_0 + numberOfWaitHandles)
+          {
+            // Handle Windows messages.
+            pStatusObject->ProcessMessages();
+          }
                     else 
                     {
                         // Notify waiting device that its event is signaled.
@@ -236,7 +236,7 @@ int DeviceManagerThread::Run()
         }
     }
 
-	pStatusObject->ShutDown();
+  pStatusObject->ShutDown();
 
     LogText("OVR::DeviceManagerThread - exiting (ThreadId=0x%X).\n", GetThreadId());
     return 0;
@@ -288,49 +288,49 @@ bool DeviceManagerThread::RemoveTicksNotifier(Notifier* notify)
 
 bool DeviceManagerThread::AddMessageNotifier(Notifier* notify)
 {
-	MessageNotifiers.PushBack(notify);
-	return true;
+  MessageNotifiers.PushBack(notify);
+  return true;
 }
 
 bool DeviceManagerThread::RemoveMessageNotifier(Notifier* notify)
 {
-	for (UPInt i = 0; i < MessageNotifiers.GetSize(); i++)
-	{
-		if (MessageNotifiers[i] == notify)
-		{
-			MessageNotifiers.RemoveAt(i);
-			return true;
-		}
-	}
-	return false;
+  for (UPInt i = 0; i < MessageNotifiers.GetSize(); i++)
+  {
+    if (MessageNotifiers[i] == notify)
+    {
+      MessageNotifiers.RemoveAt(i);
+      return true;
+    }
+  }
+  return false;
 }
 
 bool DeviceManagerThread::OnMessage(MessageType type, const String& devicePath)
 {
-	Notifier::DeviceMessageType notifierMessageType = Notifier::DeviceMessage_DeviceAdded;
-	if (type == DeviceAdded)
-	{
-	}
-	else if (type == DeviceRemoved)
-	{
-		notifierMessageType = Notifier::DeviceMessage_DeviceRemoved;
-	}
-	else
-	{
-		OVR_ASSERT(false);
-	}
+  Notifier::DeviceMessageType notifierMessageType = Notifier::DeviceMessage_DeviceAdded;
+  if (type == DeviceAdded)
+  {
+  }
+  else if (type == DeviceRemoved)
+  {
+    notifierMessageType = Notifier::DeviceMessage_DeviceRemoved;
+  }
+  else
+  {
+    OVR_ASSERT(false);
+  }
 
-	bool error = false;
+  bool error = false;
     bool deviceFound = false;
-	for (UPInt i = 0; i < MessageNotifiers.GetSize(); i++)
+  for (UPInt i = 0; i < MessageNotifiers.GetSize(); i++)
     {
-		if (MessageNotifiers[i] && 
-			MessageNotifiers[i]->OnDeviceMessage(notifierMessageType, devicePath, &error))
-		{
-			// The notifier belonged to a device with the specified device name so we're done.
+    if (MessageNotifiers[i] && 
+      MessageNotifiers[i]->OnDeviceMessage(notifierMessageType, devicePath, &error))
+    {
+      // The notifier belonged to a device with the specified device name so we're done.
             deviceFound = true;
-			break;
-		}
+      break;
+    }
     }
     if (type == DeviceAdded && !deviceFound)
     {
@@ -368,7 +368,7 @@ bool DeviceManagerThread::OnMessage(MessageType type, const String& devicePath)
         pmgr->EnumerateDevices<HMDDevice>();
     }
 
-	return !error;
+  return !error;
 }
 
 void DeviceManagerThread::DetachDeviceManager()
@@ -377,7 +377,7 @@ void DeviceManagerThread::DetachDeviceManager()
     pDeviceMgr = NULL;
 }
 
-} // namespace Win32
+}                                                                               // namespace Win32
 
 
 //-------------------------------------------------------------------------------------
@@ -419,5 +419,5 @@ DeviceManager* DeviceManager::Create()
 }
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 

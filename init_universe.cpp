@@ -45,16 +45,16 @@ void init_universe() {
   auto *sun = new star;
   sun->set_name("Sun");
   sun->set_designation("Sol");
-  sun->set_mass(1989100000000000000000000000000.0);       // 1.9891 * 10^30 kg
-  sun->set_radius(696342000.0);                           // 6.96342 * 10^5 m
+  sun->set_mass(1989100000000000000000000000000.0);                             // 1.9891 * 10^30 kg
+  sun->set_radius(696342000.0);                                                 // 6.96342 * 10^5 m
   solarsystem->bodies.push_back(sun);
   solarsystem->primary = sun;
 
   auto *mercury = new planet;
   mercury->set_name("Mercury");
-  mercury->set_designation("H");                              // aka Hermes
-  mercury->set_mass(330220000000000000000000.0);              // 3.3022 * 10^23 kg
-  mercury->set_radius(2439700.0);                             // 2439.7 km
+  mercury->set_designation("H");                                                // aka Hermes
+  mercury->set_mass(330220000000000000000000.0);                                // 3.3022 * 10^23 kg
+  mercury->set_radius(2439700.0);                                               // 2439.7 km
   mercury->parent = sun;
   mercury->orbit.semimajor_axis     = 57909100000.0;
   solarsystem->bodies.push_back(mercury);
@@ -62,10 +62,10 @@ void init_universe() {
   auto *venus = new planet;
   venus->set_name("Venus");
   venus->set_designation("V");
-  venus->set_mass(4867000000000000000000000.0);             // 4.867 * 10^24 kg
-  venus->set_radius(6051900.0);                             // 6.0519 * 10^6 m
-  //venus->position.z = 108300000000.0;                       // 1.083 * 10^11 m
-  //venus->velocity.x = 35000.0;                              // 35000 m/s
+  venus->set_mass(4867000000000000000000000.0);                                 // 4.867 * 10^24 kg
+  venus->set_radius(6051900.0);                                                 // 6.0519 * 10^6 m
+  //venus->position.z = 108300000000.0;                                           // 1.083 * 10^11 m
+  //venus->velocity.x = 35000.0;                                                  // 35000 m/s
   venus->parent = sun;
   venus->orbit.semimajor_axis     = 108208000000.0;
   solarsystem->bodies.push_back(venus);
@@ -73,33 +73,33 @@ void init_universe() {
   auto *earth = new planet;
   earth->set_name("Earth");
   earth->set_designation("E");
-  earth->set_mass(5972000000000000000000000.0);             // 5.972 * 10^24 kg
-  earth->set_radius(6367500.0);                             // 6.3675 * 10^6 m
-  earth->position.z = 147700000000.0;                       // 1.477 * 10^11 m
-  earth->velocity.x = 29800.0;                              // 29800 m/s
-  double const degpersec = 360 / (23.934472 * 60 * 60);     // period of 23.934472 hours
+  earth->set_mass(5972000000000000000000000.0);                                 // 5.972 * 10^24 kg
+  earth->set_radius(6367500.0);                                                 // 6.3675 * 10^6 m
+  earth->position.z = 147700000000.0;                                           // 1.477 * 10^11 m
+  earth->velocity.x = 29800.0;                                                  // 29800 m/s
+  double const degpersec = 360 / (23.934472 * 60 * 60);                         // period of 23.934472 hours
   earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
   earth->parent = sun;
-  //earth->orbit.semimajor_axis     = 149597890000;               // a, metres
-  //earth->orbit.eccentricity       = 0.016710220;                // e
-  //earth->orbit.inclination        = 0.0000009;                  // i, rad
-  //earth->orbit.longitude_asc_node = -0.1965352;                 // o or omega, rad
-  //earth->orbit.argument_periapsis = 1.9933027;                  // w or omicron, rad
-  //earth->orbit.mean_anomaly_epoch = 5.612;                      // m or Mo, rad
-  earth->orbit.semimajor_axis     = 147700000000.0;     // not actually correct
-  earth->orbit.eccentricity       = 0.0;                // not actually correct
-  earth->orbit.inclination        = 0.0;                // not actually correct
-  earth->orbit.longitude_asc_node = 0.0;                // not actually correct
-  earth->orbit.argument_periapsis = 0.0;                // not actually correct
-  earth->orbit.mean_anomaly_epoch = 0.0;                // not actually correct
+  //earth->orbit.semimajor_axis     = 149597890000;                               // a, metres
+  //earth->orbit.eccentricity       = 0.016710220;                                // e
+  //earth->orbit.inclination        = 0.0000009;                                  // i, rad
+  //earth->orbit.longitude_asc_node = -0.1965352;                                 // o or omega, rad
+  //earth->orbit.argument_periapsis = 1.9933027;                                  // w or omicron, rad
+  //earth->orbit.mean_anomaly_epoch = 5.612;                                      // m or Mo, rad
+  earth->orbit.semimajor_axis     = 147700000000.0;                             // not actually correct
+  earth->orbit.eccentricity       = 0.0;                                        // not actually correct
+  earth->orbit.inclination        = 0.0;                                        // not actually correct
+  earth->orbit.longitude_asc_node = 0.0;                                        // not actually correct
+  earth->orbit.argument_periapsis = 0.0;                                        // not actually correct
+  earth->orbit.mean_anomaly_epoch = 0.0;                                        // not actually correct
   solarsystem->bodies.push_back(earth);
 
   auto *luna = new moon;
   luna->set_name("Moon");
   luna->set_designation("Luna");
-  luna->set_mass(73477000000000000000000.0);               // 7.3477 * 10^22 kg
-  luna->set_radius(1738140.0);                             // 1738.14km
-  luna->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
+  luna->set_mass(73477000000000000000000.0);                                    // 7.3477 * 10^22 kg
+  luna->set_radius(1738140.0);                                                  // 1738.14km
+  luna->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0);  // period of 27.321582 days
   luna->parent = earth;
   luna->orbit.semimajor_axis = 384399000.0;
   solarsystem->bodies.push_back(luna);
@@ -107,8 +107,8 @@ void init_universe() {
   auto *mars = new planet;
   mars->set_name("Mars");
   mars->set_designation("M");
-  mars->set_mass(641850000000000000000000.0);              // 6.4185 * 10^23 kg
-  mars->set_radius(3396200.0);                             // 3396.2 km
+  mars->set_mass(641850000000000000000000.0);                                   // 6.4185 * 10^23 kg
+  mars->set_radius(3396200.0);                                                  // 3396.2 km
   mars->parent = sun;
   mars->orbit.semimajor_axis = 227939100000.0;
   solarsystem->bodies.push_back(mars);
@@ -116,8 +116,8 @@ void init_universe() {
   auto *phobos = new moon;
   phobos->set_name("Phobos");
   phobos->set_designation("Mars I");
-  phobos->set_mass(10659000000000000.0);                   // 1.0659 * 10^16 kg
-  phobos->set_radius(11266.7);                             // 11.2667km
+  phobos->set_mass(10659000000000000.0);                                        // 1.0659 * 10^16 kg
+  phobos->set_radius(11266.7);                                                  // 11.2667km
   phobos->parent = mars;
   phobos->orbit.semimajor_axis = 9376000.0;
   solarsystem->bodies.push_back(phobos);
@@ -125,8 +125,8 @@ void init_universe() {
   auto *deimos = new moon;
   deimos->set_name("Deimos");
   deimos->set_designation("Mars II");
-  deimos->set_mass(1476200000000000.0);                    // 1.4762 * 10^15 kg
-  deimos->set_radius(6200);                                // 6.2km
+  deimos->set_mass(1476200000000000.0);                                         // 1.4762 * 10^15 kg
+  deimos->set_radius(6200);                                                     // 6.2km
   deimos->parent = mars;
   deimos->orbit.semimajor_axis = 23463200.0;
   solarsystem->bodies.push_back(deimos);
@@ -134,8 +134,8 @@ void init_universe() {
   auto *jupiter = new planet;
   jupiter->set_name("Jupiter");
   jupiter->set_designation("J");
-  jupiter->set_mass(1898600000000000000000000000.0);       // 1.8986 * 10^27 kg
-  jupiter->set_radius(71492000.0);                         // 71492 km
+  jupiter->set_mass(1898600000000000000000000000.0);                            // 1.8986 * 10^27 kg
+  jupiter->set_radius(71492000.0);                                              // 71492 km
   jupiter->parent = sun;
   jupiter->orbit.semimajor_axis = 778547200000.0;
   solarsystem->bodies.push_back(jupiter);
@@ -143,8 +143,8 @@ void init_universe() {
   auto *io = new moon;
   io->set_name("Io");
   io->set_designation("Jupiter I");
-  io->set_mass(89319000000000000000000.0);                // 8.9319 * 10^22 kg
-  io->set_radius(1821300.0);                              // 1,821.3km
+  io->set_mass(89319000000000000000000.0);                                      // 8.9319 * 10^22 kg
+  io->set_radius(1821300.0);                                                    // 1,821.3km
   io->parent = jupiter;
   io->orbit.semimajor_axis = 421700000.0;
   solarsystem->bodies.push_back(io);
@@ -152,8 +152,8 @@ void init_universe() {
   auto *europa = new moon;
   europa->set_name("Europa");
   europa->set_designation("Jupiter II");
-  europa->set_mass(47998000000000000000000.0);            // 4.7998 * 10^22 kg
-  europa->set_radius(1560800.0);                          // 1,560.8km
+  europa->set_mass(47998000000000000000000.0);                                  // 4.7998 * 10^22 kg
+  europa->set_radius(1560800.0);                                                // 1,560.8km
   europa->parent = jupiter;
   europa->orbit.semimajor_axis = 670900000.0;
   solarsystem->bodies.push_back(europa);
@@ -161,8 +161,8 @@ void init_universe() {
   auto *ganymede = new moon;
   ganymede->set_name("Ganymede");
   ganymede->set_designation("Jupiter III");
-  ganymede->set_mass(148190000000000000000000.0);         // 1.4819 * 10^23 kg
-  ganymede->set_radius(2634100.0);                        // 2,634.1km
+  ganymede->set_mass(148190000000000000000000.0);                               // 1.4819 * 10^23 kg
+  ganymede->set_radius(2634100.0);                                              // 2,634.1km
   ganymede->parent = jupiter;
   ganymede->orbit.semimajor_axis = 1070400000.0;
   solarsystem->bodies.push_back(ganymede);
@@ -170,8 +170,8 @@ void init_universe() {
   auto *callisto = new moon;
   callisto->set_name("Callisto");
   callisto->set_designation("Jupiter IV");
-  callisto->set_mass(107593800000000000000000.0);         // 1.4819 * 10^23 kg
-  callisto->set_radius(2410300.0);                        // 2,634.1km
+  callisto->set_mass(107593800000000000000000.0);                               // 1.4819 * 10^23 kg
+  callisto->set_radius(2410300.0);                                              // 2,634.1km
   callisto->parent = jupiter;
   callisto->orbit.semimajor_axis = 1882700000.0;
   solarsystem->bodies.push_back(callisto);
@@ -179,8 +179,8 @@ void init_universe() {
   auto *saturn = new planet;
   saturn->set_name("Saturn");
   saturn->set_designation("S");
-  saturn->set_mass(568460000000000000000000000.0);        // 5.6846 * 10^26 kg
-  saturn->set_radius(60268000.0);                         // 60268 km
+  saturn->set_mass(568460000000000000000000000.0);                              // 5.6846 * 10^26 kg
+  saturn->set_radius(60268000.0);                                               // 60268 km
   saturn->parent = sun;
   saturn->orbit.semimajor_axis = 1433449370000.0;
   solarsystem->bodies.push_back(saturn);
@@ -188,8 +188,8 @@ void init_universe() {
   auto *uranus = new planet;
   uranus->set_name("Uranus");
   uranus->set_designation("U");
-  uranus->set_mass(86810000000000000000000000.0);         // 18.6810 * 10^25 kg
-  uranus->set_radius(25559000.0);                         // 25559 km
+  uranus->set_mass(86810000000000000000000000.0);                               // 18.6810 * 10^25 kg
+  uranus->set_radius(25559000.0);                                               // 25559 km
   uranus->parent = sun;
   uranus->orbit.semimajor_axis = 2876679082000.0;
   solarsystem->bodies.push_back(uranus);
@@ -197,19 +197,19 @@ void init_universe() {
   auto *neptune = new planet;
   neptune->set_name("Neptune");
   neptune->set_designation("N");
-  neptune->set_mass(102430000000000000000000000.0);        // 1.0243 * 10^26 kg
-  neptune->set_radius(24764000.0);                         // 24764 km
+  neptune->set_mass(102430000000000000000000000.0);                             // 1.0243 * 10^26 kg
+  neptune->set_radius(24764000.0);                                              // 24764 km
   neptune->parent = sun;
   neptune->orbit.semimajor_axis = 4503443661000.0;
   solarsystem->bodies.push_back(neptune);
 
   for(auto const &it : solarsystem->bodies) {
-    it->update_state(-2.0, 1.0);         // fill in back-history for the solar system to get an accurate velocity at t=0
+    it->update_state(-2.0, 1.0);                                                // fill in back-history for the solar system to get an accurate velocity at t=0
     it->update_state(-1.0, 1.0);
   }
 
   astronaut *groundguy = new astronaut;
-  groundguy->set_name("Usain Bolt");        // travelling at escape velocity, innit
+  groundguy->set_name("Usain Bolt");                                            // travelling at escape velocity, innit
   groundguy->position = earth->position + Vector3d(0.0, 0.0, earth->get_radius());
   groundguy->velocity = earth->velocity;
   groundguy->velocity.x += 7909.305;
@@ -243,14 +243,14 @@ void init_universe() {
   playership->set_name("Cobra Mk3");
   solarsystem->bodies.push_back(playership);
   player->enter_ship(playership);
-  playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0);    // ~= ISS altitude
+  playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0); // ~= ISS altitude
   //playership->position = europa->position + Vector3d(europa->get_radius() + 10000000, 0.0, 0.0);
-  playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);                          // ~= ISS speed
+  playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);          // ~= ISS speed
   //playership->velocity = europa->velocity + Vector3d(0.0, 0.0, 10000.0);
   playership->rotation *= Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), 90.0);
   instrumentpanel *controlpanel = new instrumentpanel;
   controlpanel->size = Vector3d(2.0, 1.0, 0.5);
-  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);  // ~300mm in front of user
+  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);    // ~300mm in front of user
   controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 
@@ -268,12 +268,12 @@ void init_universe() {
   engine_light->attach(playership);
   engine_light->attach_panel(controlpanel);
   engine_light->set_position(0.98, 0.5, 0.0);
-  engine_light->connect(0, engine_main, 0);         // input to throttle value output of engine
+  engine_light->connect(0, engine_main, 0);                                     // input to throttle value output of engine
   telltale *engine_telltale = new telltale;
   engine_telltale->attach(playership);
   engine_telltale->attach_panel(controlpanel);
   engine_telltale->set_position(0.98, 0.53, 0.0);
-  engine_telltale->connect(0, engine_main, 0);      // input to throttle value output of engine
+  engine_telltale->connect(0, engine_main, 0);                                  // input to throttle value output of engine
 
   altimeter *test_altimeter = new altimeter;
   sensor_pressure *test_pressuresensor = new sensor_pressure;
@@ -324,23 +324,23 @@ void init_universe() {
   mem_2->attach_panel(controlpanel);
   mem_2->set_position(mem_05->get_position() + Vector3d(0.0, 0.01, 0.0));
   mem_2->set_memory_value(2.0);
-  zoom_out->connect(0, mem_1, 0);                       // off value = 1
-  zoom_out->connect(1, mem_05, 0);                      // on value = 1/2
-  zoom_in->connect(0, zoom_out, 0);                     // off value = zoom out button
-  zoom_in->connect(1, mem_2, 0);                        // on value = 2
+  zoom_out->connect(0, mem_1, 0);                                               // off value = 1
+  zoom_out->connect(1, mem_05, 0);                                              // on value = 1/2
+  zoom_in->connect(0, zoom_out, 0);                                             // off value = zoom out button
+  zoom_in->connect(1, mem_2, 0);                                                // on value = 2
   memory *mem_zoom = new memory;
   mem_zoom->attach(playership);
   mem_zoom->attach_panel(controlpanel);
   mem_zoom->set_position(mem_2->get_position() + Vector3d(0.0, 0.01, 0.0));
-  mem_zoom->set_memory_value(0.00001);                  // set the initial scale ratio
+  mem_zoom->set_memory_value(0.00001);                                          // set the initial scale ratio
   operator_mul *zoom_mul = new operator_mul;
   zoom_mul->attach(playership);
   zoom_mul->attach_panel(controlpanel);
   zoom_mul->set_position(mem_1->get_position() + Vector3d(0.03, 0.00, 0.0));
-  zoom_mul->connect(0, zoom_in, 0);                     // input 1 = zoom in button
-  zoom_mul->connect(1, mem_zoom, 0);                    // input 2 = last zoom value
-  mem_zoom->connect(0, zoom_mul, 0);                    // zoom value updates from result
-  mainmapper->connect(0, mem_zoom, 0);                  // hook it up to the zoom reference frame input
+  zoom_mul->connect(0, zoom_in, 0);                                             // input 1 = zoom in button
+  zoom_mul->connect(1, mem_zoom, 0);                                            // input 2 = last zoom value
+  mem_zoom->connect(0, zoom_mul, 0);                                            // zoom value updates from result
+  mainmapper->connect(0, mem_zoom, 0);                                          // hook it up to the zoom reference frame input
   zoom_in->bind_key(GLFW_KEY_EQUAL);
   zoom_out->bind_key(GLFW_KEY_MINUS);
   display_number *zoom_disp = new display_number;
@@ -353,8 +353,8 @@ void init_universe() {
   mem_ref->attach(playership);
   mem_ref->attach_panel(controlpanel);
   mem_ref->set_position(mem_zoom->get_position() + Vector3d(0.0, 0.01, 0.0));
-  mem_ref->set_memory_value(4.0);                 // earth = 4
-  mainmapper->connect(3, mem_ref, 0);             // hook it up to the trails reference frame input
+  mem_ref->set_memory_value(4.0);                                               // earth = 4
+  mainmapper->connect(3, mem_ref, 0);                                           // hook it up to the trails reference frame input
   button_momentary *ref_prev = new button_momentary;
   ref_prev->attach(playership);
   ref_prev->attach_panel(controlpanel);
@@ -367,15 +367,15 @@ void init_universe() {
   ref_add->attach(playership);
   ref_add->attach_panel(controlpanel);
   ref_add->set_position(zoom_mul->get_position() + Vector3d(0.0, 0.015, 0.0));
-  ref_add->connect(0, mem_ref, 0);                     // input 1 = last ref value
-  ref_add->connect(1, ref_next, 0);                    // input 2 = next ref button
+  ref_add->connect(0, mem_ref, 0);                                              // input 1 = last ref value
+  ref_add->connect(1, ref_next, 0);                                             // input 2 = next ref button
   operator_sub *ref_sub = new operator_sub;
   ref_sub->attach(playership);
   ref_sub->attach_panel(controlpanel);
   ref_sub->set_position(ref_add->get_position() + Vector3d(0.0, 0.015, 0.0));
-  ref_sub->connect(0, ref_add, 0);                     // input 1 = result of incrementor
-  ref_sub->connect(1, ref_prev, 0);                    // input 2 = prev ref button
-  mem_ref->connect(0, ref_sub, 0);                     // ref value updates from result
+  ref_sub->connect(0, ref_add, 0);                                              // input 1 = result of incrementor
+  ref_sub->connect(1, ref_prev, 0);                                             // input 2 = prev ref button
+  mem_ref->connect(0, ref_sub, 0);                                              // ref value updates from result
   display_number *ref_disp = new display_number;
   ref_disp->attach(playership);
   ref_disp->attach_panel(controlpanel);
@@ -390,7 +390,7 @@ void init_universe() {
   monitor_small->attach(playership);
   monitor_small->attach_panel(controlpanel);
   monitor_small->set_position(test_altimeter->get_position() + Vector3d(0.0, -0.2, 0.0));
-  monitor_small->connect(0, test_pressuresensor, 0);             // noise source
+  monitor_small->connect(0, test_pressuresensor, 0);                            // noise source
 
   display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
   converter1->attach(playership);

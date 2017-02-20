@@ -143,8 +143,8 @@ bool HMDDeviceCreateDesc::UpdateMatchedCandidate(const DeviceCreateDesc& other,
         DisplayId         = s2.DisplayId;
         DisplayDeviceName = s2.DisplayDeviceName;
 
-		// ScreenSize and Resolution are NOT assigned here, since they may have
-		// come from a sensor DisplayInfo (which has precedence over HDMI).
+    // ScreenSize and Resolution are NOT assigned here, since they may have
+    // come from a sensor DisplayInfo (which has precedence over HDMI).
 
         if (newDeviceFlag) *newDeviceFlag = true;
     }
@@ -253,7 +253,7 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
 
     OVR_strcpy(info->ProductName,  DeviceInfo::MaxNameLength,
                is7Inch ? "Oculus Rift DK1" :
-			   ((HResolution >= 1920) ? "Oculus Rift DK HD" : "Oculus Rift DK1-Prototype") );
+         ((HResolution >= 1920) ? "Oculus Rift DK HD" : "Oculus Rift DK1-Prototype") );
     OVR_strcpy(info->Manufacturer, DeviceInfo::MaxNameLength, "Oculus VR");
     info->Type    = Device_HMD;
     info->Version = 0;
@@ -270,7 +270,7 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
         hmdInfo->HScreenSize            = HScreenSize;
         hmdInfo->VScreenSize            = VScreenSize;
         hmdInfo->VScreenCenter          = VScreenSize * 0.5f;
-        hmdInfo->InterpupillaryDistance = 0.064f;  // Default IPD; should be configurable.
+        hmdInfo->InterpupillaryDistance = 0.064f;                               // Default IPD; should be configurable.
         hmdInfo->LensSeparationDistance = 0.0635f;
 
         // Obtain IPD from profile.
@@ -287,8 +287,8 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
             memcpy(hmdInfo->DistortionK, DistortionK, sizeof(float)*4);
         }
         else
-        {						
-			if (is7Inch)
+        {            
+      if (is7Inch)
             {
                 // 7" screen.
                 hmdInfo->DistortionK[0]      = 1.0f;
@@ -302,16 +302,16 @@ bool HMDDeviceCreateDesc::GetDeviceInfo(DeviceInfo* info) const
                 hmdInfo->DistortionK[1]      = 0.18f;
                 hmdInfo->DistortionK[2]      = 0.115f;
 
-				if (HResolution == 1920)
-					hmdInfo->EyeToScreenDistance = 0.040f;
-				else
-					hmdInfo->EyeToScreenDistance = 0.0387f;
+        if (HResolution == 1920)
+          hmdInfo->EyeToScreenDistance = 0.040f;
+        else
+          hmdInfo->EyeToScreenDistance = 0.0387f;
             }
 
-			hmdInfo->ChromaAbCorrection[0] = 0.996f;
-			hmdInfo->ChromaAbCorrection[1] = -0.004f;
-			hmdInfo->ChromaAbCorrection[2] = 1.014f;
-			hmdInfo->ChromaAbCorrection[3] = 0.0f;
+      hmdInfo->ChromaAbCorrection[0] = 0.996f;
+      hmdInfo->ChromaAbCorrection[1] = -0.004f;
+      hmdInfo->ChromaAbCorrection[2] = 1.014f;
+      hmdInfo->ChromaAbCorrection[3] = 0.0f;
         }
 
         OVR_strcpy(hmdInfo->DisplayDeviceName, sizeof(hmdInfo->DisplayDeviceName),
@@ -387,6 +387,6 @@ OVR::SensorDevice* HMDDevice::GetSensor()
     return sensor;
 }
 
-}} // namespace OVR::Linux
+}}                                                                              // namespace OVR::Linux
 
 

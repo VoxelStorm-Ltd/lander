@@ -13,7 +13,7 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
                   int action,
                   int mods __attribute__((unused))) {
   // here are the switch-type controls rather than polled realtime controls
-  if(action == GLFW_PRESS) {   // here are all the down-presses we care about
+  if(action == GLFW_PRESS) {                                                    // here are all the down-presses we care about
     // these first key catches work in all input modes
     switch(key) {
     case GLFW_KEY_EQUAL:
@@ -21,11 +21,11 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
     case GLFW_KEY_MINUS:
       break;
     case GLFW_KEY_O:
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);                                // wireframe
       glDisable(GL_LIGHTING);
       break;
     case GLFW_KEY_P:
-      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // filled
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);                                // filled
       glEnable(GL_LIGHTING);
       break;
     /*
@@ -44,7 +44,7 @@ void callback_key(GLFWwindow *thiswindow __attribute__((unused)),
       }
       break;
     */
-    case GLFW_KEY_ESCAPE:         // escape to quit
+    case GLFW_KEY_ESCAPE:                                                       // escape to quit
       keeprunning = false;
       std::cout << "Stop requested..." << std::endl;
       break;

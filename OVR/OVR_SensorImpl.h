@@ -203,6 +203,6 @@ protected:
 };
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif // OVR_SensorImpl_h

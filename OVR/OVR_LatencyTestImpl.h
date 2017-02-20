@@ -128,6 +128,6 @@ protected:
 
 };
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif // OVR_LatencyTestImpl_h

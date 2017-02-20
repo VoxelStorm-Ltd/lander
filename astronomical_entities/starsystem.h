@@ -3,7 +3,7 @@
 
 #include <string>
 #include <list>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "random_engine.h"
 
 class body;
@@ -17,11 +17,11 @@ private:
   std::string description;
 
 public:
-  std::list<body*> bodies;            // list of stellar and planetary bodies
-  star *primary;                      // the primary body of this system
+  std::list<body*> bodies;                                                      // list of stellar and planetary bodies
+  star *primary;                                                                // the primary body of this system
 
-  Vector3d position;                  // relative to the galaxy
-  Vector3d velocity;                  // relative to the galaxy
+  Vector3d position;                                                            // relative to the galaxy
+  Vector3d velocity;                                                            // relative to the galaxy
 
   starsystem();
   ~starsystem();

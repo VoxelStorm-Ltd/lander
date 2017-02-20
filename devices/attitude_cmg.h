@@ -11,25 +11,25 @@ public:
   ~attitude_cmg();
 
   // specialisations
-  std::string get_name();
-  std::string get_model();
-  std::string get_description();
-  double      get_mass();
-  Vector3d    get_size();
-  bool attach_panel(instrumentpanel *to_panel);
-  bool attach_hull();
-  bool attach_cabin();
-  void remove_panel();
-  void remove_hull();
-  void remove_cabin();
-  unsigned int get_port_in_count();
-  std::string  get_port_in_name(        unsigned int port);
-  std::string  get_port_in_description( unsigned int port);
-  bool         get_port_in_required(    unsigned int port);
-  unsigned int get_port_out_count();
-  std::string  get_port_out_name(       unsigned int port);
-  std::string  get_port_out_description(unsigned int port);
-  double       get_port_out_data(       unsigned int port);
+  std::string get_name() override final;
+  std::string get_model() override final;
+  std::string get_description() override final;
+  double      get_mass() override final;
+  Vector3d    get_size() override final;
+  bool attach_panel(instrumentpanel *to_panel) override final;
+  bool attach_hull() override final;
+  bool attach_cabin() override final;
+  void remove_panel() override final;
+  void remove_hull() override final;
+  void remove_cabin() override final;
+  unsigned int get_port_in_count() override final;
+  std::string  get_port_in_name(        unsigned int port) override final;
+  std::string  get_port_in_description( unsigned int port) override final;
+  bool         get_port_in_required(    unsigned int port) override final;
+  unsigned int get_port_out_count() override final;
+  std::string  get_port_out_name(       unsigned int port) override final;
+  std::string  get_port_out_description(unsigned int port) override final;
+  double       get_port_out_data(       unsigned int port) override final;
 };
 
 #endif // ATTITUDE_CMG_H_INCLUDED

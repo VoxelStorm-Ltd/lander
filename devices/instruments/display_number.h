@@ -10,25 +10,25 @@ private:
 
   //double const labellength = font_7segment3d->Advance("8.8.8.8.8.8.8.8.", 16);
   static double constexpr sizex = 0.100;
-  static double constexpr displaylength = 74;    // hard-coded result of above calculation
-  static double constexpr displayscale = (sizex - 0.004) / displaylength;                // automatic scaling to fit in the space
+  static double constexpr displaylength = 74;                                   // hard-coded result of above calculation
+  static double constexpr displayscale = (sizex - 0.004) / displaylength;       // automatic scaling to fit in the space
 
 public:
   display_number();
   ~display_number();
 
-  std::string  get_name();
-  std::string  get_model();
-  std::string  get_description();
-  double       get_mass();
-  Vector3d     get_size();
-  unsigned int get_port_in_count();
-  std::string  get_port_in_name(       unsigned int port);
-  std::string  get_port_in_description(unsigned int port);
-  bool         get_port_in_required(   unsigned int port);
-  void update();
-  void update_if_time();
-  void render();
+  std::string  get_name() override final;
+  std::string  get_model() override final;
+  std::string  get_description() override final;
+  double       get_mass() override final;
+  Vector3d     get_size() override final;
+  unsigned int get_port_in_count() override final;
+  std::string  get_port_in_name(       unsigned int port) override final;
+  std::string  get_port_in_description(unsigned int port) override final;
+  bool         get_port_in_required(   unsigned int port) override final;
+  void update() override final;
+  void update_if_time() override final;
+  void render() override final;
 
   std::string trimstring(std::string const &oldstring);
   std::string trimstring(double input);

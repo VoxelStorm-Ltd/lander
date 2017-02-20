@@ -1,9 +1,9 @@
 #include "random_engine.h"
 //#include <random>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 //std::mt19937 random_engine::generator;
-uint32_t random_engine::lastseed = 1337;    // first initialisation
+uint32_t random_engine::lastseed = 1337;                                        // first initialisation
 
 random_engine::random_engine()
   : seed(lastseed++) {

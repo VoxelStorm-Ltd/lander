@@ -84,7 +84,7 @@ public:
     {
         return (HResolution >= 1920) ? Profile_RiftDKHD : Profile_RiftDK1;
     }
-	
+  
     void  SetScreenParameters(int x, int y, unsigned hres, unsigned vres, float hsize, float vsize)
     {
         DesktopX = x;
@@ -154,7 +154,7 @@ protected:
 };
 
 
-}} // namespace OVR::OSX
+}}                                                                              // namespace OVR::OSX
 
 #endif // OVR_OSX_HMDDevice_h
 

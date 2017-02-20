@@ -62,7 +62,7 @@ wchar_t* OVR_CDECL OVR_wcscpy(wchar_t* dest, UPInt destsize, const wchar_t* src)
     wcscpy(dest, src);
     return dest;
 #else
-    UPInt l = OVR_wcslen(src) + 1; // incl term null
+    UPInt l = OVR_wcslen(src) + 1;                                              // incl term null
     l = (l < destsize) ? l : destsize;
     memcpy(dest, src, l * sizeof(wchar_t));
     return dest;
@@ -101,8 +101,8 @@ wchar_t* OVR_CDECL OVR_wcscat(wchar_t* dest, UPInt destsize, const wchar_t* src)
     wcscat(dest, src);
     return dest;
 #else
-    UPInt dstlen = OVR_wcslen(dest); // do not incl term null
-    UPInt srclen = OVR_wcslen(src) + 1; // incl term null
+    UPInt dstlen = OVR_wcslen(dest);                                            // do not incl term null
+    UPInt srclen = OVR_wcslen(src) + 1;                                         // incl term null
     UPInt copylen = (dstlen + srclen < destsize) ? srclen : destsize - dstlen;
     memcpy(dest + dstlen, src, copylen * sizeof(wchar_t));
     return dest;
@@ -1022,4 +1022,4 @@ int OVR_CDECL OVR_towlower(wchar_t charCode)
 
 #endif //OVR_NO_WCTYPE
 
-} // OVR
+}                                                                               // OVR

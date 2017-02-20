@@ -10,12 +10,12 @@ public:
   display_digital();
   ~display_digital();
 
-  std::string get_name();
-  std::string get_model();
-  std::string get_description();
-  double      get_mass();
-  void update();
-  void render();
+  std::string get_name() override final;
+  std::string get_model() override final;
+  std::string get_description() override final;
+  double      get_mass() override final;
+  void update() override final;
+  void render() override final;
 };
 
 #endif // DISPLAY_DIGITAL_H_INCLUDED

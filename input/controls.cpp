@@ -9,7 +9,7 @@ extern astronaut *player;
 void pollcontrols(GLFWwindow *thiswindow) {
   double const angle = 1.0;
 
-  if(!player->strappeddown) {   // don't check movement while strapped into a seat
+  if(!player->strappeddown) {                                                   // don't check movement while strapped into a seat
     Vector3d movevector;
     if(glfwGetKey(thiswindow, GLFW_KEY_W) == GLFW_PRESS) {
       movevector.z -= 1.0;
@@ -28,12 +28,12 @@ void pollcontrols(GLFWwindow *thiswindow) {
          movevector.y == 0.0)) {
       movevector.normalise();
       movevector *= 0.05;
-      //movevector = player->rotation.rotMatrix() * movevector;   // the slow way
-      //movevector = movevector * player->rotation;               // faster
-      //movevector *= player->rotation;                           // fastest
-      movevector.rotate(player->rotation);                      // same effect but clearer
+      //movevector = player->rotation.rotMatrix() * movevector;                   // the slow way
+      //movevector = movevector * player->rotation;                               // faster
+      //movevector *= player->rotation;                                           // fastest
+      movevector.rotate(player->rotation);                                      // same effect but clearer
       player->position += movevector;
-      player->pick();                                           // update our pick point
+      player->pick();                                                           // update our pick point
     }
   }
 

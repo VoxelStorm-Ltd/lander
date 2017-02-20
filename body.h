@@ -2,32 +2,32 @@
 #define BODY_H_INCLUDED
 
 #include <string>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "random_engine.h"
 #include "menu.h"
 
 class body : public random_engine, public menu {
   /// An astronomical body of some sort, following basic newtonian mechanics
 protected:
-  body();                     // prevent this class being instantiated directly
+  body();                                                                       // prevent this class being instantiated directly
 
   std::string name;
   std::string designation;
   std::string description;
 
-  double mass;                // in kg
-  double radius;              // visual radius
+  double mass;                                                                  // in kg
+  double radius;                                                                // visual radius
 
 public:
-  double static constexpr gravitational_constant = 0.0000000000667;     // G = 6.67 * 10^-11 N(m/kg)^2
-  double static constexpr speed_of_light = 299792458;                   // c = 299,792,458 m/s
-  double static constexpr gas_constant = 8.3144621;                     // R = 8.3144621(75) J/(mol K)
-  double gm;                        // GM - standard gravitational parameter, cached
+  double static constexpr gravitational_constant = 0.0000000000667;             // G = 6.67 * 10^-11 N(m/kg)^2
+  double static constexpr speed_of_light = 299792458;                           // c = 299,792,458 m/s
+  double static constexpr gas_constant = 8.3144621;                             // R = 8.3144621(75) J/(mol K)
+  double gm;                                                                    // GM - standard gravitational parameter, cached
 
-  Vector3d position;          // in m, relative to its star system
-  Vector3d velocity;          // in m, relative to its star system
-  Quatd rotation;             // absolute
-  Quatd spin;                 // per second, absolute
+  Vector3d position;                                                            // in m, relative to its star system
+  Vector3d velocity;                                                            // in m, relative to its star system
+  Quatd rotation;                                                               // absolute
+  Quatd spin;                                                                   // per second, absolute
 
   virtual ~body();
 

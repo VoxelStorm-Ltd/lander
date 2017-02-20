@@ -65,12 +65,12 @@ enum LogMessageType
 {    
     // General Logging
     Log_Text        = LogMask_Regular | 0,    
-    Log_Error       = LogMask_Regular | 1, // "Error: %s\n".
+    Log_Error       = LogMask_Regular | 1,                                      // "Error: %s\n".
     
     // Debug-only messages (not generated in release build)
     Log_DebugText   = LogMask_Debug | 0,
-    Log_Debug       = LogMask_Debug | 1,   // "Debug: %s\n".
-    Log_Assert      = LogMask_Debug | 2,   // "Assert: %s\n".
+    Log_Debug       = LogMask_Debug | 1,                                        // "Debug: %s\n".
+    Log_Assert      = LogMask_Debug | 2,                                        // "Assert: %s\n".
 };
 
 
@@ -188,6 +188,6 @@ void LogError(const char* fmt, ...) OVR_LOG_VAARG_ATTRIBUTE(1,2);
 
 #endif
 
-} // OVR 
+}                                                                               // OVR 
 
 #endif

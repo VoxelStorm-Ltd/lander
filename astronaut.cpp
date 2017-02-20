@@ -2,14 +2,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
-#include "vmath.h"
-#include "oculusstorm.h"
+#include "vectorstorm/vectorstorm.h"
+#include "oculusstorm/oculusstorm.h"
 #include "universe.h"
 #include "spacecraft.h"
 #include "starsystem.h"
 #include "device.h"
 
-extern oculusstorm *oculus;          // oculus rift controller
+extern oculusstorm *oculus;                                                     // oculus rift controller
 extern astronaut *player;
 extern universe root;
 extern menu *menu_target;
@@ -61,7 +61,7 @@ double astronaut::get_radius() {
     double const nakedmass = get_mass() - 10.0;
     // adjust range 60kg to 1.65m and 90kg to 1.84m
     double const height = (((nakedmass - 60.0) / (90.0 - 60.0) * (1.84 - 1.65)) + 1.65);
-    return height * 0.550;   // average height * average centre of gravity ratio
+    return height * 0.550;                                                      // average height * average centre of gravity ratio
   }
 }
 
@@ -70,7 +70,7 @@ void astronaut::enter_ship(spacecraft *ship) {
   state = statetype::IN_VESSEL;
   vessel_in = ship;
   walking_on = nullptr;
-  position.assign();      // clear - assign defaults to 0
+  position.assign();                                                            // clear - assign defaults to 0
   velocity.assign();
   vessel_in->occupants.push_back(this);
   picked_body = vessel_in;
@@ -142,7 +142,7 @@ void astronaut::render_diagram(double scale, bool labels) {
   glVertex3d( thisradius, -thisradius, 0.0);
   glEnd();
 
-  glPopMatrix();                            // restore position & rotation
+  glPopMatrix();                                                                // restore position & rotation
 }
 
 void astronaut::render_visible() {
@@ -187,10 +187,10 @@ void astronaut::render_firstperson() {
     }
     break;
   case statetype::EVA:
-  case statetype::ATMOSPHERIC:     // "or" equiv
-  case statetype::SURFACE:         // "or" equiv
+  case statetype::ATMOSPHERIC:                                                  // "or" equiv
+  case statetype::SURFACE:                                                      // "or" equiv
     // translate and rotate to our view in the universe
-    setup_render_perspective(0.5, 1406000000000.0);    // far = heliopause
+    setup_render_perspective(0.5, 1406000000000.0);                             // far = heliopause
     // draw first person view from outside
     // TODO
     break;
@@ -321,14 +321,14 @@ void astronaut::setup_render_perspective(double nearplane,
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  //glMultMatrixd(rotation_head.transform());         // head rotation
-  glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);    // head rotation
+  //glMultMatrixd(rotation_head.transform());                                     // head rotation
+  glRotated(rotation_head_pitch, 1.0, 0.0, 0.0);                                // head rotation
   if(rotation_head_yaw != 0.0) {
     glRotated(rotation_head_yaw, 0.0, 1.0, 0.0);
   }
-  glTranslated(0.0, -1.7, 0.0);                     // eye height
-  glMultMatrixd(rotation.transform().inverse());    // body rotation
-  glTranslated(-position.x,                         // position
+  glTranslated(0.0, -1.7, 0.0);                                                 // eye height
+  glMultMatrixd(rotation.transform().inverse());                                // body rotation
+  glTranslated(-position.x,                                                     // position
                -position.y,
                -position.z);
 }
@@ -337,9 +337,9 @@ void astronaut::setup_render_oculus_left() {
   /// Oculus Rift perspective rendering, left eye
   oculus->setup_left();
   glMultMatrixf(oculus->getmatrix().inverse());
-  glTranslated(0.0, -1.7, 0.0);                     // eye height
-  glMultMatrixd(rotation.transform().inverse());    // body rotation
-  glTranslated(-position.x,                         // position
+  glTranslated(0.0, -1.7, 0.0);                                                 // eye height
+  glMultMatrixd(rotation.transform().inverse());                                // body rotation
+  glTranslated(-position.x,                                                     // position
                -position.y,
                -position.z);
 }
@@ -348,9 +348,9 @@ void astronaut::setup_render_oculus_right() {
   /// Oculus Rift perspective rendering, right eye
   oculus->setup_right();
   glMultMatrixf(oculus->getmatrix().inverse());
-  glTranslated(0.0, -1.7, 0.0);                     // eye height
-  glMultMatrixd(rotation.transform().inverse());    // body rotation
-  glTranslated(-position.x,                         // position
+  glTranslated(0.0, -1.7, 0.0);                                                 // eye height
+  glMultMatrixd(rotation.transform().inverse());                                // body rotation
+  glTranslated(-position.x,                                                     // position
                -position.y,
                -position.z);
 }
@@ -418,8 +418,8 @@ void astronaut::pick() {
     }
     break;
   case statetype::EVA:
-  case statetype::ATMOSPHERIC:     // "or" equiv
-  case statetype::SURFACE:         // "or" equiv
+  case statetype::ATMOSPHERIC:                                                  // "or" equiv
+  case statetype::SURFACE:                                                      // "or" equiv
     for(auto const &it : root.currentsystem->bodies) {
       // TODO: move this to starsystem class
       // TODO: check for intersections and then pick within them depending on what we get, use polymorphism ftw

@@ -517,6 +517,6 @@ public:
     }
 };
 
-} // OVR
+}                                                                               // OVR
 
 #endif

@@ -18,7 +18,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 namespace OVR { namespace Win32 {
 
-}} // namespace OVR::Win32
+}}                                                                              // namespace OVR::Win32
 
 #endif // OVR_Win32_SensorDevice_h
 

@@ -11,7 +11,7 @@ class physicsbody : public body, public integrator_rungekutta4 {
 //class physicsbody : public body, public integrator_rungekuttafehlberg54 {
   /// A body that follows integrated n-body physics
 protected:
-  physicsbody();                     // prevent this class being instantiated directly
+  physicsbody();                                                                // prevent this class being instantiated directly
 public:
   virtual ~physicsbody();
 

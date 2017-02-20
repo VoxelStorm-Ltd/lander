@@ -3,14 +3,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "version.h"
-#include "oculusstorm.h"
+#include "oculusstorm/oculusstorm.h"
 
 // globals
 extern GLFWwindow *window_main;
-extern oculusstorm *oculus;          // oculus rift controller
-extern FTFont *font_title;           // global font definitions
+extern oculusstorm *oculus;                                                     // oculus rift controller
+extern FTFont *font_title;                                                      // global font definitions
 extern FTFont *font_title_huge;
 extern FTFont *font_text;
 extern FTFont *font_title3d;
@@ -37,8 +37,7 @@ void init_graphics(Vector2i &windowsize) {
     _Exit(EXIT_FAILURE);
   }
 
-  oculus = new oculusstorm();   // initialise the oculus rift before graphics init
-
+  oculus = new oculusstorm(0.1, 20.0);                                          // initialise the oculus rift before graphics init
   int nummonitors = 0;
   GLFWmonitor **monitor_list = glfwGetMonitors(&nummonitors);
   GLFWmonitor *monitor_primary = glfwGetPrimaryMonitor();
@@ -95,7 +94,7 @@ void init_graphics(Vector2i &windowsize) {
   //glfwWindowHint(GLFW_DEPTH_BITS, 32);
   //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 1);
   //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);   // forward compat disables all deprecated functions - we don't want that
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);                         // forward compat disables all deprecated functions - we don't want that
   //glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
   //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
   //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
@@ -111,7 +110,7 @@ void init_graphics(Vector2i &windowsize) {
                                  NULL);
   glfwMakeContextCurrent(window_main);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glfwShowWindow(window_main);  // only display the window once in position
+  glfwShowWindow(window_main);                                                  // only display the window once in position
 
   if(!window_main) {
     // exit if this didn't work
@@ -120,7 +119,7 @@ void init_graphics(Vector2i &windowsize) {
   }
   glfwSetWindowTitle(window_main, "Lander alpha: Loading...");
 
-  glfwSetWindowCloseCallback(window_main, callback_windowclose);    // callback for window closing
+  glfwSetWindowCloseCallback(window_main, callback_windowclose);                // callback for window closing
 
   glewExperimental = GL_TRUE;
   if(glewInit() != GLEW_OK) {
@@ -149,36 +148,36 @@ void init_graphics(Vector2i &windowsize) {
     //config->hasvao = false;
   }
 
-  glFrontFace(GL_CCW);      // set up counter-clockwise polygon winding
-  glCullFace(GL_BACK);      // may be redundant to cull back-faces
+  glFrontFace(GL_CCW);                                                          // set up counter-clockwise polygon winding
+  glCullFace(GL_BACK);                                                          // may be redundant to cull back-faces
   glEnable(GL_CULL_FACE);
-  glEnable(GL_DEPTH_TEST);  // go on, use the zbuffer
-  glEnable(GL_DITHER);      // may marginally increase shading quality
-  //glEnable(GL_LIGHTING);    // obviously we want lighting... right?
-  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);    // enable local lighting
-  //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);   // to make flat shading ok
-  glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);   // ensure one-sided lighting
+  glEnable(GL_DEPTH_TEST);                                                      // go on, use the zbuffer
+  glEnable(GL_DITHER);                                                          // may marginally increase shading quality
+  //glEnable(GL_LIGHTING);                                                        // obviously we want lighting... right?
+  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);                          // enable local lighting
+  //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);                         // to make flat shading ok
+  glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_FALSE);                         // ensure one-sided lighting
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  //glEnable(GL_MINMAX);      // allow min and max colour tables for HDR effects
-  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);      // filled
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);      // wireframe
-  glShadeModel(GL_SMOOTH);  // SMOOTH or FLAT
+  //glEnable(GL_MINMAX);                                                          // allow min and max colour tables for HDR effects
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);                                    // filled
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);                                    // wireframe
+  glShadeModel(GL_SMOOTH);                                                      // SMOOTH or FLAT
   //glShadeModel(GL_FLAT);    //may look more spectacular for a cube world
   glDisable(GL_NORMALIZE);
   //glDisable(GL_RESCALE_NORMALS);
-  glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);    // GL_FASTEST, GL_NICEST or GL_DONT_CARE
+  glHint(GL_GENERATE_MIPMAP_HINT, GL_FASTEST);                                  // GL_FASTEST, GL_NICEST or GL_DONT_CARE
 
 
-  srand(1337);   // seed the random generator predictably
+  srand(1337);                                                                  // seed the random generator predictably
 
   // fog settings
   glDisable(GL_FOG);
   //Vector4f fogcolour(0.82, 0.85, 1.0, 1);
   //glFogfv(GL_FOG_COLOR, fogcolour);
-  //glFogi(GL_FOG_MODE, GL_EXP2); // GL_LINEAR GL_EXP GL_EXP2
-  //glFogf(GL_FOG_DENSITY, 0.00005);  // only used for exponential fog
-  //glFogi(GL_FOG_START, 10);     // only used for linear fog
+  //glFogi(GL_FOG_MODE, GL_EXP2);                                                 // GL_LINEAR GL_EXP GL_EXP2
+  //glFogf(GL_FOG_DENSITY, 0.00005);                                              // only used for exponential fog
+  //glFogi(GL_FOG_START, 10);                                                     // only used for linear fog
   //glFogi(GL_FOG_END, 4000);
 
   /*// temporary material definition
@@ -190,7 +189,7 @@ void init_graphics(Vector2i &windowsize) {
   // set up some lights
   glEnable(GL_LIGHTING);
   ////GLfloat ambientlightcol[] = {.25,0,0,1};
-  //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0)); // global ambient
+  //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));         // global ambient
   ////glLightfv(GL_LIGHT0, GL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));
   //glLightfv(GL_LIGHT0, GL_DIFFUSE,  Vector4f(0.8, 0.7, 0.5, 1.0));
   //glLightfv(GL_LIGHT0, GL_SPECULAR, Vector4f(1.0, 1.0, 0.5, 1.0));
@@ -239,6 +238,6 @@ void init_graphics(Vector2i &windowsize) {
 
   std::stringstream title;
   title << "Lander " << AutoVersion::STATUS << " " << AutoVersion::FULLVERSION_STRING;
-  glfwSetWindowTitle(window_main, title.str().c_str());                            // set the title to the main run's title
+  glfwSetWindowTitle(window_main, title.str().c_str());                         // set the title to the main run's title
   std::cout << "Graphics initialised." << std::endl;
 }

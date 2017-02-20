@@ -105,7 +105,7 @@ bool String::HasAbsolutePath(const char* url)
     // name matching in library/etc, so it should be improved.
 
     if (!url || !*url)
-        return true; // Treat empty strings as absolute.    
+        return true;                                                            // Treat empty strings as absolute.    
 
     UInt32 charVal = UTF8Util::DecodeNextChar(&url);
 
@@ -197,4 +197,4 @@ void    String::StripProtocol()
         AssignString(protocol, OVR_strlen(protocol));
 }
 
-} // OVR
+}                                                                               // OVR

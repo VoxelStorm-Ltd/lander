@@ -618,7 +618,7 @@ UPInt StringBuffer::GetLength() const
 
 void    StringBuffer::Reserve(UPInt _size)
 {
-    if (_size >= BufferSize) // >= because of trailing zero! (!AB)
+    if (_size >= BufferSize)                                                    // >= because of trailing zero! (!AB)
     {
         BufferSize = (_size + 1 + GrowSize - 1)& ~(GrowSize-1);
         if (!pData)
@@ -749,4 +749,4 @@ UPInt     StringBuffer::InsertCharAt(UInt32 c, UPInt posAt)
     return (UPInt)len;
 }
 
-} // OVR
+}                                                                               // OVR

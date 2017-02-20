@@ -111,7 +111,7 @@ enum KeyCode
     Key_Control,
     Key_Alt,
     Key_Pause,
-    Key_CapsLock        = 20, // Toggle
+    Key_CapsLock        = 20,                                                   // Toggle
     Key_Escape          = 27,
     Key_Space           = 32,
     Key_Quote           = 39,
@@ -131,8 +131,8 @@ enum KeyCode
     Key_Minus,
     Key_Slash           = 47,
     Key_Period,
-    Key_NumLock         = 144, // Toggle
-    Key_ScrollLock      = 145, // Toggle
+    Key_NumLock         = 144,                                                  // Toggle
+    Key_ScrollLock      = 145,                                                  // Toggle
     
     Key_Semicolon       = 59,
     Key_Equal           = 61,
@@ -141,10 +141,10 @@ enum KeyCode
     Key_Backslash,
     Key_BracketRight,
 
-    Key_OEM_AX          = 0xE1,  //  'AX' key on Japanese AX keyboard
-    Key_OEM_102         = 0xE2,  //  "<>" or "\|" on RT 102-key keyboard.
-    Key_ICO_HELP        = 0xE3,  //  Help key on ICO
-    Key_ICO_00          = 0xE4,  //  00 key on ICO
+    Key_OEM_AX          = 0xE1,                                                 //  'AX' key on Japanese AX keyboard
+    Key_OEM_102         = 0xE2,                                                 //  "<>" or "\|" on RT 102-key keyboard.
+    Key_ICO_HELP        = 0xE3,                                                 //  Help key on ICO
+    Key_ICO_00          = 0xE4,                                                 //  00 key on ICO
 
     Key_Meta,
 
@@ -235,6 +235,6 @@ enum PadKeyCode
 };
 */
 
-} // OVR
+}                                                                               // OVR
 
 #endif

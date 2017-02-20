@@ -155,7 +155,7 @@ struct ArrayDataBase
             else
             {
                 Data = (T*)Allocator::Alloc(sizeof(T) * newCapacity);
-                //memset(Buffer, 0, (sizeof(ValueType) * newSize)); // Do we need this?
+                //memset(Buffer, 0, (sizeof(ValueType) * newSize));               // Do we need this?
             }
             Policy.SetCapacity(newCapacity);
             // OVR_ASSERT(Data); // need to throw (or something) on alloc failure!
@@ -788,6 +788,6 @@ public:
     const SelfType& operator=(const SelfType& a) { BaseType::operator=(a); return *this; }
 };
 
-} // OVR
+}                                                                               // OVR
 
 #endif

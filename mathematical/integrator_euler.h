@@ -2,7 +2,7 @@
 #define INTEGRATOR_EULER_H_INCLUDED
 
 #include "integrator.h"
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 
 class integrator_euler : public integrator {
 protected:

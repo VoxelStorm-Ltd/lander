@@ -170,4 +170,4 @@ OVR_LOG_FUNCTION_IMPL(Debug)
 OVR_LOG_FUNCTION_IMPL(Assert)
 #endif
 
-} // OVR
+}                                                                               // OVR

@@ -6,7 +6,7 @@
 #include <boost/chrono.hpp>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "vmath.h"
+#include "vectorstorm/vectorstorm.h"
 #include "random_engine.h"
 #include "menu.h"
 
@@ -15,25 +15,25 @@ class instrumentpanel;
 
 class device : public random_engine, public menu {
 private:
-  Vector2i static const screensize_static_analogue;    // screen size for tv type static generation
-  Vector2i static const screensize_static_digital;     // screen size for digital noise type static
-  GLuint static image_static_analogue;           // global texture for tv type static
-  GLuint static image_static_digital;            // global texture for digital noise type static
+  Vector2i static const screensize_static_analogue;                             // screen size for tv type static generation
+  Vector2i static const screensize_static_digital;                              // screen size for digital noise type static
+  GLuint static image_static_analogue;                                          // global texture for tv type static
+  GLuint static image_static_digital;                                           // global texture for digital noise type static
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_analogue;
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_digital;
   boost::chrono::duration<double> static const time_interval_static_analogue;
   boost::chrono::duration<double> static const time_interval_static_digital;
 
 protected:
-  GLuint vao;                           // vertex array object
-  GLuint vbo_v;                         // vertex buffer object for vertices
-  GLuint vbo_n;                         // vertex buffer object for normals
-  GLuint ibo;                           // index buffer object
+  GLuint vao;                                                                   // vertex array object
+  GLuint vbo_v;                                                                 // vertex buffer object for vertices
+  GLuint vbo_n;                                                                 // vertex buffer object for normals
+  GLuint ibo;                                                                   // index buffer object
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
-  Vector3d position;                    // its location in the cabin or on the ship or on the instrument panel
-  Quatd rotation;                       // its rotation relative to the ship ro cabin or instrument panel
+  Vector3d position;                                                            // its location in the cabin or on the ship or on the instrument panel
+  Quatd rotation;                                                               // its rotation relative to the ship ro cabin or instrument panel
 
-  device();                             // prevent this class being instantiated directly
+  device();                                                                     // prevent this class being instantiated directly
 
 public:
   enum class statustype : char {
@@ -42,19 +42,19 @@ public:
     IN_CABIN,
     ON_PANEL
   };
-  statustype status;                    // current situation of this device
+  statustype status;                                                            // current situation of this device
 
   struct port_in_type {
-    device *target;                     // output device this is connected to
-    unsigned int target_port;           // connected port number on the target
+    device *target;                                                             // output device this is connected to
+    unsigned int target_port;                                                   // connected port number on the target
   };
 
   std::vector<port_in_type> ports_in;
 
-  spacecraft *vessel;                   // what vessel it belongs to
-  instrumentpanel *panel;               // what instrument panel it's attached to
+  spacecraft *vessel;                                                           // what vessel it belongs to
+  instrumentpanel *panel;                                                       // what instrument panel it's attached to
 
-  bool functional;                      // whether it's currently working
+  bool functional;                                                              // whether it's currently working
 
   virtual ~device();
 
@@ -65,8 +65,8 @@ public:
   virtual std::string  get_description();
   virtual double       get_mass();
   virtual Vector3d     get_size();
-  virtual Vector3d     get_position();
-  virtual Quatd        get_rotation();
+  virtual Vector3d const &get_position();
+  virtual Quatd const &get_rotation();
   virtual void         set_position(Vector3d const &newposition);
   virtual void         set_position(double x, double y, double z);
   virtual void         set_rotation(Quatd const &newrotation);

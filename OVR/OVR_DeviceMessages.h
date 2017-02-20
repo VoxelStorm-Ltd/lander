@@ -40,10 +40,10 @@ enum MessageType
     Message_None            = 0,
 
     // Device Manager Messages
-    Message_DeviceAdded             = OVR_MESSAGETYPE(Manager, 0),  // A new device is detected by manager.
-    Message_DeviceRemoved           = OVR_MESSAGETYPE(Manager, 1),  // Existing device has been plugged/unplugged.
+    Message_DeviceAdded             = OVR_MESSAGETYPE(Manager, 0),              // A new device is detected by manager.
+    Message_DeviceRemoved           = OVR_MESSAGETYPE(Manager, 1),              // Existing device has been plugged/unplugged.
     // Sensor Messages
-    Message_BodyFrame               = OVR_MESSAGETYPE(Sensor, 0),   // Emitted by sensor at regular intervals.
+    Message_BodyFrame               = OVR_MESSAGETYPE(Sensor, 0),               // Emitted by sensor at regular intervals.
     // Latency Tester Messages
     Message_LatencyTestSamples          = OVR_MESSAGETYPE(LatencyTester, 0),
     Message_LatencyTestColorDetected    = OVR_MESSAGETYPE(LatencyTester, 1),
@@ -61,8 +61,8 @@ public:
             DeviceBase* pdev = 0) : Type(type), pDevice(pdev)
     { }
 
-    MessageType Type;    // What kind of message this is.
-    DeviceBase* pDevice; // Device that emitted the message.
+    MessageType Type;                                                           // What kind of message this is.
+    DeviceBase* pDevice;                                                        // Device that emitted the message.
 };
 
 
@@ -86,11 +86,11 @@ public:
     {
     }
 
-    Vector3f Acceleration;   // Acceleration in m/s^2.
-    Vector3f RotationRate;   // Angular velocity in rad/s^2.
-    Vector3f MagneticField;  // Magnetic field strength in Gauss.
-    float    Temperature;    // Temperature reading on sensor surface, in degrees Celsius.
-    float    TimeDelta;      // Time passed since last Body Frame, in seconds.
+    Vector3f Acceleration;                                                      // Acceleration in m/s^2.
+    Vector3f RotationRate;                                                      // Angular velocity in rad/s^2.
+    Vector3f MagneticField;                                                     // Magnetic field strength in Gauss.
+    float    Temperature;                                                       // Temperature reading on sensor surface, in degrees Celsius.
+    float    TimeDelta;                                                         // Time passed since last Body Frame, in seconds.
 };
 
 // Sent when we receive a device status changes (e.g.:
@@ -98,10 +98,10 @@ public:
 class MessageDeviceStatus : public Message
 {
 public:
-	MessageDeviceStatus(MessageType type, DeviceBase* dev, const DeviceHandle &hdev)
-		: Message(type, dev), Handle(hdev) { }
+  MessageDeviceStatus(MessageType type, DeviceBase* dev, const DeviceHandle &hdev)
+    : Message(type, dev), Handle(hdev) { }
 
-	DeviceHandle Handle;
+  DeviceHandle Handle;
 };
 
 //-------------------------------------------------------------------------------------
@@ -157,6 +157,6 @@ public:
 };
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 #endif

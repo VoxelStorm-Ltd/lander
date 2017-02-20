@@ -19,7 +19,7 @@ otherwise accompanies this software in either electronic or hard copy form.
 
 namespace OVR { namespace OSX {
 
-} // namespace OSX
+}                                                                               // namespace OSX
 
 //-------------------------------------------------------------------------------------
 void SensorDeviceImpl::EnumerateHMDFromSensorDisplayInfo(   const SensorDisplayInfoImpl& displayInfo, 
@@ -40,6 +40,6 @@ void SensorDeviceImpl::EnumerateHMDFromSensorDisplayInfo(   const SensorDisplayI
     visitor.Visit(hmdCreateDesc);
 }
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
 

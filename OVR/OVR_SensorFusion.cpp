@@ -27,14 +27,14 @@ namespace OVR {
 SensorFusion::SensorFusion(SensorDevice* sensor)
   : Handler(getThis()), pDelegate(0),
     Gain(0.05f), YawMult(1), EnableGravity(true), Stage(0), RunningTime(0), DeltaT(0.001f),
-	EnablePrediction(true), PredictionDT(0.03f), PredictionTimeIncrement(0.001f),
+  EnablePrediction(true), PredictionDT(0.03f), PredictionTimeIncrement(0.001f),
     FRawMag(10), FAccW(20), FAngV(20),
     TiltCondCount(0), TiltErrorAngle(0),
     TiltErrorAxis(0,1,0),
     MagCondCount(0), MagCalibrated(false), MagRefQ(0, 0, 0, 1),
-	MagRefM(0), MagRefYaw(0), YawErrorAngle(0), MagRefDistance(0.5f),
+  MagRefM(0), MagRefYaw(0), YawErrorAngle(0), MagRefDistance(0.5f),
     YawErrorCount(0), YawCorrectionActivated(false), YawCorrectionInProgress(false),
-	EnableYawCorrection(false), MagNumReferences(0), MagHasNearbyReference(false),
+  EnableYawCorrection(false), MagNumReferences(0), MagHasNearbyReference(false),
     MotionTrackingEnabled(true)
 {
    if (sensor)
@@ -59,7 +59,7 @@ bool SensorFusion::AttachToSensor(SensorDevice* sensor)
         // Cache the sensor device so we can access this information during
         // mag saving and loading (avoid holding a reference to sensor to prevent
         // deadlock on shutdown)
-        sensor->GetDeviceInfo(&CachedSensorInfo);   // save the device information
+        sensor->GetDeviceInfo(&CachedSensorInfo);                               // save the device information
         MessageHandler* pCurrentHandler = sensor->GetMessageHandler();
 
         if (pCurrentHandler == &Handler)
@@ -101,9 +101,9 @@ void SensorFusion::Reset()
     Q                     = Quatf();
     QUncorrected          = Quatf();
     Stage                 = 0;
-	RunningTime           = 0;
-	MagNumReferences      = 0;
-	MagHasNearbyReference = false;
+  RunningTime           = 0;
+  MagNumReferences      = 0;
+  MagHasNearbyReference = false;
 }
 
 
@@ -118,9 +118,9 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
     Vector3f mag       = msg.MagneticField;
 
     // Set variables accessible through the class API
-	DeltaT = msg.TimeDelta;
+  DeltaT = msg.TimeDelta;
     AngV = msg.RotationRate;
-    AngV.y *= YawMult;  // Warning: If YawMult != 1, then AngV is not true angular velocity
+    AngV.y *= YawMult;                                                          // Warning: If YawMult != 1, then AngV is not true angular velocity
     A = rawAccel;
 
     // Allow external access to uncalibrated magnetometer values
@@ -175,8 +175,8 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
     if (Stage % 5000 == 0)
         Q.Normalize();
 
-	// Maintain the uncorrected orientation for later use by predictive filtering
-	QUncorrected = Q;
+  // Maintain the uncorrected orientation for later use by predictive filtering
+  QUncorrected = Q;
 
     // Perform tilt correction using the accelerometer data. This enables
     // drift errors in pitch and roll to be corrected. Note that yaw cannot be corrected
@@ -185,8 +185,8 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
     {
         // Correcting for tilt error by using accelerometer data
         const float  gravityEpsilon = 0.4f;
-        const float  angVelEpsilon  = 0.1f; // Relatively slow rotation
-        const int    tiltPeriod     = 50;   // Required time steps of stability
+        const float  angVelEpsilon  = 0.1f;                                     // Relatively slow rotation
+        const int    tiltPeriod     = 50;                                       // Required time steps of stability
         const float  maxTiltError   = 0.05f;
         const float  minTiltError   = 0.01f;
 
@@ -202,7 +202,7 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
         // After stable measurements have been taken over a sufficiently long period,
         // estimate the amount of tilt error and calculate the tilt axis for later correction.
         if (TiltCondCount >= tiltPeriod)
-        {   // Update TiltErrorEstimate
+        {                                                                       // Update TiltErrorEstimate
             TiltCondCount = 0;
             // Use an average value to reduce noise (could alternatively use an LPF)
             Vector3f accWMean = FAccW.Mean();
@@ -225,7 +225,7 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
         if (TiltErrorAngle > minTiltError)
         {
             if ((TiltErrorAngle > 0.4f)&&(RunningTime < 8.0f))
-            {   // Tilt completely to correct orientation
+            {                                                                   // Tilt completely to correct orientation
                 Q = Quatf(TiltErrorAxis, -TiltErrorAngle) * Q;
                 TiltErrorAngle = 0.0f;
             }
@@ -259,17 +259,17 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
     else
         MagCondCount = 0;
 
-	// Find, create, and utilize reference points for the magnetometer
-	// Need to be careful not to set reference points while there is significant tilt error
+  // Find, create, and utilize reference points for the magnetometer
+  // Need to be careful not to set reference points while there is significant tilt error
     if ((EnableYawCorrection && MagCalibrated)&&(RunningTime > 10.0f)&&(TiltErrorAngle < 0.2f))
-	{
-	  if (MagNumReferences == 0)
+  {
+    if (MagNumReferences == 0)
       {
-		  setMagReference(); // Use the current direction
+      setMagReference();                                                        // Use the current direction
       }
-	  else if (Q.Distance(MagRefQ) > MagRefDistance)
+    else if (Q.Distance(MagRefQ) > MagRefDistance)
       {
-		  MagHasNearbyReference = false;
+      MagHasNearbyReference = false;
           float bestDist = 100000.0f;
           int bestNdx = 0;
           float dist;
@@ -293,10 +293,10 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
           }
           else if (MagNumReferences < MagMaxReferences)
               setMagReference();
-	  }
-	}
+    }
+  }
 
-	YawCorrectionInProgress = false;
+  YawCorrectionInProgress = false;
     if (EnableYawCorrection && MagCalibrated && (RunningTime > 2.0f) && (MagCondCount >= magWindow) &&
         MagHasNearbyReference)
     {
@@ -328,7 +328,7 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
         // Perform the actual yaw correction, due to previously detected, large yaw error
         if (YawCorrectionActivated)
         {
-			YawCorrectionInProgress = true;
+      YawCorrectionInProgress = true;
             // Incrementally "unyaw" by a small step size
             Q = Quatf(Vector3f(0.0f,1.0f,0.0f), -yawRotationStep * YawErrorAngle.Sign()) * Q;
         }
@@ -339,38 +339,38 @@ void SensorFusion::handleMessage(const MessageBodyFrame& msg)
 //  A predictive filter based on extrapolating the smoothed, current angular velocity
 Quatf SensorFusion::GetPredictedOrientation(float pdt)
 {
-	Lock::Locker lockScope(Handler.GetHandlerLock());
-	Quatf        qP = QUncorrected;
+  Lock::Locker lockScope(Handler.GetHandlerLock());
+  Quatf        qP = QUncorrected;
 
     if (EnablePrediction)
     {
-		// This method assumes a constant angular velocity
-	    Vector3f angVelF  = FAngV.SavitzkyGolaySmooth8();
+    // This method assumes a constant angular velocity
+      Vector3f angVelF  = FAngV.SavitzkyGolaySmooth8();
         float    angVelFL = angVelF.Length();
 
-		// Force back to raw measurement
+    // Force back to raw measurement
         angVelF  = AngV;
-		angVelFL = AngV.Length();
+    angVelFL = AngV.Length();
 
-		// Dynamic prediction interval: Based on angular velocity to reduce vibration
-		const float minPdt   = 0.001f;
-		const float slopePdt = 0.1f;
-		float       newpdt   = pdt;
-		float       tpdt     = minPdt + slopePdt * angVelFL;
-		if (tpdt < pdt)
-			newpdt = tpdt;
-		//LogText("PredictonDTs: %d\n",(int)(newpdt / PredictionTimeIncrement + 0.5f));
+    // Dynamic prediction interval: Based on angular velocity to reduce vibration
+    const float minPdt   = 0.001f;
+    const float slopePdt = 0.1f;
+    float       newpdt   = pdt;
+    float       tpdt     = minPdt + slopePdt * angVelFL;
+    if (tpdt < pdt)
+      newpdt = tpdt;
+    //LogText("PredictonDTs: %d\n",(int)(newpdt / PredictionTimeIncrement + 0.5f));
 
         if (angVelFL > 0.001f)
         {
             Vector3f    rotAxisP      = angVelF / angVelFL;
             float       halfRotAngleP = angVelFL * newpdt * 0.5f;
             float       sinaHRAP      = sin(halfRotAngleP);
-		    Quatf       deltaQP(rotAxisP.x*sinaHRAP, rotAxisP.y*sinaHRAP,
+        Quatf       deltaQP(rotAxisP.x*sinaHRAP, rotAxisP.y*sinaHRAP,
                                 rotAxisP.z*sinaHRAP, cos(halfRotAngleP));
             qP = QUncorrected * deltaQP;
-		}
-	}
+    }
+  }
     return qP;
 }
 
@@ -393,16 +393,16 @@ void SensorFusion::setMagReference(const Quatf& q, const Vector3f& rawMag)
         MagRefTableQ[MagNumReferences] = q;
         MagRefTableM[MagNumReferences] = rawMag; //FRawMag.Mean();
 
-		//LogText("Inserting reference %d\n",MagNumReferences);
+    //LogText("Inserting reference %d\n",MagNumReferences);
 
-		MagRefQ   = q;
+    MagRefQ   = q;
         MagRefM   = rawMag;
 
         float pitch, roll, yaw;
-		Quatf q2 = q;
+    Quatf q2 = q;
         q2.GetEulerAngles<Axis_X, Axis_Z, Axis_Y>(&pitch, &roll, &yaw);
         MagRefTableYaw[MagNumReferences] = yaw;
-		MagRefYaw = yaw;
+    MagRefYaw = yaw;
 
         MagNumReferences++;
 
@@ -483,10 +483,10 @@ bool SensorFusion::SaveMagCalibration(const char* calibrationName) const
     // Look for a prexisting device file to edit
     Ptr<JSON> root = *JSON::Load(path);
     if (root)
-    {   // Quick sanity check of the file type and format before we parse it
+    {                                                                           // Quick sanity check of the file type and format before we parse it
         JSON* version = root->GetFirstItem();
         if (version && version->Name == "Oculus Device Profile Version")
-        {   // In the future I may need to check versioning to determine parse method
+        {                                                                       // In the future I may need to check versioning to determine parse method
         }
         else
         {
@@ -498,16 +498,16 @@ bool SensorFusion::SaveMagCalibration(const char* calibrationName) const
     JSON* device = NULL;
     if (root)
     {
-        device = root->GetFirstItem();   // skip the header
+        device = root->GetFirstItem();                                          // skip the header
         device = root->GetNextItem(device);
         while (device)
-        {   // Search for a previous calibration with the same name for this device
+        {                                                                       // Search for a previous calibration with the same name for this device
             // and remove it before adding the new one
             if (device->Name == "Device")
             {
                 JSON* item = device->GetItemByName("Serial");
                 if (item && item->Value == CachedSensorInfo.SerialNumber)
-                {   // found an entry for this device
+                {                                                               // found an entry for this device
                     item = device->GetNextItem(item);
                     while (item)
                     {
@@ -515,7 +515,7 @@ bool SensorFusion::SaveMagCalibration(const char* calibrationName) const
                         {
                             JSON* name = item->GetItemByName("Name");
                             if (name && name->Value == calibrationName)
-                            {   // found a calibration of the same name
+                            {                                                   // found a calibration of the same name
                                 item->RemoveNode();
                                 item->Release();
                                 break;
@@ -539,7 +539,7 @@ bool SensorFusion::SaveMagCalibration(const char* calibrationName) const
         }
     }
     else
-    {   // Create a new device root
+    {                                                                           // Create a new device root
         root = *JSON::CreateObject();
         root->AddStringItem("Oculus Device Profile Version", "1.0");
     }
@@ -585,7 +585,7 @@ bool SensorFusion::LoadMagCalibration(const char* calibrationName)
     // Quick sanity check of the file type and format before we parse it
     JSON* version = root->GetFirstItem();
     if (version && version->Name == "Oculus Device Profile Version")
-    {   // In the future I may need to check versioning to determine parse method
+    {                                                                           // In the future I may need to check versioning to determine parse method
     }
     else
     {
@@ -596,13 +596,13 @@ bool SensorFusion::LoadMagCalibration(const char* calibrationName)
 
     JSON* device = root->GetNextItem(version);
     while (device)
-    {   // Search for a previous calibration with the same name for this device
+    {                                                                           // Search for a previous calibration with the same name for this device
         // and remove it before adding the new one
         if (device->Name == "Device")
         {
             JSON* item = device->GetItemByName("Serial");
             if (item && item->Value == CachedSensorInfo.SerialNumber)
-            {   // found an entry for this device
+            {                                                                   // found an entry for this device
 
                 JSON* autoyaw = device->GetItemByName("EnableYawCorrection");
                 if (autoyaw)
@@ -616,7 +616,7 @@ bool SensorFusion::LoadMagCalibration(const char* calibrationName)
                         JSON* calibration = item;
                         JSON* name = calibration->GetItemByName("Name");
                         if (name && name->Value == calibrationName)
-                        {   // found a calibration with this name
+                        {                                                       // found a calibration with this name
 
                             time_t now;
                             time(&now);
@@ -692,5 +692,5 @@ bool SensorFusion::LoadMagCalibration(const char* calibrationName)
 
 
 
-} // namespace OVR
+}                                                                               // namespace OVR
 
