@@ -109,16 +109,14 @@ add_executable(Lander
 )
 
 if(UNIX AND NOT APPLE)
-  # Linux uses distribution-provided shared libraries and their usage metadata.
-  set(Boost_USE_STATIC_LIBS OFF)
-  set(GLEW_USE_STATIC_LIBS OFF)
+  set(Boost_USE_STATIC_LIBS ON)
   find_package(Boost REQUIRED CONFIG COMPONENTS chrono)
   find_package(Freetype REQUIRED)
   find_package(GLEW REQUIRED)
   find_package(OpenGL REQUIRED)
   find_package(PkgConfig REQUIRED)
+  find_package(glfw3 REQUIRED CONFIG)
   pkg_check_modules(FTGL REQUIRED IMPORTED_TARGET ftgl)
-  pkg_check_modules(GLFW REQUIRED IMPORTED_TARGET glfw3)
 else()
   # Windows and macOS retain the original bundled-library setup.  Boost headers
   # themselves are supplied externally, as they were in CodeBlocks.
@@ -149,9 +147,7 @@ target_compile_definitions(Lander PRIVATE
 )
 
 if(WIN32 OR APPLE)
-  target_compile_definitions(Lander PRIVATE
-    GLEW_STATIC
-  )
+  target_compile_definitions(Lander PRIVATE GLEW_STATIC)
 endif()
 
 if(WIN32 AND BUILD_32BIT)
@@ -244,7 +240,11 @@ if(WIN32 OR APPLE)
     -static-libstdc++
   )
 else()
-  target_link_options(Lander PRIVATE -no-pie)
+  target_link_options(Lander PRIVATE
+    -no-pie
+    -static-libgcc
+    -static-libstdc++
+  )
 endif()
 
 target_link_options(Lander PRIVATE
@@ -280,6 +280,6 @@ elseif(UNIX AND NOT APPLE)
     OpenGL::GL
     OpenGL::GLU
     PkgConfig::FTGL
-    PkgConfig::GLFW
+    glfw
   )
 endif()
