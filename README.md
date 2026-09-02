@@ -36,7 +36,7 @@ The initial cockpit setup consists primarily of:
   - reference body id 7-segment display, and buttons to increase or decrease the number of the refence body; this is the body in the solar system that the star mapper shows trajectories relative to.  The default is 4, i.e. Earth  Setting it to 5 will select the moon, etc.
 - A little "on" switch which activates your thrusters when turned on - the main mechanic of the game at present.
 
-The present state of the game allows you to do things like fly to the moon - a good challenge is to try to leave Earth and enter a stable circular orbit around the moon.  Read about the basics of [https://en.wikipedia.org/wiki/Hohmann_transfer_orbit](Hohmann transfer orbits) to get started.  Orient your ship using the arrow keys and fire the thruster with the "on" switch on the console, and use the star mapper to understand the effects of your actions.
+The present state of the game allows you to do things like fly to the moon - a good challenge is to try to leave Earth and enter a stable circular orbit around the moon.  Read about the basics of [Hohmann transfer orbits](https://en.wikipedia.org/wiki/Hohmann_transfer_orbit) to get started.  Orient your ship using the arrow keys and fire the thruster with the "on" switch on the console, and use the star mapper to understand the effects of your actions.
 
 ## Building and running
 
