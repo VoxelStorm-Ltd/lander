@@ -12,6 +12,7 @@
 #include "instrumentpanel.h"
 #include "dustcloud.h"
 #include "thruster.h"
+#include <iostream>
 
 extern universe root;
 extern astronaut *player;
@@ -120,7 +121,7 @@ double spacecraft::get_temperature_cabin() {
   return temperature_cabin;
 }
 
-device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvector) {
+device *spacecraft::pick_cabin(vector3d const &origin, vector3d const &pickvector) {
   /// try to find the device pointed at by the current cursor in the cabin
   for(auto const &it : panels) {
     device *const pickeddevice = it->pick(origin, pickvector);
@@ -134,7 +135,7 @@ device *spacecraft::pick_cabin(Vector3d const &origin, Vector3d const &pickvecto
   return nullptr;                                                               // not found
 }
 
-device *spacecraft::pick_hull(Vector3d const &origin, Vector3d const &pickvector) {
+device *spacecraft::pick_hull(vector3d const &origin, vector3d const &pickvector) {
   /// try to find the device pointed at by the current cursor on the hull
   for(auto const &it : devices_hull) {
     // TODO
@@ -142,11 +143,11 @@ device *spacecraft::pick_hull(Vector3d const &origin, Vector3d const &pickvector
   return nullptr;
 }
 
-Vector3d spacecraft::get_acceleration(Vector3d const &thisposition,
-                                      Vector3d const &thisvelocity __attribute__((__unused__)),
+vector3d spacecraft::get_acceleration(vector3d const &thisposition,
+                                      vector3d const &thisvelocity __attribute__((__unused__)),
                                       double time __attribute__((__unused__))) {
   /// placeholder acceleration due to gravity
-  Vector3d acceleration;
+  vector3d acceleration;
   // iterate through every sufficiently significant body
   for(auto *it : root.currentsystem->bodies) {
     if(it == this) {
@@ -183,7 +184,7 @@ void spacecraft::update_state(double time, double deltatime) {
   //}
 
   // add propulsion effects
-  Vector3d thrust;
+  vector3d thrust;
   for(auto *it : thrusters) {
     // add individual contribution of each engine
     thrust += it->get_thrust();
@@ -204,17 +205,17 @@ void spacecraft::update_state(double time, double deltatime) {
     }
 
     // TODO: check collision on all corners
-    Vector3d const collision_normal = it->get_collision(position);
-    if(collision_normal != Vector3d(0.0, 0.0, 0.0)) {
+    vector3d const collision_normal = it->get_collision(position);
+    if(collision_normal != vector3d(0.0, 0.0, 0.0)) {
       // we've collided with something
-      Vector3d const velocity_delta = velocity - it->velocity;
+      vector3d const velocity_delta = velocity - it->velocity;
       double const velocity_delta_mag = velocity_delta.length();
 
       if(velocity_delta_mag > 22) {                                             // ~50mph
         std::cout << "INFO: " << get_name() << " collided with " << it->get_name() << " at a fatal " << velocity_delta_mag << "m/s" << std::endl;
         // if the ship was destroyed, give a snide message relating to the kinetic energy and collateral damage
         double const ke = 0.5 * get_mass() * velocity_delta_mag * velocity_delta_mag;
-        Vector3d const lastposition(position);                                  // cache position for after we delete "this"
+        vector3d const lastposition(position);                                  // cache position for after we delete "this"
         destroy();
         root.make_explosion(lastposition, ke);
         return;
@@ -257,14 +258,14 @@ void spacecraft::render_diagram(double scale, bool labels) {
   glMultMatrixd(rotation.transform());
 
   if(this == player->vessel_in) {                                               // show navigation vectors only for the player ship
-    glColor4dv(Vector4d(1.0, 0.6, 0.2, 0.75));                                  // orange
+    glColor4dv(vector4d(1.0, 0.6, 0.2, 0.75));                                  // orange
     glBegin(GL_LINES);
     glVertex3d(0.0, -100 / scale, 0.0);                                         // heading vector
     glVertex3d(0.0, -120 / scale, 0.0);
-    glColor4dv(Vector4d(1.0, 0.2, 0.2, 0.75));                                  // port light (red)
+    glColor4dv(vector4d(1.0, 0.2, 0.2, 0.75));                                  // port light (red)
     glVertex3d(-100 / scale, -5 / scale, 0.0);
     glVertex3d(-100 / scale,  5 / scale, 0.0);
-    glColor4dv(Vector4d(0.2, 1.0, 0.0, 0.75));                                  // starboard light (green)
+    glColor4dv(vector4d(0.2, 1.0, 0.0, 0.75));                                  // starboard light (green)
     glVertex3d( 100 / scale, -5 / scale, 0.0);
     glVertex3d( 100 / scale,  5 / scale, 0.0);
     glEnd();
@@ -275,7 +276,7 @@ void spacecraft::render_diagram(double scale, bool labels) {
     thisradius = 4.0 / scale;
   }
   // draw an asteroids-style arrow at the radius
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
   // 2D, y = up:
   //glBegin(GL_LINE_LOOP);
   //glVertex3d(0.0, -thisradius, 0.0);
@@ -331,10 +332,10 @@ void spacecraft::render_cabin() {
   /// Render the interior of the cabin with instruments etc (visible spectrum)
   glPushMatrix();
   // white light on front wall
-  glLightfv(GL_LIGHT0, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT0, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT0, GL_POSITION,              Vector4f(0.0, 1.95, -1.95, 1.0));
-  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
+  glLightfv(GL_LIGHT0, GL_DIFFUSE,               vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT0, GL_SPECULAR,              vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT0, GL_POSITION,              vector4f(0.0, 1.95, -1.95, 1.0));
+  glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,        vector3f(0.0, -1.0, 0.0));
   glLightf( GL_LIGHT0, GL_SPOT_EXPONENT,         10.0);                         // accepts 0-128
   glLightf( GL_LIGHT0, GL_SPOT_CUTOFF,           60.0);                         // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT0, GL_CONSTANT_ATTENUATION,  0.0);                          // attenuation factor = 1 / (constant + linear * d + quadratic * d^2)
@@ -343,10 +344,10 @@ void spacecraft::render_cabin() {
   glEnable( GL_LIGHT0);
 
   // red side up-light
-  glLightfv(GL_LIGHT1, GL_DIFFUSE,               Vector4f(1.0, 0.0, 0.0, 1.0));
-  glLightfv(GL_LIGHT1, GL_SPECULAR,              Vector4f(1.0, 0.0, 0.0, 1.0));
-  glLightfv(GL_LIGHT1, GL_POSITION,              Vector4f(-1.95, 0.0, 0.0, 1.0));
-  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION,        Vector3f(0.0, 1.0, 0.0));
+  glLightfv(GL_LIGHT1, GL_DIFFUSE,               vector4f(1.0, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_SPECULAR,              vector4f(1.0, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_POSITION,              vector4f(-1.95, 0.0, 0.0, 1.0));
+  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION,        vector3f(0.0, 1.0, 0.0));
   glLightf( GL_LIGHT1, GL_SPOT_EXPONENT,         1.0);                          // accepts 0-128
   glLightf( GL_LIGHT1, GL_SPOT_CUTOFF,           90.0);                         // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT1, GL_CONSTANT_ATTENUATION,  0.0);
@@ -355,10 +356,10 @@ void spacecraft::render_cabin() {
   glEnable( GL_LIGHT1);
 
   // yellow right side-light
-  glLightfv(GL_LIGHT2, GL_DIFFUSE,               Vector4f(1.0, 1.0, 0.5, 1.0));
-  glLightfv(GL_LIGHT2, GL_SPECULAR,              Vector4f(1.0, 1.0, 0.5, 1.0));
-  glLightfv(GL_LIGHT2, GL_POSITION,              Vector4f(1.95, 1.5, 0.0, 1.0));
-  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION,        Vector3f(-1.0, 0.0, 0.0));
+  glLightfv(GL_LIGHT2, GL_DIFFUSE,               vector4f(1.0, 1.0, 0.5, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPECULAR,              vector4f(1.0, 1.0, 0.5, 1.0));
+  glLightfv(GL_LIGHT2, GL_POSITION,              vector4f(1.95, 1.5, 0.0, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION,        vector3f(-1.0, 0.0, 0.0));
   glLightf( GL_LIGHT2, GL_SPOT_EXPONENT,         0.0);                          // accepts 0-128
   glLightf( GL_LIGHT2, GL_SPOT_CUTOFF,           180.0);                        // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT2, GL_CONSTANT_ATTENUATION,  0.0);
@@ -367,14 +368,14 @@ void spacecraft::render_cabin() {
   glEnable( GL_LIGHT2);
 
   // white overhead panel light
-  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(0.2, 0.2, 0.2, 1.0));
-  //glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(0.2, 0.2, 0.2, 1.0));
-  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(0.5, 0.5, 0.5, 1.0));
-  //glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(0.5, 0.5, 0.5, 1.0));
-  glLightfv(GL_LIGHT3, GL_DIFFUSE,               Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT3, GL_SPECULAR,              Vector4f(1.0, 1.0, 1.0, 1.0));
-  glLightfv(GL_LIGHT3, GL_POSITION,              Vector4f(0.0, 1.75, -1.0, 1.0));
-  glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION,        Vector3f(0.0, -1.0, 0.0));
+  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT3, GL_SPECULAR,              vector4f(0.2, 0.2, 0.2, 1.0));
+  //glLightfv(GL_LIGHT3, GL_DIFFUSE,               vector4f(0.5, 0.5, 0.5, 1.0));
+  //glLightfv(GL_LIGHT3, GL_SPECULAR,              vector4f(0.5, 0.5, 0.5, 1.0));
+  glLightfv(GL_LIGHT3, GL_DIFFUSE,               vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_SPECULAR,              vector4f(1.0, 1.0, 1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_POSITION,              vector4f(0.0, 1.75, -1.0, 1.0));
+  glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION,        vector3f(0.0, -1.0, 0.0));
   glLightf( GL_LIGHT3, GL_SPOT_EXPONENT,         1.0);                          // accepts 0-128
   glLightf( GL_LIGHT3, GL_SPOT_CUTOFF,           90.0);                         // width of angle of spotlight, 180 = all-round
   glLightf( GL_LIGHT3, GL_CONSTANT_ATTENUATION,  0.0);
@@ -384,11 +385,11 @@ void spacecraft::render_cabin() {
 
   // render the cabin walls - basic octagonal cabin
   //glColor4d(0.8, 0.8, 0.8, 1.0);
-  //glMaterialfv(GL_FRONT, GL_AMBIENT,  Vector4f(1.0, 1.0, 1.0, 1.0));
-  //glMaterialfv(GL_FRONT, GL_DIFFUSE,  Vector4f(1.0, 1.0, 1.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.4, 0.5, 0.4, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.5, 0.5, 0.5, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_AMBIENT,  vector4f(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_DIFFUSE,  vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.4, 0.5, 0.4, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBegin(GL_QUADS);
@@ -444,7 +445,7 @@ void spacecraft::render_cabin() {
       glVertex3d(-1.0 + x,         y + ystep, -2.0);
     }
   }
-  glNormal3dv(Vector3d(-1.0, 0.0, 1.0).normalise_copy());                       // north-east
+  glNormal3dv(vector3d(-1.0, 0.0, 1.0).normalise_copy());                       // north-east
   for(double q = 0.0; q < qsize; q += qstep) {
     for(double y = 0.0; y < ysize; y += ystep) {
       glVertex3d(1.0 + q        , y,         -2.0 + q        );
@@ -462,7 +463,7 @@ void spacecraft::render_cabin() {
       glVertex3d(2.0, y + ystep, -1.0 + x        );
     }
   }
-  glNormal3dv(Vector3d(-1.0, 0.0, -1.0).normalise_copy());                      // south-east
+  glNormal3dv(vector3d(-1.0, 0.0, -1.0).normalise_copy());                      // south-east
   for(double q = 0.0; q < qsize; q += qstep) {
     for(double y = 0.0; y < ysize; y += ystep) {
       glVertex3d(2.0 - (q        ), y,         1.0 + q        );
@@ -481,7 +482,7 @@ void spacecraft::render_cabin() {
     }
   }
 
-  glNormal3dv(Vector3d(1.0, 0.0, -1.0).normalise_copy());                       // south-west
+  glNormal3dv(vector3d(1.0, 0.0, -1.0).normalise_copy());                       // south-west
   for(double q = 0.0; q < qsize; q += qstep) {
     for(double y = 0.0; y < ysize; y += ystep) {
       glVertex3d(-1.0 - (q        ), y,         2.0 - (q        ));
@@ -499,7 +500,7 @@ void spacecraft::render_cabin() {
       glVertex3d(-2.0, y + ystep, -1.0 + x + xstep);
     }
   }
-  glNormal3dv(Vector3d(1.0, 0.0, 1.0).normalise_copy());                        // north-west
+  glNormal3dv(vector3d(1.0, 0.0, 1.0).normalise_copy());                        // north-west
   for(double q = 0.0; q < qsize; q += qstep) {
     for(double y = 0.0; y < ysize; y += ystep) {
       glVertex3d(-1.0 - (q + qstep), y,         -2.0 + q + qstep);

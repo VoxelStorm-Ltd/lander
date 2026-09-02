@@ -66,9 +66,9 @@ bool altimeter::get_port_in_required(unsigned int port __attribute__((__unused__
   return true;
 }
 
-Vector3d altimeter::get_size() {
+vector3d altimeter::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.08, 0.08, 0.005);
+  return vector3d(0.08, 0.08, 0.005);
 }
 
 void altimeter::update() {
@@ -98,9 +98,9 @@ void altimeter::render() {
                get_position().y,
                get_position().z);
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glBegin(GL_QUADS);
   glNormal3d(0.0, 0.0, 1.0);

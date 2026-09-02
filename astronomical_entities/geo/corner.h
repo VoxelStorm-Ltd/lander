@@ -5,7 +5,7 @@
 
 class corner {
 public:
-  Vector3d coords;
+  vector3d coords;
 
   corner();
   corner(double x, double y, double z);

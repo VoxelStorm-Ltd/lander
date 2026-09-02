@@ -12,14 +12,14 @@ class instrumentpanel {
 public:
   std::list<device*> devices;                                                   // devices attached to this panel
 
-  Vector3d position;                                                            // its location relative to cabin origin, in metres
-  Vector3d size;                                                                // how much physical space it takes up, in metres
-  Quatd rotation;                                                               // its rotation relative to the cabin
+  vector3d position;                                                            // its location relative to cabin origin, in metres
+  vector3d size;                                                                // how much physical space it takes up, in metres
+  quatd rotation;                                                               // its rotation relative to the cabin
 
   spacecraft *vessel;                                                           // what ship it's attached to
 
   bool pickpoint_show;                                                          // whether to show cursor
-  Vector2d pickpoint;                                                           // cursor
+  vector2d pickpoint;                                                           // cursor
   device *pickeddevice;                                                         // what device we've selected
 
   instrumentpanel();
@@ -29,7 +29,7 @@ public:
   void remove();
   void destroy();
   void render();
-  device *pick(Vector3d const &origin, Vector3d const &pickvector);
+  device *pick(vector3d const &origin, vector3d const &pickvector);
 };
 
 #endif // INSTRUMENTPANEL_H_INCLUDED

@@ -15,7 +15,7 @@ protected:
 public:
   virtual ~physicsbody();
 
-  virtual Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
+  virtual vector3d get_acceleration(vector3d const &position, vector3d const &velocity, double time);
   virtual void update_state(double t, double dt);
 };
 

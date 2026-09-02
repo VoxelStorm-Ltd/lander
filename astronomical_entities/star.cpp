@@ -51,19 +51,19 @@ double star::get_temperature() {
   return 5778.0;                                                                // surface of the sun
 }
 
-Vector3d star::get_colour() {
+vector3d star::get_colour() {
   /// Return absolute colour value for this star's surface based on brightness & temperature
   return temperature_to_colour(get_temperature()) * brightness;
 }
 
-Vector3d star::temperature_to_colour(double temperature) {
+vector3d star::temperature_to_colour(double temperature) {
   /** Return RGB components based on the radiation due to temperature
       temperature is in kelvin
       Note: this is basically the same as "colour temperature" in photography
       Algorithm from http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
       modified to return dull glow values all the way down to the Draper point, 798K
   **/
-  Vector3d result;
+  vector3d result;
   temperature /= 100.0;
 
   // calculate red
@@ -135,7 +135,7 @@ void star::render_diagram(double scale, bool labels) {
   // move into position
   glTranslated(position.x, position.y, position.z);
   // undo rotation - billboard effect
-  Matrix4d modelview;
+  matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
   for(unsigned int i = 0; i != 3; ++i) {
     for(unsigned int j = 0; j != 3; ++j) {
@@ -173,7 +173,7 @@ void star::render_diagram(double scale, bool labels) {
   glEnd();
 
   // circle outline
-  //glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  //glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
   //glBegin(GL_LINE_LOOP);
   //for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
   //  glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
@@ -189,11 +189,11 @@ void star::render_visible() {
   // move into position
   glTranslated(position.x, position.y, position.z);
 
-  Vector3d const thiscolour = get_colour();
+  vector3d const thiscolour = get_colour();
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(thiscolour.r, thiscolour.g, thiscolour.b, 1.0));
   glMaterialf( GL_FRONT, GL_SHININESS,           0.0);                          // 0 to 127
 
   double const thisradius = get_radius() / 2;
@@ -201,24 +201,24 @@ void star::render_visible() {
   double const r = 1.0 * thisradius;
   double const t = ((1.0 + sqrt(5.0)) / 2.0) * thisradius;
 
-  std::vector<Vector3d> points;
+  std::vector<vector3d> points;
 
-  points.push_back(Vector3d(-r,  t,  0));
-  points.push_back(Vector3d( r,  t,  0));
-  points.push_back(Vector3d(-r, -t,  0));
-  points.push_back(Vector3d( r, -t,  0));
+  points.push_back(vector3d(-r,  t,  0));
+  points.push_back(vector3d( r,  t,  0));
+  points.push_back(vector3d(-r, -t,  0));
+  points.push_back(vector3d( r, -t,  0));
 
-  points.push_back(Vector3d( 0, -r,  t));
-  points.push_back(Vector3d( 0,  r,  t));
-  points.push_back(Vector3d( 0, -r, -t));
-  points.push_back(Vector3d( 0,  r, -t));
+  points.push_back(vector3d( 0, -r,  t));
+  points.push_back(vector3d( 0,  r,  t));
+  points.push_back(vector3d( 0, -r, -t));
+  points.push_back(vector3d( 0,  r, -t));
 
-  points.push_back(Vector3d( t,  0, -r));
-  points.push_back(Vector3d( t,  0,  r));
-  points.push_back(Vector3d(-t,  0, -r));
-  points.push_back(Vector3d(-t,  0,  r));
+  points.push_back(vector3d( t,  0, -r));
+  points.push_back(vector3d( t,  0,  r));
+  points.push_back(vector3d(-t,  0, -r));
+  points.push_back(vector3d(-t,  0,  r));
 
-  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
+  glColor4dv(vector4d(0.25, 0.25, 0.25, 1.0));
   glBegin(GL_TRIANGLES);
 
   // 5 faces around point 0

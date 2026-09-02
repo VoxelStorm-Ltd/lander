@@ -1,4 +1,5 @@
 #include "switch_onoff.h"
+#include <iostream>
 
 switch_onoff::switch_onoff()
   : setting(0) {
@@ -34,9 +35,9 @@ double switch_onoff::get_mass() {
   return 0.05;
 }
 
-Vector3d switch_onoff::get_size() {
+vector3d switch_onoff::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.02, 0.02, 0.004);
+  return vector3d(0.02, 0.02, 0.004);
 }
 
 unsigned int switch_onoff::get_port_in_count() {
@@ -168,7 +169,7 @@ void switch_onoff::render() {
                position.y,
                position.z);
 
-  Vector3d thissize = get_size();
+  vector3d thissize = get_size();
   double switch_tip_y;
   double normal_flip;
   if(setting == 0) {
@@ -184,9 +185,9 @@ void switch_onoff::render() {
   double const switch_arm_inset = 0.005;
 
   // switch body
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glBegin(GL_QUADS);
   // front
@@ -234,9 +235,9 @@ void switch_onoff::render() {
   glEnd();
 
   // switch arm sides
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);
   glBegin(GL_TRIANGLES);
   glNormal3d(-1.0, 0.0, 0.0);

@@ -38,9 +38,9 @@ double display_number::get_mass() {
   return 0.02;
 }
 
-Vector3d display_number::get_size() {
+vector3d display_number::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(sizex, 0.025, 0.002);
+  return vector3d(sizex, 0.025, 0.002);
 }
 
 unsigned int display_number::get_port_in_count() {
@@ -95,16 +95,16 @@ void display_number::render() {
                position.y,
                position.z);
 
-  Vector3d thissize = get_size();
+  vector3d thissize = get_size();
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
-  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  //glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
-  //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  //glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   //glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   glBegin(GL_QUADS);
   // front
@@ -141,18 +141,18 @@ void display_number::render() {
 
   // text display
   glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.0, 0.2, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.8, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   glPushMatrix();
   glTranslated(0.001, 0.0045, thissize.z + 0.0001);
   glScaled(displayscale, displayscale, displayscale);
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   //font_7segment3d->Render("8.8.8.8.8.8.8.8.", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT); // draw the background fill
   font_7segment3d->Render("8,8,8,8,8,8,8,8,", 16, FTPoint(), FTPoint(), FTGL::RENDER_FRONT); // draw the background fill
   glTranslated(0.0, 0.0, 1.0);
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.8, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.8, 0.0, 1.0));
   font_7segment3d->Render(displaycontent.c_str(), -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT);
   glPopMatrix();
   glDisable(GL_RESCALE_NORMAL);                                                 // enable needed to allow correct lighting, disable for speed

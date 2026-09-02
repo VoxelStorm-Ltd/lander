@@ -1,4 +1,5 @@
 #include "device_external.h"
+#include <iostream>
 
 device_external::device_external() {
   /// Default constructor

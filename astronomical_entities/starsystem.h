@@ -20,8 +20,8 @@ public:
   std::list<body*> bodies;                                                      // list of stellar and planetary bodies
   star *primary;                                                                // the primary body of this system
 
-  Vector3d position;                                                            // relative to the galaxy
-  Vector3d velocity;                                                            // relative to the galaxy
+  vector3d position;                                                            // relative to the galaxy
+  vector3d velocity;                                                            // relative to the galaxy
 
   starsystem();
   ~starsystem();

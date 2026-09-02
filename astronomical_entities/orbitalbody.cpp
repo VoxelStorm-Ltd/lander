@@ -54,20 +54,20 @@ void orbitalbody::update_state(double time, double deltatime) {
   /// Re-calculate current velocity and position based on orbital data
   //std::cout << "DEBUG: called update_state on orbitalbody " << name << std::endl;
   // reference direction is +z
-  //Vector3d ascending_node(0.0, 1.0, 0.0);
+  //vector3d ascending_node(0.0, 1.0, 0.0);
   //ascending_node.rotate(0.0, orbit.longitude_asc_node, 0.0);
   // ...
 
   // placeholder simple circular orbits, zero eccentricity only
   double finaltime = time + deltatime;
 
-  Vector3d orbitposition;
+  vector3d orbitposition;
   orbitposition.z = orbit.semimajor_axis;
   double orbitangle = ((M_PI * 2.0) / get_orbital_period() * finaltime) + orbit.mean_anomaly_epoch;
   orbitangle = fmod(orbitangle, M_PI * 2.0);
   orbitposition.rotate_rad(0.0, orbitangle, 0.0);
 
-  Vector3d oldposition(position);
+  vector3d oldposition(position);
   position = parent->position + orbitposition;
   velocity = (position - oldposition) / deltatime;
   //std::cout << "Pos: " << position << " vel " << velocity << std::endl;

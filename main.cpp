@@ -29,7 +29,7 @@ FTFont *font_7segment3d      = nullptr;
 FTFont *font_monospace_small = nullptr;
 unsigned int fps = 0;                                                           // fps counter
 
-void init_graphics(Vector2i &windowsize);
+void init_graphics(vector2i &windowsize);
 void init_universe();
 
 void init();
@@ -44,7 +44,7 @@ int main() {
 }
 
 void init() {       /// all the one-time initialisation we need for the engine
-  Vector2i windowsize(800, 600);
+  vector2i windowsize(800, 600);
   init_graphics(windowsize);
   init_universe();
   player->windowsize = windowsize;

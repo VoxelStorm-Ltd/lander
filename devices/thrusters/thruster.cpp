@@ -1,6 +1,7 @@
 #include "thruster.h"
 #include "vectorstorm/vectorstorm.h"
 #include "spacecraft.h"
+#include <iostream>
 
 thruster::thruster()
   : throttle(0.0),
@@ -13,8 +14,8 @@ thruster::thruster()
   ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
 
   // rotate it to point down by default
-  //rotation *= Quatd::fromEulerAngles(90.0, 0.0, 0.0);
-  rotation *= Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), 90.0);
+  //rotation *= quatd::from_euler_angles(90.0, 0.0, 0.0);
+  rotation *= quatd::from_axis_rot(vector3d(1.0, 0.0, 0.0), 90.0);
 }
 
 thruster::~thruster() {
@@ -45,9 +46,9 @@ double thruster::get_mass() {
   return 180.0;                                                                 // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
-Vector3d thruster::get_size() {
+vector3d thruster::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(1.5, 2.3, 1.5);                                               // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
+  return vector3d(1.5, 2.3, 1.5);                                               // based on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
 bool thruster::attach_hull() {
@@ -178,7 +179,7 @@ double thruster::get_thrust_max() {
   return 50000.0;                                                               // based roughly on https://en.wikipedia.org/wiki/Descent_Propulsion_System
 }
 
-Vector3d const &thruster::get_thrust() {
+vector3d const &thruster::get_thrust() {
   return thrust;
 }
 double thruster::get_thrust_magnitude() {

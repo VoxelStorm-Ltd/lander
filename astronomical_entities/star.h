@@ -15,8 +15,8 @@ public:
   virtual std::string get_type();
   virtual double get_magnitude();
   virtual double get_temperature();
-  virtual Vector3d get_colour();
-  static Vector3d temperature_to_colour(double temperature);
+  virtual vector3d get_colour();
+  static vector3d temperature_to_colour(double temperature);
 
   // render
   virtual void render_diagram(double scale, bool labels = false);

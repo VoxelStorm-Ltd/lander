@@ -8,8 +8,8 @@ body::body()
     radius(0.0),
     gm(0.0) {
   /// Default constructor
-  //rotation = spin = Quatd::fromAxisRot(Vector3d(0.0, 1.0, 0.0), 0.0);           // null rotation quaternion
-  rotation = spin = Quatd(1.0, 0.0, 0.0, 0.0);                                  // null rotation quaternion
+  //rotation = spin = quatd::from_axis_rot(vector3d(0.0, 1.0, 0.0), 0.0);         // null rotation quaternion
+  rotation = spin = quatd(1.0, 0.0, 0.0, 0.0);                                  // null rotation quaternion
 }
 
 body::~body() {
@@ -124,12 +124,12 @@ void body::update_model() {
   // nothing to be done by default
 }
 
-bool body::check_within_physical_influence(Vector3d const &absolute_coords) {
+bool body::check_within_physical_influence(vector3d const &absolute_coords) {
   /// Check if we're within range for physical interaction (collision etc)
   return check_within_physical_influence_rel(absolute_coords - position);
 }
 
-bool body::check_within_physical_influence_rel(Vector3d const &relative_coords) {
+bool body::check_within_physical_influence_rel(vector3d const &relative_coords) {
   /// Check if we're within range for physical interaction (collision etc) - local version
   // bounding box version
   double const thisradius = get_radius();
@@ -152,28 +152,28 @@ bool body::check_within_physical_influence_rel(double thisradius) {
   }
 }
 
-Vector3d body::get_collision(Vector3d const &absolute_coords) {
+vector3d body::get_collision(vector3d const &absolute_coords) {
   /// Check for collision relative to the same reference sphere as the object and return the vector of a surface normal or Vector(0, 0, 0) otherwise
   return get_collision_rel(position - absolute_coords);
 }
 
-Vector3d body::get_collision_rel(Vector3d const &relative_coords) {
+vector3d body::get_collision_rel(vector3d const &relative_coords) {
   /// Check for collision relative to the centre and return the vector of a surface normal or Vector(0, 0, 0) otherwise
   // this simply checks for a smooth spherical collision
   double distance = relative_coords.length();
   if(distance <= get_radius()) {
     return relative_coords.normalise_copy();
   } else {
-    return Vector3d(0.0, 0.0, 0.0);
+    return vector3d(0.0, 0.0, 0.0);
   }
 }
 
-double body::get_gravity_accel(Vector3d const &coords) {
+double body::get_gravity_accel(vector3d const &coords) {
   /// Return the acceleration due to gravity at a point in the same reference sphere as this object
-  return get_gravity_accel_rel(Vector3d(position - coords).length());
+  return get_gravity_accel_rel(vector3d(position - coords).length());
 }
 
-double body::get_gravity_accel_rel(Vector3d const &relative_coords) {
+double body::get_gravity_accel_rel(vector3d const &relative_coords) {
   /// Return the acceleration due to gravity at these coords relative to the centre
   return get_gravity_accel_rel(relative_coords.length());
 }
@@ -188,13 +188,13 @@ double body::get_gravity_accel_rel(double relative_distance) {
   return (gravitational_constant * get_mass()) / (relative_distance * relative_distance);
 }
 
-Vector3d body::get_gravity_accel_v3(Vector3d const &coords) {
+vector3d body::get_gravity_accel_v3(vector3d const &coords) {
   /// Return the acceleration due to gravity at a point in the same reference sphere as this object - vector version
   //std::cout << "        DEBUG: get_gravity_accel_v3 before called with coords=" << coords << ", position=" << position << std::endl;
   return get_gravity_accel_rel_v3(position - coords);
 }
 
-Vector3d body::get_gravity_accel_rel_v3(Vector3d const &relative_coords) {
+vector3d body::get_gravity_accel_rel_v3(vector3d const &relative_coords) {
   /// Return the acceleration due to gravity at these coords relative to the centre - vector version
   //std::cout << "          DEBUG: get_gravity_accel_rel_v3 before called with relative_coords=" << relative_coords << std::endl;
   return relative_coords.normalise_copy() * get_gravity_accel_rel(relative_coords.length());
@@ -205,17 +205,17 @@ double body::get_gravity_accel_surface() {
   return get_gravity_accel_rel(get_radius());
 }
 
-double body::get_gravity_accel(Vector3d const &coords, Vector3d const &thisvelocity) {
+double body::get_gravity_accel(vector3d const &coords, vector3d const &thisvelocity) {
   /// Return the acceleration due to gravity at a point in the same reference sphere as this object - relativistic version
   return get_gravity_accel_rel(position - coords, thisvelocity - velocity);
 }
 
-double body::get_gravity_accel_rel(Vector3d const &relative_coords, Vector3d const &thisvelocity) {
+double body::get_gravity_accel_rel(vector3d const &relative_coords, vector3d const &thisvelocity) {
   /// Return the acceleration due to gravity at these coords relative to the centre - relativistic version
   return get_gravity_accel_rel(relative_coords.length(), thisvelocity - velocity);
 }
 
-double body::get_gravity_accel_rel(double relative_distance, Vector3d const &thisvelocity) {
+double body::get_gravity_accel_rel(double relative_distance, vector3d const &thisvelocity) {
   /// Return the acceleration due to gravity at this distance from the centre - relativistic version
   // Newtonian:
   // g = (G * m1) / (r^2)
@@ -223,28 +223,28 @@ double body::get_gravity_accel_rel(double relative_distance, Vector3d const &thi
   double const newtonian = -((gravitational_constant * get_mass()) / dist_sq);
   // Schwarzschild solution:
   // g = (G * m1) / (r^2) + ((3 * G * m1 * (v^2)) / ((r^2) * (c^2)))
-  double const relativistic = -((3 * gravitational_constant * get_mass() * (thisvelocity - velocity).lengthSq()) / (dist_sq * (speed_of_light * speed_of_light)));
+  double const relativistic = -((3 * gravitational_constant * get_mass() * (thisvelocity - velocity).length_sq()) / (dist_sq * (speed_of_light * speed_of_light)));
   //std::cout << "DEBUG: Newtonian component:    " << newtonian    << std::endl;
   //std::cout << "DEBUG: Relativistic component: " << relativistic << std::endl;
   return newtonian + relativistic;
 }
 
-Vector3d body::get_gravity_accel_v3(Vector3d const &coords, Vector3d const &thisvelocity) {
+vector3d body::get_gravity_accel_v3(vector3d const &coords, vector3d const &thisvelocity) {
   /// Return the acceleration due to gravity at a point in the same reference sphere as this object - relativistic vector version
   return get_gravity_accel_rel_v3(position - coords, thisvelocity - velocity);
 }
 
-Vector3d body::get_gravity_accel_rel_v3(Vector3d const &relative_coords, Vector3d const &thisvelocity) {
+vector3d body::get_gravity_accel_rel_v3(vector3d const &relative_coords, vector3d const &thisvelocity) {
   /// Return the acceleration due to gravity at these coords relative to the centre - relativistic vector version
   return relative_coords.normalise_copy() * get_gravity_accel_rel(relative_coords.length(), thisvelocity - velocity);
 }
 
-double body::get_escape_vel(Vector3d const &coords) {
+double body::get_escape_vel(vector3d const &coords) {
   /// Return the required escape velocity at a point in the same reference sphere as this object
-  return get_escape_vel_rel(Vector3d(position - coords).length());
+  return get_escape_vel_rel(vector3d(position - coords).length());
 }
 
-double body::get_escape_vel_rel(Vector3d const &relative_coords) {
+double body::get_escape_vel_rel(vector3d const &relative_coords) {
   /// Return the required escape velocity at these coords relative to the centre
   return get_escape_vel_rel(relative_coords.length());
 }
@@ -261,7 +261,7 @@ void body::render_diagram(double scale, bool labels) {
   // move into position
   glTranslated(position.x, position.y, position.z);
   // undo rotation - billboard effect
-  Matrix4d modelview;
+  matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
   for(unsigned int i = 0; i != 3; ++i) {
     for(unsigned int j = 0; j != 3; ++j) {
@@ -281,7 +281,7 @@ void body::render_diagram(double scale, bool labels) {
   }
 
   // circle outline
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
   double const circlestep = M_PI / 4.0;
   glBegin(GL_LINE_LOOP);
   for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {

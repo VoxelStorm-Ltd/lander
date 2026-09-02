@@ -13,7 +13,7 @@ class spacecraft : public physicsbody {
 private:
   double temperature_hull;                                                      // temperatures in kelvin
   double temperature_cabin;
-  Vector3d acceleration_last;                                                   // total of the last calculated thrust acceleration
+  vector3d acceleration_last;                                                   // total of the last calculated thrust acceleration
 
 public:
   std::list<device*> devices;                                                   // all devices on-board
@@ -36,11 +36,11 @@ public:
   double get_radius();
   double get_temperature_hull();
   double get_temperature_cabin();
-  device *pick_cabin(Vector3d const &origin, Vector3d const &pickvector);
-  device *pick_hull( Vector3d const &origin, Vector3d const &pickvector);
+  device *pick_cabin(vector3d const &origin, vector3d const &pickvector);
+  device *pick_hull( vector3d const &origin, vector3d const &pickvector);
 
   // physics specialisations
-  Vector3d get_acceleration(Vector3d const &position, Vector3d const &velocity, double time);
+  vector3d get_acceleration(vector3d const &position, vector3d const &velocity, double time);
 
   void update_state(double time, double deltatime);
   void destroy();

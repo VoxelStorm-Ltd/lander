@@ -1,5 +1,6 @@
 #include "sensor_pressure.h"
 #include <sstream>
+#include <iostream>
 #include "vectorstorm/vectorstorm.h"
 #include "universe.h"
 #include "starsystem.h"
@@ -81,7 +82,7 @@ void sensor_pressure::update() {
     if(!thisbody) {
       continue;
     }
-    distance = Vector3d(thisbody->position - vessel->position).length();
+    distance = vector3d(thisbody->position - vessel->position).length();
     // are we within its sphere of influence?
     if(thisbody->check_within_physical_influence(distance)) {
       // break out of the loop on first hit, since we're unlikely to be in two atmospheres at once

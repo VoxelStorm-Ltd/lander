@@ -33,7 +33,7 @@ public:
   GLuint       get_port_out_video_digital( unsigned int port) override final;
   GLuint       get_port_out_video_analogue(unsigned int port) override final;
   void         get_port_out_sound(         unsigned int port) override final;
-  Vector3d     get_size() override final;
+  vector3d     get_size() override final;
   void update() override final;
 
   // memory-chip specific setters:

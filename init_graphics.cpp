@@ -29,7 +29,7 @@ FTFont *font_load(  std::string const &filename, unsigned int size = 16);
 FTFont *font_load3d(std::string const &filename, unsigned int size = 16);
 
 
-void init_graphics(Vector2i &windowsize) {
+void init_graphics(vector2i &windowsize) {
   std::cout << "Initialising graphics..." << std::endl;
   // initialise the opengl window
   if(glfwInit() != GL_TRUE) {
@@ -173,7 +173,7 @@ void init_graphics(Vector2i &windowsize) {
 
   // fog settings
   glDisable(GL_FOG);
-  //Vector4f fogcolour(0.82, 0.85, 1.0, 1);
+  //vector4f fogcolour(0.82, 0.85, 1.0, 1);
   //glFogfv(GL_FOG_COLOR, fogcolour);
   //glFogi(GL_FOG_MODE, GL_EXP2);                                                 // GL_LINEAR GL_EXP GL_EXP2
   //glFogf(GL_FOG_DENSITY, 0.00005);                                              // only used for exponential fog
@@ -189,10 +189,10 @@ void init_graphics(Vector2i &windowsize) {
   // set up some lights
   glEnable(GL_LIGHTING);
   ////GLfloat ambientlightcol[] = {.25,0,0,1};
-  //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));         // global ambient
-  ////glLightfv(GL_LIGHT0, GL_AMBIENT, Vector4f(0.0, 0.0, 0.5, 1.0));
-  //glLightfv(GL_LIGHT0, GL_DIFFUSE,  Vector4f(0.8, 0.7, 0.5, 1.0));
-  //glLightfv(GL_LIGHT0, GL_SPECULAR, Vector4f(1.0, 1.0, 0.5, 1.0));
+  //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vector4f(0.0, 0.0, 0.5, 1.0));         // global ambient
+  ////glLightfv(GL_LIGHT0, GL_AMBIENT, vector4f(0.0, 0.0, 0.5, 1.0));
+  //glLightfv(GL_LIGHT0, GL_DIFFUSE,  vector4f(0.8, 0.7, 0.5, 1.0));
+  //glLightfv(GL_LIGHT0, GL_SPECULAR, vector4f(1.0, 1.0, 0.5, 1.0));
   //glEnable(GL_LIGHT0);
   ////glLightfv(GL_LIGHT1, GL_POSITION, directionallightdir);
   ////glLightfv(GL_LIGHT1, GL_DIFFUSE,  directionallightdiff);

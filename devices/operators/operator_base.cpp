@@ -19,9 +19,9 @@ double operator_base::get_mass() {
   return 0.05;
 }
 
-Vector3d operator_base::get_size() {
+vector3d operator_base::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.03, 0.01, 0.01);
+  return vector3d(0.03, 0.01, 0.01);
 }
 
 unsigned int operator_base::get_port_in_count() {

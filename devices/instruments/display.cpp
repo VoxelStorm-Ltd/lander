@@ -89,9 +89,9 @@ bool display::get_port_in_required(unsigned int port __attribute__((__unused__))
   return true;
 }
 
-Vector3d display::get_size() {
+vector3d display::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.4, 0.4, 0.02);
+  return vector3d(0.4, 0.4, 0.02);
 }
 
 void display::update() {
@@ -105,7 +105,7 @@ void display::update() {
 
 void display::update_vbo() {
   /// Update the display's vertex buffer object
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   // first the plastic base
   GLdouble vbodata_vertex[] = {
     // front
@@ -179,8 +179,8 @@ void display::update_vbo() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   // the glass screen
-  Vector2d const screen_pos(0.01, 0.01);
-  Vector2d const screen_size(thissize.x - 0.02, thissize.y - 0.02);
+  vector2d const screen_pos(0.01, 0.01);
+  vector2d const screen_size(thissize.x - 0.02, thissize.y - 0.02);
   //double const scalefactor = 0.5;
   double const scalefactor = 0.5 / screen_size.length();
   double const maxheight = (pow(screen_size.x / 2, 2) + pow(screen_size.y / 2, 2)) * scalefactor;
@@ -341,9 +341,9 @@ void display::render() {
                get_position().y,
                get_position().z);
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -361,12 +361,12 @@ void display::render() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-  //glColor4dv(Vector4d(0.2, 0.2, 0.2, 1.0));
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
-  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.05, 0.2, 0.05, 1.0));
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 0.8, 1.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.05, 0.0, 1.0));
+  //glColor4dv(vector4d(0.2, 0.2, 0.2, 1.0));
+  glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.05, 0.2, 0.05, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(1.0, 0.8, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.05, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
@@ -394,13 +394,13 @@ void display::render() {
   glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // manufacturer / model label
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   double const scale = 0.00035277777;                                           // 1m / (72dpi * 39.3700787in) = 0.00035277777
   //glEnable(GL_NORMALIZE);                                                       // to allow correct lighting
   glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glPushMatrix();
   glTranslated(0.002, 0.002, thissize.z + 0.001);

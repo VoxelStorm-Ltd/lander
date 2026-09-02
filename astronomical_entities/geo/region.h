@@ -11,7 +11,7 @@ class region {
   /// See https://docs.google.com/drawings/d/1ud3-i8Ua4CfPrwwuEnJJ4xYh_KOTPT-oA6x1aeoe1o0/edit
 public:
   corner *parent_corners[3];
-  Vector3d normal;
+  vector3d normal;
 
   corner *inner_corners[3];
   region *regions[4];

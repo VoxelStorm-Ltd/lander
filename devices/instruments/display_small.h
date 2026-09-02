@@ -14,7 +14,7 @@ public:
   std::string get_model() override final;
   std::string get_description() override final;
   double      get_mass() override final;
-  Vector3d    get_size() override final;
+  vector3d    get_size() override final;
 };
 
 #endif // DISPLAY_SMALL_H_INCLUDED

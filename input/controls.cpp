@@ -10,7 +10,7 @@ void pollcontrols(GLFWwindow *thiswindow) {
   double const angle = 1.0;
 
   if(!player->strappeddown) {                                                   // don't check movement while strapped into a seat
-    Vector3d movevector;
+    vector3d movevector;
     if(glfwGetKey(thiswindow, GLFW_KEY_W) == GLFW_PRESS) {
       movevector.z -= 1.0;
     }
@@ -38,21 +38,21 @@ void pollcontrols(GLFWwindow *thiswindow) {
   }
 
   if(glfwGetKey(thiswindow, GLFW_KEY_UP) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d(-1.0,  0.0,  0.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d(-1.0,  0.0,  0.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_DOWN) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 1.0,  0.0,  0.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d( 1.0,  0.0,  0.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_LEFT) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  0.0, -1.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d( 0.0,  0.0, -1.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  0.0,  1.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d( 0.0,  0.0,  1.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0,  1.0,  0.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d( 0.0,  1.0,  0.0), angle);
   }
   if(glfwGetKey(thiswindow, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS) {
-    player->vessel_in->rotation *= Quatd::fromAxisRot(Vector3d( 0.0, -1.0,  0.0), angle);
+    player->vessel_in->rotation *= quatd::from_axis_rot(vector3d( 0.0, -1.0,  0.0), angle);
   }
 }

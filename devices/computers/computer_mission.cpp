@@ -34,9 +34,9 @@ double computer_mission::get_mass() {
   return 10.0;
 }
 
-Vector3d computer_mission::get_size() {
+vector3d computer_mission::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.2, 0.2, 0.2);
+  return vector3d(0.2, 0.2, 0.2);
 }
 
 unsigned int computer_mission::get_port_in_count() {

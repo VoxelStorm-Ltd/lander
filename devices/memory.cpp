@@ -92,9 +92,9 @@ double memory::get_mass() {
   return 0.0085;                                                                // 8.5g
 }
 
-Vector3d memory::get_size() {
+vector3d memory::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.02, 0.005, 0.04);                                           // thumbstick shape...ish
+  return vector3d(0.02, 0.005, 0.04);                                           // thumbstick shape...ish
 }
 
 unsigned int memory::get_port_in_count() {

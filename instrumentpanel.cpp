@@ -4,6 +4,7 @@
 #include <FTGL/ftgl.h>
 #include <spacecraft.h>
 #include <instrument.h>
+#include <iostream>
 
 extern FTFont *fontconsole;                                                     // global font definitions
 
@@ -62,12 +63,12 @@ void instrumentpanel::render() {
   glTranslated(position.x, position.y, position.z);
   glMultMatrixd(rotation.transform());
 
-  //glColor4dv(Vector4d(0.5, 0.5, 0.5, 1.0));
-  //glMaterialfv(GL_FRONT, GL_AMBIENT,  Vector4f(1.0, 1.0, 1.0, 1.0));
-  //glMaterialfv(GL_FRONT, GL_DIFFUSE,  Vector4f(1.0, 1.0, 1.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.5, 0.5, 0.5, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.5, 0.5, 0.5, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glColor4dv(vector4d(0.5, 0.5, 0.5, 1.0));
+  //glMaterialfv(GL_FRONT, GL_AMBIENT,  vector4f(1.0, 1.0, 1.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_DIFFUSE,  vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.5, 0.5, 0.5, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBegin(GL_QUADS);
@@ -125,14 +126,14 @@ void instrumentpanel::render() {
   for(auto const &it : devices) {
     for(unsigned int i = 0; i != it->get_port_in_count(); ++i) {
       if(it->ports_in[i].target) {
-        Vector3d thissize = it->get_size();
-        Vector3d port_position = it->get_position() + Vector3d((thissize.x / (it->get_port_in_count() + 1)) * (i + 1),
+        vector3d thissize = it->get_size();
+        vector3d port_position = it->get_position() + vector3d((thissize.x / (it->get_port_in_count() + 1)) * (i + 1),
                                                                0.0,
                                                                thissize.z / 2);
         device *target = it->ports_in[i].target;
         if(target->panel == this) {                                             // only proceed to link other instruments on this panel
-          Vector3d targetsize = target->get_size();
-          Vector3d target_position = target->get_position() + Vector3d((targetsize.x / (target->get_port_out_count() + 1) * (it->ports_in[i].target_port + 1)),
+          vector3d targetsize = target->get_size();
+          vector3d target_position = target->get_position() + vector3d((targetsize.x / (target->get_port_out_count() + 1) * (it->ports_in[i].target_port + 1)),
                                                                        targetsize.y,
                                                                        targetsize.z / 2);
           glBegin(GL_LINES);
@@ -154,8 +155,8 @@ void instrumentpanel::render() {
   double edge_left, edge_right, edge_bottom, edge_top;
   if(pickpoint_show) {
     if(pickeddevice) {
-      Vector3d const &thispos  = pickeddevice->get_position();
-      Vector3d const &thissize = pickeddevice->get_size();
+      vector3d const &thispos  = pickeddevice->get_position();
+      vector3d const &thissize = pickeddevice->get_size();
       edge_left   = thispos.x              - 0.005;
       edge_right  = thispos.x + thissize.x + 0.005;
       edge_bottom = thispos.y              - 0.005;
@@ -225,11 +226,11 @@ void instrumentpanel::render() {
   glPopMatrix();
 }
 
-device *instrumentpanel::pick(Vector3d const &origin, Vector3d const &pickvector) {
+device *instrumentpanel::pick(vector3d const &origin, vector3d const &pickvector) {
   /// Pick into this panel and return a pointer to a device if there is one
   // rotate our test vector by the device's orientation
-  Vector3d local_vect(pickvector);
-  Vector3d offset = origin - position;
+  vector3d local_vect(pickvector);
+  vector3d offset = origin - position;
   local_vect.rotate(rotation);
   offset.rotate(rotation.conjugate_copy());
 
@@ -260,7 +261,7 @@ device *instrumentpanel::pick(Vector3d const &origin, Vector3d const &pickvector
 
   // we're looking at this panel, so iterate through its devices
   for(auto const &it : devices) {
-    if(it->pick(Vector2d(pickpoint.x, pickpoint.y))) {
+    if(it->pick(vector2d(pickpoint.x, pickpoint.y))) {
       // we've found our device
       //std::cout << "DEBUG: picking device " << itd->get_name() << std::endl;
       pickeddevice = it;

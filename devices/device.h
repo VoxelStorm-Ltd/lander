@@ -15,8 +15,8 @@ class instrumentpanel;
 
 class device : public random_engine, public menu {
 private:
-  Vector2i static const screensize_static_analogue;                             // screen size for tv type static generation
-  Vector2i static const screensize_static_digital;                              // screen size for digital noise type static
+  vector2i static const screensize_static_analogue;                             // screen size for tv type static generation
+  vector2i static const screensize_static_digital;                              // screen size for digital noise type static
   GLuint static image_static_analogue;                                          // global texture for tv type static
   GLuint static image_static_digital;                                           // global texture for digital noise type static
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_analogue;
@@ -30,8 +30,8 @@ protected:
   GLuint vbo_n;                                                                 // vertex buffer object for normals
   GLuint ibo;                                                                   // index buffer object
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> time_nextupdate;
-  Vector3d position;                                                            // its location in the cabin or on the ship or on the instrument panel
-  Quatd rotation;                                                               // its rotation relative to the ship ro cabin or instrument panel
+  vector3d position;                                                            // its location in the cabin or on the ship or on the instrument panel
+  quatd rotation;                                                               // its rotation relative to the ship ro cabin or instrument panel
 
   device();                                                                     // prevent this class being instantiated directly
 
@@ -64,12 +64,12 @@ public:
   virtual std::string  get_model();
   virtual std::string  get_description();
   virtual double       get_mass();
-  virtual Vector3d     get_size();
-  virtual Vector3d const &get_position();
-  virtual Quatd const &get_rotation();
-  virtual void         set_position(Vector3d const &newposition);
+  virtual vector3d     get_size();
+  virtual vector3d const &get_position();
+  virtual quatd const &get_rotation();
+  virtual void         set_position(vector3d const &newposition);
   virtual void         set_position(double x, double y, double z);
-  virtual void         set_rotation(Quatd const &newrotation);
+  virtual void         set_rotation(quatd const &newrotation);
   // no default setters for size and mass - these are fixed for most devices
   virtual unsigned int get_port_in_count();
   virtual std::string  get_port_in_name(           unsigned int port);
@@ -105,8 +105,8 @@ public:
   virtual void update_if_time();
   virtual void update_vbo();
   virtual void render();
-  virtual bool pick(Vector2d pickpos);
-  virtual bool pick(Vector3d pickpos);
+  virtual bool pick(vector2d pickpos);
+  virtual bool pick(vector3d pickpos);
   virtual void destroy();
   void describe_to_console();
   virtual void activate();

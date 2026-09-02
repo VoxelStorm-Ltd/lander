@@ -1,10 +1,11 @@
 #include "camera.h"
 #include "universe.h"
 #include "spacecraft.h"
+#include <iostream>
 
 extern universe root;
 
-Vector2i const camera::windowsize = Vector2i(256, 256);
+vector2i const camera::windowsize = vector2i(256, 256);
 
 camera::camera()
   : display_image(0),
@@ -103,9 +104,9 @@ double camera::get_mass() {
   return 2.5;
 }
 
-Vector3d camera::get_size() {
+vector3d camera::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.2, 0.2, 0.2);
+  return vector3d(0.2, 0.2, 0.2);
 }
 
 unsigned int camera::get_port_in_count() {
@@ -226,7 +227,7 @@ void camera::update_fov_ratio() {
 void camera::refresh() {
   /// Render from this camera's perspective and update the texture
   // cache the old viewport
-  Vector4i oldviewport;
+  vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen
@@ -261,7 +262,7 @@ void camera::refresh() {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, Vector4f(0.0, 0.0, 0.0, 1.0));         // make sure global ambient is off
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, vector4f(0.0, 0.0, 0.0, 1.0));         // make sure global ambient is off
   glEnable(GL_LIGHTING);
   glDisable(GL_LIGHT0);
   glDisable(GL_LIGHT1);

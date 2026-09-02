@@ -10,7 +10,7 @@ class body;
 class mapper_system : public device {
   /// A mapping computer rendering an orthographic view of the present (solar) system
 private:
-  Vector2i static const windowsize;
+  vector2i static const windowsize;
 
   GLuint display_image;
   GLuint framebuffer;
@@ -23,8 +23,8 @@ private:
   body *trail_ref_last;                                                         // cached version of the pointer
 
   struct trailtype {
-    Vector3d linestart;
-    Vector3d lineend;
+    vector3d linestart;
+    vector3d lineend;
     double fade;
   };
   unsigned int static constexpr trailperiod = 2;                                // draw a dash in this many frames
@@ -34,7 +34,7 @@ private:
 
   std::deque<trailtype> trails;
 
-  Vector3d centreoffset;
+  vector3d centreoffset;
 
 public:
   mapper_system();
@@ -43,7 +43,7 @@ public:
   std::string  get_name() override final;
   std::string  get_model() override final;
   std::string  get_description() override final;
-  Vector3d     get_size() override final;
+  vector3d     get_size() override final;
   double       get_mass() override final;
   unsigned int get_port_in_count() override final;
   std::string  get_port_in_name(           unsigned int port) override final;

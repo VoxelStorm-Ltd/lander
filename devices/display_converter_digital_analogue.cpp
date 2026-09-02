@@ -35,9 +35,9 @@ double display_converter_digital_analogue::get_mass() {
   return 0.8;
 }
 
-Vector3d display_converter_digital_analogue::get_size() {
+vector3d display_converter_digital_analogue::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.1, 0.12, 0.03);
+  return vector3d(0.1, 0.12, 0.03);
 }
 
 unsigned int display_converter_digital_analogue::get_port_in_count() {

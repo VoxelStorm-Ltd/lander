@@ -4,12 +4,13 @@
 #include "universe.h"
 #include "starsystem.h"
 #include "spacecraft.h"
+#include <iostream>
 
 extern universe root;
 
-//Vector2i const mapper_system::windowsize = Vector2i(256, 256);
-Vector2i const mapper_system::windowsize = Vector2i(512, 512);
-//Vector2i const mapper_system::windowsize = Vector2i(1024, 1024);
+//vector2i const mapper_system::windowsize = vector2i(256, 256);
+vector2i const mapper_system::windowsize = vector2i(512, 512);
+//vector2i const mapper_system::windowsize = vector2i(1024, 1024);
 
 mapper_system::mapper_system()
   : display_image(0),
@@ -104,9 +105,9 @@ double mapper_system::get_mass() {
   return 46.0;
 }
 
-Vector3d mapper_system::get_size() {
+vector3d mapper_system::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.24, 0.12, 0.04);
+  return vector3d(0.24, 0.12, 0.04);
 }
 
 unsigned int mapper_system::get_port_in_count() {
@@ -205,10 +206,10 @@ GLuint mapper_system::get_port_out_video_analogue(unsigned int port __attribute_
 
 void mapper_system::refresh() {
   /// Render the star map on an analogue monitor
-  centreoffset = Vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
+  centreoffset = vector3d(windowsize.x / 2.0, windowsize.y / 2.0, 0.0);
 
   // cache the old viewport
-  Vector4i oldviewport;
+  vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen
@@ -238,8 +239,8 @@ void mapper_system::refresh() {
   // bodies
   glColor4d(1.0, 1.0, 1.0, 1.0);
   for(auto const &it : root.currentsystem->bodies) {
-    Vector3d const &point  = it->position;
-    Vector3d const &vel    = it->velocity;
+    vector3d const &point  = it->position;
+    vector3d const &vel    = it->velocity;
     //if(vel.length() > 0.0) {
     //  vel.normalise();
     //  vel *= 2000.0;
@@ -257,7 +258,7 @@ void mapper_system::refresh() {
     }
 
     //// velocity vector
-    //glColor4dv(Vector4d(1.0, 0.8, 0.2, 1.0));
+    //glColor4dv(vector4d(1.0, 0.8, 0.2, 1.0));
     //glBegin(GL_LINES);
     //glVertex3dv(point);
     //if(trail_ref) {
@@ -297,10 +298,10 @@ void mapper_system::refresh() {
   glBegin(GL_LINES);
   //for(auto it : trails) {
   for(std::deque<trailtype>::iterator it = trails.begin(); it != trails.end();) {
-    //glColor4dv(Vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
-    glColor4dv(Vector4d(0.5, 1.0, 0.5, it->fade));
-    //glColor3dv(Vector3d(0.5, 1.0, 0.5).lerp(1 - it->fade, Vector3d(0.0, 0.0, 0.0)));
-    //glColor3dv(Vector3d(0.1, 0.1, 0.1).lerp(it->fade, Vector3d(0.5, 1.0, 0.5)));
+    //glColor4dv(vector4d((it->fade * (2.0 / 3.0)) + 0.1, it->fade, (it->fade * (2.0 / 3.0)) + 0.1, 1.0));
+    glColor4dv(vector4d(0.5, 1.0, 0.5, it->fade));
+    //glColor3dv(vector3d(0.5, 1.0, 0.5).lerp(1 - it->fade, vector3d(0.0, 0.0, 0.0)));
+    //glColor3dv(vector3d(0.1, 0.1, 0.1).lerp(it->fade, vector3d(0.5, 1.0, 0.5)));
     glVertex3dv(it->linestart);
     glVertex3dv(it->lineend);
     it->fade *= trailfade;

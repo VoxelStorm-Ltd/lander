@@ -35,9 +35,9 @@ double telltale::get_mass() {
   return 0.010;
 }
 
-Vector3d telltale::get_size() {
+vector3d telltale::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.04, 0.02, 0.002);
+  return vector3d(0.04, 0.02, 0.002);
 }
 
 unsigned int telltale::get_port_in_count() {
@@ -96,15 +96,15 @@ void telltale::render() {
                position.y,
                position.z);
 
-  Vector3d thissize = get_size();
+  vector3d thissize = get_size();
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.2, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(1.0, 1.0, 1.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.0, 0.2, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(1.0, 1.0, 1.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           127.0);                        // 0 to 127
   if(ports_in[0].target && ports_in[0].target->get_port_out_data(ports_in[0].target_port) > 0.0) {
-    glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(0.0, 0.8, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION, vector4f(0.0, 0.8, 0.0, 1.0));
   } else {
-    glMaterialfv(GL_FRONT, GL_EMISSION, Vector4f(0.0, 0.0, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION, vector4f(0.0, 0.0, 0.0, 1.0));
   }
   glBegin(GL_QUADS);
   // front
@@ -147,9 +147,9 @@ void telltale::render() {
     thislabel = "ON";
   }
   if(!thislabel.empty()) {                                                      // don't call the draw routine if there's a blank string
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0)); // all 0 so we don't worry about scaling normals
-    glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.0, 0.0, 0.0, 1.0));
-    glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.0, 0.0, 0.0, 1.0)); // all 0 so we don't worry about scaling normals
+    glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.0, 0.0, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
     glMaterialf(GL_FRONT,  GL_SHININESS,           0.0);                        // 0 to 127
     double const labellength = font_text3d->Advance(thislabel.c_str(), -1);
     double const scale = (thissize.x - 0.002) / labellength;                    // automatic scaling to fit in the space

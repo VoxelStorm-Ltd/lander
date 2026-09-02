@@ -7,7 +7,7 @@
 class camera : public device_external {
   /// A digital camera that observes in the visual range and outputs a suitable signal
 private:
-  Vector2i static const windowsize;
+  vector2i static const windowsize;
 
   GLuint display_image;
   GLuint framebuffer;
@@ -31,7 +31,7 @@ public:
   std::string  get_model() override final;
   std::string  get_description() override final;
   double       get_mass() override final;
-  Vector3d     get_size() override final;
+  vector3d     get_size() override final;
   unsigned int get_port_in_count() override final;
   std::string  get_port_in_name(           unsigned int port) override final;
   std::string  get_port_in_description(    unsigned int port) override final;

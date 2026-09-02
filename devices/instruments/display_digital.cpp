@@ -63,10 +63,10 @@ void display_digital::render() {
                get_position().y,
                get_position().z);
 
-  //glColor4dv(Vector4d(0.6, 0.6, 0.6, 1.0));
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glColor4dv(vector4d(0.6, 0.6, 0.6, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
 
   glBegin(GL_QUADS);
@@ -102,12 +102,12 @@ void display_digital::render() {
   glVertex3d(0.0,          get_size().y, 0.0);
   glEnd();
 
-  Vector2d const screen_pos(0.01, 0.01);
-  Vector2d const screen_size(get_size().x - 0.02, get_size().y - 0.02);
+  vector2d const screen_pos(0.01, 0.01);
+  vector2d const screen_size(get_size().x - 0.02, get_size().y - 0.02);
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.0, 0.0, 0.0, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.25, 0.25, 0.25, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.25, 0.25, 0.25, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           20.0);                         // 0 to 127
 
   glBindTexture(GL_TEXTURE_2D, display_image);                                  // bind the screen texture
@@ -135,12 +135,12 @@ void display_digital::render() {
   glBindTexture(GL_TEXTURE_2D, 0);                                              // unbind the texture
 
   // manufacturer / model label
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   double const scale = 0.00035277777;                                           // 1m / (72dpi * 39.3700787in) = 0.00035277777
   glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glPushMatrix();
   glTranslated(0.002, 0.002, thissize.z + 0.001);

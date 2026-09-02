@@ -74,9 +74,9 @@ void region::subdivide(unsigned int depth) {
 }
 
 void region::update() {
-  Vector3d const line1 = parent_corners[1]->coords - parent_corners[0]->coords;
-  Vector3d const line2 = parent_corners[2]->coords - parent_corners[0]->coords;
-  normal = line1.crossProduct(line2);
+  vector3d const line1 = parent_corners[1]->coords - parent_corners[0]->coords;
+  vector3d const line2 = parent_corners[2]->coords - parent_corners[0]->coords;
+  normal = line1.cross(line2);
   normal.normalise();
 
   if(regions[0]) {
@@ -94,9 +94,9 @@ void region::render_visible(unsigned int depth) {
     regions[2]->render_visible(depth - 1);
     regions[3]->render_visible(depth - 1);
   } else {
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-    glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-    glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
     glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                       // 0 to 127
 
     glBegin(GL_TRIANGLES);

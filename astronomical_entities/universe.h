@@ -25,8 +25,8 @@ public:
 
   void render_visible();
 
-  void make_explosion(Vector3d const &coords, double energy);
-  void destroy_range( Vector3d const &coords, double range);
+  void make_explosion(vector3d const &coords, double energy);
+  void destroy_range( vector3d const &coords, double range);
 };
 
 #endif // UNIVERSE_H_INCLUDED

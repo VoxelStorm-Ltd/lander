@@ -1,4 +1,5 @@
 #include "control.h"
+#include <iostream>
 
 // static members:
 std::vector<control::boundlist> control::keys;

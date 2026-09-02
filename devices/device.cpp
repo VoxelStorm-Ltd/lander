@@ -11,8 +11,8 @@ extern FTFont *font_title3d;                                                    
 extern FTFont *font_text3d;
 extern void *menu_target;
 
-Vector2i const device::screensize_static_analogue(64, 64);
-Vector2i const device::screensize_static_digital( 16, 16);
+vector2i const device::screensize_static_analogue(64, 64);
+vector2i const device::screensize_static_digital( 16, 16);
 GLuint device::image_static_analogue = 0;
 GLuint device::image_static_digital  = 0;
 boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> device::time_next_static_analogue(boost::chrono::high_resolution_clock::now());
@@ -31,7 +31,7 @@ device::device()
     panel(nullptr),
     functional(true) {
   /// Default constructor
-  rotation = Quatd(1.0, 0.0, 0.0, 0.0);                                         // null rotation quaternion
+  rotation = quatd(1.0, 0.0, 0.0, 0.0);                                         // null rotation quaternion
   glGenBuffers(1, &vbo_v);
   glGenBuffers(1, &vbo_n);
   glGenBuffers(1, &ibo);
@@ -80,32 +80,32 @@ double device::get_mass() {
   return 1.0;
 }
 
-Vector3d const &device::get_position() {
+vector3d const &device::get_position() {
   /// Return a position for this object in the ship or on the panel
   return position;
 }
 
-Vector3d device::get_size() {
+vector3d device::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.2, 0.2, 0.2);
+  return vector3d(0.2, 0.2, 0.2);
 }
 
-Quatd const &device::get_rotation() {
+quatd const &device::get_rotation() {
   /// Return the rotation quaternion of this object - hardcoded
   return rotation;
 }
 
-void device::set_position(Vector3d const &newposition) {
+void device::set_position(vector3d const &newposition) {
   /// Update the position of this device
   position = newposition;
 }
 
 void device::set_position(double x, double y, double z) {
   /// Update the position of this device - component version
-  position = Vector3d(x, y, z);
+  position = vector3d(x, y, z);
 }
 
-void device::set_rotation(Quatd const &newrotation) {
+void device::set_rotation(quatd const &newrotation) {
   /// Return the rotation quaternion of this object
   rotation = newrotation;
 }
@@ -280,7 +280,7 @@ GLuint device::generate_static_digital() {
     glBindTexture(GL_TEXTURE_2D, image_static_digital);                         // bind the screen texture
     // digital tv style strips of junk
     GLubyte temp_buffer[screensize_static_digital.x * screensize_static_digital.y][3];
-    Vector3d newcolour(get_random_int(0, 255),
+    vector3d newcolour(get_random_int(0, 255),
                        get_random_int(0, 255),
                        get_random_int(0, 255));
     for(int i = 0; i != screensize_static_digital.x * screensize_static_digital.y; ++i) {
@@ -333,7 +333,7 @@ bool device::attach_panel(instrumentpanel *to_panel) {
   panel = to_panel;
   panel->devices.push_back(this);
   // TODO: find an available position for it on the panel
-  set_rotation(Quatd(1.0, 0.0, 0.0, 0.0));                                      // null rotation quaternion
+  set_rotation(quatd(1.0, 0.0, 0.0, 0.0));                                      // null rotation quaternion
   status = statustype::ON_PANEL;
   return true;
 }
@@ -485,7 +485,7 @@ void device::update_if_time() {
 
 void device::update_vbo() {
   /// Update the vertex buffer object for this device
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
 
   GLdouble vbodata_vertex[] = {
     // front
@@ -582,13 +582,13 @@ void device::render() {
                position.y,
                position.z);
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
-  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(1.6, 1.1, 0.2, 1.0));
-  //glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(2.0, 1.9, 1.7, 1.0));
-  //glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(1.6, 1.1, 0.2, 1.0));
+  //glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(2.0, 1.9, 1.7, 1.0));
+  //glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   //glMaterialf(GL_FRONT,  GL_SHININESS,           27.89743616);                  // 0 to 127
 
   // render the vbo
@@ -611,11 +611,11 @@ void device::render() {
   double const scale = 0.00035277777;                                           // 1m / (72dpi * 39.3700787in) = 0.00035277777
   //glEnable(GL_NORMALIZE);                                                       // to allow correct lighting
   glEnable(GL_RESCALE_NORMAL);                                                  // to allow correct lighting (faster than GL_NORMALIZE)
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   double const modellength = font_title3d->Advance(get_model().c_str(), -1);
   if(modellength * scale <= thissize.x + 0.004) {                               // only insert if there's room to do so
     glPushMatrix();
@@ -652,7 +652,7 @@ void device::render() {
     glDisable(GL_DEPTH_TEST);
 
     // undo rotation - billboard effect
-    Matrix4d modelview;
+    matrix4d modelview;
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
     for(unsigned int i = 0; i != 3; ++i) {
       for(unsigned int j = 0; j != 3; ++j) {
@@ -679,9 +679,9 @@ void device::render() {
   glPopMatrix();
 }
 
-bool device::pick(Vector2d pickpos) {
+bool device::pick(vector2d pickpos) {
   /// Return true if we're picking this by panel coords - 2D version
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   if(pickpos.x >= position.x &&
      pickpos.y >= position.y &&
      pickpos.x <= position.x + thissize.x &&
@@ -692,9 +692,9 @@ bool device::pick(Vector2d pickpos) {
   }
 }
 
-bool device::pick(Vector3d pickpos) {
+bool device::pick(vector3d pickpos) {
   /// Return true if we're picking this by panel coords - 3D version
-  Vector3d const thissize = get_size();
+  vector3d const thissize = get_size();
   if(pickpos.x >= position.x &&
      pickpos.y >= position.y &&
      pickpos.z >= position.z &&

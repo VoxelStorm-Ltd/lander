@@ -8,8 +8,8 @@ integrator_euler::~integrator_euler() {
   /// Default destructor
 }
 
-void integrator_euler::integrate(Vector3d &position,
-                                 Vector3d &velocity,
+void integrator_euler::integrate(vector3d &position,
+                                 vector3d &velocity,
                                  double time,
                                  double deltatime) {
   /// Very simplistic test integrator

@@ -8,8 +8,8 @@
 class terminal : public device {
   /// TTY style serial terminal, reading text from a text device and outputting to display
 private:
-  Vector2<unsigned int> static const windowsize;
-  Vector2<unsigned int> static const windowsize_text;                           // rows and columns
+  vector2<unsigned int> static const windowsize;
+  vector2<unsigned int> static const windowsize_text;                           // rows and columns
   double static constexpr lineheight = 10.0;
   double static constexpr margin_bottom = 16.0;
   double static constexpr margin_left   = 16.0;
@@ -25,7 +25,7 @@ public:
   std::string  get_name() override final;
   std::string  get_model() override final;
   std::string  get_description() override final;
-  Vector3d     get_size() override final;
+  vector3d     get_size() override final;
   double       get_mass() override final;
   unsigned int get_port_in_count() override final;
   std::string  get_port_in_name(           unsigned int port) override final;

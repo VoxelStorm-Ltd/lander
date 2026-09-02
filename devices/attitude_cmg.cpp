@@ -1,6 +1,7 @@
 #include "attitude_cmg.h"
 #include "spacecraft.h"
 #include "instrumentpanel.h"
+#include <iostream>
 
 attitude_cmg::attitude_cmg() {
   /// Default constructor
@@ -41,9 +42,9 @@ double attitude_cmg::get_mass() {
   return 272.155;                                                               // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
 }
 
-Vector3d attitude_cmg::get_size() {
+vector3d attitude_cmg::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(1.3716, 1.2192, 1.143);                                       // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
+  return vector3d(1.3716, 1.2192, 1.143);                                       // based on http://www.boeing.com/assets/pdf/defense-space/space/spacestation/systems/docs/ISS%20Motion%20Control%20System.pdf
 }
 
 

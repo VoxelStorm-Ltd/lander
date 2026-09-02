@@ -4,6 +4,7 @@
 #include "astronaut.h"
 #include "spacecraft.h"
 #include "device.h"
+#include <iostream>
 
 universe::universe() {
   /// Default constructor
@@ -28,7 +29,7 @@ void universe::render_visible() {
   // TODO: galaxies and nebulae and other decorations
 }
 
-void universe::make_explosion(Vector3d const &coords, double energy) {
+void universe::make_explosion(vector3d const &coords, double energy) {
   /// Create an explosion at the specified coords, and calculate the results
   if(energy > 1000000000000000000000000000000.0) {                              // supernova
     std::cout << "The incredible impact produced "
@@ -72,13 +73,13 @@ void universe::make_explosion(Vector3d const &coords, double energy) {
   }
 }
 
-void universe::destroy_range(Vector3d const &coords, double range) {
+void universe::destroy_range(vector3d const &coords, double range) {
   /// Kill all astronauts outside within the range, damage random ship systems
   /// within the range and destroy all ships within half of the range
   for(auto const &it : currentsystem->bodies) {
     astronaut *thisastro = dynamic_cast<astronaut*>(it);
     if(thisastro) {
-      if(Vector3d(thisastro->position - coords).length() < range) {
+      if(vector3d(thisastro->position - coords).length() < range) {
         std::cout << "" << thisastro->get_name() << " perished in the fireball." << std::endl;
         thisastro->kill();
         continue;
@@ -86,7 +87,7 @@ void universe::destroy_range(Vector3d const &coords, double range) {
     }
     spacecraft *thiscraft = dynamic_cast<spacecraft*>(it);
     if(thiscraft) {
-      double const distance = Vector3d(thiscraft->position - coords).length();
+      double const distance = vector3d(thiscraft->position - coords).length();
       if(distance < range / 2.0) {
         std::cout << "" << thiscraft->get_name() << "'s shielding could not withstand the explosion." << std::endl;
         thiscraft->destroy();

@@ -15,7 +15,7 @@ public:
   std::string get_model() override final;
   std::string get_description() override final;
   double      get_mass() override final;
-  Vector3d    get_size() override final;
+  vector3d    get_size() override final;
   bool attach_panel(instrumentpanel *to_panel) override final;
   bool attach_hull() override final;
   bool attach_cabin() override final;

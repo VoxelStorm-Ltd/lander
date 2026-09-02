@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
+#include <iostream>
 #include "vectorstorm/vectorstorm.h"
 #include "oculusstorm/oculusstorm.h"
 #include "universe.h"
@@ -113,7 +114,7 @@ void astronaut::render_diagram(double scale, bool labels) {
   glTranslated(position.x, position.y, position.z);
 
   // undo rotation - billboard effect
-  Matrix4d modelview;
+  matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
   for(unsigned int i = 0; i != 3; ++i) {
     for(unsigned int j = 0; j != 3; ++j) {
@@ -132,7 +133,7 @@ void astronaut::render_diagram(double scale, bool labels) {
     thisradius = 2.0 / scale;
   }
   // draw a cross at the radius
-  glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
   glBegin(GL_LINES);
   glVertex3d(-thisradius, -thisradius, 0.0);
   glVertex3d( thisradius,  thisradius, 0.0);
@@ -293,7 +294,7 @@ void astronaut::update_fov_ratio() {
   //std::cout << "New FOV ratio: " << fov_ratio << std::endl;
 }
 
-void astronaut::update_window(Vector2i newwindowsize) {
+void astronaut::update_window(vector2i newwindowsize) {
   windowsize = newwindowsize;
   glViewport(0, 0, windowsize.x, windowsize.y);
   //glViewport(-windowsize.x, -windowsize.y, windowsize.x, windowsize.y);
@@ -355,10 +356,10 @@ void astronaut::setup_render_oculus_right() {
                -position.z);
 }
 
-void astronaut::rotate_mouse(Vector2d mouse_pos) {
+void astronaut::rotate_mouse(vector2d mouse_pos) {
   /// React to mouse position updates
   // Quake mouselook code is here for reference: https://github.com/id-Software/Quake/blob/bf4ac424ce754894ac8f1dae6a3981954bc9852d/WinQuake/in_win.c
-  Vector2d mouse_diff = mouse_pos - mouse_last;
+  vector2d mouse_diff = mouse_pos - mouse_last;
   mouse_last = mouse_pos;
 
   // apply sensitivity
@@ -366,9 +367,9 @@ void astronaut::rotate_mouse(Vector2d mouse_pos) {
   mouse_diff *= mouse_sensitivity * fov_angle;
 
   // generate a rotation quaternion
-  //Quatd temp = Quatd::fromEulerAngles(mouse_diff.y, mouse_diff.x, 0.0);
-  //Quatd temp = Quatd::fromAxisRot(Vector3d(1, 0, 0), mouse_diff.y) *
-  //             Quatd::fromAxisRot(Vector3d(0, 1, 0), mouse_diff.x);
+  //quatd temp = quatd::from_euler_angles(mouse_diff.y, mouse_diff.x, 0.0);
+  //quatd temp = quatd::from_axis_rot(vector3d(1, 0, 0), mouse_diff.y) *
+  //             quatd::from_axis_rot(vector3d(0, 1, 0), mouse_diff.x);
   //rotation_head = temp * rotation_head;
   //rotation_head.normalise();
 
@@ -377,7 +378,7 @@ void astronaut::rotate_mouse(Vector2d mouse_pos) {
     rotation_head_yaw += mouse_diff.x;
   } else {
     // while walking mouse turns the body, not the head
-    Quatd yaw = Quatd::fromAxisRot(Vector3d(0, -1, 0), mouse_diff.x);
+    quatd yaw = quatd::from_axis_rot(vector3d(0, -1, 0), mouse_diff.x);
     rotation = yaw * rotation;
     rotation_head_yaw = 0.0;
     // TODO: turn head instantly but have body follow gradually
@@ -389,7 +390,7 @@ void astronaut::rotate_mouse(Vector2d mouse_pos) {
   } else if(rotation_head_pitch < -80) {
     rotation_head_pitch = -80;
   }
-  //rotation = Quatd::fromAxisRot(Vector3d(-1, 0, 0), mouse_diff.y) * rotation;
+  //rotation = quatd::from_axis_rot(vector3d(-1, 0, 0), mouse_diff.y) * rotation;
 
   // update our picked objects
   pick();
@@ -400,11 +401,11 @@ void astronaut::pick() {
   switch(state) {
   case statetype::IN_VESSEL:
     {
-      Vector3d head_vector(0.0, 1.7, 0.0);
+      vector3d head_vector(0.0, 1.7, 0.0);
       head_vector.rotate(rotation);
-      Vector3d const head_position = position + head_vector;
+      vector3d const head_position = position + head_vector;
 
-      Vector3d facing_vector(0.0, 0.0, 1.0);
+      vector3d facing_vector(0.0, 0.0, 1.0);
       if(rotation_head_yaw != 0.0) {
         facing_vector.rotate(0.0, rotation_head_yaw, 0.0);
       }

@@ -10,7 +10,7 @@ protected:
 public:
   virtual ~integrator_euler();
 
-  void integrate(Vector3d &position, Vector3d &velocity, double time, double deltatime);
+  void integrate(vector3d &position, vector3d &velocity, double time, double deltatime);
 };
 
 #endif // INTEGRATOR_EULER_H_INCLUDED

@@ -7,5 +7,5 @@ extern astronaut *player;
 
 void callback_mousepos(GLFWwindow *thiswindow __attribute__((unused)), double x, double y) {
   /// React to mouse position updates
-  player->rotate_mouse(Vector2d(x, y));
+  player->rotate_mouse(vector2d(x, y));
 }

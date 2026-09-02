@@ -11,7 +11,7 @@ public:
   virtual ~operator_base();
 
   virtual std::string  get_manufacturer() override final;
-  virtual Vector3d     get_size() override final;
+  virtual vector3d     get_size() override final;
   virtual double       get_mass() override final;
   virtual unsigned int get_port_in_count() override;
   virtual std::string  get_port_in_name(    unsigned int port) override final;

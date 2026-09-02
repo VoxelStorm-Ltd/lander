@@ -9,7 +9,7 @@ protected:
 public:
   virtual ~integrator_rungekuttafehlberg54();
 
-  void integrate(Vector3d &position, Vector3d &velocity, double time, double deltatime);
+  void integrate(vector3d &position, vector3d &velocity, double time, double deltatime);
 private:
   // integrator constants adapted from http://www.ma.utexas.edu/CNA/cheney-kincaid/Ccode/CHP10/rk45.c
   static double constexpr a1  = 25.0 / 216.0;

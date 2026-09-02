@@ -2,12 +2,13 @@
 //#include <GL/glew.h>
 //#include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
+#include <iostream>
 
 // TODO: load a monospace computery font
 extern FTFont *font_monospace_small;
 
-Vector2<unsigned int> const terminal::windowsize      = Vector2i(512, 512);
-Vector2<unsigned int> const terminal::windowsize_text = Vector2i(80,  48);
+vector2<unsigned int> const terminal::windowsize      = vector2i(512, 512);
+vector2<unsigned int> const terminal::windowsize_text = vector2i(80,  48);
 
 terminal::terminal() {
   /// Default constructor
@@ -80,9 +81,9 @@ double terminal::get_mass() {
   return 1.0;
 }
 
-Vector3d terminal::get_size() {
+vector3d terminal::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.10, 0.10, 0.06);
+  return vector3d(0.10, 0.10, 0.06);
 }
 
 unsigned int terminal::get_port_in_count() {
@@ -212,7 +213,7 @@ void terminal::update_if_time() {
 void terminal::refresh() {
   /// Re-draw the texture
   // cache the old viewport
-  Vector4i oldviewport;
+  vector4i oldviewport;
   glGetIntegerv(GL_VIEWPORT, oldviewport);
   glViewport(0, 0, windowsize.x, windowsize.y);
   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebuffer);                        // bind the framebuffer for the display screen

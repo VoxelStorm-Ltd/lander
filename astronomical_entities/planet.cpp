@@ -252,7 +252,7 @@ void planet::render_diagram(double scale, bool labels) {
   // move into position
   glTranslated(position.x, position.y, position.z);
   // undo rotation - billboard effect
-  Matrix4d modelview;
+  matrix4d modelview;
   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
   for(unsigned int i = 0; i != 3; ++i) {
     for(unsigned int j = 0; j != 3; ++j) {
@@ -273,7 +273,7 @@ void planet::render_diagram(double scale, bool labels) {
 
   // draw a filled circle at the radius
   double const circlestep = M_PI / 32.0;
-  glColor4dv(Vector4d(0.25, 0.25, 0.25, 1.0));
+  glColor4dv(vector4d(0.25, 0.25, 0.25, 1.0));
   glBegin(GL_TRIANGLE_FAN);
   glVertex3d(0.0, 0.0, 0.0);
   for(double angle = 0.0; angle < (M_PI * 2.0) + circlestep; angle += circlestep) {
@@ -282,7 +282,7 @@ void planet::render_diagram(double scale, bool labels) {
   glEnd();
   // circle outline
   //glDisable(GL_DEPTH_TEST);
-  //glColor4dv(Vector4d(1.0, 1.0, 1.0, 1.0));
+  //glColor4dv(vector4d(1.0, 1.0, 1.0, 1.0));
   //glBegin(GL_LINE_LOOP);
   //for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
   //  glVertex3d(sin(angle) * thisradius, cos(angle) * thisradius, 0.0);
@@ -291,7 +291,7 @@ void planet::render_diagram(double scale, bool labels) {
   //glEnable(GL_DEPTH_TEST);
 
   // atmosphere
-  glColor4dv(Vector4d(0.2, 0.5, 0.5, 1.0));
+  glColor4dv(vector4d(0.2, 0.5, 0.5, 1.0));
   glBegin(GL_LINES);
   for(double angle = 0.0; angle <= M_PI * 2.0; angle += circlestep) {
     glVertex3d(sin(angle) * (thisradius + 100000), cos(angle) * (thisradius + 100000), 0.0);
@@ -316,7 +316,7 @@ void planet::render_visible(unsigned int depth) {
     glEnd();
   } else if(depth == 1) {                                                       // billboarded circle
     // undo rotation - billboard effect
-    Matrix4d modelview;
+    matrix4d modelview;
     glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
     for(unsigned int i = 0; i != 3; ++i) {
       for(unsigned int j = 0; j != 3; ++j) {
@@ -332,9 +332,9 @@ void planet::render_visible(unsigned int depth) {
     double thisradius = get_radius();
     double const circlestep = M_PI / 32.0;
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.8, 0.8, 0.8, 1.0));
-    glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.8, 0.8, 0.8, 1.0));
-    glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 1.0, 1.0));
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.8, 0.8, 0.8, 1.0));
+    glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 1.0, 1.0));
     glMaterialf( GL_FRONT, GL_SHININESS,           20.0);                       // 0 to 127
 
     glBegin(GL_TRIANGLE_FAN);

@@ -10,7 +10,7 @@ class chunk {
 public:
   corner *corners[3];
 
-  Vector3d normal;
+  vector3d normal;
 
   std::vector<corner> heightmap;
 

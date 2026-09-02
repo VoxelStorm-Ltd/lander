@@ -16,14 +16,14 @@ public:
   thruster();
   virtual ~thruster();
 
-  Vector3d thrust;
+  vector3d thrust;
 
   // specialisations
   virtual std::string get_name() override final;
   virtual std::string get_model() override final;
   virtual std::string get_description() override final;
   virtual double      get_mass() override final;
-  virtual Vector3d    get_size() override final;
+  virtual vector3d    get_size() override final;
   bool attach_hull() override final;
   void remove_hull() override final;
   unsigned int get_port_in_count() override final;
@@ -39,7 +39,7 @@ public:
 
   // thruster-specific functionality
   virtual double get_thrust_max();
-  Vector3d const &get_thrust();
+  vector3d const &get_thrust();
   double get_thrust_magnitude();
   double get_flowrate_fuel();
   double get_flowrate_oxi();

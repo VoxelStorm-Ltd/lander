@@ -31,9 +31,9 @@ double button_momentary::get_mass() {
   return 0.05;
 }
 
-Vector3d button_momentary::get_size() {
+vector3d button_momentary::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.02, 0.02, 0.01);
+  return vector3d(0.02, 0.02, 0.01);
 }
 
 unsigned int button_momentary::get_port_in_count() {
@@ -197,15 +197,15 @@ void button_momentary::render() {
                position.y,
                position.z);
 
-  Vector3d thissize = get_size();
+  vector3d thissize = get_size();
   if(pushed) {
     // pressing it animation
     thissize.z = 0.002;
   }
 
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_SPECULAR,            Vector4f(0.2, 0.2, 0.2, 1.0));
-  glMaterialfv(GL_FRONT, GL_EMISSION,            Vector4f(0.0, 0.0, 0.0, 1.0));
+  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_SPECULAR,            vector4f(0.2, 0.2, 0.2, 1.0));
+  glMaterialfv(GL_FRONT, GL_EMISSION,            vector4f(0.0, 0.0, 0.0, 1.0));
   glMaterialf(GL_FRONT,  GL_SHININESS,           2.0);                          // 0 to 127
   glBegin(GL_QUADS);
   // front

@@ -6,7 +6,7 @@ extern astronaut *player;
 
 void callback_windowresize(GLFWwindow *thiswindow __attribute__((unused)), int newwidth, int newheight) {
   /// Callback for handling window resize events
-  player->update_window(Vector2i(newwidth, newheight));
+  player->update_window(vector2i(newwidth, newheight));
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

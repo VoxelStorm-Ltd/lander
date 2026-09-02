@@ -12,13 +12,13 @@ physicsbody::~physicsbody() {
   /// Default destructor
 }
 
-Vector3d physicsbody::get_acceleration(Vector3d const &thisposition,
-                                       Vector3d const &thisvelocity __attribute__((__unused__)),
+vector3d physicsbody::get_acceleration(vector3d const &thisposition,
+                                       vector3d const &thisvelocity __attribute__((__unused__)),
                                        double time __attribute__((__unused__))) {
   /// placeholder acceleration due to gravity
   //std::cout << "      DEBUG: get_acceleration before: pos " << thisposition << std::endl;
   //return get_gravity_accel_v3(thisposition);
-  Vector3d acceleration;
+  vector3d acceleration;
   // iterate through every sufficiently significant body
   for(auto *it : root.currentsystem->bodies) {
     if(it == this) {

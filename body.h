@@ -24,10 +24,10 @@ public:
   double static constexpr gas_constant = 8.3144621;                             // R = 8.3144621(75) J/(mol K)
   double gm;                                                                    // GM - standard gravitational parameter, cached
 
-  Vector3d position;                                                            // in m, relative to its star system
-  Vector3d velocity;                                                            // in m, relative to its star system
-  Quatd rotation;                                                               // absolute
-  Quatd spin;                                                                   // per second, absolute
+  vector3d position;                                                            // in m, relative to its star system
+  vector3d velocity;                                                            // in m, relative to its star system
+  quatd rotation;                                                               // absolute
+  quatd spin;                                                                   // per second, absolute
 
   virtual ~body();
 
@@ -44,8 +44,8 @@ public:
   virtual double get_radius();
   virtual void set_radius(double newradius);
   virtual double get_kinetic_energy();
-  virtual bool check_within_physical_influence(Vector3d const &absolute_coords);
-  virtual bool check_within_physical_influence_rel(Vector3d const &relative_coords);
+  virtual bool check_within_physical_influence(vector3d const &absolute_coords);
+  virtual bool check_within_physical_influence_rel(vector3d const &relative_coords);
   virtual bool check_within_physical_influence_rel(double thisradius);
 
   // update
@@ -61,24 +61,24 @@ public:
   virtual void render_ultraviolet();
 
   // collisions
-  virtual Vector3d get_collision(    Vector3d const &absolute_coords);
-  virtual Vector3d get_collision_rel(Vector3d const &relative_coords);
+  virtual vector3d get_collision(    vector3d const &absolute_coords);
+  virtual vector3d get_collision_rel(vector3d const &relative_coords);
   // acceleration due to gravity
-  double get_gravity_accel(          Vector3d const &absolute_coords);
-  double get_gravity_accel_rel(      Vector3d const &relative_coords);
+  double get_gravity_accel(          vector3d const &absolute_coords);
+  double get_gravity_accel_rel(      vector3d const &relative_coords);
   double get_gravity_accel_rel(      double relative_distance);
-  Vector3d get_gravity_accel_v3(     Vector3d const &absolute_coords);
-  Vector3d get_gravity_accel_rel_v3( Vector3d const &relative_coords);
+  vector3d get_gravity_accel_v3(     vector3d const &absolute_coords);
+  vector3d get_gravity_accel_rel_v3( vector3d const &relative_coords);
   double get_gravity_accel_surface();
   // relativistic versions:
-  double get_gravity_accel(          Vector3d const &absolute_coords, Vector3d const &thisvelocity);
-  double get_gravity_accel_rel(      Vector3d const &relative_coords, Vector3d const &thisvelocity);
-  double get_gravity_accel_rel(      double relative_distance,        Vector3d const &thisvelocity);
-  Vector3d get_gravity_accel_v3(     Vector3d const &absolute_coords, Vector3d const &thisvelocity);
-  Vector3d get_gravity_accel_rel_v3( Vector3d const &relative_coords, Vector3d const &thisvelocity);
+  double get_gravity_accel(          vector3d const &absolute_coords, vector3d const &thisvelocity);
+  double get_gravity_accel_rel(      vector3d const &relative_coords, vector3d const &thisvelocity);
+  double get_gravity_accel_rel(      double relative_distance,        vector3d const &thisvelocity);
+  vector3d get_gravity_accel_v3(     vector3d const &absolute_coords, vector3d const &thisvelocity);
+  vector3d get_gravity_accel_rel_v3( vector3d const &relative_coords, vector3d const &thisvelocity);
   // escape velocity
-  double get_escape_vel(             Vector3d const &absolute_coords);
-  double get_escape_vel_rel(         Vector3d const &relative_coords);
+  double get_escape_vel(             vector3d const &absolute_coords);
+  double get_escape_vel_rel(         vector3d const &relative_coords);
   double get_escape_vel_rel(         double relative_distance);
 };
 

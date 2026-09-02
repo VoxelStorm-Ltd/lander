@@ -36,7 +36,7 @@ double display_small::get_mass() {
   return 4.0;
 }
 
-Vector3d display_small::get_size() {
+vector3d display_small::get_size() {
   /// Return a size for this object, in metres - hardcoded
-  return Vector3d(0.1, 0.1, 0.02);
+  return vector3d(0.1, 0.1, 0.02);
 }

@@ -1,6 +1,7 @@
 //#include <boost/units/quantity.hpp>
 #include <boost/units/systems/si/length.hpp>
 #include <boost/units/base_units/imperial/mile.hpp>
+#include <iostream>
 #include "universe.h"
 #include "starsystem.h"
 #include "star.h"
@@ -78,7 +79,7 @@ void init_universe() {
   earth->position.z = 147700000000.0;                                           // 1.477 * 10^11 m
   earth->velocity.x = 29800.0;                                                  // 29800 m/s
   double const degpersec = 360 / (23.934472 * 60 * 60);                         // period of 23.934472 hours
-  earth->spin = Quatd::fromEulerAngles(0, degpersec, 0);
+  earth->spin = quatd::from_euler_angles(0, degpersec, 0);
   earth->parent = sun;
   //earth->orbit.semimajor_axis     = 149597890000;                               // a, metres
   //earth->orbit.eccentricity       = 0.016710220;                                // e
@@ -99,7 +100,7 @@ void init_universe() {
   luna->set_designation("Luna");
   luna->set_mass(73477000000000000000000.0);                                    // 7.3477 * 10^22 kg
   luna->set_radius(1738140.0);                                                  // 1738.14km
-  luna->spin = Quatd::fromEulerAngles(0, 360 / (27.321582 * 60 * 60 * 24), 0);  // period of 27.321582 days
+  luna->spin = quatd::from_euler_angles(0, 360 / (27.321582 * 60 * 60 * 24), 0); // period of 27.321582 days
   luna->parent = earth;
   luna->orbit.semimajor_axis = 384399000.0;
   solarsystem->bodies.push_back(luna);
@@ -210,7 +211,7 @@ void init_universe() {
 
   astronaut *groundguy = new astronaut;
   groundguy->set_name("Usain Bolt");                                            // travelling at escape velocity, innit
-  groundguy->position = earth->position + Vector3d(0.0, 0.0, earth->get_radius());
+  groundguy->position = earth->position + vector3d(0.0, 0.0, earth->get_radius());
   groundguy->velocity = earth->velocity;
   groundguy->velocity.x += 7909.305;
   groundguy->spin = earth->spin;
@@ -225,7 +226,7 @@ void init_universe() {
   // two ways of doing the conversion:
   //double height = boost::units::quantity<boost::units::si::length>(100.0 * boost::units::imperial::mile_base_unit::unit_type()) / boost::units::si::meter;
   double height = 100.0 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
-  player2->position = earth->position + Vector3d(0.0, earth->get_radius() + height, 0.0);
+  player2->position = earth->position + vector3d(0.0, earth->get_radius() + height, 0.0);
   player2->velocity = earth->velocity;
   //player2->velocity.x += 100000000.0 / 3600 * boost::units::conversion_factor(boost::units::imperial::mile_base_unit::unit_type(), boost::units::si::meter);
   player2->velocity.x += 10000;
@@ -243,15 +244,15 @@ void init_universe() {
   playership->set_name("Cobra Mk3");
   solarsystem->bodies.push_back(playership);
   player->enter_ship(playership);
-  playership->position = earth->position + Vector3d(earth->get_radius() + 370000, 0.0, 0.0); // ~= ISS altitude
-  //playership->position = europa->position + Vector3d(europa->get_radius() + 10000000, 0.0, 0.0);
-  playership->velocity = earth->velocity + Vector3d(0.0, 0.0, 7710.0);          // ~= ISS speed
-  //playership->velocity = europa->velocity + Vector3d(0.0, 0.0, 10000.0);
-  playership->rotation *= Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), 90.0);
+  playership->position = earth->position + vector3d(earth->get_radius() + 370000, 0.0, 0.0); // ~= ISS altitude
+  //playership->position = europa->position + vector3d(europa->get_radius() + 10000000, 0.0, 0.0);
+  playership->velocity = earth->velocity + vector3d(0.0, 0.0, 7710.0);          // ~= ISS speed
+  //playership->velocity = europa->velocity + vector3d(0.0, 0.0, 10000.0);
+  playership->rotation *= quatd::from_axis_rot(vector3d(1.0, 0.0, 0.0), 90.0);
   instrumentpanel *controlpanel = new instrumentpanel;
-  controlpanel->size = Vector3d(2.0, 1.0, 0.5);
-  controlpanel->position = Vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);    // ~300mm in front of user
-  controlpanel->rotation = Quatd::fromAxisRot(Vector3d(1.0, 0.0, 0.0), -60.0);
+  controlpanel->size = vector3d(2.0, 1.0, 0.5);
+  controlpanel->position = vector3d(-controlpanel->size.x / 2.0, 0.6, -0.3);    // ~300mm in front of user
+  controlpanel->rotation = quatd::from_axis_rot(vector3d(1.0, 0.0, 0.0), -60.0);
   controlpanel->attach(playership);
 
   thruster *engine_main = new thruster;
@@ -286,7 +287,7 @@ void init_universe() {
   display_number *pressure_disp = new display_number;
   pressure_disp->attach(playership);
   pressure_disp->attach_panel(controlpanel);
-  pressure_disp->set_position(test_altimeter->get_position() + Vector3d(0.0, -0.03, 0.0));
+  pressure_disp->set_position(test_altimeter->get_position() + vector3d(0.0, -0.03, 0.0));
   pressure_disp->connect(0, test_pressuresensor, 0);
 
   display *mainmonitor = new display;
@@ -297,32 +298,32 @@ void init_universe() {
   mainmonitor->set_position(0.55, 0.5, 0.0);
   mainmapper->attach(playership);
   mainmapper->attach_panel(controlpanel);
-  mainmapper->set_position(mainmonitor->get_position() + Vector3d(0.0, -(mainmapper->get_size().y + 0.02), 0.0));
+  mainmapper->set_position(mainmonitor->get_position() + vector3d(0.0, -(mainmapper->get_size().y + 0.02), 0.0));
   mainmonitor->connect(0, mainmapper, 0);
 
   // zoom system
   button_momentary *zoom_in = new button_momentary;
   zoom_in->attach(playership);
   zoom_in->attach_panel(controlpanel);
-  zoom_in->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.02, -0.03, 0.0));
+  zoom_in->set_position(mainmonitor->get_position() + vector3d(mainmonitor->get_size().x - 0.02, -0.03, 0.0));
   button_momentary *zoom_out = new button_momentary;
   zoom_out->attach(playership);
   zoom_out->attach_panel(controlpanel);
-  zoom_out->set_position(mainmonitor->get_position() + Vector3d(mainmonitor->get_size().x - 0.05, -0.03, 0.0));
+  zoom_out->set_position(mainmonitor->get_position() + vector3d(mainmonitor->get_size().x - 0.05, -0.03, 0.0));
   memory *mem_1 = new memory;
   mem_1->attach(playership);
   mem_1->attach_panel(controlpanel);
-  mem_1->set_position(mainmapper->get_position() + Vector3d(mainmapper->get_size().x + 0.01, 0.0, 0.0));
+  mem_1->set_position(mainmapper->get_position() + vector3d(mainmapper->get_size().x + 0.01, 0.0, 0.0));
   mem_1->set_memory_value(1.0);
   memory *mem_05 = new memory;
   mem_05->attach(playership);
   mem_05->attach_panel(controlpanel);
-  mem_05->set_position(mem_1->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_05->set_position(mem_1->get_position() + vector3d(0.0, 0.01, 0.0));
   mem_05->set_memory_value(0.5);
   memory *mem_2 = new memory;
   mem_2->attach(playership);
   mem_2->attach_panel(controlpanel);
-  mem_2->set_position(mem_05->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_2->set_position(mem_05->get_position() + vector3d(0.0, 0.01, 0.0));
   mem_2->set_memory_value(2.0);
   zoom_out->connect(0, mem_1, 0);                                               // off value = 1
   zoom_out->connect(1, mem_05, 0);                                              // on value = 1/2
@@ -331,12 +332,12 @@ void init_universe() {
   memory *mem_zoom = new memory;
   mem_zoom->attach(playership);
   mem_zoom->attach_panel(controlpanel);
-  mem_zoom->set_position(mem_2->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_zoom->set_position(mem_2->get_position() + vector3d(0.0, 0.01, 0.0));
   mem_zoom->set_memory_value(0.00001);                                          // set the initial scale ratio
   operator_mul *zoom_mul = new operator_mul;
   zoom_mul->attach(playership);
   zoom_mul->attach_panel(controlpanel);
-  zoom_mul->set_position(mem_1->get_position() + Vector3d(0.03, 0.00, 0.0));
+  zoom_mul->set_position(mem_1->get_position() + vector3d(0.03, 0.00, 0.0));
   zoom_mul->connect(0, zoom_in, 0);                                             // input 1 = zoom in button
   zoom_mul->connect(1, mem_zoom, 0);                                            // input 2 = last zoom value
   mem_zoom->connect(0, zoom_mul, 0);                                            // zoom value updates from result
@@ -346,40 +347,40 @@ void init_universe() {
   display_number *zoom_disp = new display_number;
   zoom_disp->attach(playership);
   zoom_disp->attach_panel(controlpanel);
-  zoom_disp->set_position(zoom_out->get_position() + Vector3d(-0.105, 0.0, 0.0));
+  zoom_disp->set_position(zoom_out->get_position() + vector3d(-0.105, 0.0, 0.0));
   zoom_disp->connect(0, mem_zoom, 0);
 
   // planet ref system
   mem_ref->attach(playership);
   mem_ref->attach_panel(controlpanel);
-  mem_ref->set_position(mem_zoom->get_position() + Vector3d(0.0, 0.01, 0.0));
+  mem_ref->set_position(mem_zoom->get_position() + vector3d(0.0, 0.01, 0.0));
   mem_ref->set_memory_value(4.0);                                               // earth = 4
   mainmapper->connect(3, mem_ref, 0);                                           // hook it up to the trails reference frame input
   button_momentary *ref_prev = new button_momentary;
   ref_prev->attach(playership);
   ref_prev->attach_panel(controlpanel);
-  ref_prev->set_position(zoom_out->get_position() + Vector3d(0.0, -0.03, 0.0));
+  ref_prev->set_position(zoom_out->get_position() + vector3d(0.0, -0.03, 0.0));
   button_momentary *ref_next = new button_momentary;
   ref_next->attach(playership);
   ref_next->attach_panel(controlpanel);
-  ref_next->set_position(zoom_in->get_position() + Vector3d(0.0, -0.03, 0.0));
+  ref_next->set_position(zoom_in->get_position() + vector3d(0.0, -0.03, 0.0));
   operator_add *ref_add = new operator_add;
   ref_add->attach(playership);
   ref_add->attach_panel(controlpanel);
-  ref_add->set_position(zoom_mul->get_position() + Vector3d(0.0, 0.015, 0.0));
+  ref_add->set_position(zoom_mul->get_position() + vector3d(0.0, 0.015, 0.0));
   ref_add->connect(0, mem_ref, 0);                                              // input 1 = last ref value
   ref_add->connect(1, ref_next, 0);                                             // input 2 = next ref button
   operator_sub *ref_sub = new operator_sub;
   ref_sub->attach(playership);
   ref_sub->attach_panel(controlpanel);
-  ref_sub->set_position(ref_add->get_position() + Vector3d(0.0, 0.015, 0.0));
+  ref_sub->set_position(ref_add->get_position() + vector3d(0.0, 0.015, 0.0));
   ref_sub->connect(0, ref_add, 0);                                              // input 1 = result of incrementor
   ref_sub->connect(1, ref_prev, 0);                                             // input 2 = prev ref button
   mem_ref->connect(0, ref_sub, 0);                                              // ref value updates from result
   display_number *ref_disp = new display_number;
   ref_disp->attach(playership);
   ref_disp->attach_panel(controlpanel);
-  ref_disp->set_position(ref_prev->get_position() + Vector3d(-0.105, 0.0, 0.0));
+  ref_disp->set_position(ref_prev->get_position() + vector3d(-0.105, 0.0, 0.0));
   ref_disp->connect(0, mem_ref, 0);
 
   display_digital *monitor_digital = new display_digital;
@@ -389,7 +390,7 @@ void init_universe() {
   display_small *monitor_small = new display_small;
   monitor_small->attach(playership);
   monitor_small->attach_panel(controlpanel);
-  monitor_small->set_position(test_altimeter->get_position() + Vector3d(0.0, -0.2, 0.0));
+  monitor_small->set_position(test_altimeter->get_position() + vector3d(0.0, -0.2, 0.0));
   monitor_small->connect(0, test_pressuresensor, 0);                            // noise source
 
   display_converter_analogue_digital *converter1 = new display_converter_analogue_digital;
@@ -402,17 +403,17 @@ void init_universe() {
   camera *cam1 = new camera;
   cam1->attach(playership);
   cam1->attach_hull();
-  cam1->set_position(Vector3d(0.0, 0.0, 2.0));
+  cam1->set_position(vector3d(0.0, 0.0, 2.0));
   monitor_digital->connect(0, cam1, 0);
 
   display *monitor_cam = new display;
   monitor_cam->attach(playership);
   monitor_cam->attach_panel(controlpanel);
-  monitor_cam->set_position(monitor_digital->get_position() + Vector3d(monitor_digital->get_size().x, 0.0, 0.0));
+  monitor_cam->set_position(monitor_digital->get_position() + vector3d(monitor_digital->get_size().x, 0.0, 0.0));
   display_converter_digital_analogue *converter2 = new display_converter_digital_analogue;
   converter2->attach(playership);
   converter2->attach_panel(controlpanel);
-  converter2->set_position(monitor_cam->get_position() + Vector3d(0.0, -0.20, 0.0));
+  converter2->set_position(monitor_cam->get_position() + vector3d(0.0, -0.20, 0.0));
   converter2->connect(0, cam1, 0);
   monitor_cam->connect(0, converter2, 0);
 
@@ -423,21 +424,21 @@ void init_universe() {
   terminal *tty = new terminal;
   tty->attach(playership);
   tty->attach_panel(controlpanel);
-  tty->set_position(monitor_computer->get_position() + Vector3d(0.0, -(tty->get_size().y + 0.02), 0.0));
+  tty->set_position(monitor_computer->get_position() + vector3d(0.0, -(tty->get_size().y + 0.02), 0.0));
   monitor_computer->connect(0, tty, 0);
   computer_mission *computer = new computer_mission;
   computer->attach(playership);
   computer->attach_panel(controlpanel);
-  computer->set_position(tty->get_position() + Vector3d(0.0, -(computer->get_size().y + 0.02), 0.0));
+  computer->set_position(tty->get_position() + vector3d(0.0, -(computer->get_size().y + 0.02), 0.0));
   tty->connect(0, computer, 0);
   computer->connect(0, tty, 1);
 
   spacecraft *crashtester = new spacecraft;
   crashtester->set_name("Crash Tester");
   solarsystem->bodies.push_back(crashtester);
-  crashtester->position = earth->position + Vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
-  crashtester->velocity = earth->velocity + Vector3d(-20000.0, 1000.0, 0.0);
-  crashtester->rotation *= Quatd::fromAxisRot(Vector3d(0.0, 0.0, 1.0), 90.0);
+  crashtester->position = earth->position + vector3d(earth->get_radius() + 30000000, 0.0, earth->get_radius());
+  crashtester->velocity = earth->velocity + vector3d(-20000.0, 1000.0, 0.0);
+  crashtester->rotation *= quatd::from_axis_rot(vector3d(0.0, 0.0, 1.0), 90.0);
 
   for(auto  const &it : solarsystem->bodies) {
     std::cout << "  Accel due to gravity at surface of " << it->get_name() << " (" << it->get_designation() << ") is " << it->get_gravity_accel_surface() << std::endl;
@@ -459,7 +460,7 @@ void init_universe() {
       break;
     case astronaut::statetype::ATMOSPHERIC:
       std::cout << " is falling through an atmosphere over " << it->walking_on->get_name() << std::endl;
-      std::cout << "    above the surface by " << Vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
+      std::cout << "    above the surface by " << vector3d(it->position - it->walking_on->position).length() - it->walking_on->get_radius() << "m" << std::endl;
       std::cout << "    feeling gravitational acceleration " << it->walking_on->get_gravity_accel(it->position, it->velocity) << "m/s^2" << std::endl;
       break;
     default:
