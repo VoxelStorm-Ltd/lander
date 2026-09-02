@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.20)
 
 project(Lander LANGUAGES CXX)
 
@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
 # Match the CodeBlocks default target.
-get_property(_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(NOT _is_multi_config AND NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type: Debug or Release" FORCE)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS Debug Release)
 endif()
@@ -32,12 +31,10 @@ endif()
 
 if(WIN32)
   set(LANDER_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/win${LANDER_ARCH_BITS}")
-elseif(APPLE)
-  set(LANDER_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/mac${LANDER_ARCH_BITS}")
 endif()
 
 # Source files without a target restriction in lander.cbp.
-set(LANDER_SOURCES
+add_executable(Lander
   astronaut.cpp
   astronomical_entities/blackhole.cpp
   astronomical_entities/dustcloud.cpp
@@ -111,12 +108,6 @@ set(LANDER_SOURCES
   vectorstorm/vectorstorm.cpp
 )
 
-add_executable(Lander ${LANDER_SOURCES})
-
-if(POLICY CMP0167)
-  cmake_policy(SET CMP0167 NEW)
-endif()
-
 if(UNIX AND NOT APPLE)
   # Linux uses distribution-provided shared libraries and their usage metadata.
   set(Boost_USE_STATIC_LIBS OFF)
@@ -126,7 +117,6 @@ if(UNIX AND NOT APPLE)
   find_package(GLEW REQUIRED)
   find_package(OpenGL REQUIRED)
   find_package(PkgConfig REQUIRED)
-  find_package(Threads REQUIRED)
   pkg_check_modules(FTGL REQUIRED IMPORTED_TARGET ftgl)
   pkg_check_modules(GLFW REQUIRED IMPORTED_TARGET glfw3)
 else()
@@ -153,17 +143,12 @@ if(WIN32 OR APPLE)
 endif()
 
 target_compile_definitions(Lander PRIVATE
-  BOOST_THREAD_VERSION=3
-  BOOST_THREAD_USE_LIB
-  BOOST_SYSTEM_NO_DEPRECATED
-  $<$<CONFIG:Release>:NDEBUG>
   $<$<CONFIG:Release>:BOOST_DISABLE_ASSERTS>
 )
 
 if(WIN32 OR APPLE)
   target_compile_definitions(Lander PRIVATE
     GLEW_STATIC
-    CURL_STATICLIB
   )
 endif()
 
@@ -191,8 +176,6 @@ endif()
 
 target_compile_options(Lander PRIVATE
   $<$<CONFIG:Debug>:-Og>
-  $<$<CONFIG:Debug>:-g>
-  $<$<CONFIG:Debug>:-fexceptions>
   $<$<CONFIG:Release>:-Wno-array-bounds>
 )
 if(WIN32 AND BUILD_32BIT)
@@ -258,21 +241,15 @@ set(LANDER_RELEASE_COMPILE_OPTIONS
   --param=large-unit-insns=20000
   --param=inline-unit-growth=200
 )
-foreach(_option IN LISTS LANDER_RELEASE_COMPILE_OPTIONS)
-  target_compile_options(Lander PRIVATE "$<$<CONFIG:Release>:${_option}>")
-endforeach()
+target_compile_options(Lander PRIVATE
+  "$<$<CONFIG:Release>:${LANDER_RELEASE_COMPILE_OPTIONS}>"
+)
 
 # Link options common to the platform targets.  Supplying the architecture to
 # the compiler driver here is necessary for CMake's separate link step.
 target_link_options(Lander PRIVATE ${LANDER_ARCH_FLAG})
 
-if(WIN32)
-  target_link_options(Lander PRIVATE
-    -static
-    -static-libgcc
-    -static-libstdc++
-  )
-elseif(APPLE)
+if(WIN32 OR APPLE)
   target_link_options(Lander PRIVATE
     -static
     -static-libgcc
@@ -317,25 +294,8 @@ elseif(UNIX AND NOT APPLE)
     OpenGL::GLU
     PkgConfig::FTGL
     PkgConfig::GLFW
-    Threads::Threads
-    ${CMAKE_DL_LIBS}
   )
 endif()
 
 # -lgcov is a release linker option in every CodeBlocks target.
 target_link_libraries(Lander PRIVATE "$<$<CONFIG:Release>:gcov>")
-
-# Every CodeBlocks Release target runs strip after linking.
-if(CMAKE_STRIP)
-  file(GENERATE
-    OUTPUT "${CMAKE_BINARY_DIR}/strip_if_release_$<CONFIG>.cmake"
-    CONTENT
-      "$<$<CONFIG:Release>:execute_process(COMMAND \"${CMAKE_STRIP}\" -spv \"$<TARGET_FILE:Lander>\")>\n"
-  )
-  add_custom_command(TARGET Lander POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -P
-            "${CMAKE_BINARY_DIR}/strip_if_release_$<CONFIG>.cmake"
-    COMMENT "Stripping release binary"
-    VERBATIM
-  )
-endif()
