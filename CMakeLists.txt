@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 
 project(Lander LANGUAGES CXX)
 
-# The CodeBlocks project builds as GNU C++14 (gnu++1y).
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
@@ -148,11 +147,9 @@ target_include_directories(Lander PRIVATE
   "${CMAKE_SOURCE_DIR}/devices/operators"
   "${CMAKE_SOURCE_DIR}/devices/computers"
 )
+target_include_directories(Lander SYSTEM PRIVATE "${CMAKE_SOURCE_DIR}/include")
 if(WIN32 OR APPLE)
-  target_include_directories(Lander SYSTEM PRIVATE
-    "${CMAKE_SOURCE_DIR}/include"
-    "${Boost_INCLUDE_DIRS}"
-  )
+  target_include_directories(Lander SYSTEM PRIVATE "${Boost_INCLUDE_DIRS}")
 endif()
 
 target_compile_definitions(Lander PRIVATE
