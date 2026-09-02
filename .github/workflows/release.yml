@@ -51,8 +51,9 @@ jobs:
       - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
+          name: release-linux
           path: Lander-linux-x86_64.tar.gz
-          archive: false
+          if-no-files-found: error
 
   build-macos:
     name: macOS x86-64
@@ -87,8 +88,9 @@ jobs:
       - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
+          name: release-macos
           path: Lander-macos-x86_64.tar.gz
-          archive: false
+          if-no-files-found: error
 
   build-windows:
     name: Windows x86
@@ -136,8 +138,9 @@ jobs:
       - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
+          name: release-windows
           path: Lander-windows-x86.zip
-          archive: false
+          if-no-files-found: error
 
   release:
     name: Publish GitHub release
@@ -151,12 +154,15 @@ jobs:
       - name: Download successful builds
         uses: actions/download-artifact@v8
         with:
-          pattern: Lander-*
+          pattern: release-*
           path: dist
           merge-multiple: true
 
       - name: Require at least one successful build
-        run: test -n "$(find dist -maxdepth 1 -type f -print -quit)"
+        run: |
+          shopt -s nullglob
+          release_assets=(dist/Lander-*.tar.gz dist/Lander-*.zip)
+          test "${#release_assets[@]}" -gt 0
 
       - name: Create or update GitHub release
         env:
@@ -165,11 +171,13 @@ jobs:
         run: |
           release_tag="release-$GITHUB_SHA"
           short_sha="${GITHUB_SHA::7}"
+          shopt -s nullglob
+          release_assets=(dist/Lander-*.tar.gz dist/Lander-*.zip)
 
           if gh release view "$release_tag" >/dev/null 2>&1; then
-            gh release upload "$release_tag" dist/* --clobber
+            gh release upload "$release_tag" "${release_assets[@]}" --clobber
           else
-            gh release create "$release_tag" dist/* \
+            gh release create "$release_tag" "${release_assets[@]}" \
               --target "$GITHUB_SHA" \
               --title "Release $short_sha" \
               --notes "Automated release build from the master branch."
