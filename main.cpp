@@ -42,7 +42,7 @@ int main() {
 }
 
 void init() {       /// all the one-time initialisation we need for the engine
-  vector2i windowsize(800, 600);
+  vector2i windowsize(1600, 1200);
   init_graphics(windowsize);
   init_universe();
   player->windowsize = windowsize;
