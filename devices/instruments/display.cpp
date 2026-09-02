@@ -318,16 +318,16 @@ void display::update_vbo() {
   **/
 
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_v);
-  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_vertex.size() * sizeof(GLdouble), &vbodata_screen_vertex, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_vertex.size() * sizeof(GLdouble), vbodata_screen_vertex.data(), GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_n);
-  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_normal.size() * sizeof(GLdouble), &vbodata_screen_normal, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_normal.size() * sizeof(GLdouble), vbodata_screen_normal.data(), GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_t);
-  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_texture.size() * sizeof(GLdouble), &vbodata_screen_texture, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vbodata_screen_texture.size() * sizeof(GLdouble), vbodata_screen_texture.data(), GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_screen);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibodata_screen.size() * sizeof(GLuint), &ibodata_screen, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibodata_screen.size() * sizeof(GLuint), ibodata_screen.data(), GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
