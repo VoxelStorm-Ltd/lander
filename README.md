@@ -10,6 +10,8 @@ It consists of an accurate orbital physics simulation of the entire solar system
 
 At the time of writing, most technology in this game is obsolete - it was written to a much earlier C++ standard using bare pointers, and uses very old OpenGL idioms that have been obsolete for a long time.  There is scope for a complete rewrite (perhaps AI-assisted) to put the core concepts to use in a modernised engine.
 
+<img width="1280" height="983" alt="image" src="https://github.com/user-attachments/assets/ef671d54-af15-4bc0-a331-ec32858850c6" />
+
 ## Controls
 - WASD to move around the cockpit
 - Mouse to look around
