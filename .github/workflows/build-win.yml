@@ -28,18 +28,23 @@ jobs:
         with:
           msystem: MINGW32
           update: true
+          # MSYS2 no longer publishes Boost for MINGW32. The maintained
+          # x86-64 package supplies the architecture-independent headers;
+          # Lander still links its bundled 32-bit Windows archives.
           install: >-
             mingw-w64-i686-toolchain
             mingw-w64-i686-cmake
-            mingw-w64-i686-boost
+            mingw-w64-x86_64-boost
             make
 
       - name: Configure
-        run: >
-          cmake -S . -B build
-          -G "Unix Makefiles"
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DBUILD_32BIT=ON
+        run: |
+          boost_cmake_dir=$(dirname "$(find /mingw64/lib/cmake -name BoostConfig.cmake -print -quit)")
+          cmake -S . -B build \
+            -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DBUILD_32BIT=ON \
+            -DBoost_DIR="$boost_cmake_dir"
 
       - name: Build
         run: cmake --build build --parallel
