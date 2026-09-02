@@ -94,11 +94,12 @@ void init_graphics(vector2i &windowsize) {
 
   glewExperimental = GL_TRUE;
   GLenum const glew_status = glewInit();
-  bool const glew_failed = glew_status != GLEW_OK
 #ifdef GLEW_ERROR_NO_GLX_DISPLAY
-                        && glew_status != GLEW_ERROR_NO_GLX_DISPLAY
+  bool const glew_failed = glew_status != GLEW_OK &&
+                           glew_status != GLEW_ERROR_NO_GLX_DISPLAY;
+#else
+  bool const glew_failed = glew_status != GLEW_OK;
 #endif
-                        ;
   if(glew_failed) {
     std::cout << "ERROR: GLEW returned " << glew_status << ": "
               << glewGetErrorString(glew_status) << std::endl;
