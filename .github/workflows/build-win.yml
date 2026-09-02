@@ -47,4 +47,4 @@ jobs:
             -DBoost_DIR="$boost_cmake_dir"
 
       - name: Build
-        run: cmake --build build --parallel
+        run: cmake --build build --parallel "$(nproc)"

@@ -43,4 +43,4 @@ jobs:
           -DBUILD_32BIT=OFF
 
       - name: Build
-        run: cmake --build build --parallel
+        run: cmake --build build --parallel "$(nproc)"
