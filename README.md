@@ -8,6 +8,8 @@ This is a prototype, begun in 2013 and never originally finished or released, fi
 
 It consists of an accurate orbital physics simulation of the entire solar system.  Your craft has started in orbit around the earth after an unspecified disaster; you have limited controls.
 
+At the time of writing, most technology in this game is obsolete - it was written to a much earlier C++ standard using bare pointers, and uses very old OpenGL idioms that have been obsolete for a long time.  There is scope for a complete rewrite (perhaps AI-assisted) to put the core concepts to use in a modernised engine.
+
 ## Controls
 - WASD to move around the cockpit
 - Mouse to look around
@@ -18,6 +20,8 @@ It consists of an accurate orbital physics simulation of the entire solar system
 ## Playing & development
 
 The intention was to have a fully player-buildable cockpit; every device can be wired arbitrarily - instruments can be wired in to displays, buttons can be wired to actuators, etc.
+
+There's also some clever trickery with radiant lighting in this demo.
 
 The current cockpit demonstrates a rudimentary setup defined in init_universe.cpp, mostly to demonstrate some of what can be done.  Wiring is displayed visually as green lines between devices.
 
