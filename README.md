@@ -13,6 +13,7 @@ At the time of writing, most technology in this game is obsolete - it was writte
 ## Controls
 - WASD to move around the cockpit
 - Mouse to look around
+- Mouse wheel to zoom in and out
 - Left click on buttons, switches etc to activate them
 - Right click on objects to pull up a menu (currently not implemented, shows basic information only)
 - Arrow keys, `[` and `]`: rotate the ship in three dimensions
