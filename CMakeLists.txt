@@ -112,11 +112,12 @@ if(UNIX AND NOT APPLE)
   set(Boost_USE_STATIC_LIBS ON)
   find_package(Boost REQUIRED CONFIG COMPONENTS chrono)
   find_package(Freetype REQUIRED)
-  find_package(GLEW REQUIRED)
   find_package(OpenGL REQUIRED)
   find_package(PkgConfig REQUIRED)
   find_package(glfw3 REQUIRED CONFIG)
   pkg_check_modules(FTGL REQUIRED IMPORTED_TARGET ftgl)
+  find_path(LANDER_GLEW_INCLUDE_DIR NAMES GL/glew.h REQUIRED)
+  find_library(LANDER_GLEW_STATIC_LIBRARY NAMES libGLEW.a REQUIRED)
 else()
   # Windows and macOS retain the original bundled-library setup.  Boost headers
   # themselves are supplied externally, as they were in CodeBlocks.
@@ -140,15 +141,17 @@ if(WIN32 OR APPLE)
     "${CMAKE_SOURCE_DIR}/include"
     "${Boost_INCLUDE_DIRS}"
   )
+else()
+  target_include_directories(Lander SYSTEM PRIVATE
+    "${LANDER_GLEW_INCLUDE_DIR}"
+  )
 endif()
 
 target_compile_definitions(Lander PRIVATE
   $<$<CONFIG:Release>:BOOST_DISABLE_ASSERTS>
 )
 
-if(WIN32 OR APPLE)
-  target_compile_definitions(Lander PRIVATE GLEW_STATIC)
-endif()
+target_compile_definitions(Lander PRIVATE GLEW_STATIC)
 
 if(WIN32 AND BUILD_32BIT)
   target_compile_definitions(Lander PRIVATE _WIN32_WINNT=0x0501)
@@ -276,7 +279,7 @@ elseif(UNIX AND NOT APPLE)
   target_link_libraries(Lander PRIVATE
     Boost::chrono
     Freetype::Freetype
-    GLEW::GLEW
+    "${LANDER_GLEW_STATIC_LIBRARY}"
     OpenGL::GL
     OpenGL::GLU
     PkgConfig::FTGL
