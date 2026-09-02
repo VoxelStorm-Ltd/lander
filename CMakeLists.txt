@@ -207,12 +207,6 @@ set(LANDER_RELEASE_COMPILE_OPTIONS
   -fsched-stalled-insns-dep=32
   -fsched2-use-superblocks
   -fipa-pta
-  -fprofile-generate
-  -fbranch-probabilities
-  -fprofile-arcs
-  -fprofile-use
-  -fprofile-values
-  -fvpt
   -ftracer
   -fno-var-tracking-assignments
   -fpeel-loops
@@ -263,7 +257,6 @@ endif()
 
 target_link_options(Lander PRIVATE
   $<$<CONFIG:Release>:-s>
-  $<$<CONFIG:Release>:-fprofile-arcs>
   $<$<CONFIG:Release>:-fuse-linker-plugin>
   $<$<CONFIG:Release>:-flto>
   $<$<CONFIG:Release>:-funsafe-math-optimizations>
@@ -298,6 +291,3 @@ elseif(UNIX AND NOT APPLE)
     PkgConfig::GLFW
   )
 endif()
-
-# -lgcov is a release linker option in every CodeBlocks target.
-target_link_libraries(Lander PRIVATE "$<$<CONFIG:Release>:gcov>")
