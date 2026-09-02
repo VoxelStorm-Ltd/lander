@@ -1,0 +1,161 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build-linux:
+    name: Linux x86-64
+    runs-on: ubuntu-24.04
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake \
+            g++ \
+            pkg-config \
+            libboost-chrono-dev \
+            libfreetype6-dev \
+            libftgl-dev \
+            libglew-dev \
+            libglfw3-dev \
+            libgl-dev \
+            libglu1-mesa-dev
+
+      - name: Configure
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_32BIT=OFF
+
+      - name: Build
+        run: cmake --build build --parallel "$(nproc)"
+
+      - name: Prepare release binary
+        run: cp build/Lander Lander-linux-x86_64
+
+      - name: Upload release binary
+        uses: actions/upload-artifact@v7
+        with:
+          path: Lander-linux-x86_64
+          archive: false
+
+  build-macos:
+    name: macOS x86-64
+    runs-on: macos-15-intel
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install system dependencies
+        run: brew install gcc boost
+
+      - name: Configure
+        run: |
+          gcc_cxx=$(find /usr/local/bin -maxdepth 1 -name 'g++-*' | sort -V | tail -1)
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CXX_COMPILER="$gcc_cxx" \
+            -DBUILD_32BIT=OFF
+
+      - name: Build
+        run: cmake --build build --parallel "$(sysctl -n hw.logicalcpu)"
+
+      - name: Prepare release binary
+        run: cp build/Lander Lander-macos-x86_64
+
+      - name: Upload release binary
+        uses: actions/upload-artifact@v7
+        with:
+          path: Lander-macos-x86_64
+          archive: false
+
+  build-windows:
+    name: Windows x86
+    runs-on: windows-latest
+    continue-on-error: true
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          update: true
+          # MSYS2 no longer publishes Boost for MINGW32. The maintained
+          # x86-64 package supplies the architecture-independent headers;
+          # Lander still links its bundled 32-bit Windows archives.
+          install: >-
+            mingw-w64-i686-toolchain
+            mingw-w64-i686-cmake
+            mingw-w64-x86_64-boost
+            make
+
+      - name: Configure
+        run: |
+          boost_cmake_dir=$(dirname "$(find /mingw64/lib/cmake -name BoostConfig.cmake -print -quit)")
+          cmake -S . -B build \
+            -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_32BIT=ON \
+            -DBoost_DIR="$boost_cmake_dir"
+
+      - name: Build
+        run: cmake --build build --parallel "$(nproc)"
+
+      - name: Prepare release binary
+        run: cp build/Lander.exe Lander-windows-x86.exe
+
+      - name: Upload release binary
+        uses: actions/upload-artifact@v7
+        with:
+          path: Lander-windows-x86.exe
+          archive: false
+
+  release:
+    name: Publish GitHub release
+    needs: [build-linux, build-macos, build-windows]
+    if: always()
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download successful builds
+        uses: actions/download-artifact@v8
+        with:
+          pattern: Lander-*
+          path: dist
+          merge-multiple: true
+
+      - name: Require at least one successful build
+        run: test -n "$(find dist -maxdepth 1 -type f -print -quit)"
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          release_tag="release-$GITHUB_SHA"
+          short_sha="${GITHUB_SHA::7}"
+
+          if gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release upload "$release_tag" dist/* --clobber
+          else
+            gh release create "$release_tag" dist/* \
+              --target "$GITHUB_SHA" \
+              --title "Release $short_sha" \
+              --notes "Automated release build from the master branch."
+          fi
