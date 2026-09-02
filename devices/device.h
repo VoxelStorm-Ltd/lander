@@ -17,8 +17,8 @@ class device : public random_engine, public menu {
 private:
   vector2i static const screensize_static_analogue;                             // screen size for tv type static generation
   vector2i static const screensize_static_digital;                              // screen size for digital noise type static
-  GLuint static image_static_analogue;                                          // global texture for tv type static
-  GLuint static image_static_digital;                                           // global texture for digital noise type static
+  GLuint static image_static_analogue;                                          // shared texture with OpenGL context lifetime
+  GLuint static image_static_digital;                                           // shared texture with OpenGL context lifetime
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_analogue;
   boost::chrono::time_point<boost::chrono::high_resolution_clock, boost::chrono::duration<double>> static time_next_static_digital;
   boost::chrono::duration<double> static const time_interval_static_analogue;

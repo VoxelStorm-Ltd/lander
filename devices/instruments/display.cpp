@@ -24,7 +24,10 @@ display::display()
 
 display::~display() {
   /// Default destructor
-  glDeleteTextures(1, &display_image);
+  glDeleteBuffers(1, &vbo_screen_v);
+  glDeleteBuffers(1, &vbo_screen_n);
+  glDeleteBuffers(1, &vbo_screen_t);
+  glDeleteBuffers(1, &ibo_screen);
 }
 
 std::string display::get_name() {

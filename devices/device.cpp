@@ -41,8 +41,9 @@ device::device()
 device::~device() {
   /// Default destructor
   disconnect_all();
-  glDeleteTextures(1, &image_static_analogue);
-  glDeleteTextures(1, &image_static_digital);
+  glDeleteBuffers(1, &vbo_v);
+  glDeleteBuffers(1, &vbo_n);
+  glDeleteBuffers(1, &ibo);
 }
 
 std::string device::get_name() {
