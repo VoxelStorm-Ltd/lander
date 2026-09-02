@@ -1,3 +1,7 @@
+[![Linux build](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-linux.yml/badge.svg?branch=master)](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-linux.yml)
+[![macOS build](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-mac.yml/badge.svg?branch=master)](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-mac.yml)
+[![Windows build](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-win.yml/badge.svg?branch=master)](https://github.com/VoxelStorm-Ltd/lander/actions/workflows/build-win.yml)
+
 # Building and running
 
 Configure, build, and run a 64-bit Release build with:
