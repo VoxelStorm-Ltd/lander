@@ -32,15 +32,10 @@ else()
 endif()
 
 if(WIN32)
-  set(LANDER_PLATFORM Win)
+  set(LANDER_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/win${LANDER_ARCH_BITS}")
 elseif(APPLE)
-  set(LANDER_PLATFORM Mac)
-else()
-  set(LANDER_PLATFORM Linux)
+  set(LANDER_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/mac${LANDER_ARCH_BITS}")
 endif()
-
-string(TOLOWER "${LANDER_PLATFORM}${LANDER_ARCH_BITS}" LANDER_PLATFORM_DIR)
-set(LANDER_LIB_DIR "${CMAKE_SOURCE_DIR}/lib/${LANDER_PLATFORM_DIR}")
 
 # Source files without a target restriction in lander.cbp.
 set(LANDER_SOURCES
@@ -119,12 +114,27 @@ set(LANDER_SOURCES
 
 add_executable(Lander ${LANDER_SOURCES})
 
-# Boost headers are supplied externally in the CodeBlocks setup.  No imported
-# Boost libraries are used here because the project links its bundled archives.
 if(POLICY CMP0167)
   cmake_policy(SET CMP0167 NEW)
 endif()
-find_package(Boost REQUIRED)
+
+if(UNIX AND NOT APPLE)
+  # Linux uses distribution-provided shared libraries and their usage metadata.
+  set(Boost_USE_STATIC_LIBS OFF)
+  set(GLEW_USE_STATIC_LIBS OFF)
+  find_package(Boost REQUIRED CONFIG COMPONENTS chrono)
+  find_package(Freetype REQUIRED)
+  find_package(GLEW REQUIRED)
+  find_package(OpenGL REQUIRED)
+  find_package(PkgConfig REQUIRED)
+  find_package(Threads REQUIRED)
+  pkg_check_modules(FTGL REQUIRED IMPORTED_TARGET ftgl)
+  pkg_check_modules(GLFW REQUIRED IMPORTED_TARGET glfw3)
+else()
+  # Windows and macOS retain the original bundled-library setup.  Boost headers
+  # themselves are supplied externally, as they were in CodeBlocks.
+  find_package(Boost REQUIRED CONFIG)
+endif()
 
 target_include_directories(Lander PRIVATE
   "${CMAKE_SOURCE_DIR}"
@@ -138,25 +148,30 @@ target_include_directories(Lander PRIVATE
   "${CMAKE_SOURCE_DIR}/devices/operators"
   "${CMAKE_SOURCE_DIR}/devices/computers"
 )
-target_include_directories(Lander SYSTEM PRIVATE
-  "${CMAKE_SOURCE_DIR}/include"
-  "${Boost_INCLUDE_DIRS}"
-)
+if(WIN32 OR APPLE)
+  target_include_directories(Lander SYSTEM PRIVATE
+    "${CMAKE_SOURCE_DIR}/include"
+    "${Boost_INCLUDE_DIRS}"
+  )
+endif()
 
 target_compile_definitions(Lander PRIVATE
   BOOST_THREAD_VERSION=3
   BOOST_THREAD_USE_LIB
   BOOST_SYSTEM_NO_DEPRECATED
-  GLEW_STATIC
-  CURL_STATICLIB
   $<$<CONFIG:Release>:NDEBUG>
   $<$<CONFIG:Release>:BOOST_DISABLE_ASSERTS>
 )
 
+if(WIN32 OR APPLE)
+  target_compile_definitions(Lander PRIVATE
+    GLEW_STATIC
+    CURL_STATICLIB
+  )
+endif()
+
 if(WIN32 AND BUILD_32BIT)
   target_compile_definitions(Lander PRIVATE _WIN32_WINNT=0x0501)
-elseif(UNIX AND NOT APPLE)
-  target_compile_definitions(Lander PRIVATE _GLIBCXX_USE_CXX11_ABI=0)
 endif()
 
 # Options shared by all CodeBlocks targets.
@@ -267,17 +282,7 @@ elseif(APPLE)
     -static-libstdc++
   )
 else()
-  target_link_options(Lander PRIVATE
-    -static-libgcc
-    -static-libstdc++
-    -no-pie
-  )
-  # Linux32 is static in both configurations; Linux64 is static in Release.
-  if(BUILD_32BIT)
-    target_link_options(Lander PRIVATE -static)
-  else()
-    target_link_options(Lander PRIVATE "$<$<CONFIG:Release>:-static>")
-  endif()
+  target_link_options(Lander PRIVATE -no-pie)
 endif()
 
 target_link_options(Lander PRIVATE
@@ -288,8 +293,7 @@ target_link_options(Lander PRIVATE
   $<$<CONFIG:Release>:-funsafe-math-optimizations>
 )
 
-# Libraries are deliberately spelled exactly as in lander.cbp, including the
-# versioned Boost archive names and the differing Debug/Release link sets.
+# Windows retains the versioned, bundled archives from lander.cbp.
 if(WIN32 AND BUILD_32BIT)
   target_link_libraries(Lander PRIVATE
     $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_chrono-mgw48-mt-sd-1_54.a,${LANDER_LIB_DIR}/libboost_chrono-mgw48-mt-s-1_54.a>
@@ -307,71 +311,18 @@ if(WIN32 AND BUILD_32BIT)
     ${LANDER_LIB_DIR}/libsetupapi.a
     ${LANDER_LIB_DIR}/libz.a
   )
-elseif(UNIX AND NOT APPLE AND BUILD_32BIT)
-  target_link_libraries(Lander PRIVATE
-    $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_system-gcc48-mt-sd-1_53.a,${LANDER_LIB_DIR}/libboost_system-gcc48-mt-s-1_53.a>
-    $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_chrono-gcc48-mt-sd-1_53.a,${LANDER_LIB_DIR}/libboost_chrono-gcc48-mt-s-1_53.a>
-    ${LANDER_LIB_DIR}/libGLEW.a
-    ${LANDER_LIB_DIR}/libglfw3.a
-    Xrandr
-    ${LANDER_LIB_DIR}/libftgl.a
-    ${LANDER_LIB_DIR}/libGLU.a
-    GL
-    ${LANDER_LIB_DIR}/libfreetype.a
-    Xt
-    Xm
-    pthread
-    udev
-    Xinerama
-  )
 elseif(UNIX AND NOT APPLE)
-  set(LANDER_LINUX64_DEBUG_LIBRARIES
-    ${LANDER_LIB_DIR}/libboost_chrono-gcc48-mt-sd-1_54.a
-    ${LANDER_LIB_DIR}/libboost_system-gcc48-mt-sd-1_54.a
-    ${LANDER_LIB_DIR}/libboost_filesystem-gcc48-mt-sd-1_54.a
-    ${LANDER_LIB_DIR}/libGLEW.a
-    ${LANDER_LIB_DIR}/libglfw3.a
-    Xrandr
-    ${LANDER_LIB_DIR}/libftgl.a
-    ${LANDER_LIB_DIR}/libGLU.a
-    GL
-    ${LANDER_LIB_DIR}/libfreetype.a
-    Xt
-    Xi
-    X11
-    Xxf86vm
-    pthread
-    udev
-    Xinerama
-    ${LANDER_LIB_DIR}/libz.a
-    dl
-    png
-    Xcursor
+  target_link_libraries(Lander PRIVATE
+    Boost::chrono
+    Freetype::Freetype
+    GLEW::GLEW
+    OpenGL::GL
+    OpenGL::GLU
+    PkgConfig::FTGL
+    PkgConfig::GLFW
+    Threads::Threads
+    ${CMAKE_DL_LIBS}
   )
-  set(LANDER_LINUX64_RELEASE_LIBRARIES
-    ${LANDER_LIB_DIR}/libboost_system-gcc48-mt-s-1_53.a
-    ${LANDER_LIB_DIR}/libboost_chrono-gcc48-mt-s-1_53.a
-    ${LANDER_LIB_DIR}/libboost_filesystem-gcc48-mt-s-1_54.a
-    ${LANDER_LIB_DIR}/libGLEW.a
-    ${LANDER_LIB_DIR}/libglfw3.a
-    Xrandr
-    ${LANDER_LIB_DIR}/libftgl.a
-    ${LANDER_LIB_DIR}/libGLU.a
-    GL
-    ${LANDER_LIB_DIR}/libfreetype.a
-    Xt
-    Xm
-    pthread
-    udev
-    Xinerama
-    ${LANDER_LIB_DIR}/libz.a
-  )
-  foreach(_library IN LISTS LANDER_LINUX64_DEBUG_LIBRARIES)
-    target_link_libraries(Lander PRIVATE "$<$<CONFIG:Debug>:${_library}>")
-  endforeach()
-  foreach(_library IN LISTS LANDER_LINUX64_RELEASE_LIBRARIES)
-    target_link_libraries(Lander PRIVATE "$<$<CONFIG:Release>:${_library}>")
-  endforeach()
 endif()
 
 # -lgcov is a release linker option in every CodeBlocks target.
