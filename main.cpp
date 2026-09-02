@@ -5,7 +5,6 @@
 #include <GLFW/glfw3.h>
 #include <FTGL/ftgl.h>
 #include "vectorstorm/vectorstorm.h"
-#include "oculusstorm/oculusstorm.h"
 #include "menu.h"
 #include "universe.h"
 #include "starsystem.h"
@@ -19,7 +18,6 @@ GLFWwindow *window_main      = nullptr;                                         
 universe root;
 astronaut *player            = nullptr;
 menu *menu_target            = nullptr;                                         // what object's menu we currently have open, if any
-oculusstorm *oculus          = nullptr;                                         // oculus rift controller
 FTFont *font_title           = nullptr;                                         // global font definitions
 FTFont *font_title_huge      = nullptr;
 FTFont *font_text            = nullptr;
@@ -93,4 +91,3 @@ void mainloop() {   /// the main rendering loop
     }
   }
 }
-

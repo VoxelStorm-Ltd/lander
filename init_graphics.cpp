@@ -5,11 +5,9 @@
 #include <FTGL/ftgl.h>
 #include "vectorstorm/vectorstorm.h"
 #include "version.h"
-#include "oculusstorm/oculusstorm.h"
 
 // globals
 extern GLFWwindow *window_main;
-extern oculusstorm *oculus;                                                     // oculus rift controller
 extern FTFont *font_title;                                                      // global font definitions
 extern FTFont *font_title_huge;
 extern FTFont *font_text;
@@ -37,11 +35,9 @@ void init_graphics(vector2i &windowsize) {
     _Exit(EXIT_FAILURE);
   }
 
-  oculus = new oculusstorm(0.1, 20.0);                                          // initialise the oculus rift before graphics init
   int nummonitors = 0;
   GLFWmonitor **monitor_list = glfwGetMonitors(&nummonitors);
   GLFWmonitor *monitor_primary = glfwGetPrimaryMonitor();
-  GLFWmonitor *oculusmonitor = NULL;
   std::cout << "Monitors: " << nummonitors << std::endl;
   for(int monitornum = 0; monitornum != nummonitors; ++monitornum) {
     GLFWmonitor *thismonitor = monitor_list[monitornum];
@@ -62,30 +58,6 @@ void init_graphics(vector2i &windowsize) {
     std::cout << "  Physical size: " << physicalwidth << " " << physicalheight << std::endl;
     std::cout << "  Position: " << xpos << " " << ypos << std::endl;
     std::cout << "  Mode: " << videomode->width << " " << videomode->height << " " << videomode->refreshRate << std::endl;
-
-    // try to determine if this monitor is the Oculus Rift's display
-    if(static_cast<unsigned int>(videomode->width)  == oculus->hmdinfo.HResolution &&
-       static_cast<unsigned int>(videomode->height) == oculus->hmdinfo.VResolution &&
-       thismonitor != monitor_primary) {
-      std::cout << "  (Oculus Rift candidate)" << std::endl;
-      oculusmonitor = thismonitor;
-    }
-  }
-  if(oculusmonitor != NULL) {
-    if(oculus->enabled) {
-      // rift is available
-      windowsize.x = oculus->hmdinfo.HResolution;
-      windowsize.y = oculus->hmdinfo.VResolution;
-      //drawfunction = &draw_oculus;
-    } else {
-      // rift connected but turned off / disabled
-      oculusmonitor = NULL;
-    }
-  } else {
-    //drawfunction = &draw;
-    // no rift connected, so drop the object
-    //delete oculus;
-    //oculus = nullptr;
   }
   // set up window hints in advance
   //glfwWindowHint(GLFW_RED_BITS,   state->videomode->redBits);
@@ -106,27 +78,32 @@ void init_graphics(vector2i &windowsize) {
   window_main = glfwCreateWindow(windowsize.x,
                                  windowsize.y,
                                  "Lander",
-                                 oculusmonitor,
+                                 NULL,
                                  NULL);
-  glfwMakeContextCurrent(window_main);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glfwShowWindow(window_main);                                                  // only display the window once in position
-
   if(!window_main) {
     // exit if this didn't work
     std::cout << "ERROR: glfwOpenWindow returned NULL" << std::endl;
     _Exit(EXIT_FAILURE);
   }
+  glfwMakeContextCurrent(window_main);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glfwShowWindow(window_main);                                                  // only display the window once in position
   glfwSetWindowTitle(window_main, "Lander alpha: Loading...");
 
   glfwSetWindowCloseCallback(window_main, callback_windowclose);                // callback for window closing
 
   glewExperimental = GL_TRUE;
-  if(glewInit() != GLEW_OK) {
-    std::cout << "ERROR: GLEW returned " << glewInit() << std::endl;
+  GLenum const glew_status = glewInit();
+  bool const glew_failed = glew_status != GLEW_OK
+#ifdef GLEW_ERROR_NO_GLX_DISPLAY
+                        && glew_status != GLEW_ERROR_NO_GLX_DISPLAY
+#endif
+                        ;
+  if(glew_failed) {
+    std::cout << "ERROR: GLEW returned " << glew_status << ": "
+              << glewGetErrorString(glew_status) << std::endl;
     _Exit(EXIT_FAILURE);
   }
-  glewExperimental = GL_TRUE;
   std::cout << "GL_VERSION:  " << glGetString(GL_VERSION)  << std::endl;
   std::cout << "GL_VENDOR:   " << glGetString(GL_VENDOR)   << std::endl;
   std::cout << "GL_RENDERER: " << glGetString(GL_RENDERER) << std::endl;

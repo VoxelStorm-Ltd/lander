@@ -595,7 +595,6 @@
 					<Add library="Xt" />
 					<Add library="Xm" />
 					<Add library="pthread" />
-					<Add library="lib/linux64/libovr.a" />
 					<Add library="udev" />
 					<Add library="Xinerama" />
 					<Add library="lib/linux64/libz.a" />
@@ -740,7 +739,6 @@
 			<Add option="-DCURL_STATICLIB" />
 			<Add directory="." />
 			<Add directory="include" />
-			<Add directory="OVR" />
 			<Add directory="astronomical_entities" />
 			<Add directory="mathematical" />
 			<Add directory="devices" />
@@ -751,216 +749,6 @@
 			<Add directory="devices/computers" />
 			<Add directory="astronomical_entities/geo" />
 		</Compiler>
-		<Unit filename="OVR/Kernel/OVR_Alg.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Alg.h" />
-		<Unit filename="OVR/Kernel/OVR_Allocator.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Allocator.h" />
-		<Unit filename="OVR/Kernel/OVR_Array.h" />
-		<Unit filename="OVR/Kernel/OVR_Atomic.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Atomic.h" />
-		<Unit filename="OVR/Kernel/OVR_Color.h" />
-		<Unit filename="OVR/Kernel/OVR_ContainerAllocator.h" />
-		<Unit filename="OVR/Kernel/OVR_File.cpp" />
-		<Unit filename="OVR/Kernel/OVR_File.h" />
-		<Unit filename="OVR/Kernel/OVR_FileFILE.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Hash.h" />
-		<Unit filename="OVR/Kernel/OVR_KeyCodes.h" />
-		<Unit filename="OVR/Kernel/OVR_List.h" />
-		<Unit filename="OVR/Kernel/OVR_Log.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Log.h" />
-		<Unit filename="OVR/Kernel/OVR_Math.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Math.h" />
-		<Unit filename="OVR/Kernel/OVR_RefCount.cpp" />
-		<Unit filename="OVR/Kernel/OVR_RefCount.h" />
-		<Unit filename="OVR/Kernel/OVR_Std.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Std.h" />
-		<Unit filename="OVR/Kernel/OVR_String.cpp" />
-		<Unit filename="OVR/Kernel/OVR_String.h" />
-		<Unit filename="OVR/Kernel/OVR_StringHash.h" />
-		<Unit filename="OVR/Kernel/OVR_String_FormatUtil.cpp" />
-		<Unit filename="OVR/Kernel/OVR_String_PathUtil.cpp" />
-		<Unit filename="OVR/Kernel/OVR_SysFile.cpp" />
-		<Unit filename="OVR/Kernel/OVR_SysFile.h" />
-		<Unit filename="OVR/Kernel/OVR_System.cpp" />
-		<Unit filename="OVR/Kernel/OVR_System.h" />
-		<Unit filename="OVR/Kernel/OVR_Threads.h" />
-		<Unit filename="OVR/Kernel/OVR_ThreadsPthread.cpp">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/Kernel/OVR_ThreadsWinAPI.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/Kernel/OVR_Timer.cpp" />
-		<Unit filename="OVR/Kernel/OVR_Timer.h" />
-		<Unit filename="OVR/Kernel/OVR_Types.h" />
-		<Unit filename="OVR/Kernel/OVR_UTF8Util.cpp" />
-		<Unit filename="OVR/Kernel/OVR_UTF8Util.h" />
-		<Unit filename="OVR/OVR_Device.h" />
-		<Unit filename="OVR/OVR_DeviceConstants.h" />
-		<Unit filename="OVR/OVR_DeviceHandle.cpp" />
-		<Unit filename="OVR/OVR_DeviceHandle.h" />
-		<Unit filename="OVR/OVR_DeviceImpl.cpp" />
-		<Unit filename="OVR/OVR_DeviceImpl.h" />
-		<Unit filename="OVR/OVR_DeviceMessages.h" />
-		<Unit filename="OVR/OVR_HIDDevice.h" />
-		<Unit filename="OVR/OVR_HIDDeviceBase.h" />
-		<Unit filename="OVR/OVR_HIDDeviceImpl.h" />
-		<Unit filename="OVR/OVR_JSON.cpp" />
-		<Unit filename="OVR/OVR_JSON.h" />
-		<Unit filename="OVR/OVR_LatencyTestImpl.cpp" />
-		<Unit filename="OVR/OVR_LatencyTestImpl.h" />
-		<Unit filename="OVR/OVR_Linux_DeviceManager.cpp">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_DeviceManager.h">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_HIDDevice.cpp">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_HIDDevice.h">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_HMDDevice.cpp">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_HMDDevice.h">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Linux_SensorDevice.cpp">
-			<Option target="Linux32_Debug" />
-			<Option target="Linux32_Release" />
-			<Option target="Linux64_Debug" />
-			<Option target="Linux64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_DeviceManager.cpp">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_DeviceManager.h">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_HIDDevice.cpp">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_HIDDevice.h">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_HMDDevice.cpp">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_HMDDevice.h">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_OSX_SensorDevice.cpp">
-			<Option target="Mac64_Debug" />
-			<Option target="Mac64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Profile.cpp" />
-		<Unit filename="OVR/OVR_Profile.h" />
-		<Unit filename="OVR/OVR_SensorFilter.cpp" />
-		<Unit filename="OVR/OVR_SensorFilter.h" />
-		<Unit filename="OVR/OVR_SensorFusion.cpp" />
-		<Unit filename="OVR/OVR_SensorFusion.h" />
-		<Unit filename="OVR/OVR_SensorImpl.cpp" />
-		<Unit filename="OVR/OVR_SensorImpl.h" />
-		<Unit filename="OVR/OVR_ThreadCommandQueue.cpp" />
-		<Unit filename="OVR/OVR_ThreadCommandQueue.h" />
-		<Unit filename="OVR/OVR_Win32_DeviceManager.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_DeviceManager.h">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_DeviceStatus.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_DeviceStatus.h">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_HIDDevice.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_HIDDevice.h">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_HMDDevice.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_HMDDevice.h">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_SensorDevice.cpp">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/OVR_Win32_SensorDevice.h">
-			<Option target="Win32_Debug" />
-			<Option target="Win32_Release" />
-			<Option target="Win64_Debug" />
-			<Option target="Win64_Release" />
-		</Unit>
-		<Unit filename="OVR/Util/Util_LatencyTest.cpp" />
-		<Unit filename="OVR/Util/Util_LatencyTest.h" />
-		<Unit filename="OVR/Util/Util_MagCalibration.cpp" />
-		<Unit filename="OVR/Util/Util_MagCalibration.h" />
-		<Unit filename="OVR/Util/Util_Render_Stereo.cpp" />
-		<Unit filename="OVR/Util/Util_Render_Stereo.h" />
 		<Unit filename="astronaut.cpp" />
 		<Unit filename="astronaut.h" />
 		<Unit filename="astronomical_entities/blackhole.cpp" />
@@ -1081,8 +869,6 @@
 		<Unit filename="menu.cpp" />
 		<Unit filename="menu.h" />
 		<Unit filename="object concept.txt" />
-		<Unit filename="oculusstorm/oculusstorm.cpp" />
-		<Unit filename="oculusstorm/oculusstorm.h" />
 		<Unit filename="physicsbody.cpp" />
 		<Unit filename="physicsbody.h" />
 		<Unit filename="platform_defines.h" />
