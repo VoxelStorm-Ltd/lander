@@ -228,14 +228,6 @@ set(LANDER_RELEASE_COMPILE_OPTIONS
   -freciprocal-math
   -fno-signed-zeros
   -fno-trapping-math
-  --param=max-gcse-memory=1000000000
-  --param=max-inline-insns-single=10000
-  --param=max-inline-insns-auto=10000
-  --param=inline-min-speedup=20
-  --param=large-function-insns=10000
-  --param=large-function-growth=2000
-  --param=large-unit-insns=20000
-  --param=inline-unit-growth=200
 )
 target_compile_options(Lander PRIVATE
   "$<$<CONFIG:Release>:${LANDER_RELEASE_COMPILE_OPTIONS}>"
