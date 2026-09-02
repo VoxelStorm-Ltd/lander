@@ -11,6 +11,7 @@ display::display()
     vbo_screen_n(0),
     vbo_screen_t(0),
     ibo_screen(0),
+    screen_index_count(0),
     display_image(0) {
   /// Default constructor
   ports_in.resize(get_port_in_count());                                         // anything with input ports needs this
@@ -328,6 +329,7 @@ void display::update_vbo() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_screen);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibodata_screen.size() * sizeof(GLuint), ibodata_screen.data(), GL_STATIC_DRAW);
+  screen_index_count = static_cast<GLsizei>(ibodata_screen.size());
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -380,14 +382,15 @@ void display::render() {
   glEnableClientState(GL_NORMAL_ARRAY);
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_n);
   glNormalPointer(GL_DOUBLE, 0, 0);
-  glEnableClientState(GL_TEXTURE_2D_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBindBuffer(GL_ARRAY_BUFFER, vbo_screen_t);
   glTexCoordPointer(2, GL_DOUBLE, 0, 0);
 
-  glDrawElements(GL_QUADS, sizeof(ibo_screen), GL_UNSIGNED_INT, 0);             // draw ??? quads, 4 vertices each
+  glDrawElements(GL_QUADS, screen_index_count, GL_UNSIGNED_INT, 0);
 
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_NORMAL_ARRAY);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

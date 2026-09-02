@@ -12,6 +12,7 @@ protected:
   GLuint vbo_screen_n;                                                          // vertex buffer object for normals
   GLuint vbo_screen_t;                                                          // vertex buffer object for texture coords
   GLuint ibo_screen;                                                            // index buffer object
+  GLsizei screen_index_count;                                                   // number of indices in the screen buffer
   GLuint display_image;                                                         // cached reference to the texture we use
 
 public:
