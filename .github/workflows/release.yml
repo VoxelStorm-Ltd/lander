@@ -40,13 +40,18 @@ jobs:
       - name: Build
         run: cmake --build build --parallel "$(nproc)"
 
-      - name: Prepare release binary
-        run: cp build/Lander Lander-linux-x86_64
+      - name: Package release
+        run: |
+          cmake -E make_directory package/Lander
+          cmake -E copy build/Lander package/Lander/Lander
+          cmake -E copy_directory resources package/Lander/resources
+          chmod +x package/Lander/Lander
+          cmake -E chdir package cmake -E tar czf ../Lander-linux-x86_64.tar.gz Lander
 
-      - name: Upload release binary
+      - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
-          path: Lander-linux-x86_64
+          path: Lander-linux-x86_64.tar.gz
           archive: false
 
   build-macos:
@@ -71,13 +76,18 @@ jobs:
       - name: Build
         run: cmake --build build --parallel "$(sysctl -n hw.logicalcpu)"
 
-      - name: Prepare release binary
-        run: cp build/Lander Lander-macos-x86_64
+      - name: Package release
+        run: |
+          cmake -E make_directory package/Lander
+          cmake -E copy build/Lander package/Lander/Lander
+          cmake -E copy_directory resources package/Lander/resources
+          chmod +x package/Lander/Lander
+          cmake -E chdir package cmake -E tar czf ../Lander-macos-x86_64.tar.gz Lander
 
-      - name: Upload release binary
+      - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
-          path: Lander-macos-x86_64
+          path: Lander-macos-x86_64.tar.gz
           archive: false
 
   build-windows:
@@ -116,13 +126,17 @@ jobs:
       - name: Build
         run: cmake --build build --parallel "$(nproc)"
 
-      - name: Prepare release binary
-        run: cp build/Lander.exe Lander-windows-x86.exe
+      - name: Package release
+        run: |
+          cmake -E make_directory package/Lander
+          cmake -E copy build/Lander.exe package/Lander/Lander.exe
+          cmake -E copy_directory resources package/Lander/resources
+          cmake -E chdir package cmake -E tar cf ../Lander-windows-x86.zip --format=zip Lander
 
-      - name: Upload release binary
+      - name: Upload release package
         uses: actions/upload-artifact@v7
         with:
-          path: Lander-windows-x86.exe
+          path: Lander-windows-x86.zip
           archive: false
 
   release:
