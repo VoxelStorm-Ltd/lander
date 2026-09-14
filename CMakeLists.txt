@@ -108,7 +108,7 @@ add_executable(Lander
   vectorstorm/vectorstorm.cpp
 )
 
-if(UNIX AND NOT APPLE)
+if(UNIX)
   set(Boost_USE_STATIC_LIBS ON)
   find_package(Boost REQUIRED CONFIG COMPONENTS chrono)
   find_package(Freetype REQUIRED)
@@ -116,10 +116,16 @@ if(UNIX AND NOT APPLE)
   find_package(PkgConfig REQUIRED)
   find_package(glfw3 REQUIRED CONFIG)
   pkg_check_modules(FTGL REQUIRED IMPORTED_TARGET ftgl)
-  find_path(LANDER_GLEW_INCLUDE_DIR NAMES GL/glew.h REQUIRED)
-  find_library(LANDER_GLEW_STATIC_LIBRARY NAMES libGLEW.a REQUIRED)
+  if(APPLE)
+    find_package(GLEW REQUIRED)
+    set(LANDER_GLEW_LIBRARY GLEW::GLEW)
+  else()
+    find_path(LANDER_GLEW_INCLUDE_DIR NAMES GL/glew.h REQUIRED)
+    find_library(LANDER_GLEW_STATIC_LIBRARY NAMES libGLEW.a REQUIRED)
+    set(LANDER_GLEW_LIBRARY "${LANDER_GLEW_STATIC_LIBRARY}")
+  endif()
 else()
-  # Windows and macOS retain the original bundled-library setup.  Boost headers
+  # Windows retains the original bundled-library setup.  Boost headers
   # themselves are supplied externally, as they were in CodeBlocks.
   find_package(Boost REQUIRED CONFIG)
 endif()
@@ -136,12 +142,12 @@ target_include_directories(Lander PRIVATE
   "${CMAKE_SOURCE_DIR}/devices/operators"
   "${CMAKE_SOURCE_DIR}/devices/computers"
 )
-if(WIN32 OR APPLE)
+if(WIN32)
   target_include_directories(Lander SYSTEM PRIVATE
     "${CMAKE_SOURCE_DIR}/include"
     "${Boost_INCLUDE_DIRS}"
   )
-else()
+elseif(NOT APPLE)
   target_include_directories(Lander SYSTEM PRIVATE
     "${LANDER_GLEW_INCLUDE_DIR}"
   )
@@ -151,7 +157,9 @@ target_compile_definitions(Lander PRIVATE
   $<$<CONFIG:Release>:BOOST_DISABLE_ASSERTS>
 )
 
-target_compile_definitions(Lander PRIVATE GLEW_STATIC)
+if(NOT APPLE)
+  target_compile_definitions(Lander PRIVATE GLEW_STATIC)
+endif()
 
 if(WIN32)
   # Compile Chrono with the current Boost headers and toolchain instead of
@@ -238,20 +246,20 @@ set(LANDER_RELEASE_COMPILE_OPTIONS
   -fno-trapping-math
 )
 target_compile_options(Lander PRIVATE
-  "$<$<CONFIG:Release>:${LANDER_RELEASE_COMPILE_OPTIONS}>"
+  "$<$<AND:$<CONFIG:Release>,$<CXX_COMPILER_ID:GNU>>:${LANDER_RELEASE_COMPILE_OPTIONS}>"
 )
 
 # Link options common to the platform targets.  Supplying the architecture to
 # the compiler driver here is necessary for CMake's separate link step.
 target_link_options(Lander PRIVATE ${LANDER_ARCH_FLAG})
 
-if(WIN32 OR APPLE)
+if(WIN32)
   target_link_options(Lander PRIVATE
     -static
     -static-libgcc
     -static-libstdc++
   )
-else()
+elseif(NOT APPLE)
   target_link_options(Lander PRIVATE
     -no-pie
     -static-libgcc
@@ -259,12 +267,16 @@ else()
   )
 endif()
 
-target_link_options(Lander PRIVATE
-  $<$<CONFIG:Release>:-s>
-  $<$<CONFIG:Release>:-fuse-linker-plugin>
-  $<$<CONFIG:Release>:-flto>
-  $<$<CONFIG:Release>:-funsafe-math-optimizations>
-)
+# macOS uses AppleClang and the system's dynamic C++ runtime.  In particular,
+# -static asks the Darwin linker for crt0.o, which the SDK does not provide.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_link_options(Lander PRIVATE
+    $<$<CONFIG:Release>:-s>
+    $<$<CONFIG:Release>:-fuse-linker-plugin>
+    $<$<CONFIG:Release>:-flto>
+    $<$<CONFIG:Release>:-funsafe-math-optimizations>
+  )
+endif()
 
 # Windows retains the non-Boost bundled archives from lander.cbp.
 if(WIN32 AND BUILD_32BIT)
@@ -281,11 +293,11 @@ if(WIN32 AND BUILD_32BIT)
     ${LANDER_LIB_DIR}/libsetupapi.a
     ${LANDER_LIB_DIR}/libz.a
   )
-elseif(UNIX AND NOT APPLE)
+elseif(UNIX)
   target_link_libraries(Lander PRIVATE
     Boost::chrono
     Freetype::Freetype
-    "${LANDER_GLEW_STATIC_LIBRARY}"
+    "${LANDER_GLEW_LIBRARY}"
     OpenGL::GL
     OpenGL::GLU
     PkgConfig::FTGL

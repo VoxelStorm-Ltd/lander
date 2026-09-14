@@ -43,6 +43,16 @@ The present state of the game allows you to do things like fly to the moon - a g
 
 ## Building and running
 
+On Intel macOS, install the Xcode command-line tools and Homebrew dependencies
+before configuring a fresh build directory:
+
+```sh
+xcode-select --install
+brew install cmake boost freetype ftgl glew glfw pkgconf
+```
+
+Use the default AppleClang compiler on macOS to match Homebrew's C++ libraries.
+
 Configure, build, and run a 64-bit Release build with:
 
 ```sh
