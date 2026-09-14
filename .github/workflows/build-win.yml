@@ -55,8 +55,8 @@ jobs:
           msystem: MINGW32
           update: true
           # MSYS2 no longer publishes Boost for MINGW32. The maintained
-          # x86-64 package supplies the architecture-independent headers;
-          # Lander still links its bundled 32-bit Windows archives.
+          # x86-64 package supplies architecture-independent headers only.
+          # CMake uses header-only Boost.Chrono; no Boost binaries are linked.
           install: >-
             mingw-w64-i686-toolchain
             mingw-w64-i686-cmake
