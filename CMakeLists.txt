@@ -183,7 +183,7 @@ target_compile_options(Lander PRIVATE
   -mmmx
   -msse
   -msse2
-  -m3dnow
+  $<$<CXX_COMPILER_ID:GNU>:-m3dnow>
 )
 
 if(WIN32)
