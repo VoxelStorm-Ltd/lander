@@ -32,6 +32,10 @@ file(GLOB mac_ftgl_sources
   "${mac_ftgl_SOURCE_DIR}/src/FTGlyph/*.cpp"
   "${mac_ftgl_SOURCE_DIR}/src/FTLayout/*.cpp")
 add_library(mac_ftgl STATIC ${mac_ftgl_sources})
+# FTGL's legacy Apple GLU callback typedef differs from the current SDK's
+# callback prototype. GCC accepts the conversion with this source-local flag.
+set_source_files_properties("${mac_ftgl_SOURCE_DIR}/src/FTVectoriser.cpp"
+  PROPERTIES COMPILE_OPTIONS -fpermissive)
 target_include_directories(mac_ftgl SYSTEM PUBLIC "${mac_ftgl_SOURCE_DIR}/src")
 target_include_directories(mac_ftgl PRIVATE
   "${mac_ftgl_SOURCE_DIR}/cmake"
