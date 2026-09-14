@@ -108,7 +108,9 @@ add_executable(Lander
   vectorstorm/vectorstorm.cpp
 )
 
-if(UNIX AND NOT APPLE)
+if(APPLE)
+  include(cmake/macos.cmake)
+elseif(UNIX)
   set(Boost_USE_STATIC_LIBS ON)
   find_package(Boost REQUIRED CONFIG COMPONENTS chrono)
   find_package(Freetype REQUIRED)
@@ -119,7 +121,7 @@ if(UNIX AND NOT APPLE)
   find_path(LANDER_GLEW_INCLUDE_DIR NAMES GL/glew.h REQUIRED)
   find_library(LANDER_GLEW_STATIC_LIBRARY NAMES libGLEW.a REQUIRED)
 else()
-  # Windows and macOS retain the original bundled-library setup.  Boost headers
+  # Windows retains the original bundled-library setup.  Boost headers
   # themselves are supplied externally, as they were in CodeBlocks.
   find_package(Boost REQUIRED CONFIG)
 endif()
@@ -136,12 +138,12 @@ target_include_directories(Lander PRIVATE
   "${CMAKE_SOURCE_DIR}/devices/operators"
   "${CMAKE_SOURCE_DIR}/devices/computers"
 )
-if(WIN32 OR APPLE)
+if(WIN32)
   target_include_directories(Lander SYSTEM PRIVATE
     "${CMAKE_SOURCE_DIR}/include"
     "${Boost_INCLUDE_DIRS}"
   )
-else()
+elseif(NOT APPLE)
   target_include_directories(Lander SYSTEM PRIVATE
     "${LANDER_GLEW_INCLUDE_DIR}"
   )
@@ -151,7 +153,9 @@ target_compile_definitions(Lander PRIVATE
   $<$<CONFIG:Release>:BOOST_DISABLE_ASSERTS>
 )
 
-target_compile_definitions(Lander PRIVATE GLEW_STATIC)
+if(NOT APPLE)
+  target_compile_definitions(Lander PRIVATE GLEW_STATIC)
+endif()
 
 if(WIN32)
   # Compile Chrono with the current Boost headers and toolchain instead of
@@ -167,6 +171,7 @@ if(WIN32 AND BUILD_32BIT)
 endif()
 
 # Options shared by all CodeBlocks targets.
+if(NOT APPLE)
 target_compile_options(Lander PRIVATE
   ${LANDER_ARCH_FLAG}
   -Wall
@@ -265,6 +270,7 @@ target_link_options(Lander PRIVATE
   $<$<CONFIG:Release>:-flto>
   $<$<CONFIG:Release>:-funsafe-math-optimizations>
 )
+endif()
 
 # Windows retains the non-Boost bundled archives from lander.cbp.
 if(WIN32 AND BUILD_32BIT)
