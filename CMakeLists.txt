@@ -153,6 +153,15 @@ target_compile_definitions(Lander PRIVATE
 
 target_compile_definitions(Lander PRIVATE GLEW_STATIC)
 
+if(WIN32)
+  # Compile Chrono with the current Boost headers and toolchain instead of
+  # mixing them with the bundled Boost 1.54 archives built by GCC 4.8.
+  target_compile_definitions(Lander PRIVATE
+    BOOST_CHRONO_HEADER_ONLY
+    BOOST_ERROR_CODE_HEADER_ONLY
+  )
+endif()
+
 if(WIN32 AND BUILD_32BIT)
   target_compile_definitions(Lander PRIVATE _WIN32_WINNT=0x0501)
 endif()
@@ -257,12 +266,9 @@ target_link_options(Lander PRIVATE
   $<$<CONFIG:Release>:-funsafe-math-optimizations>
 )
 
-# Windows retains the versioned, bundled archives from lander.cbp.
+# Windows retains the non-Boost bundled archives from lander.cbp.
 if(WIN32 AND BUILD_32BIT)
   target_link_libraries(Lander PRIVATE
-    $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_chrono-mgw48-mt-sd-1_54.a,${LANDER_LIB_DIR}/libboost_chrono-mgw48-mt-s-1_54.a>
-    $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_system-mgw48-mt-sd-1_54.a,${LANDER_LIB_DIR}/libboost_system-mgw48-mt-s-1_54.a>
-    $<IF:$<CONFIG:Debug>,${LANDER_LIB_DIR}/libboost_filesystem-mgw48-mt-sd-1_54.a,${LANDER_LIB_DIR}/libboost_filesystem-mgw48-mt-s-1_54.a>
     ${LANDER_LIB_DIR}/libglew32.a
     ${LANDER_LIB_DIR}/libglfw3.a
     ${LANDER_LIB_DIR}/libftgl_static_D.a
