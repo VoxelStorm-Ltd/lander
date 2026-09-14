@@ -43,15 +43,18 @@ The present state of the game allows you to do things like fly to the moon - a g
 
 ## Building and running
 
-On Intel macOS, install the Xcode command-line tools and Homebrew dependencies
-before configuring a fresh build directory:
+On Intel macOS, install Homebrew dependencies and select GCC before configuring:
 
 ```sh
-xcode-select --install
-brew install cmake boost freetype ftgl glew glfw pkgconf
+brew install cmake gcc boost pkgconf glew glfw freetype
+gcc_prefix="$(brew --prefix gcc)"
+gcc_cxx=("$gcc_prefix"/bin/g++-[0-9]*)
+export CXX="${gcc_cxx[0]}"
+export CMAKE_PREFIX_PATH="$(brew --prefix)"
 ```
 
-Use the default AppleClang compiler on macOS to match Homebrew's C++ libraries.
+Use a fresh build directory when changing compilers. CMake downloads a pinned
+FTGL release and builds it with GCC; Boost.Chrono uses its header-only mode.
 
 Configure, build, and run a 64-bit Release build with:
 

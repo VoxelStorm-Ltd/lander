@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 #include "pi.h"
 
 #ifdef VECTORSTORM_NAMESPACE
@@ -14,11 +12,8 @@ template<typename T>
 inline static constexpr void sincos_any(T const angle_rad, T &out_sin, T &out_cos) {
   #if defined(__EMSCRIPTEN__)
     sincos(angle_rad, &out_sin, &out_cos);
-  #elif defined(__GNUC__) && !defined(__clang__)
-    __builtin_sincos(angle_rad, &out_sin, &out_cos);
   #else
-    out_sin = std::sin(angle_rad);
-    out_cos = std::cos(angle_rad);
+    __builtin_sincos(angle_rad, &out_sin, &out_cos);
   #endif // defined(__EMSCRIPTEN__)
 }
 inline static constexpr void sincos_any(int const angle_rad, int &out_sin, int &out_cos) __attribute__((__always_inline__));
