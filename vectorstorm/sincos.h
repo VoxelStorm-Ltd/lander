@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "pi.h"
 
 #ifdef VECTORSTORM_NAMESPACE
