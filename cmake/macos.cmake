@@ -19,12 +19,13 @@ target_compile_definitions(Lander PRIVATE
 # FTGL exposes C++ APIs: compile its unmodified sources with the game's GCC.
 include(FetchContent)
 FetchContent_Declare(mac_ftgl
-  URL https://github.com/frankheckenbach/ftgl/archive/refs/tags/v2.4.0.tar.gz
-  URL_HASH SHA256=aa97da1c3442a8fd3941037655df18016d70b5266381c81d81e8b5335f196ea8
+  # Includes upstream's compatibility fix for FreeType's unsigned outline tags.
+  URL https://github.com/frankheckenbach/ftgl/archive/4773da13ee54427a96dabe46e088519d3f8785f6.tar.gz
+  URL_HASH SHA256=1275ba329d0086f37d614d90be23d7817e43fa17de908b87a7478636b7caf7f1
   SOURCE_SUBDIR unused)
 FetchContent_MakeAvailable(mac_ftgl)
 
-# The pinned release contains only library sources in these directories.
+# The pinned revision contains only library sources in these directories.
 file(GLOB mac_ftgl_sources
   "${mac_ftgl_SOURCE_DIR}/src/*.cpp"
   "${mac_ftgl_SOURCE_DIR}/src/FTFont/*.cpp"

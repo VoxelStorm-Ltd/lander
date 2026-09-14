@@ -43,7 +43,7 @@ The present state of the game allows you to do things like fly to the moon - a g
 
 ## Building and running
 
-On Intel macOS, install Homebrew dependencies and select GCC before configuring:
+In Bash on Intel macOS, install Homebrew dependencies and select GCC before configuring:
 
 ```sh
 brew install cmake gcc boost pkgconf glew glfw freetype
@@ -54,7 +54,7 @@ export CMAKE_PREFIX_PATH="$(brew --prefix)"
 ```
 
 Use a fresh build directory when changing compilers. CMake downloads a pinned
-FTGL release and builds it with GCC; Boost.Chrono uses its header-only mode.
+FTGL revision and builds it with GCC; Boost.Chrono uses its header-only mode.
 
 Configure, build, and run a 64-bit Release build with:
 
