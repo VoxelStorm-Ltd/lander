@@ -149,8 +149,14 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: write
+    # Keep publication and cleanup together; never cancel an asset upload.
+    concurrency:
+      group: release-publish-${{ github.repository }}
+      cancel-in-progress: false
 
     steps:
+      - uses: actions/checkout@v6
+
       - name: Download successful builds
         uses: actions/download-artifact@v8
         with:
@@ -182,3 +188,9 @@ jobs:
               --title "Release $short_sha" \
               --notes "Automated release build from the master branch."
           fi
+
+      - name: Delete older releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: bash .github/scripts/prune-releases.sh
