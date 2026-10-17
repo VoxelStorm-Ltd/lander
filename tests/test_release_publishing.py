@@ -12,12 +12,14 @@ SCRIPT = Path(__file__).resolve().parents[1] / ".github/scripts/publish-release.
 
 
 class ReleasePublishingTests(unittest.TestCase):
-    def run_publish(self, create_failures=0):
+    def run_publish(self, create_failures=0, upload_failures=0, existing_release=False):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "dist").mkdir()
             (root / "dist/Lander-linux-x86_64.tar.gz").touch()
             (root / "calls").touch()
+            if existing_release:
+                (root / "created").touch()
             mock = root / "gh"
             mock.write_text("""#!/usr/bin/env python3
 import json, os, pathlib, sys
@@ -28,13 +30,19 @@ with (root / 'calls').open('a') as log:
 if args[:2] == ['release', 'view']:
     sys.exit(0 if (root / 'created').exists() else 1)
 if args[:2] == ['release', 'create']:
-    attempts = int((root / 'create-attempts').read_text()) + 1 if (root / 'create-attempts').exists() else 1
+    attempt_file = root / 'create-attempts'
+    attempts = int(attempt_file.read_text()) + 1 if attempt_file.exists() else 1
     (root / 'create-attempts').write_text(str(attempts))
     if attempts <= int(os.environ['CREATE_FAILURES']):
         sys.exit(1)
     (root / 'created').touch()
     sys.exit(0)
 if args[:2] == ['release', 'upload']:
+    attempt_file = root / 'upload-attempts'
+    attempts = int(attempt_file.read_text()) + 1 if attempt_file.exists() else 1
+    attempt_file.write_text(str(attempts))
+    if attempts <= int(os.environ['UPLOAD_FAILURES']):
+        sys.exit(1)
     sys.exit(0)
 sys.exit('Unexpected gh invocation: ' + repr(args))
 """)
@@ -54,21 +62,31 @@ sys.exit('Unexpected gh invocation: ' + repr(args))
                     "GH_REPO": "owner/repo",
                     "MOCK_ROOT": directory,
                     "CREATE_FAILURES": str(create_failures),
+                    "UPLOAD_FAILURES": str(upload_failures),
                 },
             )
             calls = [json.loads(line) for line in (root / "calls").read_text().splitlines()]
-            attempts = sum(call[:2] == ["release", "create"] for call in calls)
-            return result, attempts
+            create_attempts = sum(call[:2] == ["release", "create"] for call in calls)
+            upload_attempts = sum(call[:2] == ["release", "upload"] for call in calls)
+            return result, create_attempts, upload_attempts
 
     def test_retries_transient_create_failure(self):
-        result, attempts = self.run_publish(create_failures=1)
+        result, create_attempts, _ = self.run_publish(create_failures=1)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(attempts, 2)
+        self.assertEqual(create_attempts, 2)
 
     def test_stops_after_retry_limit(self):
-        result, attempts = self.run_publish(create_failures=10)
+        result, create_attempts, _ = self.run_publish(create_failures=10)
         self.assertNotEqual(result.returncode, 0)
-        self.assertEqual(attempts, 3)
+        self.assertEqual(create_attempts, 3)
+
+    def test_retries_transient_upload_failure(self):
+        result, create_attempts, upload_attempts = self.run_publish(
+            upload_failures=1, existing_release=True
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(create_attempts, 0)
+        self.assertEqual(upload_attempts, 2)
 
 
 if __name__ == "__main__":
