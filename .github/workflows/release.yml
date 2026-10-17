@@ -184,20 +184,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: |
-          release_tag="release-$GITHUB_SHA"
-          short_sha="${GITHUB_SHA::7}"
-          shopt -s nullglob
-          release_assets=(dist/Lander-*.tar.gz dist/Lander-*.zip)
-
-          if gh release view "$release_tag" >/dev/null 2>&1; then
-            gh release upload "$release_tag" "${release_assets[@]}" --clobber
-          else
-            gh release create "$release_tag" "${release_assets[@]}" \
-              --target "$GITHUB_SHA" \
-              --title "Release $short_sha" \
-              --notes "Automated release build from the master branch."
-          fi
+        run: bash .github/scripts/publish-release.sh
 
       - name: Delete older releases
         env:
